@@ -1,5 +1,19 @@
 # 01 — Architecture Overview
 
+Version:
+1.0
+
+Status:
+Draft
+
+Owner:
+PrintHub Architecture Team
+
+Last Updated:
+2026-07-26
+
+---
+
 ## Purpose
 
 PrintOS is a commercial-grade ERP product built on top of ERPNext. ERPNext supplies the underlying framework (doctypes, workflow engine, permissions, UI scaffolding, REST/RPC layer). PrintOS supplies the business product: printing-industry-specific processes, data models, and workflows.
@@ -38,3 +52,11 @@ See [03_Layer_Architecture.md](03_Layer_Architecture.md) for details on each lay
 - [02_Clean_Architecture.md](02_Clean_Architecture.md)
 - [05_Project_Structure.md](05_Project_Structure.md)
 - [09_Extensibility_Model.md](09_Extensibility_Model.md)
+
+---
+
+# Revision History
+
+| Version | Date | Author | Changes |
+|---|---|---|---|
+| 1.0 | 2026-07-26 | Metadata Normalization | Added document-control metadata (Version, Status, Owner, Last Updated, Revision History). No architectural or technical content changed. |

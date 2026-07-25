@@ -1,5 +1,19 @@
 # Technical Documentation — Master Index
 
+Version:
+1.0
+
+Status:
+Draft
+
+Owner:
+PrintHub Architecture Team
+
+Last Updated:
+2026-07-26
+
+---
+
 Master index for PrintOS technical architecture documentation. This set of documents defines how PrintOS is structured, how modules communicate, and the rules that govern all future development on top of ERPNext.
 
 ## Contents
@@ -27,3 +41,11 @@ Master index for PrintOS technical architecture documentation. This set of docum
 ## Status
 
 This documentation set is a living reference. Update it whenever an architectural decision changes, and cross-link related decisions in `docs/decisions`.
+
+---
+
+# Revision History
+
+| Version | Date | Author | Changes |
+|---|---|---|---|
+| 1.0 | 2026-07-26 | Metadata Normalization | Added document-control metadata (Version, Status, Owner, Last Updated, Revision History). No architectural or technical content changed. |

@@ -1,5 +1,19 @@
 # 04 — Dependency Rules
 
+Version:
+1.0
+
+Status:
+Draft
+
+Owner:
+PrintHub Architecture Team
+
+Last Updated:
+2026-07-26
+
+---
+
 ## Purpose
 
 Codify the allowed and forbidden dependency directions between layers and modules, so architecture erosion is caught early (in review, not in production).
@@ -40,3 +54,11 @@ Dependencies always point inward: **Interface → Application → Domain**, with
 - [02_Clean_Architecture.md](02_Clean_Architecture.md)
 - [03_Layer_Architecture.md](03_Layer_Architecture.md)
 - [06_Module_Communication.md](06_Module_Communication.md)
+
+---
+
+# Revision History
+
+| Version | Date | Author | Changes |
+|---|---|---|---|
+| 1.0 | 2026-07-26 | Metadata Normalization | Added document-control metadata (Version, Status, Owner, Last Updated, Revision History). No architectural or technical content changed. |

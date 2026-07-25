@@ -1,5 +1,19 @@
 # 03 — Master Data
 
+Version:
+1.0
+
+Status:
+Draft
+
+Owner:
+PrintHub Architecture Team
+
+Last Updated:
+2026-07-26
+
+---
+
 ## Purpose
 
 Identify PrintOS's core master/reference data entities, their ownership, and the rules governing how they are maintained.
@@ -32,3 +46,11 @@ ERPNext already provides master data such as Customer, Supplier, Item, Warehouse
 - [02_DocType_Strategy.md](02_DocType_Strategy.md)
 - [04_Entity_Relationships.md](04_Entity_Relationships.md)
 - [06_Data_Lifecycle.md](06_Data_Lifecycle.md)
+
+---
+
+# Revision History
+
+| Version | Date | Author | Changes |
+|---|---|---|---|
+| 1.0 | 2026-07-26 | Metadata Normalization | Added document-control metadata (Version, Status, Owner, Last Updated, Revision History). No architectural or technical content changed. |

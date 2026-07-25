@@ -1,5 +1,19 @@
 # 05 — Project Structure
 
+Version:
+1.0
+
+Status:
+Draft
+
+Owner:
+PrintHub Architecture Team
+
+Last Updated:
+2026-07-26
+
+---
+
 ## Purpose
 
 Define the directory layout of `printos_core` and where each architectural layer lives on disk, so structure is consistent as the codebase grows.
@@ -51,3 +65,11 @@ interface/estimating/
 
 - [03_Layer_Architecture.md](03_Layer_Architecture.md)
 - [10_Implementation_Guidelines.md](10_Implementation_Guidelines.md)
+
+---
+
+# Revision History
+
+| Version | Date | Author | Changes |
+|---|---|---|---|
+| 1.0 | 2026-07-26 | Metadata Normalization | Added document-control metadata (Version, Status, Owner, Last Updated, Revision History). No architectural or technical content changed. |

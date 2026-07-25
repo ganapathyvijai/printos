@@ -1,5 +1,19 @@
 # 02 — DocType Strategy
 
+Version:
+1.0
+
+Status:
+Draft
+
+Owner:
+PrintHub Architecture Team
+
+Last Updated:
+2026-07-26
+
+---
+
 ## Purpose
 
 Define when to create a new DocType, when to extend an existing ERPNext DocType, and how PrintOS DocTypes are organized.
@@ -36,3 +50,11 @@ DocType names use `PascalCase` with spaces (Frappe convention), e.g. `Print Job`
 - [01_Data_Architecture.md](01_Data_Architecture.md)
 - [03_Master_Data.md](03_Master_Data.md)
 - [../technical/09_Extensibility_Model.md](../technical/09_Extensibility_Model.md)
+
+---
+
+# Revision History
+
+| Version | Date | Author | Changes |
+|---|---|---|---|
+| 1.0 | 2026-07-26 | Metadata Normalization | Added document-control metadata (Version, Status, Owner, Last Updated, Revision History). No architectural or technical content changed. |

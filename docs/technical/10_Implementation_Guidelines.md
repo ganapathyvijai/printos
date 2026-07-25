@@ -1,5 +1,19 @@
 # 10 — Implementation Guidelines
 
+Version:
+1.0
+
+Status:
+Draft
+
+Owner:
+PrintHub Architecture Team
+
+Last Updated:
+2026-07-26
+
+---
+
 ## Purpose
 
 Concrete coding rules for anyone implementing PrintOS features, consistent with the architecture defined in documents 01–09.
@@ -51,3 +65,11 @@ Always follow: **Plan → Verify → Execute → Review**. Never skip verificati
 
 - [00_Master_Index.md](00_Master_Index.md)
 - [08_Error_Handling.md](08_Error_Handling.md)
+
+---
+
+# Revision History
+
+| Version | Date | Author | Changes |
+|---|---|---|---|
+| 1.0 | 2026-07-26 | Metadata Normalization | Added document-control metadata (Version, Status, Owner, Last Updated, Revision History). No architectural or technical content changed. |

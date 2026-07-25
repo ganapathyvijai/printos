@@ -1,5 +1,19 @@
 # 06 — Module Communication
 
+Version:
+1.0
+
+Status:
+Draft
+
+Owner:
+PrintHub Architecture Team
+
+Last Updated:
+2026-07-26
+
+---
+
 ## Purpose
 
 Define how business modules within `printos_core` (e.g. `estimating`, `production`, `materials`, `sales`) communicate with each other without creating tight coupling or circular dependencies.
@@ -25,3 +39,11 @@ Define how business modules within `printos_core` (e.g. `estimating`, `productio
 
 - [04_Dependency_Rules.md](04_Dependency_Rules.md)
 - [07_Request_Lifecycle.md](07_Request_Lifecycle.md)
+
+---
+
+# Revision History
+
+| Version | Date | Author | Changes |
+|---|---|---|---|
+| 1.0 | 2026-07-26 | Metadata Normalization | Added document-control metadata (Version, Status, Owner, Last Updated, Revision History). No architectural or technical content changed. |

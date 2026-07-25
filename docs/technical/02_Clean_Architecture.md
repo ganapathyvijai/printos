@@ -1,5 +1,19 @@
 # 02 — Clean Architecture
 
+Version:
+1.0
+
+Status:
+Draft
+
+Owner:
+PrintHub Architecture Team
+
+Last Updated:
+2026-07-26
+
+---
+
 ## Purpose
 
 Define how Clean Architecture principles are applied within `printos_core`, so business logic remains independent of ERPNext/Frappe framework details and can be tested, reasoned about, and evolved without being tangled with the platform.
@@ -44,3 +58,11 @@ Application-layer use cases depend on abstract interfaces ("ports"). ERPNext-spe
 - [03_Layer_Architecture.md](03_Layer_Architecture.md)
 - [04_Dependency_Rules.md](04_Dependency_Rules.md)
 - [05_Project_Structure.md](05_Project_Structure.md)
+
+---
+
+# Revision History
+
+| Version | Date | Author | Changes |
+|---|---|---|---|
+| 1.0 | 2026-07-26 | Metadata Normalization | Added document-control metadata (Version, Status, Owner, Last Updated, Revision History). No architectural or technical content changed. |

@@ -1,5 +1,19 @@
 # 09 — Extensibility Model
 
+Version:
+1.0
+
+Status:
+Draft
+
+Owner:
+PrintHub Architecture Team
+
+Last Updated:
+2026-07-26
+
+---
+
 ## Purpose
 
 Define how PrintOS extends ERPNext functionality without ever modifying ERPNext core, so upgrades remain safe and customizations remain isolated.
@@ -30,3 +44,11 @@ Because all customization lives in `printos_core` and uses supported extension p
 
 - [01_Architecture_Overview.md](01_Architecture_Overview.md)
 - [04_Dependency_Rules.md](04_Dependency_Rules.md)
+
+---
+
+# Revision History
+
+| Version | Date | Author | Changes |
+|---|---|---|---|
+| 1.0 | 2026-07-26 | Metadata Normalization | Added document-control metadata (Version, Status, Owner, Last Updated, Revision History). No architectural or technical content changed. |

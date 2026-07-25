@@ -1,5 +1,19 @@
 # 03 — Layer Architecture
 
+Version:
+1.0
+
+Status:
+Draft
+
+Owner:
+PrintHub Architecture Team
+
+Last Updated:
+2026-07-26
+
+---
+
 ## Purpose
 
 Define each layer inside `printos_core`, its responsibilities, and what it must never contain.
@@ -50,3 +64,11 @@ Define each layer inside `printos_core`, its responsibilities, and what it must 
 - [02_Clean_Architecture.md](02_Clean_Architecture.md)
 - [04_Dependency_Rules.md](04_Dependency_Rules.md)
 - [05_Project_Structure.md](05_Project_Structure.md)
+
+---
+
+# Revision History
+
+| Version | Date | Author | Changes |
+|---|---|---|---|
+| 1.0 | 2026-07-26 | Metadata Normalization | Added document-control metadata (Version, Status, Owner, Last Updated, Revision History). No architectural or technical content changed. |

@@ -1,5 +1,19 @@
 # 06 — Data Lifecycle
 
+Version:
+1.0
+
+Status:
+Draft
+
+Owner:
+PrintHub Architecture Team
+
+Last Updated:
+2026-07-26
+
+---
+
 ## Purpose
 
 Define how PrintOS data is created, mutated, archived, and (rarely) deleted, across its lifetime.
@@ -26,3 +40,11 @@ Define how PrintOS data is created, mutated, archived, and (rarely) deleted, acr
 
 - [03_Master_Data.md](03_Master_Data.md)
 - [../technical/08_Error_Handling.md](../technical/08_Error_Handling.md)
+
+---
+
+# Revision History
+
+| Version | Date | Author | Changes |
+|---|---|---|---|
+| 1.0 | 2026-07-26 | Metadata Normalization | Added document-control metadata (Version, Status, Owner, Last Updated, Revision History). No architectural or technical content changed. |

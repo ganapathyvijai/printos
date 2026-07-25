@@ -1,5 +1,19 @@
 # 05 — Naming
 
+Version:
+1.0
+
+Status:
+Draft
+
+Owner:
+PrintHub Architecture Team
+
+Last Updated:
+2026-07-26
+
+---
+
 ## Purpose
 
 Define naming conventions for DocTypes, fields, and records so the data model stays consistent and predictable.
@@ -33,3 +47,11 @@ Consistent with [technical/05_Project_Structure.md](../technical/05_Project_Stru
 
 - [02_DocType_Strategy.md](02_DocType_Strategy.md)
 - [../technical/10_Implementation_Guidelines.md](../technical/10_Implementation_Guidelines.md)
+
+---
+
+# Revision History
+
+| Version | Date | Author | Changes |
+|---|---|---|---|
+| 1.0 | 2026-07-26 | Metadata Normalization | Added document-control metadata (Version, Status, Owner, Last Updated, Revision History). No architectural or technical content changed. |

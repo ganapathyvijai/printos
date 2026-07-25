@@ -1,5 +1,19 @@
 # Database Documentation — Master Index
 
+Version:
+1.0
+
+Status:
+Draft
+
+Owner:
+PrintHub Architecture Team
+
+Last Updated:
+2026-07-26
+
+---
+
 Master index for PrintOS data and database architecture documentation. These documents define how PrintOS models, stores, and manages data on top of the ERPNext/Frappe data layer.
 
 ## Contents
@@ -25,3 +39,11 @@ Master index for PrintOS data and database architecture documentation. These doc
 ## Related
 
 - [Technical documentation](../technical/00_Master_Index.md) — layer architecture, module communication, and implementation guidelines that data design must remain consistent with.
+
+---
+
+# Revision History
+
+| Version | Date | Author | Changes |
+|---|---|---|---|
+| 1.0 | 2026-07-26 | Metadata Normalization | Added document-control metadata (Version, Status, Owner, Last Updated, Revision History). No architectural or technical content changed. |

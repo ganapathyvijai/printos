@@ -1,5 +1,19 @@
 # 08 — Error Handling
 
+Version:
+1.0
+
+Status:
+Draft
+
+Owner:
+PrintHub Architecture Team
+
+Last Updated:
+2026-07-26
+
+---
+
 ## Purpose
 
 Define a consistent error handling and exception strategy across all layers of `printos_core`.
@@ -36,3 +50,11 @@ Define a consistent error handling and exception strategy across all layers of `
 
 - [07_Request_Lifecycle.md](07_Request_Lifecycle.md)
 - [10_Implementation_Guidelines.md](10_Implementation_Guidelines.md)
+
+---
+
+# Revision History
+
+| Version | Date | Author | Changes |
+|---|---|---|---|
+| 1.0 | 2026-07-26 | Metadata Normalization | Added document-control metadata (Version, Status, Owner, Last Updated, Revision History). No architectural or technical content changed. |
