@@ -1,0 +1,88 @@
+# PrintHub — repository ignore rules
+# Scope: exclude local-only, generated, and sensitive content.
+# Do NOT ignore docs/, documentation Markdown, project source, or version-controlled config.
+
+# --- Environment / secrets ---
+.env
+.env.*
+*.env
+!example.env
+!*.sample
+*.key
+*.pem
+*.pfx
+*.p12
+*.crt
+*.cer
+id_rsa
+id_dsa
+id_ecdsa
+id_ed25519
+*credentials*
+*secret*.json
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.Python
+
+# --- Virtual environments ---
+.venv/
+venv/
+env/
+ENV/
+
+# --- Test / coverage caches ---
+.pytest_cache/
+.tox/
+.coverage
+.coverage.*
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+
+# --- Node / frontend build ---
+node_modules/
+.npm/
+.cache/
+.parcel-cache/
+.next/
+.turbo/
+
+# --- Frappe / ERPNext local runtime data (where present) ---
+sites/*/private/
+sites/*/public/files/
+sites/*/logs/
+sites/*/locks/
+*.db
+site_config.json
+
+# --- Databases / dumps ---
+*.sqlite
+*.sqlite3
+*.sql
+*.dump
+
+# --- Logs / temp ---
+*.log
+logs/
+*.tmp
+*.temp
+tmp/
+
+# --- IDE / editor metadata ---
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+*.bak
+
+# --- OS metadata ---
+.DS_Store
+Thumbs.db
+desktop.ini
