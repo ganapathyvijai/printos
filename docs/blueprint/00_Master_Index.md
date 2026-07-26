@@ -1,7 +1,7 @@
 # Blueprint Master Index
 
 Version:
-2.1
+2.2
 
 Status:
 Draft
@@ -55,18 +55,18 @@ This index was found to be significantly out of date during a Documentation Cons
 
 | # | Document | Purpose | Status |
 |---|---|---|---|
-| — | [README.md](README.md) | One-page orientation to the Blueprint | Published |
-| 00 | 00_Master_Index.md | This document — navigation and index | Published |
-| 01 | [01_Project_Vision.md](01_Project_Vision.md) | Vision, mission, business/product goals, target industries | Published |
-| 02 | [02_Business_Requirements.md](02_Business_Requirements.md) | Functional/non-functional requirements, scope, target users | Published |
-| 03 | [03_Product_Roadmap.md](03_Product_Roadmap.md) | Phased roadmap from PrintOS ERP through Marketplace | Published |
-| 04 | [04_System_Architecture.md](04_System_Architecture.md) | System architecture, ERPNext/PrintOS separation, DDD/Clean Architecture | Published |
-| 05 | [05_Domain_Model.md](05_Domain_Model.md) | Core/Supporting/Generic domains, business entities, relationships | Published |
-| 06 | [06_Bounded_Contexts.md](06_Bounded_Contexts.md) | Bounded context definitions and context map | Published |
-| 07 | [07_Technology_Stack.md](07_Technology_Stack.md) | Current and future technology stack with rationale | Published |
-| 08 | [08_Master_Data_Model.md](08_Master_Data_Model.md) | Master data entities and relationships | Published |
-| 09 | [09_PrintOS_Modules.md](09_PrintOS_Modules.md) | Business module catalog | Published |
-| 10 | [10_Business_Workflows.md](10_Business_Workflows.md) | Major end-to-end business workflows | Published |
+| — | [README.md](README.md) | One-page orientation to the Blueprint | Draft |
+| 00 | 00_Master_Index.md | This document — navigation and index | Draft |
+| 01 | [01_Project_Vision.md](01_Project_Vision.md) | Vision, mission, business/product goals, target industries | Draft |
+| 02 | [02_Business_Requirements.md](02_Business_Requirements.md) | Functional/non-functional requirements, scope, target users | Draft |
+| 03 | [03_Product_Roadmap.md](03_Product_Roadmap.md) | Phased roadmap from PrintOS ERP through Marketplace | Draft |
+| 04 | [04_System_Architecture.md](04_System_Architecture.md) | System architecture, ERPNext/PrintOS separation, DDD/Clean Architecture | Draft |
+| 05 | [05_Domain_Model.md](05_Domain_Model.md) | Core/Supporting/Generic domains, business entities, relationships | Draft |
+| 06 | [06_Bounded_Contexts.md](06_Bounded_Contexts.md) | Bounded context definitions and context map | Draft |
+| 07 | [07_Technology_Stack.md](07_Technology_Stack.md) | Current and future technology stack with rationale | Draft |
+| 08 | [08_Master_Data_Model.md](08_Master_Data_Model.md) | Master data entities and relationships | Draft |
+| 09 | [09_PrintOS_Modules.md](09_PrintOS_Modules.md) | Business module catalog | Draft |
+| 10 | [10_Business_Workflows.md](10_Business_Workflows.md) | Major end-to-end business workflows | Draft |
 | 11 | 11_Print_Industry_Model.md | Print industry-specific domain detail | Placeholder |
 | 12 | 12_PrintOS_Product_Catalog.md | Product/catalog structure | Placeholder |
 | 13 | 13_Pricing_Engine.md | Pricing engine design | Placeholder |
@@ -153,6 +153,7 @@ All documents listed in the Document Index above. This is the root of the Bluepr
 |1.0|2026-07-18|Initial|Initial Version|
 |2.0|2026-07-22|Documentation Consistency Fix|Corrected outdated Phase A content: marked 05/06/08/09/10 as Published (previously shown as Reserved/omitted); added 11–20 as Placeholder; added 21–25 as Future per ADR-010; removed obsolete "06 Data Integration Architecture" future reference and obsolete Open Questions about 05/06 scope; added Document Status Legend, Document Hierarchy diagram, and Roadmap Alignment section|
 |2.1|2026-07-26|Owner-Verification Status Reconciliation|Status corrected from Published to Draft. The previous Published header was removed because formal Project Owner approval had not occurred (explicit Project Owner declaration, 2026-07-26); the document returns to its supported pre-publication Draft lifecycle status. This correction affects only this index document — no indexed Blueprint document changed status, and no index content or navigation entry changed.|
+|2.2|2026-07-26|Status-Reporting Reconciliation|Reconciled the internal Document Index table's Status cells against authoritative source-document headers. Corrected 12 stale "Published" labels (README, 00, and 01–10) to "Draft" to match each source document's actual header Status; the 11–20 Placeholder and 21–25 Future rows were already accurate and unchanged. No referenced document changed lifecycle status; no filenames, links, descriptions, ordering, or numbering changed. The index itself remains Draft.|
 
 ---
 

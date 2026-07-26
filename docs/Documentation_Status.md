@@ -1,7 +1,7 @@
 # Documentation Status
 
 Version:
-1.2
+1.3
 
 Status:
 Draft
@@ -33,18 +33,18 @@ Covers document counts, lifecycle status, and maturity assessment across every c
 | Blueprint | 22 | 00_Master_Index + 01–20 scaffold + README |
 | Business | 23 | 00_Master_Index + 01–21 topical documents + README |
 | Technical | 11 | 00_Master_Index + 01–10 (created this session) |
-| Database | 7 | 00_Master_Index + 01–06 (created this session) |
-| Configuration | 16 | 00_Master_Index + 01–15 (created and reviewed this session) |
-| Architecture | 11 | 00_Architecture_Index + 01–10; 3 documents (04, 09, 10) are explicit working drafts pending reconciliation with ADR-010-reserved Blueprint paths |
-| Implementation | 16 | 00_Implementation_Index + 01–08 populated; 09–15 remain empty Placeholder |
+| Database | 9 | 00_Master_Index + 01–06 + Business_Entity_Inventory + ERPNext_DocType_Mapping |
+| Configuration | 17 | 00_Master_Index + 01–15 + Configuration_Studio_Architecture |
+| Architecture | 15 | 00_Architecture_Index + 01–10 + Canonical_Domain_Model + ERPNext_Fit_Analysis + ERPNext_Gap_Analysis + Plugin_Architecture; 3 of the 01–10 documents (04, 09, 10) are explicit working drafts pending reconciliation with ADR-010-reserved Blueprint paths |
+| Implementation | 18 | 00_Implementation_Index + 01–08 populated + Module_Dependency_Matrix + Architecture_Freeze; 09–15 remain empty Placeholder |
 | Standards | 20 | 19 standards documents + README |
-| Decisions (ADRs) | 15 | 00_ADR_Index + ADR-001 through ADR-014 |
+| Decisions (ADRs) | 16 | 00_ADR_Index + ADR-001 through ADR-014 + Architecture_Review_Register |
 | Research | 11 | Ad hoc investigation documents |
 | Reviews | 4 | Recorded review outcomes |
 | Milestones | 10 | M00–M09 |
 | Templates | 7 | Reusable document templates |
 | Root-level | 4 | README, Documentation_Map, Documentation_Status, Documentation_Workflow |
-| **Total** | **~177** | Excludes empty reserved folders (`api`, `changelog`, `prompts`, `roadmap`, `sprints`, `ui`); includes 7 empty Placeholder files in `docs/implementation/` (09–15) |
+| **Total** | **187** | Live count of tracked `docs/**/*.md` files (183 across the categories above + 4 root-level: README, Documentation_Map, Documentation_Status, Documentation_Workflow). Excludes 6 empty reserved folders (`api`, `changelog`, `prompts`, `roadmap`, `sprints`, `ui`); includes 17 empty Placeholder files (blueprint 11–20 and implementation 09–15). |
 
 ---
 
@@ -165,6 +165,7 @@ The documentation set has strong breadth (all major categories exist with real c
 | 1.0 | 2026-07-23 | Configuration Studio Review | Initial version. Populated this previously-empty status document with real document counts, status breakdown, health/maturity assessment, coverage-by-layer, gaps, and recommended next phase, following the Configuration Studio documentation review. |
 | 1.1 | 2026-07-23 | Architecture & Implementation Registration | Added Architecture (11 documents) and Implementation (16 documents, 9 populated/7 Placeholder) to Documentation Statistics, Status Breakdown, Documentation Health, Coverage by Layer, and Remaining Gaps (new items 7–9: implementation-blocking Architecture Review decisions, phase-numbering ambiguity, Implementation Placeholder backlog). Added corresponding Recommended Next Documentation Phase items 5–6. Updated total document count from ~150 to ~177. |
 | 1.2 | 2026-07-26 | Owner-Verification Status Reconciliation | Recorded the explicit Project Owner declaration (2026-07-26) that neither `blueprint/00_Master_Index.md` nor `decisions/00_ADR_Index.md` was formally approved for Published; both index headers were corrected from Published to Draft. Recalculated the Status Breakdown from live tracked-document `Status:` fields: Published 0, Approval 0, Review 0, Draft 107, Accepted (ADR) 14, no recognized `Status` field 66; total 187 tracked Markdown documents. Corrected explanatory text — no document counts as Published; publishing an index does not publish referenced documents; the Layered Architecture Freeze remains a Draft proposal (0.1) and is not active. Header Version reconciled to 1.2 (previously lagged its Revision History at 1.1). No indexed-document status changed; per-category Documentation Statistics table not recalculated in this governance commit. |
+| 1.3 | 2026-07-26 | Documentation Statistics Reconciliation | Recalculated the per-category Documentation Statistics table from the live tracked Markdown corpus: Database 7→9, Configuration 16→17, Architecture 11→15, Implementation 16→18, Decisions 15→16, Total ~177→187 (Blueprint, Business, Technical, Standards, Research, Reviews, Milestones, Templates, Root-level already accurate). Revalidated lifecycle totals from live `Status:` fields — unchanged (Published 0, Approval 0, Review 0, Draft 107, Accepted 14, no-Status 66, total 187). No document lifecycle status was changed; the Layered Architecture Freeze remains a Draft proposal (0.1) and inactive. |
 
 ---
 
