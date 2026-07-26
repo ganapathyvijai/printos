@@ -62,6 +62,7 @@ Per `docs/Documentation_Workflow.md` Section 3, Implementation sits below Review
 | 14 | 14_Release_Checklist.md | Per-release readiness checklist (distinct from one-time Go-Live) | Placeholder |
 | 15 | 15_Post_GoLive_Support.md | Hypercare and post-go-live support model | Placeholder |
 | — | [Module_Dependency_Matrix.md](Module_Dependency_Matrix.md) | What must exist before each module can be implemented, by dependency category; direct blockers vs. transitive delays; formalizes the approved implementation dependency review | Draft |
+| — | [Architecture_Freeze.md](Architecture_Freeze.md) | Proposed Layered Architecture Freeze defining the conceptual frozen baseline, AR-gated excluded layers, conditional references, governance backlogs, implementation-authorization boundary, and Full Freeze exit criteria. It constrains but does not replace the future Development Roadmap. (Version 0.1.) | Draft |
 
 ## Document Dependency Graph
 
@@ -143,6 +144,7 @@ This index and its constituent documents are deliberately downstream-only: they 
 | Version | Date | Author | Changes |
 |---|---|---|---|
 | 0.1 | 2026-07-23 | Initial | Initial working draft. Indexed documents 00–08 (populated) and 09–15 (Placeholder), documented status tracking and the cross-cutting non-redefinition rule. |
+| 0.1 | 2026-07-26 | Freeze Registration | Registered the Draft Layered Architecture Freeze proposal (`Architecture_Freeze.md`, Draft 0.1) in the Document Index. Navigation update only; no lifecycle status changed and no freeze activation occurred. Header Version preserved at 0.1 (this index's prior registration changes were not version-incremented; convention unclear). |
 
 ---
 
