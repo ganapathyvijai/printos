@@ -1,7 +1,7 @@
 # Documentation Map
 
 Version:
-1.4
+1.5
 
 Status:
 Draft
@@ -54,7 +54,7 @@ Architecture documentation (`docs/architecture/`) is likewise cross-cutting: it 
 
 Implementation documentation (`docs/implementation/`) is strictly downstream: it sequences and plans delivery of everything above it, and must never redefine architecture, business rules, or naming — see [implementation/00_Implementation_Index.md](implementation/00_Implementation_Index.md). Two key implementation-architecture artifacts: [implementation/Module_Dependency_Matrix.md](implementation/Module_Dependency_Matrix.md) (Draft, Version 0.3) defines business, implementation, ERPNext, configuration, plugin, Architecture Review, transitive, convergent, and optional dependencies across PrintHub modules — a conditional implementation-architecture reference, not a roadmap or implementation schedule; and [implementation/Architecture_Freeze.md](implementation/Architecture_Freeze.md) (Approval, Version 1.0) is the effective Layered Architecture Freeze, defining the frozen conceptual baseline, conditional references, excluded AR-gated layers, governance gaps, Development Roadmap boundary, implementation-authorization boundary, and Full Freeze exit criteria — it is effective only within its declared layered scope, it is not a Full Architecture Freeze, it is not Published, and it does not authorize implementation.
 
-Roadmap documentation (`docs/roadmap/`) owns the governed Development Roadmap — [roadmap/01_Development_Roadmap.md](roadmap/01_Development_Roadmap.md) (Draft, Version 0.1), the governed bridge between the effective Layered Architecture Freeze and future execution planning. It defines dependency-tiered capability workstreams, Architecture Review gates, readiness classifications, traceability requirements, and deferred boundaries. It is non-temporal; it does not reuse Product Roadmap or legacy technical phase numbering; it does not authorize implementation; and it does not replace the Product Roadmap, Implementation Plan, Sprint Plan, or Release Checklist. It treats [implementation/01_Phase_1_Roadmap.md](implementation/01_Phase_1_Roadmap.md) and [implementation/02_Module_Implementation_Order.md](implementation/02_Module_Implementation_Order.md) as unreconciled conditional legacy inputs. The category relationship is deliberate: `docs/roadmap/` owns the governed Development Roadmap, while `docs/implementation/` retains the technical implementation-order, execution-plan, milestone, sprint, and release artifacts; the Development Roadmap feeds future execution planning but is not itself an execution plan. The `00_` Roadmap index slot remains reserved — no index is created until the folder holds multiple governed roadmap artifacts.
+Roadmap documentation (`docs/roadmap/`) owns the approved governed Development Roadmap — [roadmap/01_Development_Roadmap.md](roadmap/01_Development_Roadmap.md) (Approval, Version 1.0), the approved governed bridge between the effective Layered Architecture Freeze and future execution planning. It defines dependency-tiered capability workstreams, Architecture Review gates, readiness classifications, traceability requirements, and deferred boundaries. Architecture Review, Business Review, and Project Owner Approval are all complete. It remains **not Published** and **does not authorize implementation**; it is non-temporal; it does not reuse Product Roadmap or legacy technical phase numbering; and it does not replace the Product Roadmap, Implementation Plan, Sprint Plan, or Release Checklist. It treats [implementation/01_Phase_1_Roadmap.md](implementation/01_Phase_1_Roadmap.md) and [implementation/02_Module_Implementation_Order.md](implementation/02_Module_Implementation_Order.md) as unreconciled conditional legacy inputs. The category relationship is deliberate: `docs/roadmap/` owns the governed Development Roadmap, while `docs/implementation/` retains the technical implementation-order, execution-plan, milestone, sprint, and release artifacts; the Development Roadmap feeds future execution planning but is not itself an execution plan. The `00_` Roadmap index slot remains reserved — no index is created until the folder holds multiple governed roadmap artifacts.
 
 ---
 
@@ -75,7 +75,7 @@ Roadmap documentation (`docs/roadmap/`) owns the governed Development Roadmap �
 | Reviews | `docs/reviews/` | — | Recorded evaluation of documents/implementations |
 | Milestones | `docs/milestones/` | — | Completion records for project milestones |
 | Templates | `docs/templates/` | — | Reusable document structures per category |
-| Roadmap | `docs/roadmap/` | — (`00_` index slot reserved) | Governed Development Roadmap: [roadmap/01_Development_Roadmap.md](roadmap/01_Development_Roadmap.md) (Draft, Version 0.1) — dependency-tiered capability workstreams, Architecture Review gates, readiness classifications, traceability, and deferred boundaries; non-temporal and non-authorizing |
+| Roadmap | `docs/roadmap/` | — (`00_` index slot reserved) | Approved governed Development Roadmap: [roadmap/01_Development_Roadmap.md](roadmap/01_Development_Roadmap.md) (Approval, Version 1.0; Architecture Review, Business Review, and Project Owner Approval complete) — dependency-tiered capability workstreams, Architecture Review gates, readiness classifications, traceability, and deferred boundaries; non-temporal, not Published, and does not authorize implementation |
 | API, Changelog, Prompts, Sprints, UI | `docs/api/`, `docs/changelog/`, `docs/prompts/`, `docs/sprints/`, `docs/ui/` | — | Reserved, not yet populated (see `Documentation_Status.md`, Remaining Gaps) |
 
 ---
@@ -125,7 +125,7 @@ flowchart LR
 | Marketplace detailed architecture | **Gap** — deferred per ADR-009, Phase 5 |
 | API contracts | **Gap** — `docs/api/` reserved, empty |
 | UI/UX design documentation | **Gap** — `docs/ui/` reserved, empty |
-| Roadmap detail beyond Blueprint summary | Covered (Draft) — [roadmap/01_Development_Roadmap.md](roadmap/01_Development_Roadmap.md) (Draft, Version 0.1), the governed Development Roadmap; non-temporal, does not authorize implementation (Product Roadmap strategic summary remains at `Blueprint 03_Product_Roadmap.md`) |
+| Roadmap detail beyond Blueprint summary | Covered (Approval) — [roadmap/01_Development_Roadmap.md](roadmap/01_Development_Roadmap.md) (Approval, Version 1.0), the approved governed Development Roadmap; Architecture Review, Business Review, and Project Owner Approval complete; not Published; does not authorize implementation (Product Roadmap strategic summary remains at `Blueprint 03_Product_Roadmap.md`) |
 
 ---
 
@@ -138,7 +138,7 @@ flowchart LR
 
 # Open Questions
 
-- Should `docs/api/`, `docs/sprints/`, and `docs/ui/` be populated now or intentionally deferred until their owning phase begins? (`docs/roadmap/` is now activated with the Draft Development Roadmap.)
+- Should `docs/api/`, `docs/sprints/`, and `docs/ui/` be populated now or intentionally deferred until their owning phase begins? (`docs/roadmap/` is now activated with the approved Development Roadmap, Approval, Version 1.0.)
 
 ---
 
@@ -167,6 +167,7 @@ flowchart LR
 | 1.2 | 2026-07-26 | Freeze Registration | Added navigation references in the Implementation category narrative for the Module Dependency Matrix (Draft, Version 0.3) and the Draft Layered Architecture Freeze proposal (Draft, Version 0.1). Navigation update only; no lifecycle status or architecture decision changed. Note: the header Version field was left at 1.0 (preserved) — it already lagged this Revision History (latest entry 1.1) before this change; this pre-existing header/Revision-History discrepancy is flagged for the later documentation status-alignment task and is not corrected here. |
 | 1.3 | 2026-07-26 | Freeze Activation Synchronization | Synchronized the Architecture Freeze navigation reference to Approval, Version 1.0, and effective layered scope, reflecting formal Project Owner approval; the reference states it is not a Full Architecture Freeze, not Published, and does not authorize implementation. No other navigation entry changed. Header Version reconciled to 1.3 (previously lagged this Revision History, which had already reached 1.2). |
 | 1.4 | 2026-07-26 | Development Roadmap Registration | Registered the Draft PrintHub Development Roadmap (`roadmap/01_Development_Roadmap.md`, Draft, Version 0.1) and activated the previously reserved Roadmap category: added a Roadmap narrative to the Documentation Hierarchy, split Roadmap out of the reserved-categories row into its own active Category Index entry, and updated the Architecture Coverage table from "Gap — reserved, empty" to "Covered (Draft)". Recorded the roadmap-governance-versus-implementation-execution distinction (`docs/roadmap/` owns the governed roadmap; `docs/implementation/` retains execution artifacts) and that the `00_` index slot remains reserved. Navigation update only: no lifecycle promotion and no implementation authorization; the Development Roadmap remains Draft. Header Version incremented to 1.4. |
+| 1.5 | 2026-07-26 | Development Roadmap Approval Synchronization | Synchronized every navigation reference to the PrintHub Development Roadmap (Roadmap-category narrative, Category Index entry, Architecture Coverage row, Open Questions note) from Draft, Version 0.1 to Approval, Version 1.0, reflecting completed Architecture Review, Business Review, and Project Owner Approval. All updated references state the roadmap remains not Published and does not authorize implementation. No other navigation entry changed; no Roadmap index created; no source document modified. Header Version incremented to 1.5. |
 
 ---
 
