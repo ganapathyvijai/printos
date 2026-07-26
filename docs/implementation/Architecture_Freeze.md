@@ -1,12 +1,12 @@
-# Architecture Freeze (Proposed — Layered)
+# Architecture Freeze (Layered)
 
 ## 1. Document Control
 
 Version:
-0.1
+1.0
 
 Status:
-Draft
+Approval
 
 Owner:
 PrintHub Architecture Team
@@ -14,14 +14,14 @@ PrintHub Architecture Team
 Last Updated:
 2026-07-26
 
-Freeze Type Proposed:
+Freeze Type:
 Layered Architecture Freeze (not a Full Architecture Freeze)
 
 Authoritative on approval for:
 The Frozen scope defined in Section 8 only.
 
 Note on effect:
-Authoring this document does **not** make the freeze effective and does **not** promote any document to Published or any equivalent authoritative status. The proposed baseline becomes authoritative only after this document completes the Review → Approval cycle in `docs/Documentation_Workflow.md` and a subsequent, separate controlled promotion task is performed (Section 16).
+Formal Project Owner approval has been recorded (Section 22). The Layered Architecture Freeze is **effective** for the Frozen scope defined in Section 8, subject to the Conditional References (Section 9) and Excluded Layers (Section 10). This approval does **not** promote any other document to Published or any equivalent authoritative status; the baseline source documents retain their existing lifecycle statuses unless separately promoted through a subsequent, separate controlled promotion task (Section 16). This approval is not a Full Architecture Freeze (Section 4, 6) and does not authorize implementation (Section 19).
 
 ---
 
@@ -52,7 +52,7 @@ Out of scope: resolving any Architecture Review item; authoring a Development Ro
 
 ## 4. Freeze Model
 
-PrintHub is ready for a **Layered Architecture Freeze** and is **not** ready for a **Full Architecture Freeze**. The layered model freezes the stable conceptual architecture while explicitly excluding the integration, tenancy, ownership, and module-specific design layers that depend on open Architecture Review items.
+PrintHub has adopted a **Layered Architecture Freeze** and is **not** subject to a **Full Architecture Freeze**. The layered model freezes the stable conceptual architecture while explicitly excluding the integration, tenancy, ownership, and module-specific design layers that depend on open Architecture Review items.
 
 ```
 +--------------------------------------------------------------+
@@ -90,7 +90,7 @@ These terms apply to *freeze disposition within this document only*. They are **
 
 ## 6. Layered Freeze Decision
 
-**Decision proposed:** Adopt a Layered Architecture Freeze with the Frozen scope in Sections 7–8, the Conditional References in Section 9, and the Excluded Layers in Section 10.
+**Decision made:** Adopt a Layered Architecture Freeze, effective by Project Owner approval (Section 22), with the Frozen scope in Sections 7–8, the Conditional References in Section 9, and the Excluded Layers in Section 10.
 
 **Decision explicitly not made:** No Full Architecture Freeze is proposed. No open Architecture Review item (AR-001–AR-011) is resolved. No ERPNext version, tenant model, Machine ownership, Quotation strategy, or Material/Product Template ownership is selected.
 
@@ -118,7 +118,7 @@ The following conceptual architecture is proposed as Frozen. Each is already est
 
 ## 8. Proposed Frozen Baseline
 
-**Group A — Proposed Frozen Documents.** Each is proposed as authoritative for the Frozen conceptual scope. Each has been confirmed not to silently encode an unresolved Architecture Review decision. (Versions are the current repository versions at time of authoring; promotion to Published occurs only via the separate task in Section 16.)
+**Group A — Frozen Documents.** Each is authoritative for the Frozen conceptual scope by virtue of this freeze's approval. Each has been confirmed not to silently encode an unresolved Architecture Review decision. (Versions are the current repository versions at time of authoring; promotion to Published occurs only via the separate task in Section 16 — this freeze's approval does not itself publish any source document.)
 
 | Document | Current Version | Freeze Disposition |
 |---|---|---|
@@ -369,8 +369,8 @@ Medium/Low terminology items (AR-007, AR-008, AR-009, AR-011, and the Naming Reg
 ## 22. Validation Checklist
 
 - [x] The document declares a Layered Freeze, not a Full Freeze (Sections 4, 6).
-- [x] The document itself remains Draft, Version 0.1 (Section 1).
-- [x] No other file was modified; no document status was promoted (Section 16).
+- [x] The document itself is Approval, Version 1.0, and the Layered Freeze is effective within its defined scope (Section 1).
+- [x] No other file was modified; no baseline source document status was promoted (Section 16).
 - [x] AR-001 through AR-011 are represented; official register statuses preserved verbatim (Section 12).
 - [x] ERPNext v16 is described only as a Working Assumption (Sections 5, 10.1, 19).
 - [x] AR-gated layers are explicitly Excluded (Section 10).
@@ -383,7 +383,7 @@ Medium/Low terminology items (AR-007, AR-008, AR-009, AR-011, and the Naming Reg
 - [x] No Development Roadmap or implementation schedule is created (Sections 17–18).
 - [x] No implementation authorization is implied (Section 19).
 - [x] Full-freeze exit criteria are defined (Section 21).
-- [ ] Reviewed by Project Owner.
+- [x] Reviewed by Project Owner.
 
 ---
 
@@ -393,3 +393,4 @@ Medium/Low terminology items (AR-007, AR-008, AR-009, AR-011, and the Naming Reg
 |---|---|---|---|
 | 0.1 | 2026-07-26 | Architecture Freeze (proposed) | Initial proposed Layered Architecture Freeze. Declares a layered (not full) freeze; records the Frozen conceptual baseline (Group A), Conditional References (Group B), and documents remaining Draft; Excludes the ERPNext-integration, multi-tenant, Machine, Quotation, and Material/Product-Template layers pending AR-001/002/004/005/006; reproduces AR-001–AR-011 register fields verbatim without resolving any; surfaces the Naming Registry and Blueprint governance backlogs; records the uncovered Marketplace plugin-entity cluster as later-phase deferred requiring formal disposition; clarifies Job Card Tier A/B as one aggregate and one DocType; records the Documentation_Status/index Published inconsistency without modifying any file; defines Development Roadmap readiness, the implementation-authorization boundary, and Full-Freeze exit criteria. No AR resolved, no ADR created, no status metadata changed, no roadmap or schedule created. |
 | 0.1 | 2026-07-26 | Pre-approval correction | Targeted factual-consistency correction (no scope or disposition change). Removed self-referential wording that named and denied a non-existent Architecture Review identifier, from both the coverage text and the validation checklist. Corrected the `09_PrintOS_Modules.md` baseline entry to its authoritative source header version (1.0), and recorded that the source document's header-versus-Revision-History discrepancy must be reconciled in the later controlled promotion and status-alignment task. Refined the `08_Master_Data_Model.md` exclusion note to state it does not define ERPNext DocType ownership and that entity ownership is deferred to AR-006 and, where Machine/Machine Profile are involved, AR-004. No source document modified; no other file modified; document remains Draft, Version 0.1; the Layered Freeze remains a proposal and is not made effective; no Architecture Review item resolved or reclassified. |
+| 1.0 | 2026-07-26 | Project Owner Approval | Formal Project Owner approval recorded. Document Control transitioned from Status: Draft to Status: Approval and Version: 0.1 to Version: 1.0, marking the first formally approved and effective governance baseline. The Layered Architecture Freeze (not a Full Architecture Freeze) is now effective within the scope and exclusions this document defines: the Frozen Baseline (Section 8), Conditional References (Section 9), and Excluded Layers (Section 10) are unchanged in membership and remain as previously defined. This approval does not authorize implementation, does not settle ERPNext v16 as a decided version, does not resolve any AR-001–AR-011 item, does not resolve unresolved DocType ownership or a tenant strategy, does not create a Development Roadmap, and does not promote any baseline source document to Published. Updated the title and the Section 1 "Note on effect," Section 4, Section 6, and Section 8 preamble to state the freeze is effective rather than proposed; marked the Section 22 "Reviewed by Project Owner" checklist item complete. No other checklist item, table, AR entry, exclusion, or source-document reference was altered. |
