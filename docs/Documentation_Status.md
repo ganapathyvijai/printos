@@ -1,7 +1,7 @@
 # Documentation Status
 
 Version:
-1.3
+1.4
 
 Status:
 Draft
@@ -10,7 +10,7 @@ Owner:
 PrintHub Architecture Team
 
 Last Updated:
-2026-07-23
+2026-07-26
 
 ---
 
@@ -54,15 +54,15 @@ Counts below are recalculated from the live `Status:` header field of every trac
 
 | Status | Count | Categories |
 |---|---|---|
-| **Published** | 0 | No document has completed the full Review → Approval → Owner Approval cycle (`Documentation_Workflow.md` §11). `blueprint/00_Master_Index.md` and `decisions/00_ADR_Index.md` previously carried `Status: Published` headers; per explicit Project Owner declaration (2026-07-26) neither was formally approved, so both were corrected to `Draft`. Publishing an index would not, in any case, publish the documents it references. |
-| **Approval** | 0 | No document is currently at the Approval stage. |
+| **Published** | 0 | No document has completed the full Review → Approval → Owner Approval cycle (`Documentation_Workflow.md` §11). `blueprint/00_Master_Index.md` and `decisions/00_ADR_Index.md` previously carried `Status: Published` headers; per explicit Project Owner declaration (2026-07-26) neither was formally approved, so both were corrected to `Draft`. Publishing an index would not, in any case, publish the documents it references. Reaching Approval (see below) is a separate, earlier lifecycle stage than Published, and does not itself constitute publication. |
+| **Approval** | 1 | `docs/implementation/Architecture_Freeze.md` (Version 1.0) — the first document to reach the Approval lifecycle stage, following formal Project Owner approval (2026-07-26) of the Layered Architecture Freeze. This records that the document has an effective, approved disposition within its declared scope; it does not mean the document is Published, does not declare a Full Architecture Freeze, and does not authorize implementation. |
 | **Review** | 0 | No document has a recorded Review-stage `Status`. |
-| **Draft** | 107 | Documents carrying `Status: Draft` — Blueprint, Business, Technical, Database, Configuration, Architecture, Standards, populated Implementation, and now the two former-Published indexes (`blueprint/00_Master_Index.md`, `decisions/00_ADR_Index.md`). |
+| **Draft** | 106 | Documents carrying a `Status: Draft` (or `Draft`-prefixed) header — Blueprint, Business, Technical, Database, Configuration, Architecture, Standards, populated Implementation (other than `Architecture_Freeze.md`, now Approval), and the two former-Published indexes (`blueprint/00_Master_Index.md`, `decisions/00_ADR_Index.md`). Decreased by one from the prior count as `Architecture_Freeze.md` moved from Draft to Approval. |
 | **Accepted** (ADR-specific lifecycle) | 14 | All of `docs/decisions/ADR-001` through `ADR-014`; the only category with binding, in-force status today. |
 | **No recognized `Status` field** | 66 | Empty placeholders and category documents without a `Status:` header (blueprint 11–20, business 06–22, implementation 09–15, milestones, research, reviews, templates, `docs/README.md`). Not counted as any lifecycle stage. |
-| **Total tracked Markdown documents** | 187 | Live count of tracked `docs/**/*.md` files. (Separately, 6 reserved folders remain empty with no tracked files: `api`, `changelog`, `prompts`, `roadmap`, `sprints`, `ui`.) |
+| **Total tracked Markdown documents** | 187 | Live count of tracked `docs/**/*.md` files; unchanged by the Architecture Freeze activation. (Separately, 6 reserved folders remain empty with no tracked files: `api`, `changelog`, `prompts`, `roadmap`, `sprints`, `ui`.) |
 
-Per the explicit Project Owner declaration of 2026-07-26, neither `blueprint/00_Master_Index.md` nor `decisions/00_ADR_Index.md` had formal Project Owner approval; their prior `Published` headers were unsupported and have been corrected to `Draft`. Consequently **no document currently counts as Published** unless independently verified through the full Owner-approved lifecycle. Publication of an index — were it to occur — would make only that navigation document Published and would **not** publish the documents it references. The Layered Architecture Freeze (`docs/implementation/Architecture_Freeze.md`) remains a **Draft proposal (Version 0.1)** and is **not active**. Decisions (ADRs) use their own lifecycle (Accepted, sometimes qualified as "Implementation Deferred" or "Scope Deferred") and remain the only category with binding, in-force status today. (Note: the per-category counts in the Documentation Statistics table above group documents differently and were not recalculated in this governance reconciliation.)
+Per the explicit Project Owner declaration of 2026-07-26, neither `blueprint/00_Master_Index.md` nor `decisions/00_ADR_Index.md` had formal Project Owner approval; their prior `Published` headers were unsupported and have been corrected to `Draft`. Consequently **no document currently counts as Published** unless independently verified through the full Owner-approved lifecycle. Publication of an index — were it to occur — would make only that navigation document Published and would **not** publish the documents it references. Separately, and also on 2026-07-26, the Project Owner formally approved the **Layered Architecture Freeze** (`docs/implementation/Architecture_Freeze.md`, now Status: Approval, Version 1.0): it is **effective** within the frozen conceptual scope it declares, but it is **not Published**, it is **not a Full Architecture Freeze**, **no baseline source document has been promoted to Published by this activation**, and **implementation remains unauthorized**. Conditional and partially frozen source documents referenced by the freeze retain their existing lifecycle statuses (Draft) unless separately promoted. Decisions (ADRs) use their own lifecycle (Accepted, sometimes qualified as "Implementation Deferred" or "Scope Deferred") and remain the only category with binding, in-force status today. (Note: the per-category counts in the Documentation Statistics table above group documents differently and were not recalculated in this governance reconciliation.)
 
 ---
 
@@ -166,6 +166,7 @@ The documentation set has strong breadth (all major categories exist with real c
 | 1.1 | 2026-07-23 | Architecture & Implementation Registration | Added Architecture (11 documents) and Implementation (16 documents, 9 populated/7 Placeholder) to Documentation Statistics, Status Breakdown, Documentation Health, Coverage by Layer, and Remaining Gaps (new items 7–9: implementation-blocking Architecture Review decisions, phase-numbering ambiguity, Implementation Placeholder backlog). Added corresponding Recommended Next Documentation Phase items 5–6. Updated total document count from ~150 to ~177. |
 | 1.2 | 2026-07-26 | Owner-Verification Status Reconciliation | Recorded the explicit Project Owner declaration (2026-07-26) that neither `blueprint/00_Master_Index.md` nor `decisions/00_ADR_Index.md` was formally approved for Published; both index headers were corrected from Published to Draft. Recalculated the Status Breakdown from live tracked-document `Status:` fields: Published 0, Approval 0, Review 0, Draft 107, Accepted (ADR) 14, no recognized `Status` field 66; total 187 tracked Markdown documents. Corrected explanatory text — no document counts as Published; publishing an index does not publish referenced documents; the Layered Architecture Freeze remains a Draft proposal (0.1) and is not active. Header Version reconciled to 1.2 (previously lagged its Revision History at 1.1). No indexed-document status changed; per-category Documentation Statistics table not recalculated in this governance commit. |
 | 1.3 | 2026-07-26 | Documentation Statistics Reconciliation | Recalculated the per-category Documentation Statistics table from the live tracked Markdown corpus: Database 7→9, Configuration 16→17, Architecture 11→15, Implementation 16→18, Decisions 15→16, Total ~177→187 (Blueprint, Business, Technical, Standards, Research, Reviews, Milestones, Templates, Root-level already accurate). Revalidated lifecycle totals from live `Status:` fields — unchanged (Published 0, Approval 0, Review 0, Draft 107, Accepted 14, no-Status 66, total 187). No document lifecycle status was changed; the Layered Architecture Freeze remains a Draft proposal (0.1) and inactive. |
+| 1.4 | 2026-07-26 | Freeze Activation Lifecycle Reconciliation | Recalculated the Status Breakdown from live `Status:` fields following formal Project Owner approval of `docs/implementation/Architecture_Freeze.md`: Published 0 (unchanged), Approval 0→1 (`Architecture_Freeze.md`, Version 1.0), Review 0 (unchanged), Draft 107→106 (Architecture_Freeze.md moved out of Draft), Accepted 14 (unchanged), no-Status 66 (unchanged), total 187 (unchanged). Updated explanatory text to record the Layered Architecture Freeze as effective within its declared scope, distinct from and not equivalent to Published; confirmed no Full Architecture Freeze has been declared, no baseline source document was promoted, and implementation remains unauthorized. Documentation Statistics (per-category) table not recalculated — live corpus counts unchanged. |
 
 ---
 

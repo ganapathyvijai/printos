@@ -1,7 +1,7 @@
 # Documentation Map
 
 Version:
-1.0
+1.3
 
 Status:
 Draft
@@ -10,7 +10,7 @@ Owner:
 PrintHub Architecture Team
 
 Last Updated:
-2026-07-23
+2026-07-26
 
 ---
 
@@ -52,7 +52,7 @@ Configuration Studio documentation (`docs/configuration/`) is a cross-cutting la
 
 Architecture documentation (`docs/architecture/`) is likewise cross-cutting: it elaborates Technical Architecture into system-wide deep-dives (Clean Architecture rationale, DDD application, multi-tenancy, extensibility, eventing, security, performance, deployment, integration) without introducing new binding decisions of its own — see [architecture/00_Architecture_Index.md](architecture/00_Architecture_Index.md). Three of its documents (Multi-Tenant, Deployment, Integration Architecture) are explicitly marked working drafts pending reconciliation with paths reserved in `docs/blueprint/` by ADR-010.
 
-Implementation documentation (`docs/implementation/`) is strictly downstream: it sequences and plans delivery of everything above it, and must never redefine architecture, business rules, or naming — see [implementation/00_Implementation_Index.md](implementation/00_Implementation_Index.md). Two key implementation-architecture artifacts: [implementation/Module_Dependency_Matrix.md](implementation/Module_Dependency_Matrix.md) (Draft, Version 0.3) defines business, implementation, ERPNext, configuration, plugin, Architecture Review, transitive, convergent, and optional dependencies across PrintHub modules — a conditional implementation-architecture reference, not a roadmap or implementation schedule; and [implementation/Architecture_Freeze.md](implementation/Architecture_Freeze.md) (Draft, Version 0.1) is a Draft proposal for a Layered Architecture Freeze defining the proposed frozen conceptual baseline, conditional references, excluded AR-gated layers, governance gaps, Development Roadmap boundary, implementation-authorization boundary, and Full Freeze exit criteria — it is not a Full Freeze and is not yet effective.
+Implementation documentation (`docs/implementation/`) is strictly downstream: it sequences and plans delivery of everything above it, and must never redefine architecture, business rules, or naming — see [implementation/00_Implementation_Index.md](implementation/00_Implementation_Index.md). Two key implementation-architecture artifacts: [implementation/Module_Dependency_Matrix.md](implementation/Module_Dependency_Matrix.md) (Draft, Version 0.3) defines business, implementation, ERPNext, configuration, plugin, Architecture Review, transitive, convergent, and optional dependencies across PrintHub modules — a conditional implementation-architecture reference, not a roadmap or implementation schedule; and [implementation/Architecture_Freeze.md](implementation/Architecture_Freeze.md) (Approval, Version 1.0) is the effective Layered Architecture Freeze, defining the frozen conceptual baseline, conditional references, excluded AR-gated layers, governance gaps, Development Roadmap boundary, implementation-authorization boundary, and Full Freeze exit criteria — it is effective only within its declared layered scope, it is not a Full Architecture Freeze, it is not Published, and it does not authorize implementation.
 
 ---
 
@@ -162,6 +162,7 @@ flowchart LR
 | 1.0 | 2026-07-23 | Configuration Studio Review | Initial version. Populated this previously-empty index with the full documentation hierarchy, category index, cross-reference map, and architecture coverage table, following the Configuration Studio documentation review. |
 | 1.1 | 2026-07-23 | Architecture & Implementation Registration | Registered the `docs/architecture/` category (11 documents; 3 working drafts pending reconciliation with ADR-010-reserved Blueprint paths) and the `docs/implementation/` category (16 documents; 9 populated, 7 Placeholder), which had been created but not yet indexed here. Added both to the Documentation Hierarchy diagram, Category Index, Cross-Reference Map, and Architecture Coverage table. |
 | 1.2 | 2026-07-26 | Freeze Registration | Added navigation references in the Implementation category narrative for the Module Dependency Matrix (Draft, Version 0.3) and the Draft Layered Architecture Freeze proposal (Draft, Version 0.1). Navigation update only; no lifecycle status or architecture decision changed. Note: the header Version field was left at 1.0 (preserved) — it already lagged this Revision History (latest entry 1.1) before this change; this pre-existing header/Revision-History discrepancy is flagged for the later documentation status-alignment task and is not corrected here. |
+| 1.3 | 2026-07-26 | Freeze Activation Synchronization | Synchronized the Architecture Freeze navigation reference to Approval, Version 1.0, and effective layered scope, reflecting formal Project Owner approval; the reference states it is not a Full Architecture Freeze, not Published, and does not authorize implementation. No other navigation entry changed. Header Version reconciled to 1.3 (previously lagged this Revision History, which had already reached 1.2). |
 
 ---
 
