@@ -1,10 +1,10 @@
 # Architecture Decision Records — Index
 
 Version:
-1.0
+1.1
 
 Status:
-Published
+Draft
 
 Owner:
 PrintHub Architecture Team
@@ -102,6 +102,7 @@ Per `docs/standards/Naming_Registry.md` Section 27 (Naming Decision Matrix), the
 | Version | Date | Author | Changes |
 |----------|------|--------|---------|
 |1.0|2026-07-22|Initial|Initial Version — populated index for ADR-001 through ADR-014 (previously empty placeholder)|
+|1.1|2026-07-26|Owner-Verification Status Reconciliation|Status corrected from Published to Draft. The previous Published header was removed because formal Project Owner approval had not occurred (explicit Project Owner declaration, 2026-07-26); the document returns to its supported pre-publication Draft lifecycle status. This correction affects only this index document — no ADR changed status or decision state, and no index content changed.|
 
 ---
 

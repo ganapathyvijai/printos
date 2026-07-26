@@ -1,7 +1,7 @@
 # Documentation Status
 
 Version:
-1.0
+1.2
 
 Status:
 Draft
@@ -50,14 +50,19 @@ Covers document counts, lifecycle status, and maturity assessment across every c
 
 # Status Breakdown (Published vs Draft vs Placeholder)
 
+Counts below are recalculated from the live `Status:` header field of every tracked `docs/**/*.md` document.
+
 | Status | Count | Categories |
 |---|---|---|
-| **Published** | 0 | None — no document has completed the full Review → Approval → Owner Approval cycle defined in `Documentation_Workflow.md` Section 11 yet |
-| **Accepted** (ADR-specific lifecycle) | 14 | All of `docs/decisions/ADR-001` through `ADR-014` |
-| **Draft** | ~160 | Every Blueprint, Business, Technical, Database, Configuration, Architecture, Standards, and populated Implementation document sampled carries `Status: Draft` |
-| **Placeholder / Reserved (empty folders)** | 6 folders + 7 files | `docs/api/`, `docs/changelog/`, `docs/prompts/`, `docs/roadmap/`, `docs/sprints/`, `docs/ui/` (empty folders); `docs/implementation/09`–`15` (empty files, reserved by the Implementation Index) |
+| **Published** | 0 | No document has completed the full Review → Approval → Owner Approval cycle (`Documentation_Workflow.md` §11). `blueprint/00_Master_Index.md` and `decisions/00_ADR_Index.md` previously carried `Status: Published` headers; per explicit Project Owner declaration (2026-07-26) neither was formally approved, so both were corrected to `Draft`. Publishing an index would not, in any case, publish the documents it references. |
+| **Approval** | 0 | No document is currently at the Approval stage. |
+| **Review** | 0 | No document has a recorded Review-stage `Status`. |
+| **Draft** | 107 | Documents carrying `Status: Draft` — Blueprint, Business, Technical, Database, Configuration, Architecture, Standards, populated Implementation, and now the two former-Published indexes (`blueprint/00_Master_Index.md`, `decisions/00_ADR_Index.md`). |
+| **Accepted** (ADR-specific lifecycle) | 14 | All of `docs/decisions/ADR-001` through `ADR-014`; the only category with binding, in-force status today. |
+| **No recognized `Status` field** | 66 | Empty placeholders and category documents without a `Status:` header (blueprint 11–20, business 06–22, implementation 09–15, milestones, research, reviews, templates, `docs/README.md`). Not counted as any lifecycle stage. |
+| **Total tracked Markdown documents** | 187 | Live count of tracked `docs/**/*.md` files. (Separately, 6 reserved folders remain empty with no tracked files: `api`, `changelog`, `prompts`, `roadmap`, `sprints`, `ui`.) |
 
-No document in the Blueprint, Business, Technical, Database, Configuration, or Standards categories has yet passed a recorded Review pass under `Documentation_Workflow.md` Section 7; all remain in the Draft lifecycle stage (Section 5). Decisions (ADRs) use their own lifecycle (Accepted, sometimes qualified as "Implementation Deferred" or "Scope Deferred") and are the only category with binding, in-force status today.
+Per the explicit Project Owner declaration of 2026-07-26, neither `blueprint/00_Master_Index.md` nor `decisions/00_ADR_Index.md` had formal Project Owner approval; their prior `Published` headers were unsupported and have been corrected to `Draft`. Consequently **no document currently counts as Published** unless independently verified through the full Owner-approved lifecycle. Publication of an index — were it to occur — would make only that navigation document Published and would **not** publish the documents it references. The Layered Architecture Freeze (`docs/implementation/Architecture_Freeze.md`) remains a **Draft proposal (Version 0.1)** and is **not active**. Decisions (ADRs) use their own lifecycle (Accepted, sometimes qualified as "Implementation Deferred" or "Scope Deferred") and remain the only category with binding, in-force status today. (Note: the per-category counts in the Documentation Statistics table above group documents differently and were not recalculated in this governance reconciliation.)
 
 ---
 
@@ -159,6 +164,7 @@ The documentation set has strong breadth (all major categories exist with real c
 |---|---|---|---|
 | 1.0 | 2026-07-23 | Configuration Studio Review | Initial version. Populated this previously-empty status document with real document counts, status breakdown, health/maturity assessment, coverage-by-layer, gaps, and recommended next phase, following the Configuration Studio documentation review. |
 | 1.1 | 2026-07-23 | Architecture & Implementation Registration | Added Architecture (11 documents) and Implementation (16 documents, 9 populated/7 Placeholder) to Documentation Statistics, Status Breakdown, Documentation Health, Coverage by Layer, and Remaining Gaps (new items 7–9: implementation-blocking Architecture Review decisions, phase-numbering ambiguity, Implementation Placeholder backlog). Added corresponding Recommended Next Documentation Phase items 5–6. Updated total document count from ~150 to ~177. |
+| 1.2 | 2026-07-26 | Owner-Verification Status Reconciliation | Recorded the explicit Project Owner declaration (2026-07-26) that neither `blueprint/00_Master_Index.md` nor `decisions/00_ADR_Index.md` was formally approved for Published; both index headers were corrected from Published to Draft. Recalculated the Status Breakdown from live tracked-document `Status:` fields: Published 0, Approval 0, Review 0, Draft 107, Accepted (ADR) 14, no recognized `Status` field 66; total 187 tracked Markdown documents. Corrected explanatory text — no document counts as Published; publishing an index does not publish referenced documents; the Layered Architecture Freeze remains a Draft proposal (0.1) and is not active. Header Version reconciled to 1.2 (previously lagged its Revision History at 1.1). No indexed-document status changed; per-category Documentation Statistics table not recalculated in this governance commit. |
 
 ---
 

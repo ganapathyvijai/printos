@@ -1,10 +1,10 @@
 # Blueprint Master Index
 
 Version:
-2.0
+2.1
 
 Status:
-Published
+Draft
 
 Owner:
 PrintHub Architecture Team
@@ -152,6 +152,7 @@ All documents listed in the Document Index above. This is the root of the Bluepr
 |----------|------|--------|---------|
 |1.0|2026-07-18|Initial|Initial Version|
 |2.0|2026-07-22|Documentation Consistency Fix|Corrected outdated Phase A content: marked 05/06/08/09/10 as Published (previously shown as Reserved/omitted); added 11–20 as Placeholder; added 21–25 as Future per ADR-010; removed obsolete "06 Data Integration Architecture" future reference and obsolete Open Questions about 05/06 scope; added Document Status Legend, Document Hierarchy diagram, and Roadmap Alignment section|
+|2.1|2026-07-26|Owner-Verification Status Reconciliation|Status corrected from Published to Draft. The previous Published header was removed because formal Project Owner approval had not occurred (explicit Project Owner declaration, 2026-07-26); the document returns to its supported pre-publication Draft lifecycle status. This correction affects only this index document — no indexed Blueprint document changed status, and no index content or navigation entry changed.|
 
 ---
 
