@@ -256,7 +256,7 @@ Every row carries **Implementation Authorization: Not Authorized**. Roadmap trea
 | GST | Core Business Operations | Supporting Capability | Conditional Architecture | AR-001; Blueprint open question (fold into Accounts) | Include as Cross-Cutting Concern | Conditional | Not Authorized | Tightly coupled to Accounts; not an independent workstream |
 | Reporting | Reporting and Analytics | Supporting Capability | Frozen Conceptual Baseline | None | Include as Cross-Cutting Concern | Conceptually Ready | Not Authorized | Consumes Config Studio Published definitions; gates nothing |
 | Analytics | Reporting and Analytics | Supporting Capability (basic) / Later-Phase Deferral (advanced) | Frozen (basic) / Later-Phase Unscoped (advanced) | None | Include as Cross-Cutting Concern / Defer (advanced) | Conceptually Ready (basic) / Deferred (advanced) | Not Authorized | Basic in scope; advanced/predictive deferred to MachineIQ |
-| Configuration Studio | Configuration Studio | Supporting Capability (foundational + parallelizable subsets) | Conditional Architecture | AR-002 (Tenant Override only) | Define Workstream (foundational) / Reference as Dependency (designers) | Conceptually Ready (foundational) / Conditional (tenant-aware) | Not Authorized | Not monolithic; see Section 16 |
+| Configuration Studio | Configuration Studio | Supporting Capability (foundational + parallelizable subsets) | Conditional Architecture | AR-002 (Tenant Override only) | Define Workstream (foundational) / Reference as Dependency (designers) | Conceptually Ready (foundational) / Conditional (tenant-aware) | Not Authorized | Non-tenant Configuration Studio baseline is frozen; Tenant Override and tenant-aware runtime behavior remain conditional under AR-002 (Tenant vs Company unresolved). Not monolithic; see Section 16 |
 | Plugin Architecture | Integration and Plugins | Stable Roadmap Scope (Ports); adapters optional | Frozen Conceptual Baseline | AR-002 (tenant-scoped config only) | Define Workstream (Ports) / Reference as Dependency (adapters) | Conceptually Ready (Ports) | Not Authorized | No plugin category is a blocker |
 | MachineIQ | Deferred Product Capabilities | Later-Phase Deferral | Later-Phase Unscoped | AR-004 (indirect); ADR-008 scope deferred | Defer | Deferred | Not Authorized | Platform ships completely without it |
 | Marketplace (public-buyer) | Deferred Product Capabilities | Later-Phase Deferral | Later-Phase Unscoped | ADR-009 scope deferred | Defer | Deferred | Not Authorized | Governed by ADR-009; business-sequenced |
@@ -320,7 +320,9 @@ Workstreams supported by the Frozen Conceptual Baseline may be described more fu
 - **Traceability:** `Plugin_Architecture.md`; Matrix §12.
 - **Implementation authorization:** Not Authorized.
 
-### 13.5 Reporting and Analytics (basic) — cross-cutting, see Section 16
+### 13.5 Reporting and Analytics — Cross-Cutting Supporting Capabilities
+
+Reporting and Analytics are **Supporting Capabilities included as cross-cutting concerns**, not an independent stable module workstream and not a new module or bounded context. Their scope-matrix classification (Section 12) is unchanged. See Section 16 for the Configuration Studio ownership relationship.
 
 - **Purpose:** Provide reporting and basic analytics as consumers of transactional data and Configuration Studio Published definitions.
 - **AR exposure:** None. **Current readiness:** Conceptually Ready (basic). Advanced/predictive analytics deferred (Section 18).
@@ -455,10 +457,10 @@ No implementation tasks are provided.
 
 | Category | Roadmap treatment | Fallback / note |
 |---|---|---|
-| Email | Port definable; adapter optional | Native Frappe SMTP in Phase 1 |
+| Email | Port definable; adapter optional | Native Frappe or ERPNext SMTP may serve as the initial governed fallback until a provider-specific adapter is required |
 | Payment Providers | Port definable; adapter optional | Manual Payment Entry first |
 | Shipping | Port definable; adapter optional | Additive |
-| Storage | Port definable; adapter optional | Native File sufficient at Phase 1 scale |
+| Storage | Port definable; adapter optional | Native File capability may be sufficient at the initial governed operating scale until an external storage requirement is established |
 | Identity | Port definable; adapter optional | Additive; risk of speculative build |
 | Industrial integrations | Port definable; adapter optional | Additive (MachineIQ-adjacent) |
 | Analytics / BI | Port definable; adapter optional | Additive |
