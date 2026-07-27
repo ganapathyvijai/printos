@@ -1,7 +1,7 @@
 # ERPNext Gap Analysis
 
 Version:
-0.1
+0.2
 
 Status:
 Draft
@@ -22,7 +22,7 @@ Last Updated:
 
 **Relationship to the ERPNext Fit Analysis.** This document treats the Fit Analysis as its baseline and does not re-derive or contradict any classification made there. Where the Fit Analysis already resolved a capability to Native or straightforward Extend, it is not repeated here. Where the Fit Analysis identified a capability as Customize, Plugin, or Future — or as Extend with a substantive gap beneath the extension — this document expands that single-line classification into a full gap record.
 
-**Relationship to the Architecture Review Register.** Several gaps below intersect with unresolved items in [Architecture_Review_Register.md](../decisions/Architecture_Review_Register.md) (AR-001 through AR-011). Per that register's governing rule, this document does not resolve, recommend an option for, or revisit any AR item — it references the applicable AR ID and continues the gap analysis around it. Any gap whose scope is directly gated by an open AR item is annotated accordingly in its Dependencies field.
+**Relationship to the Architecture Review Register.** Several gaps below intersect with items in [Architecture_Review_Register.md](../decisions/Architecture_Review_Register.md) (AR-001 through AR-011). Per that register's governing rule, this document does not resolve, recommend an option for, or revisit any AR item — it references the applicable AR ID and continues the gap analysis around it. Any gap whose scope is directly gated by an open AR item is annotated accordingly in its Dependencies field. **AR-001 is Resolved** (Project Owner selection of Option A, reaffirming Accepted ADR-001): ERPNext v16 with the corresponding Frappe v16 major is the governed platform target. Version-sensitive gap claims in this document remain conditional pending technical revalidation against that governed target — this factual synchronization does not itself revalidate any gap. AR-002 through AR-011 retain their live Register status and continue to govern ownership-dependent or scope-dependent gaps unchanged.
 
 ---
 
@@ -955,6 +955,7 @@ Finishing Process Tracking, Customer Production Visibility, Industry Template Li
 | Version | Date | Author | Changes |
 |---|---|---|---|
 | 0.1 | 2026-07-24 | Initial | Initial ERPNext Gap Analysis. Identified 28 capability gaps (1 Extend, 13 Customize, 7 Plugin, 7 Future) across Print Domain, Configuration Platform, Intelligence, and Operations, building strictly on `ERPNext_Fit_Analysis.md` and referencing (without resolving) `Architecture_Review_Register.md` items AR-002, AR-003, AR-004, AR-005, AR-008, AR-009, AR-010. |
+| 0.2 | 2026-07-28 | AR-001 Disposition Factual Synchronization | Synchronized active AR-001 wording in the Section 1 "Relationship to the Architecture Review Register" statement with the formal Project Owner disposition (Option A, recorded in `Architecture_Review_Register.md`), reaffirming Accepted ADR-001-ERPNext-Framework. Recorded ERPNext v16, with the corresponding Frappe v16 major version, as the governed platform target; noted version-sensitive gap claims remain conditional pending technical revalidation against that governed target; confirmed AR-002 through AR-011 retain their live Register status unchanged. Every gap identifier, category, severity, effort/sizing estimate, ownership statement, fit-to-gap transition, implementation recommendation, sequencing note, DocType conclusion, and AR-002/003/004/005/008/009/010 annotation is preserved unchanged — no gap classification or estimate was finalized, and no technical revalidation was performed or claimed by this synchronization. No implementation authorization was granted. Historical Revision History entry (0.1) preserved unchanged. |
 
 ---
 

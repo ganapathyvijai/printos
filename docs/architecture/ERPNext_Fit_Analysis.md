@@ -1,7 +1,7 @@
 # ERPNext Fit Analysis
 
 Version:
-0.2
+0.3
 
 Status:
 Draft
@@ -32,7 +32,7 @@ Per this task's instruction to flag rather than resolve documentation conflicts,
 
 | # | Conflict | Governing Reference | Disposition |
 |---|---|---|---|
-| 1 | This task specifies **ERPNext 15/Frappe 15**. Blueprint documentation ([../blueprint/07_Technology_Stack.md](../blueprint/07_Technology_Stack.md), currently Draft) specifies **ERPNext v16**, and [ADR-001-ERPNext-Framework](../decisions/ADR-001-ERPNext-Framework.md) accepts ERPNext v16 as the framework choice. | `07_Technology_Stack.md`, ADR-001 | Flagged. This document proceeds using ERPNext v16/Frappe capability as the basis for classification (per the aligned Draft Technology Stack Blueprint and the binding Accepted ADR-001 decision), while noting every capability claim should be re-verified against whichever version is actually targeted before implementation. This conflict must be resolved by the Project Owner (ADR amendment or new ADR), not by this document. |
+| 1 | This task specifies **ERPNext 15/Frappe 15**. Blueprint documentation ([../blueprint/07_Technology_Stack.md](../blueprint/07_Technology_Stack.md), currently Draft) specifies **ERPNext v16**, and [ADR-001-ERPNext-Framework](../decisions/ADR-001-ERPNext-Framework.md) accepts ERPNext v16 as the framework choice. | `07_Technology_Stack.md`, ADR-001 | Flagged (originally). This document proceeds using ERPNext v16/Frappe capability as the basis for classification (per the aligned Draft Technology Stack Blueprint and the binding Accepted ADR-001 decision), while noting every capability claim should be re-verified against whichever version is actually targeted before implementation. **Current disposition:** AR-001 has been formally Resolved through Project Owner selection of Option A, reaffirming Accepted ADR-001. ERPNext v16 with the corresponding Frappe v16 major is the governed target; prior ERPNext 15/Frappe 15 task references are obsolete and non-governing; simultaneous v15/v16 support is not in scope; minor and patch selection is centrally governed. The classifications in this analysis remain conditional until they are technically revalidated against that governed target — this factual synchronization does not itself revalidate any classification. |
 | 2 | This task states a **settled** multi-tenant strategy: one ERPNext site, one database, one backend instance per tenant, shared app code/Docker image/CI-CD, no shared database. [ADR-006-MultiTenant-Strategy](../decisions/ADR-006-MultiTenant-Strategy.md) is "Accepted (strategy); Implementation Deferred" and explicitly reserves the concrete model decision for `docs/blueprint/25_MultiTenant_Architecture.md` (not yet written). "Tenant" itself remains a **Pending ADR** term against "Company" ([../standards/Naming_Registry.md](../standards/Naming_Registry.md) Section 27, item 11). | ADR-006, `Naming_Registry.md` §27 item 11 | Flagged. This document adopts the one-site-per-tenant model **as a working assumption for this analysis only**, consistent with it being one of the candidate models already recorded in [04_MultiTenant_Architecture.md](04_MultiTenant_Architecture.md) (working draft). It is not treated as ratified architecture until `25_MultiTenant_Architecture.md` and the Tenant/Company ADR are formally accepted. |
 | 3 | This task's **PRINT DOMAIN** module list includes several names not present in the Approved Blueprint Module Registry ([../blueprint/09_PrintOS_Modules.md](../blueprint/09_PrintOS_Modules.md), [../standards/Naming_Registry.md](../standards/Naming_Registry.md) Section 11): "Print Specification," "Approval Management," "Production Workflow," "Machine Management," "Finishing," and "Quality Control." | `09_PrintOS_Modules.md`, `Naming_Registry.md` §11, §27 items 9 | Flagged per-item in Section 4 below. Each is analyzed under its closest Approved module or explicitly marked Proposed/Pending ADR — none is treated as an Approved module name in this document. |
 | 4 | "Production Orchestration" (used in this task's Customize examples) is not a registered term in `Naming_Registry.md`. | `Naming_Registry.md` Section 38 (Mandatory Registration) | Flagged. Not used as a capability name below; the underlying capability is analyzed under "Production Planning" and "Job Cards" (Approved module names) instead. |
@@ -56,7 +56,7 @@ No ERPNext core modification is recommended anywhere in this analysis, consisten
 
 # 2. ERPNext 15/Frappe 15 Capability Overview
 
-**Version note:** see Conflict #1 above. The capability overview below reflects ERPNext/Frappe's generally stable module set across v15/v16; where a specific DocType or feature is version-sensitive, this is called out.
+**Version note:** see Conflict #1 above. AR-001 is Resolved: ERPNext v16 with the corresponding Frappe v16 major is the governed target, reaffirming Accepted ADR-001. The capability overview below was originally framed against ERPNext/Frappe's generally stable module set across v15/v16; where a specific DocType or feature is version-sensitive, this is called out. This factual synchronization does not itself revalidate any row against the governed v16 target — that technical revalidation remains outstanding.
 
 | ERPNext Module | Native Capability | Maturity | Relevant PrintHub Domain |
 |---|---|---|---|
@@ -569,7 +569,7 @@ All capabilities below sit **outside** `printos_core`'s Domain/Application layer
 5. **Treat MachineIQ, Marketplace, AI Assistant, and all external integrations uniformly as Plugin-boundary capabilities**, consumed via the Ports & Adapters pattern already established in [10_Integration_Architecture.md](10_Integration_Architecture.md) — no special-casing per capability.
 6. **Resolve "AI Assistant" as a Naming Registry gap before further planning references it** — it appears in project instructions but is registered nowhere in Blueprint or Naming Registry.
 7. **Do not finalize the multi-tenant (one-site-per-tenant) strategy as binding architecture from this document.** It is used here only as a working assumption; formal ratification requires `docs/blueprint/25_MultiTenant_Architecture.md` and resolution of the Tenant/Company Pending ADR.
-8. **Route the ERPNext version conflict (v15/Frappe 15 vs. Published v16) to the Project Owner** before any environment is provisioned against a specific version.
+8. **(Resolved)** The ERPNext version conflict (v15/Frappe 15 vs. the Draft-Blueprint/Accepted-ADR v16) was routed to the Project Owner and is now formally Resolved via AR-001, Option A: ERPNext v16 with the corresponding Frappe v16 major is the governed target, reaffirming Accepted ADR-001. Capability-level technical revalidation against that governed target remains outstanding before any environment is provisioned or any implementation specification is treated as final.
 
 ---
 
@@ -592,7 +592,7 @@ This document does not modify, supersede, or re-decide any existing ADR, Bluepri
 - Should Machine be built on ERPNext Asset, Workstation, or as a wholly Custom DocType? (Escalated to Architecture Review.)
 - Should Quotation/Estimation extend the native Quotation DocType or introduce a Custom pricing-engine-fed document? (Escalated to Architecture Review.)
 - Is BOM genuinely needed for Estimation's material/finishing breakdown, or is Product Template + Job Types + Finishing Types sufficient without it?
-- Which ERPNext/Frappe version (15 or 16) is actually the implementation target, and who resolves the conflict between this task's instructions and the Draft Technology Stack Blueprint/ADR-001?
+- Which ERPNext/Frappe version (15 or 16) is actually the implementation target, and who resolves the conflict between this task's instructions and the Draft Technology Stack Blueprint/ADR-001? **(Resolved: AR-001, Option A — ERPNext v16 with the corresponding Frappe v16 major is the governed target, reaffirming Accepted ADR-001; capability-level technical revalidation remains outstanding.)**
 
 ---
 
@@ -619,6 +619,7 @@ This document does not modify, supersede, or re-decide any existing ADR, Bluepri
 |---|---|---|---|
 | 0.1 | 2026-07-24 | Initial | Initial ERPNext Fit Analysis. Classified Core ERP, Print Domain, Configuration Studio, and Plugin-boundary capabilities as Native/Extend/Customize/Plugin/Future. Flagged four documentation conflicts (ERPNext version, multi-tenant strategy ratification status, non-Approved module names, unregistered "Production Orchestration"/"AI Assistant" terms) without resolving them. |
 | 0.2 | 2026-07-27 | Source-Authority Correction | Corrected Conflict #1's source-authority description and the matching Open Questions reference, both of which inaccurately characterized `07_Technology_Stack.md` as "Published Blueprint documentation" when its live Status is Draft. Replaced with wording accurately describing the aligned Draft Technology Stack Blueprint and the binding, Accepted ADR-001-ERPNext-Framework decision as this document's basis for proceeding with v16. v16 remains a Working Assumption/conditional analysis basis, not a resolved decision; AR-001 remains unresolved. No capability classification, hooks/events/DocType finding, or compatibility conclusion was revalidated or changed by this correction. |
+| 0.3 | 2026-07-28 | AR-001 Disposition Factual Synchronization | Synchronized active AR-001 wording with the formal Project Owner disposition (Option A, recorded in `Architecture_Review_Register.md`), reaffirming Accepted ADR-001-ERPNext-Framework. Recorded ERPNext v16, with the corresponding Frappe v16 major version, as the governed target; prior ERPNext 15/Frappe 15 task references noted as obsolete and non-governing; simultaneous v15/v16 support noted as out of scope; minor/patch selection noted as centrally governed. Updated Conflict #1's disposition, the Section 2 Version note, Recommendation #8, and the matching Open Questions entry to state the current disposition while preserving the original historical framing of each. Every capability classification (Native/Extend/Customize/Build/Replace), DocType reference, Job Card finding, Machine/Workstation finding, Quotation finding, Material/Item finding, BOM finding, ownership conclusion, and AR-004/005/006/010/011 exposure is preserved unchanged — no technical revalidation against the governed v16 target was performed or claimed by this synchronization. No implementation authorization was granted. Historical Revision History entries (0.1, 0.2) preserved unchanged. |
 
 ---
 
