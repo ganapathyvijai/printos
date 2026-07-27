@@ -3,7 +3,7 @@
 ## 1. Document Control
 
 Version:
-1.0
+1.1
 
 Status:
 Approval
@@ -72,6 +72,8 @@ PrintHub has adopted a **Layered Architecture Freeze** and is **not** subject to
 |  Material/Prod.Tmpl AR-006 |  +------------------------------+
 +----------------------------+
 ```
+
+Note: AR-001 is now **Resolved** (see Section 10.1); the ERPNext integration layer remains Excluded pending capability-level technical revalidation against the governed v16/Frappe v16 target, not pending version selection.
 
 ---
 
@@ -155,9 +157,9 @@ The Security entry is deliberately split: **stable security principles are Froze
 
 | Document | Version | Stable content that may be relied upon | Excluded content | AR responsible |
 |---|---|---|---|---|
-| [../architecture/ERPNext_Fit_Analysis.md](../architecture/ERPNext_Fit_Analysis.md) | 0.1 | The Native/Extend/Customize/Plugin/Future *classification method* and the reuse-vs-build reasoning | All version-specific capability claims (rest on the v16 Working Assumption) | AR-001 |
+| [../architecture/ERPNext_Fit_Analysis.md](../architecture/ERPNext_Fit_Analysis.md) | 0.1 | The Native/Extend/Customize/Plugin/Future *classification method* and the reuse-vs-build reasoning | All version-specific capability claims (rest on ERPNext v16, the AR-001-governed target; still pending capability-level technical revalidation) | AR-001 (Resolved; technical revalidation pending) |
 | [../database/ERPNext_DocType_Mapping.md](../database/ERPNext_DocType_Mapping.md) | 0.2 | The ~40 rows with definite owners (Native/Extended/Custom/Plugin) and the single-Job-Card mapping | The 13 `Pending Architecture Review` rows; the 5 "No Implementation Owner Assigned" Marketplace-plugin rows | AR-004/005/006 (Pending rows); Section 14 (Marketplace cluster) |
-| [Module_Dependency_Matrix.md](Module_Dependency_Matrix.md) | 0.3 | Dependency classification model; foundation layer; non-AR-gated module relationships; Job Card Tier A/B analysis | AR-gated module sequencing conclusions; the v16 Working Assumption underlying ERPNext-facing rows | AR-001/002/004/005/006 |
+| [Module_Dependency_Matrix.md](Module_Dependency_Matrix.md) | 0.4 | Dependency classification model; foundation layer; non-AR-gated module relationships; Job Card Tier A/B analysis | AR-gated module sequencing conclusions; capability-level revalidation underlying ERPNext-facing rows against the AR-001-governed v16 target | AR-001 (Resolved; technical revalidation pending)/002/004/005/006 |
 | [../architecture/ERPNext_Gap_Analysis.md](../architecture/ERPNext_Gap_Analysis.md) | 0.1 | The 28 gap records and their classifications | Gap sizing that depends on AR-gated ownership | AR-004/005/006 |
 | [../database/Business_Entity_Inventory.md](../database/Business_Entity_Inventory.md) | 0.1 | The 75-entity catalog and categories | Candidate/unregistered entities (Print Specification, AI cluster, Marketplace-plugin cluster) | AR-003; Section 14 |
 
@@ -169,7 +171,7 @@ Conditional References must **not** be cited as fully authoritative. Any downstr
 
 The following are explicitly **Excluded** from the Layered Freeze.
 
-**10.1 ERPNext integration architecture** — Excluded. AR-001 is Open, Critical, and development-blocking. ERPNext v16 is only a documented Working Assumption; **this document makes no ERPNext version decision.**
+**10.1 ERPNext integration architecture** — Excluded. AR-001 is **Resolved** (Project Owner selected Option A, reaffirming the Accepted ADR-001-ERPNext-Framework decision): **ERPNext v16, with the corresponding Frappe v16 major version, is the governed target**; simultaneous v15/v16 support is not in scope; minor and patch selection remains centrally governed. This layer remains Excluded from the Frozen baseline not because the major version is undecided, but because **capability-level Fit, Gap, DocType, hook, event, permission, deployment, and integration claims still require technical revalidation** against the governed target before this layer can be newly frozen. **This document makes no promotion of the ERPNext integration layer into the Frozen baseline.**
 
 **10.2 Multi-tenant architecture** — Excluded. AR-002 is Open. Tenant/Company ownership and the final deployment/tenant model are not frozen. The Configuration Studio tenant-runtime slice (Tenant Override) is outside the Frozen baseline.
 
@@ -205,7 +207,7 @@ The Register Status, Priority, and Blocks Development columns are reproduced **v
 
 | AR ID | Topic | Register Status | Priority | Blocks Development | Freeze Disposition | Affected Layer | Requirement Before Full Freeze | Requirement Before Development Roadmap | Requirement Before Implementation |
 |---|---|---|---|---|---|---|---|---|---|
-| AR-001 | ERPNext Platform Version (15/16 conflict) | Open | Critical | Yes | Freeze blocker for ERPNext integration layer | ERPNext integration (cross-cutting) | Formal disposition | Required before finalizing any ERPNext-facing section | Blocks ERPNext-facing implementation |
+| AR-001 | ERPNext Platform Version (15/16 conflict) | Resolved | Critical | No | Resolved — version-selection gate removed; ERPNext v16/Frappe v16 governed target (Option A, reaffirming ADR-001); layer remains Excluded pending technical revalidation | ERPNext integration (cross-cutting) | Technical revalidation of capability-level claims against the governed v16 target | Required before finalizing any ERPNext-facing section | Blocks ERPNext-facing implementation until revalidation, a Published specification, and separate scoped implementation authorization |
 | AR-002 | Multi-Tenant Strategy Alignment | Open | Critical | Yes | Freeze blocker for multi-tenant layer | Multi-tenant architecture; Config Studio tenant runtime | Formal disposition | Required before finalizing multi-tenant work | Blocks affected (tenant-scoped) work |
 | AR-003 | Naming Registry Alignment (non-Approved module names, unregistered terms) | Open | High | Partial | Module-level blocker (AI Assistant); documentation cleanup (naming) | AI Assistant; naming elsewhere | AI Assistant disposition; naming cleanup or deferral | Required before finalizing AI Assistant scope | Blocks AI Assistant; terminology only elsewhere |
 | AR-004 | Machine Domain Ownership | Open | High | Partial | Module-level blocker | Machine, Machine Profile, Machine Scheduling; Tier B Job Card | Formal disposition | Required before finalizing Machine/operational-Job-Card design | Blocks affected module |
@@ -307,8 +309,8 @@ Governance clarifications:
 - Plugin Port contracts;
 - later-phase deferrals (MachineIQ, Marketplace, AI Assistant, the Marketplace plugin-entity cluster).
 
-**18.2 Roadmap sections that cannot be finalized.** The following must **not** be finalized in a Development Roadmap until the named AR is dispositioned:
-- ERPNext-facing implementation commitments — AR-001;
+**18.2 Roadmap sections that cannot be finalized.** The following must **not** be finalized in a Development Roadmap until the named condition is satisfied:
+- ERPNext-facing implementation commitments — AR-001 is Resolved (v16/Frappe v16 governed target), but finalization still awaits capability-level technical revalidation, a Published specification, and separate scoped implementation authorization;
 - multi-tenant work — AR-002;
 - Machine Scheduling / operational (Tier B) Job Card ownership design — AR-004;
 - Estimation / Quotation implementation design — AR-005;
@@ -322,7 +324,7 @@ Roadmap drafting is **not** implementation authorization.
 ## 19. Implementation Authorization Boundary
 
 This Architecture Freeze document **does not authorize implementation.** Explicitly:
-- It does **not** authorize using ERPNext v16 as a settled target — v16 is only a Working Assumption.
+- Although AR-001 has resolved ERPNext v16 (with the corresponding Frappe v16 major) as the governed target, this document does **not** authorize implementation on that basis — capability-level claims remain pending technical revalidation, and a Published specification plus a separate scoped implementation-authorization decision are still required.
 - It does **not** authorize implementation against unresolved DocType ownership.
 - It does **not** resolve tenant architecture.
 - It does **not** resolve any Architecture Review item.
@@ -333,7 +335,7 @@ Implementation authorization requires a **separate decision** after the applicab
 
 ## 20. Risks and Constraints
 
-- **Freezing ERPNext-facing architecture against an unresolved version.** Mitigated by Excluding the integration layer (10.1) and treating v16 as a Working Assumption only.
+- **Freezing ERPNext-facing architecture ahead of capability-level technical revalidation.** Mitigated by Excluding the integration layer (10.1) even though AR-001 has resolved the governed major version (v16/Frappe v16); capability-level claims remain conditional pending revalidation, not merely a version assumption.
 - **Treating single-tenant assumptions as final multi-tenant architecture.** Mitigated by Excluding the multi-tenant layer (10.2).
 - **Prematurely fixing Machine, Quotation, or Material ownership.** Mitigated by Excluding those layers (10.3–10.6) and marking DocType rows Conditional (Section 9).
 - **Treating Conditional References as fully authoritative.** Mitigated by the partial-freeze rule (Section 11) and the stable/excluded split (Section 9).
@@ -349,7 +351,7 @@ Implementation authorization requires a **separate decision** after the applicab
 ## 21. Full Architecture Freeze Exit Criteria
 
 A later Full Architecture Freeze requires, at minimum:
-- AR-001 formally dispositioned.
+- AR-001 formally dispositioned — **satisfied** (Resolved, Option A, reaffirming ADR-001); capability-level technical revalidation against the governed v16 target remains outstanding and is separately required before the ERPNext integration layer itself can be newly frozen.
 - AR-002 formally dispositioned.
 - AR-004 formally dispositioned.
 - AR-005 formally dispositioned.
@@ -394,3 +396,4 @@ Medium/Low terminology items (AR-007, AR-008, AR-009, AR-011, and the Naming Reg
 | 0.1 | 2026-07-26 | Architecture Freeze (proposed) | Initial proposed Layered Architecture Freeze. Declares a layered (not full) freeze; records the Frozen conceptual baseline (Group A), Conditional References (Group B), and documents remaining Draft; Excludes the ERPNext-integration, multi-tenant, Machine, Quotation, and Material/Product-Template layers pending AR-001/002/004/005/006; reproduces AR-001–AR-011 register fields verbatim without resolving any; surfaces the Naming Registry and Blueprint governance backlogs; records the uncovered Marketplace plugin-entity cluster as later-phase deferred requiring formal disposition; clarifies Job Card Tier A/B as one aggregate and one DocType; records the Documentation_Status/index Published inconsistency without modifying any file; defines Development Roadmap readiness, the implementation-authorization boundary, and Full-Freeze exit criteria. No AR resolved, no ADR created, no status metadata changed, no roadmap or schedule created. |
 | 0.1 | 2026-07-26 | Pre-approval correction | Targeted factual-consistency correction (no scope or disposition change). Removed self-referential wording that named and denied a non-existent Architecture Review identifier, from both the coverage text and the validation checklist. Corrected the `09_PrintOS_Modules.md` baseline entry to its authoritative source header version (1.0), and recorded that the source document's header-versus-Revision-History discrepancy must be reconciled in the later controlled promotion and status-alignment task. Refined the `08_Master_Data_Model.md` exclusion note to state it does not define ERPNext DocType ownership and that entity ownership is deferred to AR-006 and, where Machine/Machine Profile are involved, AR-004. No source document modified; no other file modified; document remains Draft, Version 0.1; the Layered Freeze remains a proposal and is not made effective; no Architecture Review item resolved or reclassified. |
 | 1.0 | 2026-07-26 | Project Owner Approval | Formal Project Owner approval recorded. Document Control transitioned from Status: Draft to Status: Approval and Version: 0.1 to Version: 1.0, marking the first formally approved and effective governance baseline. The Layered Architecture Freeze (not a Full Architecture Freeze) is now effective within the scope and exclusions this document defines: the Frozen Baseline (Section 8), Conditional References (Section 9), and Excluded Layers (Section 10) are unchanged in membership and remain as previously defined. This approval does not authorize implementation, does not settle ERPNext v16 as a decided version, does not resolve any AR-001–AR-011 item, does not resolve unresolved DocType ownership or a tenant strategy, does not create a Development Roadmap, and does not promote any baseline source document to Published. Updated the title and the Section 1 "Note on effect," Section 4, Section 6, and Section 8 preamble to state the freeze is effective rather than proposed; marked the Section 22 "Reviewed by Project Owner" checklist item complete. No other checklist item, table, AR entry, exclusion, or source-document reference was altered. |
+| 1.1 | 2026-07-27 | AR-001 Disposition Factual Synchronization | Synchronized this document with the formal Project Owner disposition of AR-001 (Option A, recorded in `Architecture_Review_Register.md`), reaffirming the Accepted ADR-001-ERPNext-Framework decision. Recorded ERPNext v16, with the corresponding Frappe v16 major version, as the governed target; simultaneous v15/v16 support noted as out of scope; minor/patch selection noted as centrally governed. Updated the Section 4 diagram (added an explanatory note, diagram box itself unchanged), Section 8 Conditional References table (Fit Analysis and Module Dependency Matrix rows, including the Matrix's cited Version 0.3 → 0.4), Section 10.1 Excluded-layer statement, Section 12 official AR-001 table row (Register Status Open → Resolved, Blocks Development Yes → No, Priority preserved at Critical), Section 18.2 roadmap-finalization list, Section 19 implementation-authorization boundary, Section 20 risk-mitigation bullet, and Section 21 Full-Freeze exit criteria (AR-001 item marked satisfied) to replace stale "Open / Critical / development-blocking / Working Assumption" wording with governed-target and pending-technical-revalidation wording. The ERPNext integration layer's Excluded status (Section 10) is explicitly **preserved and not promoted** to the Frozen baseline: it remains Excluded because capability-level Fit, Gap, DocType, hook, event, permission, deployment, and integration claims still require technical revalidation against the governed v16 target, not because the major version is undecided. The Frozen Baseline (Section 8's Group A membership), Conditional References membership, and all other Excluded Layers (10.2–10.7) are unchanged. The Section 6 "Decision explicitly not made" scope statement, the Section 22 Validation Checklist, and all prior Revision History entries are preserved unchanged as historical record. No AR item was resolved or reprioritized by this document (AR-001 was resolved separately, by the Project Owner, in the Architecture Review Register); AR-002 through AR-011 are unaffected. No technical Fit, Gap, or DocType revalidation was performed or claimed. No document was published. No implementation was authorized. |
