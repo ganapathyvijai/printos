@@ -1,7 +1,7 @@
 # Architecture Review Register
 
 Version:
-0.1
+0.2
 
 Status:
 Draft — Open Register (living document)
@@ -54,10 +54,10 @@ This register exists to track every unresolved architectural or naming question 
 ERPNext Platform Version
 
 #### Background
-The Fit Analysis was commissioned against "ERPNext 15/Frappe 15." Published Blueprint documentation ([../blueprint/07_Technology_Stack.md](../blueprint/07_Technology_Stack.md)) specifies ERPNext v16, and [ADR-001-ERPNext-Framework](ADR-001-ERPNext-Framework.md) formally accepts ERPNext v16 as the framework. This was recorded as Conflict #1 in [ERPNext_Fit_Analysis.md](../architecture/ERPNext_Fit_Analysis.md) and was not resolved there.
+The Fit Analysis was commissioned against "ERPNext 15/Frappe 15." Blueprint documentation (`07_Technology_Stack.md`, currently Draft) specifies ERPNext v16, consistent with the binding Accepted decision in [ADR-001-ERPNext-Framework](ADR-001-ERPNext-Framework.md), which formally accepts ERPNext v16 as the framework. This was recorded as Conflict #1 in [ERPNext_Fit_Analysis.md](../architecture/ERPNext_Fit_Analysis.md) and was not resolved there.
 
 #### Current Situation
-Two different, contradicting version targets exist in active project documentation: ERPNext v16 (Published Blueprint, Accepted ADR) and ERPNext 15/Frappe 15 (this and other recent task instructions). No document has reconciled them.
+Two different, contradicting version targets exist in active project documentation: ERPNext v16 (Draft Blueprint content aligned with the Accepted ADR) and ERPNext 15/Frappe 15 (this and other recent task instructions). No document has reconciled them.
 
 #### Why Review Is Required
 DocType availability, field behavior, API surface, and upgrade path all differ materially between ERPNext 15 and 16. Every capability classification in the Fit Analysis (Native/Extend/Customize) is version-sensitive; proceeding to Gap Analysis or DocType mapping against the wrong version risks discovering, mid-implementation, that a "Native" capability behaves differently or doesn't exist as assumed.
@@ -84,7 +84,7 @@ Critical
 - [ADR-001-ERPNext-Framework](ADR-001-ERPNext-Framework.md)
 - [../blueprint/07_Technology_Stack.md](../blueprint/07_Technology_Stack.md)
 - [ERPNext_Fit_Analysis.md](../architecture/ERPNext_Fit_Analysis.md) (Conflict #1)
-- Future ERPNext Gap Analysis (version-dependent)
+- Existing ERPNext Gap Analysis (Draft; remains conditional and version-dependent)
 
 ---
 
@@ -547,3 +547,4 @@ This register can be considered complete (ready to support Architecture Freeze) 
 | Version | Date | Author | Changes |
 |---|---|---|---|
 | 0.1 | 2026-07-24 | Initial | Initial Architecture Review Register. Extracted 11 unresolved review items (AR-001 through AR-011) from `ERPNext_Fit_Analysis.md`'s flagged conflicts and open questions. No architecture, ADR, or Blueprint content resolved or modified. |
+| 0.2 | 2026-07-27 | AR-001 Source-Authority Correction | Corrected AR-001's Background and Current Situation wording, which inaccurately described `07_Technology_Stack.md` as "Published Blueprint documentation" when its live Status is Draft and the repository-wide Published document count is zero. Replaced with wording accurately stating the Blueprint content is Draft and aligned with the binding, Accepted decision in ADR-001-ERPNext-Framework. Also updated AR-001's Dependencies entry for the ERPNext Gap Analysis from "Future... (version-dependent)" to reflect that the Draft Gap Analysis already exists and remains conditional and version-dependent. All official AR-001 fields (ID, Topic, Status: Open, Priority: Critical, Blocks Development: Yes, Options A/B/C, Required Decision, Blocking Status) preserved byte-for-byte. No other AR entry changed. AR-001 remains Open; no version selected; no implementation authorized; ADR-001 not modified. |
