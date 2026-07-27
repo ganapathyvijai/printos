@@ -4,7 +4,7 @@ Title:
 PrintHub Development Roadmap
 
 Version:
-1.0
+1.1
 
 Status:
 Approval
@@ -21,7 +21,7 @@ Last Updated:
 
 This document is the initial governed **PrintHub Development Roadmap**. Its role is to be the **governed bridge between frozen architecture and future execution planning** — nothing more and nothing less.
 
-It translates the effective Layered Architecture Freeze ([../implementation/Architecture_Freeze.md](../implementation/Architecture_Freeze.md), Approval 1.0) and the current Module Dependency Matrix ([../implementation/Module_Dependency_Matrix.md](../implementation/Module_Dependency_Matrix.md), Draft 0.3) into:
+It translates the effective Layered Architecture Freeze ([../implementation/Architecture_Freeze.md](../implementation/Architecture_Freeze.md), Approval 1.1) and the current Module Dependency Matrix ([../implementation/Module_Dependency_Matrix.md](../implementation/Module_Dependency_Matrix.md), Draft 0.4) into:
 
 - **implementation workstreams** (capability groupings, taxonomy only);
 - **dependency gates** (what must exist before a workstream can be built);
@@ -38,8 +38,8 @@ This document is **not** an Implementation Plan, a Sprint Plan, a Release Checkl
 
 This roadmap is governed by, and subordinate to, the following authorities:
 
-- **[../implementation/Architecture_Freeze.md](../implementation/Architecture_Freeze.md) — Approval, Version 1.0.** The effective Layered Architecture Freeze. It defines the Frozen conceptual baseline, the Conditional References, and the Excluded Layers. This roadmap operates strictly within the drafting latitude the Freeze grants (Freeze §18) and respects every exclusion it names (Freeze §10).
-- **[../implementation/Module_Dependency_Matrix.md](../implementation/Module_Dependency_Matrix.md) — Draft, Version 0.3.** The current **conditional** dependency reference. It is the authoritative source for this roadmap's dependency-relationship interpretation. It is Draft; its AR-gated conclusions remain conditional.
+- **[../implementation/Architecture_Freeze.md](../implementation/Architecture_Freeze.md) — Approval, Version 1.1.** The effective Layered Architecture Freeze. It defines the Frozen conceptual baseline, the Conditional References, and the Excluded Layers. This roadmap operates strictly within the drafting latitude the Freeze grants (Freeze §18) and respects every exclusion it names (Freeze §10).
+- **[../implementation/Module_Dependency_Matrix.md](../implementation/Module_Dependency_Matrix.md) — Draft, Version 0.4.** The current **conditional** dependency reference. It is the authoritative source for this roadmap's dependency-relationship interpretation. It is Draft; its AR-gated conclusions remain conditional.
 - **Accepted ADRs** ([../decisions/](../decisions/)), in particular ADR-002 (PrintOS-Core), ADR-008 (MachineIQ), ADR-009 (Marketplace), ADR-014 (Production Terminology).
 - **[../decisions/Architecture_Review_Register.md](../decisions/Architecture_Review_Register.md).** The single source of truth for AR-001 through AR-011. Reproduced verbatim in Section 10; never reinterpreted here.
 - **[../Documentation_Workflow.md](../Documentation_Workflow.md).** The lifecycle and review governance this roadmap follows.
@@ -139,7 +139,7 @@ It also preserves the three blocking distinctions plus optional dependency (Matr
 
 The following exact classifications apply to every module/capability in the Scope Matrix (Section 12):
 
-- **Stable Roadmap Scope** — supported by the Frozen Conceptual Baseline; may be structurally defined now, subject only to cross-cutting assumptions (e.g., AR-001).
+- **Stable Roadmap Scope** — supported by the Frozen Conceptual Baseline; may be structurally defined now, subject only to cross-cutting AR gates (e.g., AR-001 — resolved; technical revalidation pending).
 - **Conditional Roadmap Scope** — may be drafted structurally, but AR-gated content cannot be finalized until the responsible AR is dispositioned.
 - **Later-Phase Deferral** — deliberately deferred **beyond the current governed roadmap scope**. This term does **not** refer to Product Roadmap Phase 1–5 or technical Phase 0–6 numbering.
 - **Excluded Pending Governance** — outside current governed scope pending a formal governance disposition; must not appear as implementation-ready.
@@ -197,7 +197,7 @@ The first five columns (**AR ID, Topic, Status, Priority, Blocks Development**) 
 
 | AR ID | Topic | Status | Priority | Blocks Development | Affected Workstreams | Structural Drafting | Detail Finalization | Sequencing Finalization | Implementation Readiness | Permitted Assumption | Unresolved Decision |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| AR-001 | ERPNext Platform Version (15/16 conflict) | Open | Critical | Yes | All ERPNext-facing workstreams (cross-cutting) | Permitted | Not permitted (no version-specific commitment) | Not permitted | Not declarable | "Working Assumption: ERPNext v16 per ADR-001; not a decision" | Which ERPNext/Frappe version is the target |
+| AR-001 | ERPNext Platform Version (15/16 conflict) | Resolved | Critical | No | All ERPNext-facing workstreams (cross-cutting) | Permitted | Not permitted (technical revalidation pending) | Not permitted | Not declarable | "Resolved — Option A selected. ERPNext v16 with the corresponding Frappe v16 major is the governed target, reaffirming Accepted ADR-001. Technical revalidation remains required; implementation remains unauthorized." | No remaining major-version decision. Fit, Gap, DocType, deployment, Docker, CI, hook, event, permission, and integration claims require technical revalidation against the governed target. |
 | AR-002 | Multi-Tenant Strategy Alignment | Open | Critical | Yes | Tenant-Scoped Platform; tenant-scoped plugin config | Permitted | Not permitted (tenant runtime) | Not permitted | Not declarable | "Single-installation default only; tenant model unresolved" | Tenant model; Tenant vs Company definition |
 | AR-003 | Naming Registry Alignment (non-Approved module names, unregistered terms) | Open | High | Partial | AI Assistant (module-level); naming elsewhere | Permitted except AI Assistant | Not permitted for AI Assistant | Not permitted for AI Assistant | Not declarable for AI Assistant | "Unregistered term; placeholder label only" | AI Assistant existence; term dispositions |
 | AR-004 | Machine Domain Ownership | Open | High | Partial | Machine Scheduling (direct); Job Cards Tier B (convergent) | Permitted | Not permitted (Machine ownership) | Not permitted | Not declarable | "Machine base undetermined (Asset/Workstation/Custom/Hybrid)" | Which ERPNext object, if any, Machine is built upon |
@@ -239,21 +239,21 @@ Every row carries **Implementation Authorization: Not Authorized**. Roadmap trea
 
 | Module / Capability | Workstream Family | Scope Classification | Architecture Readiness | AR Exposure | Roadmap Treatment | Current Readiness | Implementation Authorization | Notes |
 |---|---|---|---|---|---|---|---|---|
-| Administration | ERPNext Foundation | Stable Roadmap Scope | Frozen Conceptual Baseline | AR-001 (cross-cutting) | Define Workstream | Conceptually Ready | Not Authorized | Root of dependency graph; no module-specific AR |
-| HR | ERPNext Foundation | Stable Roadmap Scope | Frozen Conceptual Baseline | AR-001 (cross-cutting) | Define Workstream | Conceptually Ready | Not Authorized | Administration-dependent |
-| Warehouse | ERPNext Foundation | Stable Roadmap Scope | Frozen Conceptual Baseline | AR-001 (cross-cutting) | Define Workstream | Conceptually Ready | Not Authorized | Foundation-tier; Administration-dependent |
-| CRM | Core Business Operations | Conditional Roadmap Scope | Conditional Architecture | AR-011 (Enquiry only), AR-001 | Define Conditional Workstream | Conditional | Not Authorized | Customer stable; Enquiry behavior open |
-| Estimation | Estimation | Conditional Roadmap Scope | Architecture Review Blocked | AR-005, AR-006, AR-010, AR-001 | Define Conditional Workstream | Architecture Review Blocked | Not Authorized | "Key differentiator"; directly blocked on core entities |
-| Sales | Core Business Operations | Conditional Roadmap Scope | Conditional Architecture | AR-005 (transitive), AR-001 | Define Conditional Workstream | Conditional | Not Authorized | Reorder path independent of Estimation standard path |
-| Artwork | Core Business Operations | Conditional Roadmap Scope | Conditional Architecture | AR-003 (non-blocking), AR-001 | Define Conditional Workstream | Conditional | Not Authorized | Transitively delayed via Sales standard path only |
-| Inventory | Core Business Operations | Conditional Roadmap Scope | Architecture Review Blocked | AR-006 (direct), AR-001 | Define Conditional Workstream | Architecture Review Blocked | Not Authorized | AR-006 widest blast radius |
-| Purchasing / Procurement | Core Business Operations | Conditional Roadmap Scope | Conditional Architecture | AR-006 (transitive), AR-007 (naming), AR-001 | Define Conditional Workstream | Conditional | Not Authorized | Core PO/Supplier stable; replenishment logic delayed; both names retained |
+| Administration | ERPNext Foundation | Stable Roadmap Scope | Frozen Conceptual Baseline | AR-001 resolved; v16 technical revalidation pending | Define Workstream | Conceptually Ready | Not Authorized | Root of dependency graph; no module-specific AR |
+| HR | ERPNext Foundation | Stable Roadmap Scope | Frozen Conceptual Baseline | AR-001 resolved; v16 technical revalidation pending | Define Workstream | Conceptually Ready | Not Authorized | Administration-dependent |
+| Warehouse | ERPNext Foundation | Stable Roadmap Scope | Frozen Conceptual Baseline | AR-001 resolved; v16 technical revalidation pending | Define Workstream | Conceptually Ready | Not Authorized | Foundation-tier; Administration-dependent |
+| CRM | Core Business Operations | Conditional Roadmap Scope | Conditional Architecture | AR-011 (Enquiry only); AR-001 resolved, v16 technical revalidation pending | Define Conditional Workstream | Conditional | Not Authorized | Customer stable; Enquiry behavior open |
+| Estimation | Estimation | Conditional Roadmap Scope | Architecture Review Blocked | AR-005, AR-006, AR-010; AR-001 resolved, v16 technical revalidation pending | Define Conditional Workstream | Architecture Review Blocked | Not Authorized | "Key differentiator"; directly blocked on core entities |
+| Sales | Core Business Operations | Conditional Roadmap Scope | Conditional Architecture | AR-005 (transitive); AR-001 resolved, v16 technical revalidation pending | Define Conditional Workstream | Conditional | Not Authorized | Reorder path independent of Estimation standard path |
+| Artwork | Core Business Operations | Conditional Roadmap Scope | Conditional Architecture | AR-003 (non-blocking); AR-001 resolved, v16 technical revalidation pending | Define Conditional Workstream | Conditional | Not Authorized | Transitively delayed via Sales standard path only |
+| Inventory | Core Business Operations | Conditional Roadmap Scope | Architecture Review Blocked | AR-006 (direct); AR-001 resolved, v16 technical revalidation pending | Define Conditional Workstream | Architecture Review Blocked | Not Authorized | AR-006 widest blast radius |
+| Purchasing / Procurement | Core Business Operations | Conditional Roadmap Scope | Conditional Architecture | AR-006 (transitive), AR-007 (naming); AR-001 resolved, v16 technical revalidation pending | Define Conditional Workstream | Conditional | Not Authorized | Core PO/Supplier stable; replenishment logic delayed; both names retained |
 | Production Planning | Production Operations | Conditional Roadmap Scope | Conditional Architecture | AR-004/005/006 (transitive/convergent via inputs) | Define Conditional Workstream | Conditional | Not Authorized | Distinct module (ADR-014); consumes, does not create Job Card |
 | Job Cards | Production Operations | Conditional Roadmap Scope (Tier A / Tier B gates) | Conditional Architecture | AR-004/006 (convergent, Tier B), AR-005 (transitive), AR-009 | Define Conditional Workstream | Conceptually Ready (Tier A) / Conditional (Tier B) | Not Authorized | One aggregate, one DocType; tiers are readiness gates |
 | Machine Scheduling | Production Operations | Conditional Roadmap Scope | Architecture Review Blocked | AR-004 (direct) | Define Conditional Workstream | Architecture Review Blocked | Not Authorized | Directly blocked on Machine / Machine Profile |
-| Dispatch / Delivery | Core Business Operations | Conditional Roadmap Scope | Conditional Architecture | AR-008 (naming), AR-001 | Define Conditional Workstream | Conditional | Not Authorized | Target determined (Delivery Note, Extended); transitively delayed via Job Cards |
-| Accounts | Core Business Operations | Conditional Roadmap Scope | Conditional Architecture | AR-001; transitive via Dispatch | Define Conditional Workstream | Conditional | Not Authorized | Advance-billing path enables early testability |
-| GST | Core Business Operations | Supporting Capability | Conditional Architecture | AR-001; Blueprint open question (fold into Accounts) | Include as Cross-Cutting Concern | Conditional | Not Authorized | Tightly coupled to Accounts; not an independent workstream |
+| Dispatch / Delivery | Core Business Operations | Conditional Roadmap Scope | Conditional Architecture | AR-008 (naming); AR-001 resolved, v16 technical revalidation pending | Define Conditional Workstream | Conditional | Not Authorized | Target determined (Delivery Note, Extended); transitively delayed via Job Cards |
+| Accounts | Core Business Operations | Conditional Roadmap Scope | Conditional Architecture | AR-001 resolved, v16 technical revalidation pending; transitive via Dispatch | Define Conditional Workstream | Conditional | Not Authorized | Advance-billing path enables early testability |
+| GST | Core Business Operations | Supporting Capability | Conditional Architecture | AR-001 resolved, v16 technical revalidation pending; Blueprint open question (fold into Accounts) | Include as Cross-Cutting Concern | Conditional | Not Authorized | Tightly coupled to Accounts; not an independent workstream |
 | Reporting | Reporting and Analytics | Supporting Capability | Frozen Conceptual Baseline | None | Include as Cross-Cutting Concern | Conceptually Ready | Not Authorized | Consumes Config Studio Published definitions; gates nothing |
 | Analytics | Reporting and Analytics | Supporting Capability (basic) / Later-Phase Deferral (advanced) | Frozen (basic) / Later-Phase Unscoped (advanced) | None | Include as Cross-Cutting Concern / Defer (advanced) | Conceptually Ready (basic) / Deferred (advanced) | Not Authorized | Basic in scope; advanced/predictive deferred to MachineIQ |
 | Configuration Studio | Configuration Studio | Supporting Capability (foundational + parallelizable subsets) | Conditional Architecture | AR-002 (Tenant Override only) | Define Workstream (foundational) / Reference as Dependency (designers) | Conceptually Ready (foundational) / Conditional (tenant-aware) | Not Authorized | Non-tenant Configuration Studio baseline is frozen; Tenant Override and tenant-aware runtime behavior remain conditional under AR-002 (Tenant vs Company unresolved). Not monolithic; see Section 16 |
@@ -275,7 +275,7 @@ Workstreams supported by the Frozen Conceptual Baseline may be described more fu
 - **Included capabilities:** Clean Architecture scaffold (`domain/`, `application/`, `infrastructure/`, `interface/`); `printos_core` app structure per ADR-002; Plugin Port contract definitions; the foundational Configuration Studio subset (Feature Flag, Automation Rule, Module Definition).
 - **Typed dependencies:** Implementation (Clean Architecture layering); Configuration (Feature Flag, Automation Rule, Module Definition are hard prerequisites for feature-gating/automation/module enable-disable).
 - **Architecture prerequisites:** Frozen technical/architecture layer (`architecture/02_Clean_Architecture.md`, `architecture/03_DDD_Architecture.md`, `architecture/05_Extensibility_Architecture.md`); `Plugin_Architecture.md`.
-- **AR exposure:** AR-001 (cross-cutting, ERPNext-facing elements only); AR-002 for tenant-scoped plugin configuration only.
+- **AR exposure:** AR-001 (cross-cutting, ERPNext-facing elements only) — Resolved; technical revalidation pending; AR-002 for tenant-scoped plugin configuration only.
 - **Current readiness:** Conceptually Ready.
 - **Deliverable categories:** architecture scaffold; Port contract catalog; foundational configuration capability definitions.
 - **Validation / exit-gate categories:** layering-conformance validation; Port-contract completeness; circular-dependency detection for Automation Rule and Module Definition graphs.
@@ -289,11 +289,11 @@ Workstreams supported by the Frozen Conceptual Baseline may be described more fu
 - **Included capabilities:** Administration (Company, Branch); HR (Employee, Department); Warehouse; native ERPNext reference/master data (UOM, Currency, Tax Template, Payment Terms, Supplier, Purchase Order structure).
 - **Typed dependencies:** Business/Implementation (HR and Warehouse depend on Administration); ERPNext (native objects).
 - **Architecture prerequisites:** Frozen bounded-context and module structure (`blueprint/06_Bounded_Contexts.md`, `blueprint/09_PrintOS_Modules.md`); `ERPNext_DocType_Mapping.md` definite-owner rows.
-- **AR exposure:** AR-001 cross-cutting only (ERPNext version-sensitive). No module-specific AR.
-- **Current readiness:** Conceptually Ready. **Working Assumption:** ERPNext v16 per ADR-001 — not a decision; final ERPNext-facing implementation awaits AR-001 (Matrix §5).
+- **AR exposure:** AR-001 cross-cutting only (ERPNext version-sensitive) — Resolved; technical revalidation pending. No module-specific AR.
+- **Current readiness:** Conceptually Ready. **Governed target:** ERPNext v16 per AR-001 (Resolved, Option A), reaffirming Accepted ADR-001; final ERPNext-facing implementation still awaits capability-level technical revalidation (Matrix §5).
 - **Deliverable categories:** foundation master-data setup definitions; Administration/HR/Warehouse structural scope.
-- **Validation / exit-gate categories:** foundation master-data validation; native-object conformance (subject to AR-001 re-verification).
-- **Deferred items:** none specific; ERPNext-version-sensitive finalization pending AR-001.
+- **Validation / exit-gate categories:** foundation master-data validation; native-object conformance (subject to technical revalidation against the governed v16 target).
+- **Deferred items:** none specific; ERPNext-facing finalization pending capability-level technical revalidation.
 - **Traceability:** `blueprint/09_PrintOS_Modules.md`; `ERPNext_DocType_Mapping.md`; `ERPNext_Fit_Analysis.md`; Matrix §5, §7.
 - **Implementation authorization:** Not Authorized.
 
@@ -341,8 +341,8 @@ Structural-only entries. AR-gated design gaps are **not** filled with recommenda
 - **Stable conceptual content:** Estimation → Sales direction (frozen); non-blocked reference data (Job Types, Finishing Types, Paper Sizes).
 - **Conditional content:** Quotation/Quotation Line and Product Template ownership; Estimation Engine internal cost-breakdown approach.
 - **Direct AR gates:** AR-005 (Quotation strategy), AR-006 (Material/Product Template).
-- **Transitive/convergent gates:** AR-010 (BOM necessity — Engine internals); AR-001 (cross-cutting).
-- **Permitted Working Assumptions:** ERPNext v16 (per ADR-001, not a decision); Estimation → Sales boundary as frozen.
+- **Transitive/convergent gates:** AR-010 (BOM necessity — Engine internals); AR-001 (cross-cutting) — Resolved; technical revalidation pending.
+- **Permitted Working Assumptions:** Estimation → Sales boundary as frozen. ERPNext v16 is no longer an assumption — it is the AR-001-governed target (reaffirming Accepted ADR-001); capability-level Estimation claims remain conditional pending technical revalidation.
 - **Prohibited finalization:** Quotation delivery strategy; Material/Product Template mapping; whether BOM is adopted.
 - **Traceability:** `blueprint/05_Domain_Model.md`; `blueprint/06_Bounded_Contexts.md`; AR-005/006/010; ADR-013; `ERPNext_DocType_Mapping.md` (Pending rows); Matrix §7.
 - **Implementation authorization:** Not Authorized.
@@ -352,7 +352,7 @@ Structural-only entries. AR-gated design gaps are **not** filled with recommenda
 - **Purpose:** Customer and enquiry-stage relationship management.
 - **Stable conceptual content:** Customer (Extended ERPNext) proceeds.
 - **Conditional content:** Enquiry behavior distinct from Opportunity.
-- **Direct AR gates:** AR-011 (Enquiry only). **Cross-cutting:** AR-001.
+- **Direct AR gates:** AR-011 (Enquiry only). **Cross-cutting:** AR-001 — Resolved; technical revalidation pending.
 - **Permitted Working Assumptions:** Customer as Extended ERPNext.
 - **Prohibited finalization:** Enquiry-specific modeling.
 - **Traceability:** `blueprint/05_Domain_Model.md`; AR-011; Matrix §7.
@@ -364,7 +364,7 @@ Structural-only entries. AR-gated design gaps are **not** filled with recommenda
 - **Stable conceptual content:** Sales Order (Extended); Sales reorder path; Artwork approval gate; Delivery Note (Extended) for Dispatch; native Accounts objects; advance-billing path.
 - **Conditional content:** standard-path completion transitively delayed via Estimation (AR-005) and the Job Cards convergence.
 - **Direct AR gates:** none of their own. **Transitive:** AR-005 (Sales/Artwork standard path); via Job Cards for Dispatch. **Naming:** AR-008 (Dispatch/Delivery, non-blocking).
-- **Permitted Working Assumptions:** ERPNext v16; native/extended objects as classified.
+- **Permitted Working Assumptions:** native/extended objects as classified (pending technical revalidation). ERPNext v16 is no longer an assumption — it is the AR-001-governed target (reaffirming Accepted ADR-001).
 - **Prohibited finalization:** anything dependent on the unresolved Quotation/Job Card convergence for the standard path.
 - **Traceability:** `blueprint/06_Bounded_Contexts.md`; `blueprint/10_Business_Workflows.md`; AR-005/008; Matrix §7, §9.
 - **Implementation authorization:** Not Authorized.
@@ -375,7 +375,7 @@ Structural-only entries. AR-gated design gaps are **not** filled with recommenda
 - **Stable conceptual content:** UOM; Media Profiles; core Purchase Order/Supplier plumbing (native).
 - **Conditional content:** Material/Substrate ownership (Inventory); replenishment-trigger logic (Purchasing).
 - **Direct AR gates:** AR-006 (Inventory, Material/Substrate). **Transitive:** AR-006 via Material (Purchasing). **Naming:** AR-007 (Purchasing/Procurement, non-blocking).
-- **Permitted Working Assumptions:** ERPNext v16; native PO/Supplier.
+- **Permitted Working Assumptions:** native PO/Supplier as classified (pending technical revalidation). ERPNext v16 is no longer an assumption — it is the AR-001-governed target (reaffirming Accepted ADR-001).
 - **Prohibited finalization:** Item vs Material/Product Template mapping; the canonical Purchasing/Procurement term.
 - **Traceability:** `blueprint/08_Master_Data_Model.md`; AR-006/007; `ERPNext_DocType_Mapping.md`; Matrix §7, §14.
 - **Implementation authorization:** Not Authorized.
@@ -580,7 +580,7 @@ This Draft does **not** define, decide, or authorize any of the following:
 
 - dates; durations; sprint counts; estimates; delivery owners; staffing; environments; release commitments;
 - implementation authorization;
-- final ERPNext version (AR-001);
+- capability-level ERPNext technical revalidation (AR-001 is Resolved — ERPNext v16/Frappe v16 governed target, reaffirming Accepted ADR-001 — but Fit, Gap, DocType, deployment, Docker, CI, hook, event, permission, and integration claims remain outside this synchronization and require separate revalidation);
 - final tenant strategy / Tenant vs Company (AR-002);
 - Machine ownership (AR-004);
 - Quotation strategy (AR-005);
@@ -595,7 +595,7 @@ This Draft does **not** define, decide, or authorize any of the following:
 
 Listed without resolution and without introducing any new identifier:
 
-- **AR-001 through AR-011** — all Open (Section 10; register verbatim).
+- **AR-002 through AR-011** — all Open (Section 10; register verbatim). **AR-001** — Resolved (Option A; ERPNext v16/Frappe v16 governed target, reaffirming Accepted ADR-001); capability-level technical revalidation remains outstanding and is outside this roadmap's scope.
 - **Phase-numbering conflict** in `implementation/01_Phase_1_Roadmap.md` — acknowledged, unresolved.
 - **Dependency-direction conflict** in `implementation/02_Module_Implementation_Order.md` versus the corrected Module Dependency Matrix — disclosed, unresolved.
 - **Roadmap index creation** — eventual, if `docs/roadmap/` gains multiple governed artifacts (the `00_` slot is reserved; no index created here).
@@ -653,13 +653,21 @@ Listed without resolution and without introducing any new identifier:
 - every workstream remains Not Authorized;
 - the Full Architecture Freeze remains unachieved;
 - `Architecture_Freeze.md` continues to govern and constrain this roadmap;
-- AR-001 through AR-011 remain Open and unresolved;
-- Working Assumptions remain assumptions, not decisions;
-- no ERPNext version, tenant model, Machine ownership, Quotation strategy, Material/Product Template ownership, BOM strategy, or Enquiry model is decided;
+- AR-002 through AR-011 remain Open and unresolved; AR-001 is Resolved (Option A; technical revalidation pending) as recorded in the synchronization note below;
+- Working Assumptions remain assumptions, not decisions, for every AR other than AR-001;
+- no tenant model, Machine ownership, Quotation strategy, Material/Product Template ownership, BOM strategy, or Enquiry model is decided by this roadmap (ERPNext major-version selection is resolved by AR-001, reaffirming Accepted ADR-001; capability-level technical revalidation remains outstanding);
 - no legacy planning artifact is deprecated;
 - no date, estimate, sprint, milestone, staffing, or delivery commitment is approved.
 
 **Implementation Authorization:** Not Granted. Roadmap approval is document-governance approval; it permits the roadmap to govern future planning and does not grant permission to build. Implementation authorization requires a separate later governance decision. Any workstream blocked or conditioned by an Architecture Review item remains blocked or conditional. This approval does not make any workstream Implementation-ready or Release-ready.
+
+**Project Owner Synchronization Note (AR-001 Disposition):**
+
+- **Synchronization approved:** 2026-07-26
+- The Project Owner approved a factual synchronization of this roadmap from Approval Version 1.0 to Approval Version 1.1, recording the formally completed AR-001 disposition (Option A: ERPNext v16, with the corresponding Frappe v16 major, is the governed target, reaffirming Accepted ADR-001).
+- No Architecture Review or Business Review was repeated for this synchronization, because no roadmap scope, dependency direction, readiness classification, workstream taxonomy, or business content changed — only AR-001's official-field status and derived interpretive wording were reconciled with its resolved disposition.
+- The existing Architecture Review and Business Review dispositions recorded above remain valid and unchanged.
+- No implementation authorization was granted by this synchronization; every workstream remains Not Authorized; capability-level technical revalidation against the governed v16 target remains outstanding and outside this synchronization's scope.
 
 ---
 
@@ -715,6 +723,7 @@ Items are marked only where objectively verifiable from this authored Draft. Arc
 | 0.2 | 2026-07-26 | Architecture Review Recorded | Formal Architecture Review completed with disposition Accepted with non-blocking observations, recorded in the new Section 25 Review Record; the Architecture review checklist item is marked complete. The roadmap is approved to proceed to Business Review. No architecture content, AR-001–AR-011 field, dependency direction, scope classification, or workstream definition was changed. No Architecture Review item was resolved. No implementation authorization occurred. Business Review and Project Owner Approval remain pending and unchecked. |
 | 0.3 | 2026-07-26 | Business Review Recorded | Formal Business Review completed with disposition Accepted with non-blocking observations, recorded in Section 25 Review Record alongside the existing Architecture Review record; the Business review checklist item is marked complete. The roadmap is approved to proceed to Project Owner review. No architecture or business content, AR-001–AR-011 field, dependency direction, scope classification, or workstream definition was changed. No Architecture Review item or business-governance question was resolved. No implementation authorization occurred. Project Owner Approval remains pending and unchecked. |
 | 1.0 | 2026-07-26 | Project Owner Approval | Formal Project Owner approval completed, recorded in Section 25 Review Record alongside the existing Architecture Review and Business Review records; the Project Owner approval checklist item is marked complete. Lifecycle transitioned from Draft 0.3 to Approval 1.0, establishing this document as the first formally approved PrintHub Development Roadmap baseline. The Architecture Review and Business Review dispositions (both Accepted with non-blocking observations) are accepted; their non-blocking observations remain deferred and unapplied. No architecture or business content, AR-001–AR-011 field, dependency direction, scope classification, or workstream definition was changed. No Architecture Review item or unresolved business-governance decision was resolved. No implementation authorization was granted — every workstream remains Not Authorized. The roadmap remains unpublished. |
+| 1.1 | 2026-07-26 | Project Owner-Approved AR-001 Factual Synchronization | Project Owner-approved factual synchronization following the formal Project Owner disposition of AR-001 (Option A, recorded in `Architecture_Review_Register.md`, reaffirming Accepted ADR-001-ERPNext-Framework). Updated AR-001's official-field reproduction in Section 10 from Open/Critical/Yes to Resolved/Critical/No, with Priority preserved at its historical Critical value. Replaced active "Working Assumption"/unresolved-version wording throughout the Scope Matrix (Section 12), the Stable and Conditional Workstream Definitions (Sections 13.1–13.2, 14.1–14.4), the Explicit Exclusions (Section 23), the Open Governance Items (Section 24), and the Project Owner Approval boundaries (Section 25) with wording recording ERPNext v16, with the corresponding Frappe v16 major version, as the AR-001-governed target, while explicitly preserving that capability-level Fit, Gap, DocType, deployment, Docker, CI, hook, event, permission, and integration claims remain conditional pending technical revalidation. Synchronized source-document version references to `Architecture_Freeze.md` (Approval 1.1) and `Module_Dependency_Matrix.md` (Draft 0.4). Added a Project Owner Synchronization Note within Section 25's Review Record (approval date 2026-07-26) stating that no Architecture Review or Business Review was repeated, since no roadmap scope, dependency direction, readiness classification, workstream taxonomy, or business content changed. No roadmap scope, workstream taxonomy, scope classification, readiness classification, dependency direction, Job Card Tier A/Tier B treatment, Production Planning/Job Cards/Machine Scheduling relationship, Configuration Studio decomposition, Plugin Architecture treatment, or Marketplace/MachineIQ/AI Assistant treatment was changed. AR-002 through AR-011 remained unchanged and Open. The existing Architecture Review and Business Review records, their dates, dispositions, and non-blocking-observation treatment are preserved unchanged. No technical Fit, Gap, or DocType revalidation was performed or claimed. No implementation authorization was granted; every workstream remains Not Authorized. The roadmap remains unpublished. |
 
 ---
 
