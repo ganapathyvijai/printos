@@ -1,0 +1,236 @@
+# ADR-015: Tenant and Company Multi-Tenancy Model
+
+Status:
+Draft
+
+Version:
+0.1
+
+Date:
+2026-07-28
+
+Decision Owner:
+Project Owner
+
+---
+
+## 1. Context
+
+[ADR-006-MultiTenant-Strategy](ADR-006-MultiTenant-Strategy.md) (Accepted (strategy); Implementation Deferred) established "future multi-tenant SaaS" as a Phase 1 design constraint: architectural choices in `printos_core` must not preclude a future move to multi-tenant operation, even though the concrete topology was deliberately deferred to a reserved future document, `docs/blueprint/25_MultiTenant_Architecture.md` (not yet written at the time ADR-006 was accepted).
+
+Separately, [AR-002](Architecture_Review_Register.md) ("Multi-Tenant Strategy Alignment") was opened because a specific, settled tenancy model (one ERPNext site, one database, one backend instance per tenant; shared app code/Docker image/CI-CD; no shared database) was being asserted in task instructions as though already ratified, while the formal architecture record showed it as strategy-only and implementation-deferred. AR-002 also recorded that "Tenant" itself remained a Pending ADR term against "Company" ([Naming_Registry.md](../standards/Naming_Registry.md) Section 27, item 11) — ERPNext's native, Approved scoping anchor.
+
+The Project Owner has formally selected **AR-002 Option A** ("Ratify the one-site-per-tenant, one-database-per-tenant model... via completion of `docs/blueprint/25_MultiTenant_Architecture.md` and the Tenant/Company ADR"), on 2026-07-28.
+
+**This ADR is a companion to ADR-006, not a replacement.** It completes the concrete-model decision ADR-006 deliberately deferred; it does not reopen, reverse, or restate ADR-006's own design-constraint decision.
+
+---
+
+## 2. Decision
+
+- One **Tenant** equals one isolated Frappe site.
+- One **Tenant** equals one isolated operational database.
+- **Tenant and Company are distinct concepts** (Section 4 and Section 5).
+- One Tenant may contain **one or more Companies**.
+- **Company** remains the ERPNext business/accounting scope inside a Tenant.
+- Unrelated print shops (Tenants) **do not share an operational database**.
+- Application code, Docker-image strategy, and CI/CD **may be shared** across Tenants.
+- Underlying infrastructure hosts **may be shared or dedicated** by service tier, without weakening site/database isolation.
+- Upgrades are **centrally governed** by the PrintHub platform owner.
+- **Permanent tenant-specific code forks and permanent tenant-specific version branches are prohibited.**
+
+---
+
+## 3. Tenant Definition
+
+**Tenant** means:
+
+- a print-shop organization;
+- a PrintHub subscription unit;
+- a Frappe site (the site boundary);
+- an isolated operational database (the database boundary);
+- the file, secrets, configuration, and backup boundary;
+- the upgrade-rollout and operational-management unit.
+
+---
+
+## 4. Company Definition
+
+**Company** means:
+
+- an ERPNext legal and accounting entity that exists **inside** a Tenant;
+- the business-scoping anchor for ERPNext transactional and accounting records;
+- potentially **one of several** Companies inside a single Tenant;
+- **not** a synonym for Tenant;
+- **not** the security boundary between unrelated print shops — that boundary is the Tenant's site/database isolation, not Company scoping.
+
+---
+
+## 5. Isolation Invariants
+
+The following must remain isolated per Tenant:
+
+- operational **database**;
+- **files** (public and private);
+- **secrets and credentials**;
+- **configuration** values;
+- **backups**;
+- **operational access** (support/administrative actions are scoped to a specific Tenant and are not implicitly cross-tenant).
+
+**Sharing a compute host does not permit sharing a tenant operational database.** Host-level resource sharing (Section 9) is an infrastructure-efficiency concern; it must never be implemented in a way that merges or exposes two Tenants' operational data.
+
+---
+
+## 6. Job Card Tier A Consequence
+
+- Job Card Tier A is **scoped by Company** within its Tenant site.
+- **Site identity remains implicit** — it is established by which isolated site/database the record lives in, not by a stored field.
+- **No Tenant field is included by default** on Job Card Tier A or, by the same reasoning, on other Tenant-site-scoped DocTypes.
+- A Tenant field would require a **later Published design** demonstrating a specific, concrete technical need not met by implicit site scoping.
+- **Global Customer identity and cross-tenant analytics (Section 11) are not dependencies of Job Card Tier A.**
+
+This ADR does **not** define Job Card fields, status values, permissions, or hooks — those belong to a separate, later Tier A design package.
+
+---
+
+## 7. Upgrade Governance
+
+- One centrally governed application/platform line (ERPNext, Frappe, and PrintHub application versions together).
+- Rollout is **platform-owner-controlled**.
+- Release rings and temporary rollout staggering **are permitted**.
+- **Indefinite version pinning by a Tenant is prohibited.**
+- Unsupported versions may be **retired centrally**.
+- Rollback and recovery mechanics are **deferred to deployment design** (not decided by this ADR).
+
+This is consistent with, and does not reopen, [ADR-001-ERPNext-Framework](ADR-001-ERPNext-Framework.md)'s already-Resolved (via AR-001) governed-version decision.
+
+---
+
+## 8. Service-Tier Principles
+
+- **Every** service tier (Free, Premium, Enterprise) receives baseline: functional correctness, tenant isolation, security, data integrity, and recoverable automated backup protection.
+- Paid tiers **may** receive increased: compute/worker capacity, database/file-storage allowance, backup frequency, retention, monitoring, restore priority, operational limits, and support priority.
+- **No plan-specific application fork is permitted** — tier differences must remain configuration-driven.
+- **Exact quotas, pricing, RPO, RTO, and SLA commitments remain deferred** — this ADR states principles, not contractual figures.
+
+---
+
+## 9. Platform-Owner Access
+
+- Access to tenant systems/data by the platform owner must be **least-privileged**.
+- Access must be **purpose-limited** (tied to a specific support, operational, or security need).
+- Access must be **audited**.
+- Direct, unrestricted routine database access is **exceptional**, not the default operating or analytics model.
+- Implementation mechanisms (access-control tooling, audit logging systems) are **deferred to security and operational design**.
+
+---
+
+## 10. Explicit Exclusions
+
+This ADR explicitly does **not** authorize:
+
+- a global Customer directory;
+- automatic cross-tenant Customer matching;
+- a centralized transaction store;
+- cross-tenant analytics of any kind;
+- a data warehouse or data lake;
+- cross-shop visibility for any Tenant;
+- Tenant Override implementation;
+- exact provisioning-automation design;
+- exact infrastructure sizing;
+- exact backup and SLA values.
+
+**Future central-identity or cross-tenant-analytics work requires a separately approved privacy, security, and data-governance architecture decision.** This ADR does not create, name, or reserve a number for that future decision — no new Architecture Review identifier is established here.
+
+---
+
+## 11. Consequences
+
+**Positive:**
+
+- Strong tenant isolation (site + database boundary, not merely a scoping field).
+- Clean, per-Tenant backup/restore boundaries.
+- Controlled blast radius — a single Tenant's failure or data issue does not propagate to others.
+- Tenant-independent capacity scaling (adding Tenants does not grow one shared database).
+- Shared-code maintainability — one governed `printos_core` codebase serves all Tenants.
+- A clear, unambiguous Job Card Tier A Company-scoping rule.
+
+**Negative / cost:**
+
+- Greater operational tooling burden — many sites and databases to provision, monitor, upgrade, and restore, rather than one shared instance.
+- Automation becomes essential to this model's viability at scale.
+- Platform-wide analytics cannot rely on a single shared transactional database and must be designed separately, later, under its own governance (Section 10).
+
+---
+
+## 12. Alternatives Considered
+
+Only the alternatives officially recorded against AR-002 are considered here; no additional option is introduced.
+
+- **Option B — shared instance / multi-Company model** (single ERPNext instance, multiple Companies representing different tenants). Rejected: this would make Company-level scoping the *primary* cross-customer security boundary, which directly contradicts the Owner's requirement that Company is "not the sole security boundary between unrelated print shops." It also would not deliver the Owner's required per-tenant backup/restore boundary or independent database-scaling path without combining tenant operational data in one database.
+- **Option C — defer ratification, remain explicitly single-tenant.** Rejected: this does not establish the topology, Tenant/Company relationship, or growth path the Owner has already specified in detail; it would leave Naming Registry §27 item 11 and `25_MultiTenant_Architecture.md` unresolved indefinitely without addressing the Owner's stated preference.
+
+---
+
+## 13. Relationship to ADR-006
+
+- [ADR-006-MultiTenant-Strategy](ADR-006-MultiTenant-Strategy.md) **remains Accepted**, unchanged, and unamended by this ADR.
+- ADR-015 **completes** the concrete-model decision ADR-006 deliberately deferred to `docs/blueprint/25_MultiTenant_Architecture.md`.
+- ADR-015 **does not supersede or reverse** ADR-006 — it fulfills ADR-006's own stated Consequence that "full multi-tenant mechanics... remain an open design area until `docs/blueprint/25_MultiTenant_Architecture.md` is completed."
+- A factual cross-reference **may be added to ADR-006's Revision History** once this ADR is Accepted, as a separate, later, non-substantive documentation task. This ADR does not perform that update.
+
+---
+
+## 14. Required Follow-Up Documents
+
+- `docs/blueprint/25_MultiTenant_Architecture.md` — the architecture-design elaboration of this decision (drafted alongside this ADR; see companion document).
+- Naming Registry synchronization — closing Section 27, item 11 ("Tenant" vs. "Company"), to occur only after this ADR reaches Accepted.
+- Deployment and operational architecture — provisioning, monitoring, backup tooling, and release-ring mechanics.
+- Published Job Card Tier A specifications — DocType, permission, and validation design, informed by Section 6 above.
+- A separate scoped implementation-authorization decision, preceded by Published implementation specifications.
+
+---
+
+## 15. Implementation Authorization
+
+**Implementation Authorization:** Not Granted
+
+Draft status, and any later Acceptance of this ADR, does **not** itself authorize coding, schema changes, site provisioning, Docker or CI/CD changes, migrations, or any other implementation activity. A separate, later, scoped implementation-authorization decision — preceded by Published implementation specifications — remains required before any coding may begin. Every roadmap workstream remains Not Authorized regardless of this ADR's eventual disposition.
+
+---
+
+## 16. References
+
+- [AR-002 — Multi-Tenant Strategy Alignment](Architecture_Review_Register.md)
+- [ADR-006-MultiTenant-Strategy](ADR-006-MultiTenant-Strategy.md)
+- [ADR-001-ERPNext-Framework](ADR-001-ERPNext-Framework.md) — central version-governance precedent (AR-001, Resolved)
+- [../standards/Naming_Registry.md](../standards/Naming_Registry.md) Section 27, item 11
+- [../architecture/04_MultiTenant_Architecture.md](../architecture/04_MultiTenant_Architecture.md) (working draft, to be reconciled with the document below)
+- `docs/blueprint/25_MultiTenant_Architecture.md` (companion Draft document, this same task)
+- [../implementation/Architecture_Freeze.md](../implementation/Architecture_Freeze.md) — Approval, Version 1.1
+- [../roadmap/01_Development_Roadmap.md](../roadmap/01_Development_Roadmap.md) — Approval, Version 1.1
+- [../implementation/Module_Dependency_Matrix.md](../implementation/Module_Dependency_Matrix.md) — Draft, Version 0.4
+
+None of the above documents is Published; none is described as Published by this ADR.
+
+---
+
+## Revision History
+
+| Version | Date | Author | Changes |
+|----------|------|--------|---------|
+| 0.1 | 2026-07-28 | Initial Draft | Initial Draft creation following Project Owner selection of AR-002 Option A (2026-07-28). Records the Tenant/Company definitions, isolated site/database-per-Tenant topology, isolation invariants, Job Card Tier A consequence, upgrade-governance and service-tier principles, platform-owner access principle, explicit central-identity and cross-tenant-analytics exclusions, and the implementation-authorization boundary. Companion to ADR-006 (not a supersession or amendment). AR-002 remains Open pending this ADR's and the companion Multi-Tenant Architecture document's review and approval. No implementation authorized. |
+
+---
+
+## Quality Checklist
+
+- [ ] Context clearly explains the relationship to ADR-006 and AR-002
+- [ ] Decision is unambiguous
+- [ ] Tenant and Company definitions are precise and mutually exclusive
+- [ ] Alternatives considered match the official AR-002 options
+- [ ] Consequences (positive and negative) are stated
+- [ ] Explicit exclusions (central identity, cross-tenant analytics) are stated without creating a new AR identifier
+- [ ] Implementation Authorization boundary is explicit
+- [ ] References are complete and no Draft document is described as Published
+- [ ] Reviewed by Project Owner
