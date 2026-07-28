@@ -1,10 +1,10 @@
 # ADR-015: Tenant and Company Multi-Tenancy Model
 
 Status:
-Draft
+Accepted
 
 Version:
-0.1
+1.0
 
 Date:
 2026-07-28
@@ -215,11 +215,52 @@ None of the above documents is Published; none is described as Published by this
 
 ---
 
+## 17. Review Record
+
+**Architecture Review:** Completed
+**Disposition:** Accepted with non-blocking observations
+**Review date:** 2026-07-28
+**Critical findings:** 0
+**High findings:** 0
+**Mandatory corrections before approval:** 0
+
+**Business Review:** Completed
+**Disposition:** Accepted with non-blocking observations
+**Review date:** 2026-07-28
+**Blocking business issues:** 0
+**Mandatory corrections before approval:** 0
+
+**Non-blocking observations acknowledged (not applied in this promotion):**
+
+- A dedicated Security Review remains required before production readiness. It is not a prerequisite for this Accepted lifecycle promotion, and no Security Review is claimed to have occurred.
+- Minor wording harmonization between "application/platform line" (this ADR, Section 7) and "code line" (the companion Multi-Tenant Architecture document) may occur through a later, separate, non-substantive editorial update. Not applied here.
+- This ADR's length is acknowledged as acceptable under current repository precedent (see ADR-014). No structural change made.
+
+None of these observations changes the topology, Tenant/Company definitions, cardinality, isolation invariants, shared-host rule, shared-code rule, upgrade governance, service-tier principles, Job Card Tier A Company-scoping, implicit site identity, no-Tenant-field default, central-customer-identity deferral, cross-tenant-analytics deferral, or implementation-authorization boundary recorded above.
+
+**Project Owner Approval:** Completed
+**Decision:** Approved lifecycle promotion to Accepted, Version 1.0
+**Approval date:** 2026-07-28
+
+**Approval scope and boundaries:**
+
+- This ADR is approved as the binding companion decision to ADR-006, completing its deferred concrete-tenancy-model gap.
+- The Decision content and all architecture conclusions recorded in Sections 2–14 above are unchanged by this promotion.
+- **ADR-006 was not amended** — it remains Accepted, unchanged, as recorded in Section 13.
+- **AR-002 remains Open** in the Architecture Review Register pending completion of the remaining repository-recording steps (Naming Registry synchronization, ADR Index registration, and formal AR-002 Register closure) — none of which is performed by this promotion.
+- **AR-002 is not stated or implied to be Resolved by this document.**
+- The Project Owner has separately stated an intention to provide product modifications and suggestions after reviewing the first authorized working ERP slice. This is a **future feedback intent only** and does **not** authorize implementation now; it must not be read as approval to begin coding.
+
+**Implementation Authorization:** Not Granted. Acceptance of this ADR does not authorize Job Card Tier A coding, DocType creation, schema changes, migrations, hooks, fixtures, site provisioning, tenant creation, Docker changes, CI/CD changes, Deployment Strategy changes, Tenant Override implementation, plugin implementation, central Customer identity design or implementation, or cross-tenant analytics design or implementation. A separate, later, scoped implementation-authorization decision — preceded by Published implementation specifications — remains required.
+
+---
+
 ## Revision History
 
 | Version | Date | Author | Changes |
 |----------|------|--------|---------|
 | 0.1 | 2026-07-28 | Initial Draft | Initial Draft creation following Project Owner selection of AR-002 Option A (2026-07-28). Records the Tenant/Company definitions, isolated site/database-per-Tenant topology, isolation invariants, Job Card Tier A consequence, upgrade-governance and service-tier principles, platform-owner access principle, explicit central-identity and cross-tenant-analytics exclusions, and the implementation-authorization boundary. Companion to ADR-006 (not a supersession or amendment). AR-002 remains Open pending this ADR's and the companion Multi-Tenant Architecture document's review and approval. No implementation authorized. |
+| 1.0 | 2026-07-28 | Project Owner Lifecycle Approval | Architecture Review completed — Accepted with non-blocking observations (0 Critical, 0 High findings, 0 mandatory corrections). Business Review completed — Accepted with non-blocking observations (0 blocking business issues, 0 mandatory corrections). Project Owner approved lifecycle promotion from Draft 0.1 to Accepted 1.0. The topology, Tenant/Company decision, and all Section 2–14 content are unchanged. Non-blocking observations (future Security Review before production; optional wording harmonization; ADR length acceptable under precedent) recorded in Section 17 without being applied. ADR-006 was not amended and remains Accepted, unchanged. AR-002 remains Open pending remaining repository-recording steps (Naming Registry synchronization, ADR Index registration, Register closure) and is not stated or implied to be Resolved. The Project Owner's stated intent to provide product feedback after reviewing the first authorized working ERP slice is recorded as future intent only and does not authorize implementation. Implementation Authorization remains Not Granted. |
 
 ---
 

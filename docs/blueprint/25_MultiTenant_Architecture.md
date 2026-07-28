@@ -1,10 +1,10 @@
 # Multi-Tenant Architecture
 
 Version:
-0.1
+1.0
 
 Status:
-Draft
+Approval
 
 Owner:
 PrintHub Architecture Team
@@ -22,10 +22,9 @@ This document defines the concrete multi-tenant topology reserved by [ADR-006-Mu
 
 # 2. Status and Authority Boundary
 
-- This document is **Draft, Version 0.1**.
-- It is **not yet reliable as a coding basis** — per `Documentation_Workflow.md` §5, a Draft document is "not yet reliable as a reference" and implementation must not depend on it.
-- It is **not Published**.
-- **AR-002 remains Open** until this document and its companion ADR-015 each complete their required review and approval lifecycle, and the Architecture Review Register is separately updated to reflect closure.
+- This document is **Approval, Version 1.0**. Architecture Review, Business Review, and Project Owner Approval are complete (Section 26); it is a governed, Owner-approved architecture record.
+- It is **not yet Published** and is **not yet a direct coding basis** — per `Documentation_Workflow.md` §5, Publication is a separate, later lifecycle stage from Approval, and only a Published document is a safe basis for code.
+- **AR-002 remains Open** — reaching Approval on this document does not itself close AR-002. Closure requires the remaining repository-recording steps (Naming Registry synchronization, ADR Index registration, and formal Architecture Review Register closure), none of which is performed by this promotion.
 - **No implementation authorization is granted** by this document (Section 24).
 
 ---
@@ -370,14 +369,54 @@ A separate, later, scoped implementation-authorization decision — preceded by 
 
 # 25. Review Requirements
 
-This document requires, in sequence, before it can be relied upon as a coding basis:
+This document required, in sequence, the following before reaching Approval:
 
-- **Architecture Review**;
-- **Business Review** (given its service-tier and backup-policy content);
-- **Project Owner Approval**;
+- **Architecture Review** — Completed 2026-07-28, Accepted with non-blocking observations (Section 26).
+- **Business Review** — Completed 2026-07-28, Accepted with non-blocking observations (Section 26).
+- **Project Owner Approval** — Completed 2026-07-28, approved lifecycle promotion to Approval 1.0 (Section 26).
+
+Before this document can be relied upon as a direct coding basis, it additionally requires:
+
+- a **dedicated Security Review**, required before production readiness — not a prerequisite for this Approval promotion, and not yet performed (Section 26);
 - **later Publication**, only when appropriate under `Documentation_Workflow.md`, and only for the portions actually needed as a direct coding basis.
 
-None of these reviews has occurred as of this Draft.
+---
+
+# 26. Review Record
+
+**Architecture Review:** Completed
+**Disposition:** Accepted with non-blocking observations
+**Review date:** 2026-07-28
+**Critical findings:** 0
+**High findings:** 0
+**Mandatory corrections before approval:** 0
+
+**Business Review:** Completed
+**Disposition:** Accepted with non-blocking observations
+**Review date:** 2026-07-28
+**Blocking business issues:** 0
+**Mandatory corrections before approval:** 0
+
+**Non-blocking observations acknowledged (not applied in this promotion):**
+
+- A dedicated Security Review remains required before production readiness. It is **not** a prerequisite for this Approval lifecycle promotion, and no Security Review is claimed to have occurred (Section 25).
+- Minor wording harmonization between this document's "code line" (Section 11) and the companion ADR-015's "application/platform line" (its Section 7) may occur through a later, separate, non-substantive editorial update. Not applied here.
+- ADR-015's length is acknowledged as acceptable under current repository precedent. No structural change made to either document.
+
+None of these observations changes the topology, Tenant/Company definitions, cardinality, isolation invariants, shared-host rule, shared-code rule, upgrade governance, service-tier principles, Job Card Tier A Company-scoping, implicit site identity, no-Tenant-field default, central-customer-identity deferral, cross-tenant-analytics deferral, or implementation-authorization boundary recorded in the sections above.
+
+**Project Owner Approval:** Completed
+**Decision:** Approved lifecycle promotion to Approval, Version 1.0
+**Approval date:** 2026-07-28
+
+**Approval scope and boundaries:**
+
+- This document is approved as a governed architecture record elaborating the companion ADR-015 decision. All substantive architecture content (Sections 1–24) is unchanged by this promotion.
+- **This document is not Published.** Publication remains a separate, later lifecycle stage, required only for the portions actually relied upon as a direct coding basis.
+- **AR-002 remains Open** in the Architecture Review Register. Closure requires the remaining repository-recording steps — Naming Registry synchronization, ADR Index registration, and formal Register closure — none of which is performed by this promotion. **AR-002 is not stated or implied to be Resolved.**
+- The Project Owner has separately stated an intention to provide product modifications and suggestions after reviewing the first authorized working ERP slice. This is a **future feedback intent only** and does **not** authorize implementation now; it must not be read as approval to begin coding.
+
+**Implementation Authorization:** Not Granted. Approval of this document does not authorize Job Card Tier A coding, DocType creation, schema changes, migrations, hooks, fixtures, site provisioning, tenant creation, Docker changes, CI/CD changes, Deployment Strategy changes, Tenant Override implementation, plugin implementation, central Customer identity design or implementation, or cross-tenant analytics design or implementation. A separate, later, scoped implementation-authorization decision — preceded by Published implementation specifications — remains required.
 
 ---
 
@@ -402,6 +441,7 @@ None of these reviews has occurred as of this Draft.
 | Version | Date | Author | Changes |
 |----------|------|--------|---------|
 | 0.1 | 2026-07-28 | Initial Draft | Initial Draft creation following Project Owner selection of AR-002 Option A (2026-07-28). Elaborates the companion ADR-015 decision: isolated site/database-per-Tenant topology, Tenant/Company boundary definitions, shared/isolated component matrix, backup boundary, upgrade governance, service-tier principles, provisioning/operations boundary, Job Card Tier A tenancy consequence, Configuration Studio and Plugin boundaries, explicit central-identity and cross-tenant-analytics exclusions, failure/blast-radius and security principles, risks, and open implementation details. Does not design Job Card fields, central identity, or analytics. No implementation authorized. AR-002 remains Open pending review and approval of this document and ADR-015. |
+| 1.0 | 2026-07-28 | Project Owner Lifecycle Approval | Architecture Review completed — Accepted with non-blocking observations (0 Critical, 0 High findings, 0 mandatory corrections). Business Review completed — Accepted with non-blocking observations (0 blocking business issues, 0 mandatory corrections). Project Owner approved lifecycle promotion from Draft 0.1 to Approval 1.0. Updated Section 2 (Status and Authority Boundary) and Section 25 (Review Requirements) to reflect completed reviews; all substantive architecture content (Sections 1, 3–24) unchanged. Non-blocking observations (future Security Review before production; optional wording harmonization; ADR-015 length acceptable under precedent) recorded in the new Section 26 Review Record without being applied. Document remains **not Published**. AR-002 remains Open pending remaining repository-recording steps (Naming Registry synchronization, ADR Index registration, Register closure) and is not stated or implied to be Resolved. The Project Owner's stated intent to provide product feedback after reviewing the first authorized working ERP slice is recorded as future intent only and does not authorize implementation. Implementation Authorization remains Not Granted. |
 
 ---
 
