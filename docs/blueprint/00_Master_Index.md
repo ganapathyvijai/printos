@@ -1,7 +1,7 @@
 # Blueprint Master Index
 
 Version:
-2.2
+2.3
 
 Status:
 Draft
@@ -81,9 +81,9 @@ This index was found to be significantly out of date during a Documentation Cons
 | 22 | 22_Integration_Architecture.md | ERPNext, MachineIQ, WhatsApp, Payment Gateway, event-driven integration | Future (reserved by [ADR-010](../decisions/ADR-010-Blueprint-Numbering-Strategy.md)) |
 | 23 | 23_Security_Architecture.md | AuthN/AuthZ, tenant isolation, encryption, compliance | Future (reserved by [ADR-010](../decisions/ADR-010-Blueprint-Numbering-Strategy.md)) |
 | 24 | 24_Deployment_Architecture.md | Environments, Docker, CI/CD, monitoring | Future (reserved by [ADR-010](../decisions/ADR-010-Blueprint-Numbering-Strategy.md)) |
-| 25 | 25_MultiTenant_Architecture.md | Single/multi/hybrid tenancy, tenant registry, scaling strategy | Future (reserved by [ADR-010](../decisions/ADR-010-Blueprint-Numbering-Strategy.md)) |
+| 25 | [25_MultiTenant_Architecture.md](25_MultiTenant_Architecture.md) | One isolated Frappe site and operational database per Tenant; Tenant/Company distinction; isolation, backup, upgrade, and service-tier principles — selected via AR-002 Option A and [ADR-015](../decisions/ADR-015-Tenant-Company-Multi-Tenancy-Model.md) | Approval, Version 1.0 (not Published) |
 
-Numbers 21–25 are reserved specifically by [ADR-010-Blueprint-Numbering-Strategy.md](../decisions/ADR-010-Blueprint-Numbering-Strategy.md), which also documents why they are not placed at 11–15 (those numbers were already claimed by the 11–20 scaffold before the reservation was reconciled).
+Numbers 21–25 are reserved specifically by [ADR-010-Blueprint-Numbering-Strategy.md](../decisions/ADR-010-Blueprint-Numbering-Strategy.md), which also documents why they are not placed at 11–15 (those numbers were already claimed by the 11–20 scaffold before the reservation was reconciled). Number 25 is no longer a placeholder reservation — `25_MultiTenant_Architecture.md` now exists at Approval, Version 1.0, per AR-002 Option A and Accepted ADR-015. The separate, pre-existing working draft `docs/architecture/04_MultiTenant_Architecture.md` (outside this Blueprint numbering scheme) has **not** been reconciled, superseded, or retired by this registration; its own Scope Note already anticipates reconciliation with this reserved document, and that reconciliation remains a **separate, later controlled task**.
 
 ## Document Hierarchy
 
@@ -154,6 +154,7 @@ All documents listed in the Document Index above. This is the root of the Bluepr
 |2.0|2026-07-22|Documentation Consistency Fix|Corrected outdated Phase A content: marked 05/06/08/09/10 as Published (previously shown as Reserved/omitted); added 11–20 as Placeholder; added 21–25 as Future per ADR-010; removed obsolete "06 Data Integration Architecture" future reference and obsolete Open Questions about 05/06 scope; added Document Status Legend, Document Hierarchy diagram, and Roadmap Alignment section|
 |2.1|2026-07-26|Owner-Verification Status Reconciliation|Status corrected from Published to Draft. The previous Published header was removed because formal Project Owner approval had not occurred (explicit Project Owner declaration, 2026-07-26); the document returns to its supported pre-publication Draft lifecycle status. This correction affects only this index document — no indexed Blueprint document changed status, and no index content or navigation entry changed.|
 |2.2|2026-07-26|Status-Reporting Reconciliation|Reconciled the internal Document Index table's Status cells against authoritative source-document headers. Corrected 12 stale "Published" labels (README, 00, and 01–10) to "Draft" to match each source document's actual header Status; the 11–20 Placeholder and 21–25 Future rows were already accurate and unchanged. No referenced document changed lifecycle status; no filenames, links, descriptions, ordering, or numbering changed. The index itself remains Draft.|
+|2.3|2026-07-28|Blueprint 25 Registration|Registered `25_MultiTenant_Architecture.md` as an active, linked document: Status changed from "Future (reserved by ADR-010)" to "Approval, Version 1.0 (not Published)," reflecting its selection via AR-002 Option A and Accepted ADR-015. Updated the Purpose cell to summarize the governed content (site/database-per-Tenant isolation, Tenant/Company distinction, backup/upgrade/service-tier principles). Added a note clarifying that the separate, pre-existing working draft `docs/architecture/04_MultiTenant_Architecture.md` is not reconciled, superseded, or retired by this registration and remains a separate, later controlled task. No other numbered entry (00–24) changed. The index itself remains Draft; no implementation authorized.|
 
 ---
 
