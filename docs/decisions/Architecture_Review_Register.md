@@ -1,7 +1,7 @@
 # Architecture Review Register
 
 Version:
-0.3
+0.4
 
 Status:
 Draft — Open Register (living document)
@@ -33,7 +33,7 @@ This register exists to track every unresolved architectural or naming question 
 | ID | Topic | Status | Priority | Blocks Development |
 |----|-------|--------|----------|-------------------|
 | AR-001 | ERPNext Platform Version (15/16 conflict) | Resolved | Critical | No |
-| AR-002 | Multi-Tenant Strategy Alignment | Open | Critical | Yes |
+| AR-002 | Multi-Tenant Strategy Alignment | Resolved | Critical | No |
 | AR-003 | Naming Registry Alignment (non-Approved module names, unregistered terms) | Open | High | Partial |
 | AR-004 | Machine Domain Ownership | Open | High | Partial |
 | AR-005 | Quotation Strategy | Open | High | Partial |
@@ -152,12 +152,55 @@ Whether the one-site-per-tenant model is formally ratified as PrintHub's multi-t
 #### Blocking Status
 Critical
 
+#### Disposition
+Resolved — Option A selected
+
+**Decision date:** 2026-07-28
+**Decision authority:** Project Owner
+**Resolving decision:** [ADR-015-Tenant-Company-Multi-Tenancy-Model](ADR-015-Tenant-Company-Multi-Tenancy-Model.md), Accepted, Version 1.0 — companion to and completing the concrete-model decision deferred by [ADR-006-MultiTenant-Strategy](ADR-006-MultiTenant-Strategy.md) (which remains Accepted and is neither superseded nor reversed)
+**Architecture elaboration:** `docs/blueprint/25_MultiTenant_Architecture.md`, Approval, Version 1.0 — **not Published**
+
+**Decision:** PrintHub formally adopts one isolated Frappe site and one isolated operational database per print-shop Tenant.
+
+**Tenant and Company:**
+- Tenant is the subscription, site, database, isolation, backup, upgrade-rollout, and operational-management unit.
+- Company is an ERPNext legal/accounting and business-scoping entity inside a Tenant.
+- One Tenant may contain one or more Companies.
+- Company is **not** synonymous with Tenant and is **not** the isolation boundary between unrelated print shops.
+
+**Infrastructure:**
+- Underlying compute hosts may be shared or dedicated by service tier.
+- Host sharing does **not** permit operational-database sharing between unrelated Tenants.
+- Shared governed PrintHub application code, Docker-image strategy, CI/CD, and centralized platform operations are permitted.
+- Permanent Tenant-specific code or version forks are prohibited; upgrades remain centrally governed.
+
+**Job Card Tier A consequence:**
+- Company-scoped.
+- Site identity remains implicit.
+- No separate Tenant field by default.
+- No dependency on global Customer identity or cross-tenant analytics.
+
+**Explicitly deferred (not decided by this disposition):**
+- global Customer directory;
+- automatic cross-tenant Customer matching;
+- centralized transaction storage;
+- cross-tenant business analytics;
+- data warehouse or data lake;
+- cross-shop visibility;
+- consent, identity-resolution, and analytics-retention architecture;
+- exact RPO, RTO, pricing, quotas, or contractual SLA values;
+- detailed provisioning and operational implementation.
+
+Every service tier receives baseline correctness, security, isolation, data integrity, and recoverable backup protection; paid tiers may differ only in capacity, retention, monitoring, recovery, and support priority.
+
+**Implementation Authorization:** Not Granted. This resolution is an architecture decision only. `docs/blueprint/25_MultiTenant_Architecture.md` remains Approval and is not Published. This disposition does not authorize tenant provisioning, deployment or infrastructure implementation, Docker or CI changes, schema or migration work, or Job Card Tier A coding. Published coding specifications remain required, and a separate scoped implementation-authorization decision remains required before any coding may begin. Every roadmap workstream remains Not Authorized. The Full Architecture Freeze remains unachieved.
+
 #### Dependencies
-- [ADR-006-MultiTenant-Strategy](ADR-006-MultiTenant-Strategy.md)
-- `docs/blueprint/25_MultiTenant_Architecture.md` (reserved, not yet written, per [ADR-010](ADR-010-Blueprint-Numbering-Strategy.md))
-- [../standards/Naming_Registry.md](../standards/Naming_Registry.md) Section 27, item 11
-- [../architecture/04_MultiTenant_Architecture.md](../architecture/04_MultiTenant_Architecture.md) (working draft)
-- [ERPNext_Fit_Analysis.md](../architecture/ERPNext_Fit_Analysis.md) (Conflict #2)
+- [ADR-006-MultiTenant-Strategy](ADR-006-MultiTenant-Strategy.md) — remains Accepted; identifies ADR-015 as its companion/completion decision (see Disposition above)
+- `docs/blueprint/25_MultiTenant_Architecture.md` — **no longer reserved/unwritten**: now exists at Approval, Version 1.0 (not Published), per [ADR-010](ADR-010-Blueprint-Numbering-Strategy.md)'s reservation
+- [../standards/Naming_Registry.md](../standards/Naming_Registry.md) Section 27, item 11 — **Resolved** through Accepted ADR-015
+- [../architecture/04_MultiTenant_Architecture.md](../architecture/04_MultiTenant_Architecture.md) (working draft) — remains an unreconciled working draft; its reconciliation with `docs/blueprint/25_MultiTenant_Architecture.md` is a **separate, later controlled task**, not performed by this disposition
+- [ERPNext_Fit_Analysis.md](../architecture/ERPNext_Fit_Analysis.md) (Conflict #2) — historical context preserved; the working-assumption basis this conflict recorded is now formally resolved by ADR-015
 
 ---
 
@@ -581,3 +624,4 @@ This register can be considered complete (ready to support Architecture Freeze) 
 | 0.1 | 2026-07-24 | Initial | Initial Architecture Review Register. Extracted 11 unresolved review items (AR-001 through AR-011) from `ERPNext_Fit_Analysis.md`'s flagged conflicts and open questions. No architecture, ADR, or Blueprint content resolved or modified. |
 | 0.2 | 2026-07-27 | AR-001 Source-Authority Correction | Corrected AR-001's Background and Current Situation wording, which inaccurately described `07_Technology_Stack.md` as "Published Blueprint documentation" when its live Status is Draft and the repository-wide Published document count is zero. Replaced with wording accurately stating the Blueprint content is Draft and aligned with the binding, Accepted decision in ADR-001-ERPNext-Framework. Also updated AR-001's Dependencies entry for the ERPNext Gap Analysis from "Future... (version-dependent)" to reflect that the Draft Gap Analysis already exists and remains conditional and version-dependent. All official AR-001 fields (ID, Topic, Status: Open, Priority: Critical, Blocks Development: Yes, Options A/B/C, Required Decision, Blocking Status) preserved byte-for-byte. No other AR entry changed. AR-001 remains Open; no version selected; no implementation authorized; ADR-001 not modified. |
 | 0.3 | 2026-07-26 | AR-001 Resolved — Project Owner Disposition | AR-001 formally resolved by Project Owner selection of Option A. Section 2 Review Summary row updated: Status Open → Resolved, Blocks Development Yes → No, Priority unchanged at Critical. Added a Disposition block to the AR-001 entry recording ADR-001-ERPNext-Framework (Accepted, Version 1.0) as the reaffirmed — not amended or superseded — resolving decision; the governed target (ERPNext v16, corresponding Frappe v16 major version, one governed major-version line, no simultaneous v15/v16 support); the version-governance policy (centrally governed minor/patch selection subject to official support status, compatibility validation, controlled testing, rollback procedures, and Docker/CI/deployment reconciliation); and the required downstream revalidation (ERPNext Fit Analysis, ERPNext Gap Analysis, ERPNext DocType Mapping, Technology Stack Blueprint, deployment/environment documentation, Docker and CI configuration — none of it performed by this task). Implementation Authorization recorded as Not Granted; the disposition removes only the AR-001 version-selection blocker and does not authorize implementation, does not make any roadmap workstream Implementation-ready, does not publish any document, and does not resolve AR-002 through AR-011, all of which remain unchanged (AR-002 remains Open / Critical / Blocks Development: Yes). Options A, B, and C preserved unchanged as historical alternatives. ADR-001 was not modified. |
+| 0.4 | 2026-07-28 | AR-002 Resolved — Project Owner Disposition | AR-002 formally resolved by Project Owner selection of Option A on 2026-07-28. Section 2 Review Summary row updated: Status Open → Resolved, Blocks Development Yes → No, Priority unchanged at Critical. Added a Disposition block to the AR-002 entry recording Accepted ADR-015-Tenant-Company-Multi-Tenancy-Model (Version 1.0) as the resolving decision — a companion to, not a supersession of, ADR-006-MultiTenant-Strategy, which remains Accepted — and `docs/blueprint/25_MultiTenant_Architecture.md` (Approval, Version 1.0, not Published) as the architecture elaboration. Recorded the adopted decision: one isolated Frappe site and one isolated operational database per print-shop Tenant; the formal Tenant/Company distinction (Tenant as subscription/site/database/isolation/backup/upgrade-rollout/operational-management unit; Company as the ERPNext legal/accounting entity inside a Tenant, one-or-more per Tenant, not synonymous, not the isolation boundary); the infrastructure principles (host sharing permitted, operational-database sharing prohibited, shared governed code/Docker/CI/CD permitted, permanent Tenant-specific forks prohibited, centrally governed upgrades); the Job Card Tier A consequence (Company-scoped, implicit site identity, no Tenant field by default, no dependency on global Customer identity or cross-tenant analytics); and the explicit deferral list (global Customer directory, cross-tenant Customer matching, centralized transaction storage, cross-tenant analytics, data warehouse/lake, cross-shop visibility, consent/identity-resolution/retention architecture, exact RPO/RTO/pricing/quota/SLA values, detailed provisioning/operational implementation). Reconciled the Dependencies section to reflect that ADR-015, Blueprint 25, and Naming Registry §27 item 11 are no longer absent/unresolved, while preserving `04_MultiTenant_Architecture.md` as an unreconciled working draft (reconciliation deferred to a separate later task) and preserving all historical Background/Current Situation/Why-Review-Is-Required/Impact/Options A-B-C/Required-Decision content unchanged. Implementation Authorization recorded as Not Granted; the disposition is an architecture decision only and does not authorize tenant provisioning, deployment/infrastructure implementation, Docker/CI changes, schema/migration work, or Job Card Tier A coding — Published coding specifications and a separate scoped implementation-authorization decision remain required; every roadmap workstream remains Not Authorized; the Full Architecture Freeze remains unachieved. AR-001 and AR-003 through AR-011 unchanged. No other AR resolved, reprioritized, or created. |
