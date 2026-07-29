@@ -31,7 +31,7 @@ This document is intended to become a **direct coding specification only after P
 
 ## 3. Governing Decisions and Source Documents
 
-- [../implementation/JobCard_TierA_System_Design.md](../implementation/JobCard_TierA_System_Design.md) — Draft, Version 0.1 (architecture/design authority for this specification).
+- [../implementation/JobCard_TierA_System_Design.md](../implementation/JobCard_TierA_System_Design.md) — **Approval, Version 1.0** (approved architecture/design authority for this specification, per Project Owner Document Lifecycle Approval granted 2026-07-29). This Approval does **not** make this DocType Specification Published or safe for coding; every pre-Publication gate (Section 24) remains open.
 - [../decisions/Architecture_Review_Register.md](../decisions/Architecture_Review_Register.md) — Draft — Open Register, Version 0.4.
 - [../decisions/ADR-001-ERPNext-Framework.md](../decisions/ADR-001-ERPNext-Framework.md) — Accepted.
 - [../decisions/ADR-014-Production-Terminology.md](../decisions/ADR-014-Production-Terminology.md) — Accepted.

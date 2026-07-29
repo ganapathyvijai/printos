@@ -3,10 +3,10 @@
 ## 1. Document Control
 
 Version:
-0.2
+1.0
 
 Status:
-Draft
+Approval
 
 Date:
 2026-07-29
@@ -63,7 +63,7 @@ The Project Owner approved the recommended Job Card Tier A design defaults (deci
 - implementation of any kind;
 - production use.
 
-This document itself has **not yet** received Architecture Review, Business Review, or Project Owner lifecycle Approval (see Section 27). No implementation authorization has been granted by the Owner's design-baseline approval or by the drafting of this document.
+This document has since completed Architecture Review, targeted Architecture Re-review, Business Review, and Project Owner document lifecycle Approval (see Section 27). **No implementation authorization has been granted** by the Owner's design-baseline approval, by the drafting of this document, or by this document's lifecycle Approval.
 
 ---
 
@@ -426,24 +426,37 @@ The following remain open and must close before the companion DocType Specificat
 
 ## 27. Review Status
 
-**Architecture Review**
+**Architecture Review (initial)**
 - Date: 2026-07-29
 - Disposition: **Corrections Required**
-- Blocking findings: F-1 (status/`docstatus` consistency invariant, addressed in Section 12.1), F-6 (delete-capability alignment, addressed in Sections 16.1/17)
-- Non-blocking findings: F-2 (addressed, Section 21.1), F-3 (fieldtype gate, DocType Specification), F-4 (Artwork-track tests, DocType Specification), F-5 (API-bypass tests, DocType Specification), F-7/F-10 (Administrator policy, addressed, Section 20.1), F-8 (cross-reference correction, DocType Specification), F-9 (controlled terminal-action API policy, addressed, Section 22.1)
-- Corrections applied in **Version 0.2**
-- **Targeted Architecture re-review pending**
-- Architecture Review is **not** marked Accepted by this correction
+- Blocking findings: F-1 (status/`docstatus` consistency invariant), F-6 (delete-capability alignment) — both **closed in Version 0.2** (Sections 12.1, 16.1/17)
+- Non-blocking findings F-2 through F-10 — addressed in Version 0.2
+
+**Architecture Re-review (targeted)**
+- Date: 2026-07-29
+- Disposition: **Accepted with non-blocking observations**
+- Confirmed F-1 and F-6 Closed; confirmed F-2 through F-10 correctly and consistently applied
+- Residual observations: R-1 (the DocType Specification's stale System Design version reference — now closed by this promotion's companion reference-synchronization task), R-2 (optional test-row granularity in the DocType Specification's test inventory — remains open, non-blocking, deferred)
+- **Neither residual observation blocks System Design Approval**
 
 **Business Review**
 - Date: 2026-07-29
 - Disposition: **Accepted with non-blocking observations**
 - No mandatory business correction identified
 - Approved business baseline unchanged
-- No repeat Business Review required unless a later correction changes business semantics
+- No repeat Business Review required — the corrections applied in Version 0.2 did not change business semantics, and this promotion changes no content the Business Review evaluated
 
-- Project Owner Document Lifecycle Approval: **Not Granted**
-- Target Lifecycle: **Approval**
+**Project Owner Document Lifecycle Approval**
+- **Granted**
+- Date: **2026-07-29**
+- Approved lifecycle: **Approval**
+- This approval is **design authority only** — it does not authorize Publication of this or any other document, and does not authorize implementation
+
+**Publication treatment:** This document is **not** the direct coding specification and does not itself target Published — its target lifecycle is Approval, now reached. Direct coding may rely only on `docs/database/JobCard_TierA_DocType_Specification.md` once that document independently reaches Published — which it has not.
+
+**Approval Statement:** This System Design is now the **approved architecture/design authority** for PrintHub Job Card Tier A. The companion DocType Specification **remains Draft** and is **not safe for coding**. All pre-Publication technical gates (Section 25) **remain open**: P-2, race-safe uniqueness validation, terminal-reason persistence validation, attachment and REST/API permission validation, and the Artwork production gate. **No coding or implementation is authorized by this Approval.**
+
+- Target Lifecycle: **Approval** — reached
 - Publication: **Not Applicable** as a direct coding authority (this document is not intended to reach Published)
 - Implementation Authorization: **Not Granted**
 
@@ -455,3 +468,4 @@ The following remain open and must close before the companion DocType Specificat
 |---|---|---|---|
 | 0.1 | 2026-07-29 | PrintHub Architecture Team | Initial Draft. Records the Project Owner-approved Job Card Tier A design baseline (decision set O-1 through O-27, approved 2026-07-29): technical name `PrintHub Job Card`; Tier A operational purpose (Registered/Released/In Progress/Completed as business declarations, not physical-production proof); Submitted-only Sales Order eligibility; exactly one active Job Card per Sales Order; the Registered→Released→In Progress→Completed lifecycle with Discarded/Voided terminations; the Artwork production gate and its bounded non-production demonstration exception; the race-safe uniqueness requirement (mechanism delegated, pre-Publication validation required); the terminal-reason atomic-persistence requirement (mechanism delegated, pre-Publication validation required); the approved product-surface policy; and the shortest safe path from this Draft through Publication, implementation authorization, and demonstration. No Architecture Review, Business Review, or Project Owner document lifecycle approval has yet occurred for this document. No implementation authorization was granted. This document does not resolve any Architecture Review item, does not amend any Accepted ADR, and does not modify any other tracked document. |
 | 0.2 | 2026-07-29 | Architecture and Business Review Correction | Applied the findings of the formal combined Architecture Review (Disposition: Corrections Required) and Business Review (Disposition: Accepted with non-blocking observations), both dated 2026-07-29. Added Section 12.1, a normative status/`docstatus` consistency invariant closing Finding F-1 (blocking): required valid mappings, insert/save/submit/discard/cancel safeguards, and an explicit prohibition on direct API/field-level bypass of controlled transitions. Added Section 16.1, closing Finding F-6 (blocking): a precise Delete capability boundary (eligible only for Registered, `docstatus = 0`, pre-Release records; prohibited thereafter, where controlled discard/void remain the correction path), and added the corresponding "delete erroneous Registered record" capability to Section 17's Permission Capability Model, resolving its prior omission. Added Section 21.1, closing Finding F-2 (non-blocking): terminal atomicity requirements for the race-safe uniqueness claim (acquisition atomic with creation, release atomic with successful termination, no release on failed/rolled-back termination, no claim retained after successful termination). Added Section 20.1, closing Findings F-7/F-10 (non-blocking): an explicit Administrator policy (privileged bypass acknowledged, not a normal operational role, does not affect Tenant isolation, must still preserve lifecycle invariants, privileged repair requires a separately governed procedure). Added Section 22.1, closing Finding F-9 (non-blocking): controlled terminal-action API policy (method exposure delegated but must not bypass permission, independent server-side revalidation required, ordinary REST field updates must not substitute for the controlled action). Expanded Section 25's Open Pre-Publication Technical Closures to reference the new invariants and their required companion test coverage. Findings F-3, F-4, F-5, and F-8 were addressed in the companion DocType Specification, which this document's Section 25 now cross-references. Recorded the formal review results in Section 27: Architecture Review Corrections Required (blocking findings F-1, F-6, both addressed in this version; non-blocking findings F-2 through F-10 addressed or tracked as noted); Business Review Accepted with non-blocking observations; targeted Architecture re-review pending; Project Owner Document Lifecycle Approval remains Not Granted. No approved Project Owner design decision was changed: technical name, business purpose, Sales Order eligibility, multiplicity, lifecycle states and transition sequence, the Artwork two-track boundary, Company/Tenant treatment, the approved surface policy, excluded scope, and both documents' target lifecycles are all unchanged. This document remains Draft and is not promoted to Approval by this correction. No implementation authorization was granted. No other tracked document was modified. |
+| 1.0 | 2026-07-29 | Project Owner Lifecycle Approval | Recorded the completed targeted Architecture Re-review (Disposition: Accepted with non-blocking observations, confirming blocking Findings F-1 and F-6 Closed and Findings F-2 through F-10 correctly and consistently applied, with residual observations R-1 and R-2 both non-blocking) and preserved the existing Business Review disposition (Accepted with non-blocking observations, not repeated, since the Version 0.2 corrections did not change business semantics and this promotion changes no content the Business Review evaluated). Recorded Project Owner Document Lifecycle Approval as Granted, dated 2026-07-29. Status transitioned from Draft to Approval; Version incremented from 0.2 to 1.0. No approved design content was changed by this promotion: technical name, business purpose, lifecycle, status model, Sales Order rules, multiplicity, the Artwork two-track treatment, Company/Tenant treatment, the permission baseline, product-surface policy, excluded scope, and the pre-Publication gate list are all unchanged. This document is now the approved architecture/design authority for PrintHub Job Card Tier A; the companion DocType Specification remains Draft and is not safe for coding; all pre-Publication technical gates (P-2, race-safe uniqueness validation, terminal-reason persistence validation, attachment and REST/API permission validation, and the Artwork production gate) remain open. No document was Published. No implementation authorization was granted. No other tracked document was modified by this task beyond the companion DocType Specification's reference synchronization and Documentation Status's lifecycle-census update. |
