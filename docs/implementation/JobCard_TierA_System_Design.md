@@ -3,7 +3,7 @@
 ## 1. Document Control
 
 Version:
-0.1
+0.2
 
 Status:
 Draft
@@ -189,6 +189,37 @@ Permitted transitions:
 
 No reopening of a terminal state is defined. Native Amend is **not** used as a Tier A correction path — correction is via a Replacement Job Card (Section 16).
 
+### 12.1 Status/`docstatus` Consistency Invariant (Finding F-1)
+
+The following is a **normative requirement**, not merely descriptive: no Desk, REST, internal API, background-job, or ordinary document-save operation may ever produce a business `status` inconsistent with Frappe `docstatus`.
+
+**Required valid mappings** (restated from Section 11):
+
+| Business Status | Required `docstatus` |
+|---|---:|
+| Registered | 0 |
+| Released | 0 |
+| In Progress | 0 |
+| Completed | 1 |
+| Discarded | 2 |
+| Voided | 2 |
+
+- `status` is system-managed. **Hiding or making the field read-only in the client is insufficient** — server-side validation is mandatory.
+- Any direct field assignment that bypasses a controlled transition (Release, Begin Progress, Complete, Discard, Void) must be rejected server-side.
+- Ordinary REST resource updates must not be able to bypass transition validation.
+- Background or privileged execution context must not silently bypass this invariant.
+- Administrator remains a privileged identity (Section 20.1) but must still preserve this data-integrity invariant unless an explicitly governed repair procedure exists.
+
+**Required transition safeguards:**
+
+- **Insert** — a new record must begin as `Registered`; a client or API request cannot insert it directly as Released, In Progress, Completed, Discarded, or Voided.
+- **Ordinary Draft save** — permitted: no status change; Registered → Released via the controlled Release transition; Released → In Progress via the controlled Begin Progress transition. Rejected: direct assignment to Completed, Discarded, or Voided; skipped transitions; backward transitions; unsupported status values.
+- **Submit** — permitted only from In Progress; must result in `status = Completed` and `docstatus = 1`; no record may remain In Progress after a successful submit; no record may be Submitted with status Registered or Released.
+- **Discard** — `discard()` permitted only from Registered, Released, or In Progress; the controlled action must establish the terminal reason, `status = Discarded`, and final `docstatus = 2`; a discard attempted without the controlled requirements must be rejected through the supported server-side lifecycle guard.
+- **Cancel** — `cancel()` permitted only from Completed; the controlled action must establish the terminal reason, `status = Voided`, and final `docstatus = 2`; a Submitted record must not become cancelled while retaining status Completed.
+
+The exact controller-method distribution implementing this invariant remains a delegated technical decision, but **the invariant itself is normative and must be testable** — see the companion DocType Specification's test inventory (Finding F-5).
+
 ---
 
 ## 13. Sales Order Eligibility and Multiplicity
@@ -235,11 +266,23 @@ No reopening of a terminal state is defined. Native Amend is **not** used as a T
 
 Deletion (as distinct from discard) is permitted **only** for a clearly erroneous record before it acquires operational significance (i.e., before any meaningful save/business action) — not as a general correction mechanism for a saved, operationally significant Draft record, which uses `discard()` instead.
 
+### 16.1 Delete Capability Boundary (Finding F-6)
+
+To resolve the contradiction between this section (which permits deletion) and the Permission Capability Model (Section 17, which previously omitted it), the Tier A deletion boundary is defined precisely:
+
+- Deletion may be considered **only** while `status = Registered` and `docstatus = 0`, and the record has **not** been Released.
+- Deletion is **prohibited** from Released, In Progress, Completed, Discarded, or Voided — for all of those, controlled discard (or cancel, for Completed) is the only correction path.
+- Deletion requires an explicit server-side lifecycle guard, not merely a client-side button rule.
+- An unsaved form may be abandoned without creating or deleting a repository record at all — this is not "deletion" in the governed sense and requires no permission capability.
+- Delete permission must **not** be broadly granted to ordinary operational users; exact role names remain delegated (Section 17).
+
+This boundary is reflected as a distinct capability in Section 17.
+
 ---
 
 ## 17. Permission Capability Model
 
-Capabilities (not final role names): view; create; edit Draft; release; mark In Progress; complete; discard; void; administer. Exact role names remain a delegated technical decision. No `has_permission` or `permission_query_conditions` hook is proposed unless P-2 (Section 25) demonstrates a concrete standard-permission gap.
+Capabilities (not final role names): view; create; edit Draft; release; mark In Progress; complete; discard; void; **delete erroneous Registered record before operational significance** (Finding F-6 — narrowly scoped, distinct from discard/void/administer, per Section 16.1's boundary); administer. Exact role names remain a delegated technical decision. No `has_permission` or `permission_query_conditions` hook is proposed unless P-2 (Section 25) demonstrates a concrete standard-permission gap.
 
 ---
 
@@ -273,6 +316,17 @@ Capabilities (not final role names): view; create; edit Draft; release; mark In 
 
 Cross-Company leakage, guessed record names, direct API access, list-query access, document sharing, attachments, privileged users, unsafe client-side-only validation, bulk import, export, and audit history are all in-scope security concerns for the companion DocType Specification's permission and validation sections; this document does not itself define final controls. This is not the dedicated production Security Review required by the Multi-Tenant Architecture approval.
 
+### 20.1 Administrator Policy (Findings F-7 / F-10)
+
+- Frappe `Administrator` is a privileged framework identity and may bypass ordinary Role and User Permission checks (accepted v16 evidence).
+- Administrator is **not** a normal PrintHub operational role.
+- Company User Permissions must **not** be described as restricting Administrator.
+- Privileged access does **not** change Tenant isolation — Tenant isolation remains site/database-based (Accepted ADR-015), independent of any in-site permission bypass.
+- Administrator operations must still preserve the Job Card's data-integrity and lifecycle invariants (Section 12.1) — privileged access is not a license to violate the status/`docstatus` consistency requirement through ordinary operation.
+- Privileged repair outside normal lifecycle behavior requires a **separately governed operational procedure**, not an assumed silent bypass.
+- Audit visibility of privileged changes must be validated before production.
+- This document does **not** claim that every user holding the ERPNext System Manager role has the same unconditional bypass behavior as Administrator — that would require separate v16 evidence not established in this session.
+
 ---
 
 ## 21. Race-Safe Uniqueness Requirement
@@ -286,11 +340,35 @@ Cross-Company leakage, guessed record names, direct API access, list-query acces
 
 This document does not claim the active-key design is already technically approved or proven.
 
+### 21.1 Terminal Atomicity Requirement (Finding F-2)
+
+The following is added as a normative requirement, without selecting or claiming validation of the final mechanism:
+
+- Acquisition of the uniqueness claim must be atomic with Job Card creation.
+- Release or clearing of the uniqueness claim must be atomic with a **successful** Discard or Cancel.
+- A failed or rolled-back terminal action must **not** release the claim.
+- A successful terminal action must **not** leave the claim held.
+- Replacement creation must not become possible until the prior terminal transaction commits.
+- Concurrent replacement attempts must still produce at most one active record.
+- Migration and recovery behavior must preserve this invariant.
+
+An explicit concurrency test requirement — covering both terminal-action release and simultaneous replacement creation — is added to the companion DocType Specification's test inventory (Finding F-5/test T-22 and its expansion).
+
 ---
 
 ## 22. Terminal-Reason Requirement
 
 A terminal reason is required for every controlled discard or cancel action. A **controlled server-side action must atomically persist the reason and then perform the appropriate native action** (`discard()` or `cancel()`) within the same transaction, so the reason is guaranteed saved before the terminal action completes, and becomes immutable afterward. **Native Frappe `discard()` and `cancel()` do not themselves prompt for or store a custom reason** — this must not be assumed. The exact v16-compatible persistence mechanics remain a delegated technical decision requiring validation before Publication (Section 25).
+
+### 22.1 Controlled Terminal-Action API Policy (Finding F-9)
+
+- The controlled discard/cancel action **may require an explicitly exposed server method**; its exact method name and exposure mechanism remain delegated.
+- It must **not** become a permission bypass: API callers require the same discard or void capability as Desk users.
+- The server action must independently validate: current status; current `docstatus`; terminal reason; permission capability; Sales Order and Company integrity where applicable; and uniqueness-claim release behavior (Section 21.1).
+- **Ordinary REST field updates must not substitute for the controlled action.**
+- Method exposure, CSRF/authentication behavior where applicable, and permission enforcement are included in the pre-Publication REST/API validation gate (Section 25).
+
+This document does not claim the method has been implemented or validated.
 
 ---
 
@@ -317,6 +395,12 @@ The following remain open and must close before the companion DocType Specificat
 - **REST/API permission validation.**
 - **Artwork production gate** (Section 10.1) — closed, or the specification is explicitly classified demo-only (Section 10.2) with production-capable Publication remaining blocked.
 - **Direct specification track selection** — demo-only or production-capable — must be explicitly chosen before Publication.
+- **Status/`docstatus` consistency invariant** (Section 12.1) — testable implementation confirmed, including direct API/field-level bypass rejection.
+- **Active-key terminal atomicity** (Section 21.1) — mechanism selected and validated, including concurrent-replacement behavior.
+- **`terminal_reason` fieldtype, length, and storage behavior** — confirmed against the approved terminal-action design (companion DocType Specification).
+- **Delete capability boundary** (Section 16.1) — confirmed limited to eligible Registered records, with denial-after-Release validated.
+- **Artwork-track and direct-API-bypass test coverage** — present in the companion DocType Specification's test inventory.
+- **Controlled terminal-action API exposure and permission enforcement** (Section 22.1) — validated.
 
 ---
 
@@ -342,8 +426,22 @@ The following remain open and must close before the companion DocType Specificat
 
 ## 27. Review Status
 
-- Architecture Review: **Not Started**
-- Business Review: **Not Started**
+**Architecture Review**
+- Date: 2026-07-29
+- Disposition: **Corrections Required**
+- Blocking findings: F-1 (status/`docstatus` consistency invariant, addressed in Section 12.1), F-6 (delete-capability alignment, addressed in Sections 16.1/17)
+- Non-blocking findings: F-2 (addressed, Section 21.1), F-3 (fieldtype gate, DocType Specification), F-4 (Artwork-track tests, DocType Specification), F-5 (API-bypass tests, DocType Specification), F-7/F-10 (Administrator policy, addressed, Section 20.1), F-8 (cross-reference correction, DocType Specification), F-9 (controlled terminal-action API policy, addressed, Section 22.1)
+- Corrections applied in **Version 0.2**
+- **Targeted Architecture re-review pending**
+- Architecture Review is **not** marked Accepted by this correction
+
+**Business Review**
+- Date: 2026-07-29
+- Disposition: **Accepted with non-blocking observations**
+- No mandatory business correction identified
+- Approved business baseline unchanged
+- No repeat Business Review required unless a later correction changes business semantics
+
 - Project Owner Document Lifecycle Approval: **Not Granted**
 - Target Lifecycle: **Approval**
 - Publication: **Not Applicable** as a direct coding authority (this document is not intended to reach Published)
@@ -356,3 +454,4 @@ The following remain open and must close before the companion DocType Specificat
 | Version | Date | Author | Changes |
 |---|---|---|---|
 | 0.1 | 2026-07-29 | PrintHub Architecture Team | Initial Draft. Records the Project Owner-approved Job Card Tier A design baseline (decision set O-1 through O-27, approved 2026-07-29): technical name `PrintHub Job Card`; Tier A operational purpose (Registered/Released/In Progress/Completed as business declarations, not physical-production proof); Submitted-only Sales Order eligibility; exactly one active Job Card per Sales Order; the Registered→Released→In Progress→Completed lifecycle with Discarded/Voided terminations; the Artwork production gate and its bounded non-production demonstration exception; the race-safe uniqueness requirement (mechanism delegated, pre-Publication validation required); the terminal-reason atomic-persistence requirement (mechanism delegated, pre-Publication validation required); the approved product-surface policy; and the shortest safe path from this Draft through Publication, implementation authorization, and demonstration. No Architecture Review, Business Review, or Project Owner document lifecycle approval has yet occurred for this document. No implementation authorization was granted. This document does not resolve any Architecture Review item, does not amend any Accepted ADR, and does not modify any other tracked document. |
+| 0.2 | 2026-07-29 | Architecture and Business Review Correction | Applied the findings of the formal combined Architecture Review (Disposition: Corrections Required) and Business Review (Disposition: Accepted with non-blocking observations), both dated 2026-07-29. Added Section 12.1, a normative status/`docstatus` consistency invariant closing Finding F-1 (blocking): required valid mappings, insert/save/submit/discard/cancel safeguards, and an explicit prohibition on direct API/field-level bypass of controlled transitions. Added Section 16.1, closing Finding F-6 (blocking): a precise Delete capability boundary (eligible only for Registered, `docstatus = 0`, pre-Release records; prohibited thereafter, where controlled discard/void remain the correction path), and added the corresponding "delete erroneous Registered record" capability to Section 17's Permission Capability Model, resolving its prior omission. Added Section 21.1, closing Finding F-2 (non-blocking): terminal atomicity requirements for the race-safe uniqueness claim (acquisition atomic with creation, release atomic with successful termination, no release on failed/rolled-back termination, no claim retained after successful termination). Added Section 20.1, closing Findings F-7/F-10 (non-blocking): an explicit Administrator policy (privileged bypass acknowledged, not a normal operational role, does not affect Tenant isolation, must still preserve lifecycle invariants, privileged repair requires a separately governed procedure). Added Section 22.1, closing Finding F-9 (non-blocking): controlled terminal-action API policy (method exposure delegated but must not bypass permission, independent server-side revalidation required, ordinary REST field updates must not substitute for the controlled action). Expanded Section 25's Open Pre-Publication Technical Closures to reference the new invariants and their required companion test coverage. Findings F-3, F-4, F-5, and F-8 were addressed in the companion DocType Specification, which this document's Section 25 now cross-references. Recorded the formal review results in Section 27: Architecture Review Corrections Required (blocking findings F-1, F-6, both addressed in this version; non-blocking findings F-2 through F-10 addressed or tracked as noted); Business Review Accepted with non-blocking observations; targeted Architecture re-review pending; Project Owner Document Lifecycle Approval remains Not Granted. No approved Project Owner design decision was changed: technical name, business purpose, Sales Order eligibility, multiplicity, lifecycle states and transition sequence, the Artwork two-track boundary, Company/Tenant treatment, the approved surface policy, excluded scope, and both documents' target lifecycles are all unchanged. This document remains Draft and is not promoted to Approval by this correction. No implementation authorization was granted. No other tracked document was modified. |
