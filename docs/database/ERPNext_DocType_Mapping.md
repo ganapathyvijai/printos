@@ -1,7 +1,7 @@
 # ERPNext DocType Mapping
 
 Version:
-0.2
+0.3
 
 Status:
 Draft
@@ -10,7 +10,7 @@ Owner:
 PrintHub Architecture Team
 
 Last Updated:
-2026-07-25
+2026-07-31
 
 ---
 
@@ -152,18 +152,35 @@ Five entities (Marketplace Package, Marketplace Template, Extension, Publisher, 
 #### Artwork
 - **Business Owner / Bounded Context:** Artwork
 - **Implementation Owner:** Custom PrintHub
-- **Target DocType:** New PrintHub DocType
-- **Implementation Strategy:** No ERPNext native equivalent beyond generic File attachment; Core Domain per [../blueprint/05_Domain_Model.md](../blueprint/05_Domain_Model.md), Customize per [ERPNext_Fit_Analysis.md](../architecture/ERPNext_Fit_Analysis.md) Section 4.
+- **Target DocType:** New custom PrintHub DocType — proposed technical name `PrintHub Artwork`, *pending governed naming treatment*.
+- **Implementation Strategy:** No ERPNext native equivalent beyond generic File attachment; Core Domain per [../blueprint/05_Domain_Model.md](../blueprint/05_Domain_Model.md), Customize per [ERPNext_Fit_Analysis.md](../architecture/ERPNext_Fit_Analysis.md) Section 4. **ERPNext core remains immutable** — no ERPNext DocType is modified to support Artwork.
 - **Customization Required:** New DocType
 - **Dependencies:** [ERPNext_Gap_Analysis.md](../architecture/ERPNext_Gap_Analysis.md) ("Artwork & Proof Lifecycle").
 
 #### Artwork Revision
 - **Business Owner / Bounded Context:** Artwork
 - **Implementation Owner:** Custom PrintHub
-- **Target DocType:** New PrintHub DocType (child table of Artwork)
-- **Implementation Strategy:** Same rationale as Artwork; built on ERPNext's native File mechanism for underlying storage only.
+- **Target DocType:** **New standalone custom PrintHub DocType in `printos_core`** — proposed technical name `PrintHub Artwork Revision`, *pending governed naming treatment*. **Corrected 2026-07-31: this entity was previously mapped as a child table of Artwork. That mapping is withdrawn.**
+- **Standalone rationale:** independently approvable; requires its own state; requires independent permissions; must be lockable; requires file-integrity evidence; may be referenced by Production Artwork Set membership; may require unique database constraints; must preserve immutable approval evidence. A child table can satisfy none of these.
+- **Implementation Strategy:** Same rationale as Artwork; built on ERPNext's native File mechanism **for underlying storage only — File is never the approval authority**.
 - **Customization Required:** New DocType
 - **Dependencies:** Same as Artwork.
+
+#### Production Artwork Set
+- **Business Owner / Bounded Context:** Artwork
+- **Implementation Owner:** Custom PrintHub
+- **Target DocType:** New custom PrintHub DocType — proposed technical name `PrintHub Production Artwork Set`, *pending governed naming treatment*.
+- **Implementation Strategy:** No ERPNext native equivalent. This is the **final production-release authority consumed by the Job Card**: it binds one exact approved Artwork Revision per required Artwork for a Sales Order. At most one set is Approved for Production per Sales Order.
+- **Customization Required:** New DocType
+- **Dependencies:** Artwork; Artwork Revision; Sales Order (Submitted); Company.
+
+#### Production Artwork Set Item
+- **Business Owner / Bounded Context:** Artwork
+- **Implementation Owner:** Custom PrintHub
+- **Target DocType:** New custom PrintHub DocType — **child table of Production Artwork Set** — proposed technical name `PrintHub Production Artwork Set Item`, *pending governed naming treatment*.
+- **Implementation Strategy:** Immutable membership rows binding one Artwork to one exact Artwork Revision. Acceptable as a child table **because its rows are immutable aggregate membership values — it is not the approval authority itself**.
+- **Customization Required:** New DocType (child table)
+- **Dependencies:** Production Artwork Set; Artwork; Artwork Revision.
 
 #### Proof
 - **Business Owner / Bounded Context:** Artwork
@@ -684,8 +701,11 @@ The following five entities are neither Approved nor covered by any existing Arc
 | Job Types | Estimation/Production | Custom PrintHub | New PrintHub DocType | New DocType |
 | Finishing Types | Estimation/Production | Custom PrintHub | New PrintHub DocType | New DocType |
 | Paper Sizes | Estimation | Custom PrintHub | New PrintHub DocType | New DocType |
-| Artwork | Artwork | Custom PrintHub | New PrintHub DocType | New DocType |
-| Artwork Revision | Artwork | Custom PrintHub | New PrintHub DocType | New DocType |
+| Artwork | Artwork | Custom PrintHub | New PrintHub DocType (proposed `PrintHub Artwork`) | New DocType |
+| Artwork Revision | Artwork | Custom PrintHub | **New standalone PrintHub DocType** (proposed `PrintHub Artwork Revision`) — *corrected 2026-07-31 from child table of Artwork* | New DocType |
+| Production Artwork Set | Artwork | Custom PrintHub | New PrintHub DocType (proposed `PrintHub Production Artwork Set`) | New DocType |
+| Production Artwork Set Item | Artwork | Custom PrintHub | New PrintHub DocType — child table of Production Artwork Set (proposed `PrintHub Production Artwork Set Item`) | New DocType |
+| File (Artwork evidence storage) | Artwork | Native Frappe | `File` — **storage primitive only; never the approval authority** | None |
 | Proof | Artwork | Custom PrintHub | New PrintHub DocType | New DocType |
 | Approval Record | Artwork | Custom PrintHub | New PrintHub DocType | New DocType |
 | Job Card | Production | Custom PrintHub | New PrintHub DocType | New DocType |
@@ -796,6 +816,7 @@ The following five entities are neither Approved nor covered by any existing Arc
 |---|---|---|---|
 | 0.1 | 2026-07-25 | Initial | Initial ERPNext DocType Mapping. Assigned implementation ownership to all 75 Business Entity Inventory entities: 20 Native ERPNext, 10 Extended ERPNext, 17 Custom PrintHub, 8 External Plugin, 13 Pending Architecture Review (citing AR-002, AR-003, AR-004, AR-005, AR-006, AR-011), 3 Not-a-Domain-Entity/Not-Modeled, and 5 Unregistered entities left without an implementation owner (no covering AR item exists). Introduced a Blocking-vs-Non-Blocking AR methodology to avoid over-applying "Pending Architecture Review" to entities whose implementation location is already clear despite an open terminology question. No DocType fields, database schema, code, or AR/ADR resolution produced. |
 | 0.2 | 2026-07-25 | Documentation Clarification | Clarified Reporting and Configuration Studio ownership language for reports and dashboards. Reporting owns reporting capability and consumption; Configuration Studio owns Report Definition and Dashboard Definition configuration artifacts. Documentation clarification only; no architecture change. Dashboard Definition's Implementation Owner (Extended ERPNext) and Target DocType are unchanged. |
+| 0.3 | 2026-07-31 | Artwork Production Authority Mapping Correction | Corrected and extended the Artwork Context mapping following the Project Owner's production-capable Artwork track selection (2026-07-30) and approval of the Artwork design defaults (2026-07-31). **Corrected Artwork Revision from "New PrintHub DocType (child table of Artwork)" to a new standalone custom PrintHub DocType in `printos_core`**, recording the standalone rationale (independently approvable; own state; independent permissions; lockable; file-integrity evidence; referenced by Production Artwork Set membership; may require unique database constraints; preserves immutable approval evidence). Added mappings for **Production Artwork Set** (new custom PrintHub DocType; the final production-release authority consumed by the Job Card; at most one Approved for Production per Sales Order) and **Production Artwork Set Item** (new custom PrintHub DocType as a child table of Production Artwork Set, carrying immutable membership rows and explicitly not the approval authority). Recorded **File as a native Frappe storage primitive only, never the approval authority**. Recorded that **ERPNext core remains immutable** — no ERPNext DocType is modified to support Artwork. All new technical DocType names are recorded as **proposed pending governed naming treatment**; the Naming Registry is not modified and AR-003 is neither resolved nor modified. Status remains Draft; no Architecture Review Register item was altered; no other entity's implementation ownership changed; no Job Card Tier A document, ADR or standards document was modified; no implementation was authorized. |
 
 ---
 

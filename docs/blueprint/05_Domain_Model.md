@@ -1,7 +1,7 @@
 # Domain Model
 
 Version:
-1.0
+1.1
 
 Status:
 Draft
@@ -10,7 +10,7 @@ Owner:
 PrintHub Architecture Team
 
 Last Updated:
-2026-07-18
+2026-07-31
 
 ---
 
@@ -125,7 +125,11 @@ erDiagram
     LEAD ||--o| QUOTATION : "becomes"
     QUOTATION ||--o| SALES_ORDER : "converts to"
     SALES_ORDER ||--|{ ARTWORK : requires
-    ARTWORK ||--|| JOB_CARD : approves-into
+    ARTWORK ||--|{ ARTWORK_REVISION : "has revisions"
+    SALES_ORDER ||--o{ PRODUCTION_ARTWORK_SET : "has sets"
+    PRODUCTION_ARTWORK_SET ||--|{ PRODUCTION_ARTWORK_SET_ITEM : contains
+    PRODUCTION_ARTWORK_SET_ITEM }o--|| ARTWORK_REVISION : "selects exact"
+    PRODUCTION_ARTWORK_SET ||--o{ JOB_CARD : "authorizes release of"
     JOB_CARD }o--|| MACHINE : "scheduled on"
     JOB_CARD }o--o{ MATERIAL : consumes
     SALES_ORDER ||--|| DISPATCH : fulfilled-by
@@ -134,6 +138,22 @@ erDiagram
 ```
 
 Note: This diagram expresses business relationships only. It is not a database entity-relationship design and must not be used as a schema.
+
+## Artwork and Job Card Cardinality (corrected 2026-07-31)
+
+The earlier `ARTWORK ||--|| JOB_CARD : approves-into` relationship implied **one Job Card per Artwork**. That implication is **withdrawn**: it contradicted both the one-Sales-Order-to-many-Artwork relationship above and the authoritative rule that exactly one active Job Card exists per Sales Order. The corrected model is:
+
+- one Sales Order may have **multiple Artworks**;
+- one Artwork may have **multiple standalone Artwork Revisions**;
+- one Sales Order may have **multiple historical Production Artwork Sets**;
+- **at most one** Production Artwork Set is currently Approved for Production per Sales Order;
+- one Production Artwork Set contains **one or more membership items**;
+- each membership item selects **one exact Artwork Revision**;
+- one Job Card references **one Production Artwork Set** after Release;
+- one Production Artwork Set may support **multiple historical or replacement Job Cards** where still valid;
+- **exactly one active Job Card per Sales Order remains the authoritative Tier A multiplicity rule.**
+
+Per-line-item Job Cards and Tier B decomposition are **not** introduced by this correction. See [18_Artwork_Management.md](18_Artwork_Management.md) (Draft 0.1) for the Artwork authority design.
 
 ## Business Rules
 
@@ -206,6 +226,7 @@ Classifying domains as Core, Supporting, or Generic directly informs where Print
 | Version | Date | Author | Changes |
 |----------|------|--------|---------|
 |1.0|2026-07-18|Initial|Initial Version|
+| 1.1 | 2026-07-31 | Artwork Production Authority Correction | Corrected the Artwork and Job Card cardinality model following the Project Owner's production-capable Artwork track selection (2026-07-30) and approval of the Artwork design defaults (2026-07-31). **Removed the `ARTWORK \|\|--\|\| JOB_CARD : approves-into` relationship**, which implied one Job Card per Artwork and contradicted both the one-Sales-Order-to-many-Artwork relationship and the authoritative rule that exactly one active Job Card exists per Sales Order. Extended the business-view entity diagram with Artwork Revision, Production Artwork Set and Production Artwork Set Item, and added an explicit cardinality section recording that one Sales Order may have multiple Artworks; one Artwork may have multiple standalone Artwork Revisions; one Sales Order may have multiple historical Production Artwork Sets with at most one currently Approved for Production; one Production Artwork Set contains one or more membership items; each membership item selects one exact Artwork Revision; one Job Card references one Production Artwork Set after Release; one Production Artwork Set may support multiple historical or replacement Job Cards where still valid; and **exactly one active Job Card per Sales Order remains the authoritative Tier A multiplicity rule**. Per-line-item Job Cards and Tier B decomposition are **not** introduced. Status remains Draft; no domain classification, business rule, entity description or terminology was otherwise changed; no Job Card Tier A document, Architecture Review Register item, ADR or standards document was modified; no implementation was authorized. |
 
 ---
 

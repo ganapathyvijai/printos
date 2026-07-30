@@ -1,7 +1,7 @@
 # Bounded Contexts
 
 Version:
-1.2
+1.3
 
 Status:
 Draft
@@ -10,7 +10,7 @@ Owner:
 PrintHub Architecture Team
 
 Last Updated:
-2026-07-25
+2026-07-31
 
 ---
 
@@ -93,20 +93,22 @@ flowchart LR
 
 ### Artwork
 
-- **Purpose:** Manage creative assets and customer approval prior to production.
-- **Responsibilities:** Artwork intake, proofing, revision tracking, approval capture.
-- **Owned Business Objects:** Artwork, Proof, Approval Record.
+- **Purpose:** Manage creative assets, customer approval and **production authority** prior to production.
+- **Responsibilities:** Artwork intake, proofing, revision tracking, approval capture, **production-approval authority, set completeness, supersession and withdrawal/revocation**.
+- **Owned Business Objects:** Artwork, **Artwork Revision (standalone)**, **Production Artwork Set** (with its immutable membership items), Proof, Approval Record.
 - **Inputs:** Sales Order, customer-submitted design files.
-- **Outputs:** Approved Artwork to Production.
+- **Outputs:** **Approved Production Artwork Set** to Production.
 - **Interactions:** Gate before Production may begin.
 - **Future Expansion:** Freelancer-sourced design work (Phase 2).
+
+**Ownership and dependency rules (recorded 2026-07-31).** The Artwork context **owns** revisions, approval, file evidence, set completeness, supersession and withdrawal. The Production context **consumes an approved Production Artwork Set** and **does not own or mutate the Artwork lifecycle** — it does not own Artwork preparation, revision management, proofing, customer approval, production approval, supersession, or withdrawal/revocation. The **reverse dependency is prohibited: Artwork must not depend on Job Card**; Artwork approval must be meaningful with no Job Card in existence. The Configuration Studio **Approval Designer remains optional and deferrable**, so a **default governed Artwork approval mechanism must exist without it**. See [18_Artwork_Management.md](18_Artwork_Management.md) (Draft 0.1).
 
 ### Production
 
 - **Purpose:** Execute and track the physical work required to fulfill a Sales Order.
 - **Responsibilities:** Job Card management, production status tracking, quality checkpoints.
 - **Owned Business Objects:** Job Card, Production Status, Quality Check Record.
-- **Inputs:** Approved Artwork, allocated Materials, Machine Schedule.
+- **Inputs:** **Approved Production Artwork Set** (consumed from Artwork, never owned or mutated), allocated Materials, Machine Schedule.
 - **Outputs:** Finished goods to Warehouse/Dispatch.
 - **Interactions:** Central context; interacts with Artwork, Inventory, Machine Scheduling (within Production), Warehouse, Reporting.
 - **Future Expansion:** MachineIQ-driven production optimization.
@@ -259,6 +261,7 @@ Each bounded context is intended to map to a cohesive, loosely-coupled module wi
 |1.0|2026-07-18|Initial|Initial Version|
 |1.1|2026-07-22|ADR Synchronization|Corrected "### Estimations" section header to "### Estimation" (singular), per [ADR-012-Estimating-Terminology.md](../decisions/ADR-012-Estimating-Terminology.md), resolving an inconsistency between this document's own header (plural) and its prose/diagram (singular). No other content changed.|
 |1.2|2026-07-25|Documentation Clarification|Clarified Reporting and Configuration Studio ownership language for reports and dashboards. Reporting owns reporting capability and consumption; Configuration Studio owns Report Definition and Dashboard Definition configuration artifacts. Documentation clarification only; no architecture change.|
+| 1.3 | 2026-07-31 | Artwork Production Authority Synchronization | Synchronized the Artwork bounded context with the Project Owner's production-capable Artwork track selection (2026-07-30) and approval of the Artwork design defaults (2026-07-31). Changed the Artwork context output from the vague "Approved Artwork" concept to **Approved Production Artwork Set**, extended its purpose and responsibilities to cover production authority, set completeness, supersession and withdrawal/revocation, and added **Artwork Revision (standalone)** and **Production Artwork Set** to its owned business objects. Recorded that the Artwork context owns revisions, approval, file evidence, set completeness, supersession and withdrawal; that the Production context consumes an approved set and does not own or mutate the Artwork lifecycle; that the **reverse dependency Artwork → Job Card is prohibited**; and that the Configuration Studio Approval Designer remains optional and deferrable, so a default governed Artwork approval mechanism must exist without it. Updated the Production context input accordingly. Status remains Draft; no context was added or removed; the context map is unchanged; no Job Card Tier A document, Architecture Review Register item, ADR or standards document was modified; no implementation was authorized. |
 
 ---
 

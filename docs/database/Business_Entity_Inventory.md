@@ -1,7 +1,7 @@
 # Business Entity Inventory
 
 Version:
-0.1
+0.2
 
 Status:
 Draft
@@ -10,7 +10,7 @@ Owner:
 PrintHub Architecture Team
 
 Last Updated:
-2026-07-25
+2026-07-31
 
 ---
 
@@ -307,19 +307,39 @@ This inventory is derived from, and does not reinterpret, [../blueprint/05_Domai
 
 #### Artwork
 - **Business Description:** The design/creative asset submitted or approved for production.
-- **Business Purpose:** Represents the approved creative/design basis for production.
+- **Business Purpose:** **Aggregate root** for a single design asset; carries the production-requirement classification used to calculate Production Artwork Set completeness.
 - **Business Owner:** Artwork
-- **Category:** Transactional
-- **Lifecycle:** Submitted → In Review → Approved → Superseded
-- **Relationships:** Sales Order → Artwork → Artwork Revision, Proof; Artwork → Job Card (gate).
+- **Category:** Transactional (**aggregate root**)
+- **Scoping:** One Company and one Submitted Sales Order; Company derived from the Sales Order and immutable; cross-Company reuse prohibited; no Tenant field.
+- **Lifecycle:** Draft → (revisions prepared, submitted and approved independently). The authoritative production state is carried by its **Artwork Revisions**, not by the Artwork record itself.
+- **Relationships:** Sales Order → Artwork → Artwork Revision, Proof. Artwork is referenced by Production Artwork Set membership; **the Job Card does not reference Artwork directly.**
 
 #### Artwork Revision
-- **Business Description:** A tracked change to Artwork prior to Approval.
-- **Business Purpose:** Preserves revision history during proofing cycles.
+- **Business Description:** An independently approvable version of an Artwork, carrying the authoritative production file and its integrity evidence.
+- **Business Purpose:** The **independently approvable unit**; approval is always revision-precise.
 - **Business Owner:** Artwork
-- **Category:** Transactional (child of Artwork)
-- **Lifecycle:** Draft → Submitted → Superseded
-- **Relationships:** Artwork → Artwork Revision.
+- **Category:** Transactional — **standalone governed record, not a child table** (corrected 2026-07-31)
+- **Standalone rationale:** independently approvable; requires its own state; requires independent permissions; must be lockable; requires file-integrity evidence; may be referenced by Production Artwork Set membership; may require unique database constraints; must preserve immutable approval evidence.
+- **Lifecycle (proposed, not runtime-validated):** Draft → Submitted for Approval → Approved for Production → (Superseded | Withdrawn); Submitted for Approval → Rejected. **No Expired state — Tier A approvals do not expire.**
+- **Relationships:** Artwork → Artwork Revision; Production Artwork Set Item → Artwork Revision (exact selection).
+
+#### Production Artwork Set
+- **Business Description:** The approved collection of exact Artwork Revisions that authorizes production release for a Sales Order.
+- **Business Purpose:** **Standalone aggregate root and the final authority for Job Card production release.**
+- **Business Owner:** Artwork
+- **Category:** Transactional (**aggregate root**)
+- **Scoping:** One Company and one Submitted Sales Order; at most one set is Approved for Production per Sales Order at any time.
+- **Lifecycle (proposed, not runtime-validated):** Draft → Submitted for Approval → Approved for Production → (Superseded | Withdrawn); Submitted for Approval → Rejected. **No Expired state.**
+- **Relationships:** Sales Order → Production Artwork Set → Production Artwork Set Item → Artwork Revision; **Production Artwork Set → Job Card (production release authority).**
+
+#### Production Artwork Set Item
+- **Business Description:** An immutable membership row binding one required Artwork to one exact approved Artwork Revision within a Production Artwork Set.
+- **Business Purpose:** Records exactly which revision of each required Artwork the approved set authorizes.
+- **Business Owner:** Artwork
+- **Category:** Transactional (**child table of Production Artwork Set**)
+- **Lifecycle:** Editable while the set is Draft; **immutable from set submission onward**; changed content requires a new set.
+- **Relationships:** Production Artwork Set → Production Artwork Set Item → Artwork, Artwork Revision.
+- **Note:** Acceptable as a child table because its rows are immutable aggregate membership values — **it is not the approval authority itself.**
 
 #### Proof
 - **Business Description:** A representation of artwork provided to the customer for approval before production.
@@ -332,7 +352,7 @@ This inventory is derived from, and does not reinterpret, [../blueprint/05_Domai
 #### Approval Record
 - **Business Description:** The recorded outcome of a customer or internal approval decision (e.g., Artwork approval, discount approval).
 - **Business Purpose:** Provides traceable evidence that a required approval gate was satisfied.
-- **Business Owner:** Artwork (primary); also referenced by Estimation, Production
+- **Business Owner:** Artwork (primary; **Artwork-internal**, subject to existing naming governance including the open AR-003 Approval Record naming question); also referenced by Estimation, Production
 - **Category:** Transactional
 - **Lifecycle:** Pending → Approved / Rejected
 - **Relationships:** Proof → Approval Record; Quotation → Approval Record (discount/internal approvals).
@@ -344,7 +364,7 @@ This inventory is derived from, and does not reinterpret, [../blueprint/05_Domai
 - **Business Owner:** Production
 - **Category:** Transactional
 - **Lifecycle:** Scheduled → In Progress → Quality Check → Complete; Rework (from Quality Check)
-- **Relationships:** Sales Order → Job Card; Approved Artwork → Job Card; Job Card → Machine (assignment); Job Card → Material (allocation); Job Card → Quality Check Record.
+- **Relationships:** Sales Order → Job Card; **Approved Production Artwork Set → Job Card** (production release authority — corrected 2026-07-31, replacing the earlier direct "Approved Artwork → Job Card" gate); Job Card → Machine (assignment); Job Card → Material (allocation); Job Card → Quality Check Record.
 - **Architecture Notes:** Canonical per [ADR-014-Production-Terminology](../decisions/ADR-014-Production-Terminology.md); "Production Order," "Job Ticket," "Work Order" are Rejected/Deprecated synonyms. Must not be confused with ERPNext's native Manufacturing "Job Card" — see [ERPNext_Fit_Analysis.md](../architecture/ERPNext_Fit_Analysis.md) Section 3 (Manufacturing).
 
 #### Quality Check Record
@@ -716,10 +736,12 @@ None of the entities in this section are registered in [../standards/Naming_Regi
 | Cost Estimate | Quotation | — |
 | Sales Order | Quotation | — |
 | Artwork | Sales Order | — |
-| Artwork Revision | Artwork | Artwork |
+| Artwork Revision | Artwork | — |
+| Production Artwork Set | Sales Order | — |
+| Production Artwork Set Item | Production Artwork Set | Production Artwork Set |
 | Proof | Artwork Revision | — |
 | Approval Record | Proof, Quotation | — |
-| Job Card | Sales Order, Artwork (Approved) | — |
+| Job Card | Sales Order, Approved Production Artwork Set | — |
 | Quality Check Record | Job Card | Job Card |
 | Dispatch Record | Job Card | — |
 | Invoice | Dispatch Record | — |
@@ -757,8 +779,10 @@ Sorted alphabetically. Entities marked *(candidate)* are not yet Approved Bluepr
 | AI Action *(candidate)* | AI | Intelligence | Not yet defined |
 | Approval Definition | Administration (Approval Designer) | Configuration | Draft → Active → Deprecated |
 | Approval Record | Artwork | Transactional | Pending → Approved / Rejected |
-| Artwork | Artwork | Transactional | Submitted → In Review → Approved → Superseded |
-| Artwork Revision | Artwork | Transactional | Draft → Submitted → Superseded |
+| Artwork | Artwork | Transactional (aggregate root) | Draft → (production state carried by its Artwork Revisions) |
+| Artwork Revision | Artwork | Transactional (**standalone**, not a child table) | Draft → Submitted for Approval → Approved for Production → (Superseded \| Withdrawn); Submitted for Approval → Rejected |
+| Production Artwork Set | Artwork | Transactional (aggregate root) | Draft → Submitted for Approval → Approved for Production → (Superseded \| Withdrawn); Submitted for Approval → Rejected |
+| Production Artwork Set Item | Artwork | Transactional (child table of Production Artwork Set) | Editable while set is Draft → immutable from set submission |
 | Automation Rule | Administration (Automation Rules) | Configuration | Draft → Active → Disabled |
 | Branch | Administration | Master Data | Active → Inactive |
 | Company | Administration | Master Data | Active → Inactive |
@@ -862,6 +886,7 @@ Sorted alphabetically. Entities marked *(candidate)* are not yet Approved Bluepr
 | Version | Date | Author | Changes |
 |---|---|---|---|
 | 0.1 | 2026-07-25 | Initial | Initial Business Entity Inventory. Cataloged 75 entities across Core ERP (22), Print Domain (23), Configuration Studio (12), MachineIQ (6), Marketplace (7, including a flagged naming collision between Approved Marketplace concepts and requested plugin-marketplace entities), and AI (5, all unregistered pending AR-003). No ERPNext mapping, DocType design, or Architecture Review resolution performed. |
+| 0.2 | 2026-07-31 | Artwork Production Authority Synchronization | Corrected and extended the Artwork entity family following the Project Owner's production-capable Artwork track selection (2026-07-30) and approval of the Artwork design defaults (2026-07-31). **Artwork** is now recorded as an aggregate root scoped to one Company and one Submitted Sales Order, owning the `required_for_production` classification used to calculate Production Artwork Set completeness, with Company derived from the Sales Order and immutable, cross-Company reuse prohibited and no Tenant field; its authoritative production state is carried by its revisions rather than by the Artwork record. **Artwork Revision** is corrected from "Transactional (child of Artwork)" to a **standalone governed record — explicitly not a child table** — with the standalone rationale recorded (independently approvable; own state; independent permissions; lockable; file-integrity evidence; referenced by Production Artwork Set membership; may require unique database constraints; preserves immutable approval evidence). Added **Production Artwork Set** as a standalone aggregate root and **the final authority for Job Card production release**, scoped to one Company and one Submitted Sales Order with at most one set Approved for Production per Sales Order. Added **Production Artwork Set Item** as the child table of Production Artwork Set carrying immutable membership rows binding one required Artwork to one exact approved Artwork Revision, noted as acceptable as a child table because its rows are immutable membership values and not the approval authority. Recorded proposed six-state lifecycles for the revision and the set (Draft → Submitted for Approval → Approved for Production → Superseded or Withdrawn; Submitted for Approval → Rejected) with **no Expired state**, explicitly marked as **not runtime-validated**. Marked **Proof** and **Approval Record** as Artwork-internal, with Approval Record remaining subject to existing naming governance including the open AR-003 question, which is neither resolved nor modified. Corrected the **Job Card** dependency from "Approved Artwork" to **Approved Production Artwork Set**, and updated the parent/child relationship and entity-registry tables accordingly. Status remains Draft; no ERPNext mapping, DocType design or database schema design was performed here; no Job Card Tier A document, Architecture Review Register item, ADR, Naming Registry or standards document was modified; no implementation was authorized. |
 
 ---
 
