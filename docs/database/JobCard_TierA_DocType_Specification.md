@@ -3,13 +3,13 @@
 ## 1. Document Control
 
 Version:
-0.2
+0.3
 
 Status:
 Draft
 
 Date:
-2026-07-29
+2026-07-30
 
 Owner:
 PrintHub Architecture Team
@@ -31,7 +31,7 @@ This document is intended to become a **direct coding specification only after P
 
 ## 3. Governing Decisions and Source Documents
 
-- [../implementation/JobCard_TierA_System_Design.md](../implementation/JobCard_TierA_System_Design.md) — **Approval, Version 1.0** (approved architecture/design authority for this specification, per Project Owner Document Lifecycle Approval granted 2026-07-29). This Approval does **not** make this DocType Specification Published or safe for coding; every pre-Publication gate (Section 24) remains open.
+- [../implementation/JobCard_TierA_System_Design.md](../implementation/JobCard_TierA_System_Design.md) — **Approval, Version 1.1** (approved architecture/design authority for this specification, per Project Owner Document Lifecycle Approval granted 2026-07-29; Version 1.1 records the 2026-07-30 P-2 closure evidence synchronization). This Approval does **not** make this DocType Specification Published or safe for coding; the remaining pre-Publication gates (Section 24) stay open.
 - [../decisions/Architecture_Review_Register.md](../decisions/Architecture_Review_Register.md) — Draft — Open Register, Version 0.4.
 - [../decisions/ADR-001-ERPNext-Framework.md](../decisions/ADR-001-ERPNext-Framework.md) — Accepted.
 - [../decisions/ADR-014-Production-Terminology.md](../decisions/ADR-014-Production-Terminology.md) — Accepted.
@@ -252,20 +252,23 @@ As defined in `JobCard_TierA_System_Design.md` Section 15: Sales Order cancellat
 
 ---
 
-## 17. Permission Specification — Draft Baseline
+## 17. Permission Specification — Validated Standard-Permission Baseline — P-2 Closed
 
-**Provisional pending P-2.**
+**P-2 permission-behavior validation is Closed** (accepted final disposition, 2026-07-30: "P-2 Closed — standard mechanisms sufficient"), following a dedicated execution (2026-07-29, disposition "P-2 Partially Closed — additional validation required") and a narrow closure execution (2026-07-30) against a genuine, exact-commit-verified Frappe v16.29.0 / ERPNext v16.29.0 environment (Section 3 pins). Validation evidence is recorded in Section 21 (test coverage) and the evidence-manifest note below.
 
-Proposed baseline:
+Validated baseline:
 
 - Standard DocType Role Permissions.
-- Company User Permissions.
+- Company User Permissions — provide Company scoping when the acting user holds **at least one** matching Company User Permission.
+- **Normative provisioning invariant (mandatory):** every user granted an operational PrintHub Job Card role must receive at least one explicit Company User Permission as part of the same governed provisioning action; multi-Company access is the explicit union of the Companies assigned through User Permissions; removing a user's final Company User Permission must occur together with either removal of every operational Job Card role, or account suspension/disablement; a user must never remain active with an operational Job Card role and zero Company User Permissions — this is an **invalid provisioned state**, since a role-bearing user with no Company User Permission is empirically **unrestricted** across Companies under standard Frappe behavior (P-2 finding, confirmed across read/list, export, Company Link search, Sales Order Link search, and REST create surfaces), not denied; direct administrative role assignment outside the governed provisioning procedure must be controlled and auditable; Administrator remains a privileged framework identity unconstrained by ordinary Company User Permissions (Section 17.1); this invariant does not weaken Tenant isolation, which remains site/database based (Accepted ADR-015); the invariant must be validated through provisioning and security acceptance tests before production (Section 21).
 - Server-side Company/Sales Order consistency checks (Section 11).
-- **No custom `has_permission` or `permission_query_conditions` hook** unless P-2 demonstrates a concrete standard-permission gap.
+- **No custom `has_permission` hook required** by current governed evidence.
+- **No custom `permission_query_conditions` hook required** by current governed evidence.
+- Neither hook is prohibited forever: either would require a future concrete, reproduced standard-permission gap plus a separately approved, controlled design change.
 - A narrowly scoped **Delete** capability (Finding F-6, Section 14), separate from discard/void/administer, limited to eligible Registered records.
 - Exact role names remain a delegated technical decision.
 
-This baseline is **not yet empirically validated** across Desk, REST, report, export, and list surfaces.
+**Validated product-surface and permission-behavior coverage:** Desk list server path; Desk document-load server path (rendered browser UI not directly exercised — non-blocking observation, not an open gate); REST collection access; REST direct-read, create, and update; cross-Company reassignment denial; Company Link-search scoping; Sales Order Link-search scoping for Company-scoped users; private File metadata access; private-file download; authorized private-attachment upload; unauthorized private-file upload denial (server-side, with no orphaned File document or parent-record mutation produced); export scoping; Administrator behavior; U-NOROLE (no operational role — denied File metadata and private downloads for both Companies) behavior; U-NONE (role-bearing, zero Company User Permission — see provisioning invariant above; unrestricted, able to create records and search Sales Orders for both Companies) behavior across both Companies.
 
 ### 17.1 Administrator Policy (Findings F-7 / F-10)
 
@@ -346,7 +349,8 @@ Native `owner`/`creation`/`modified`/`modified_by`, Track Changes, and the contr
 | T-33 | Direct API status-bypass: direct submit attempted from Released — expect rejection | `IntegrationTestCase` |
 | T-34 | Direct API status-bypass: direct `discard()` attempted without a terminal reason — expect rejection | `IntegrationTestCase` |
 | T-35 | Direct API status-bypass: direct `cancel()` attempted without a terminal reason — expect rejection | `IntegrationTestCase` |
-| T-36 | Direct API status-bypass: post-terminal attempt to alter `status` or `terminal_reason` — expect rejection, no partial transition, no inconsistent status/`docstatus` pair, no uniqueness-claim corruption | `IntegrationTestCase` |
+| T-36 | Direct API status-bypass: post-terminal attempt to alter `status` — expect rejection, no partial transition, no inconsistent status/`docstatus` pair, no uniqueness-claim corruption | `IntegrationTestCase` |
+| T-36a | Direct API status-bypass: post-terminal attempt to alter `terminal_reason` — expect rejection, immutability of the previously persisted reason preserved, no inconsistent status/`docstatus` pair, no uniqueness-claim corruption | `IntegrationTestCase` |
 | T-37 | Artwork demo-only track (Finding F-4): manual Artwork approval check required before Registered → Released; release rejected/prevented when the documented manual confirmation is absent — governance-validation / release-check assertion, not a product unit test, since no executable Artwork mechanism exists | `IntegrationTestCase` (governance-validation assertion) |
 | T-38 | Artwork demo-only track: specification and environment remain visibly labelled non-production; demo-only classification does not permit production authorization — documentation/configuration assertion | `IntegrationTestCase` (governance-validation assertion) |
 | T-39 | Artwork production-capable track: Publication classification cannot become production-capable unless Artwork approval is server-verifiable or the governing rule has been formally changed — governance-validation assertion, not executable against product code while no Artwork mechanism exists | `IntegrationTestCase` (governance-validation assertion) |
@@ -355,6 +359,12 @@ Native `owner`/`creation`/`modified`/`modified_by`, Track Changes, and the contr
 | T-42 | Delete capability: denied deletion after Release (Released, In Progress, Completed, Discarded, Voided) | `IntegrationTestCase` |
 | T-43 | Delete capability: denied deletion attempted by a user without the delete capability | `IntegrationTestCase` |
 | T-44 | Delete capability: discard remains available and is the normal audited termination path for a saved Draft-status record, independent of delete capability | `IntegrationTestCase` |
+| T-45 | Provisioning invariant: a user granted an operational Job Card role together with at least one Company User Permission is correctly Company-scoped | `IntegrationTestCase` |
+| T-46 | Provisioning invariant: a user granted Company User Permissions for multiple Companies has access to the explicit union of those Companies | `IntegrationTestCase` |
+| T-47 | Provisioning invariant: a user granted an operational Job Card role with zero Company User Permissions is rejected by provisioning controls before activation (invalid provisioned state) | `IntegrationTestCase` |
+| T-48 | Provisioning invariant: removal of a user's final Company User Permission is validated to occur together with removal of every operational Job Card role, or account suspension/disablement | `IntegrationTestCase` |
+| T-49 | Provisioning invariant: unauthorized direct administrative role assignment outside the governed provisioning procedure is detected and audited | `IntegrationTestCase` |
+| T-50 | Provisioning invariant: Administrator is separately classified and not subject to ordinary Company User Permission scoping | `IntegrationTestCase` |
 
 `UnitTestCase` is reserved for any genuinely isolated, non-database pure logic identified during implementation (none currently identified). No test code is written in this specification.
 
@@ -377,11 +387,16 @@ As Section 9's "Explicitly Not Included" plus: ERPNext Manufacturing Job Card re
 - [ ] Architecture Review complete
 - [ ] Business Review complete
 - [ ] Project Owner lifecycle approval complete
-- [ ] P-2 complete
+- [x] P-2 permission-behavior validation complete (Closed, 2026-07-30 — "P-2 Closed — standard mechanisms sufficient")
 - [ ] Race-safe uniqueness mechanism selected and validated
 - [ ] Terminal-reason persistence mechanism selected and validated
-- [ ] Attachment permissions validated
-- [ ] REST/API permission behavior validated
+- [x] Standard Role and Company User Permission behavior validated
+- [x] Attachment permissions (metadata, download, upload) validated
+- [x] REST/API permission behavior validated
+- [x] List-query and Link-search permission behavior validated
+- [x] Export scoping validated
+- [x] Administrator behavior recorded
+- [ ] Operational-role and Company-User-Permission provisioning invariant has an approved enforcement and audit procedure before production
 - [ ] Exact app module decided
 - [ ] Production Artwork gate closed, or specification explicitly classified demo-only
 - [ ] Documentation references synchronized
@@ -392,6 +407,14 @@ As Section 9's "Explicitly Not Included" plus: ERPNext Manufacturing Job Card re
 - [ ] Delete capability boundary (Section 14) confirmed limited to eligible Registered records, with denial-after-Release validated (Finding F-6)
 - [ ] Artwork-track and direct-API-bypass test coverage (tests T-29 through T-40) executed (Findings F-4, F-5)
 - [ ] Controlled terminal-action API exposure and permission enforcement (Section 14.1) validated (Finding F-9)
+
+### 24.1 P-2 Validation Evidence
+
+- **Dedicated execution** — 2026-07-29, disposition "P-2 Partially Closed — additional validation required."
+- **Narrow closure execution** — 2026-07-30, accepted final disposition "P-2 Closed — standard mechanisms sufficient."
+- **Environment:** Frappe `frappe/frappe@06613fc60b44d5736007ae3107cdab029b2ae045` (reported v16.29.0); ERPNext `frappe/erpnext@a5de60c357d531cb31da093f0b86301776965173` (reported v16.29.0); Python 3.14.2; Node v24.16.0; MariaDB 10.6; Redis 6.2-alpine; Debian 12, linux/x86_64; multi-worker Gunicorn 23.0.0 (narrow closure); localhost-only disposable sites; no production or personal data. Docker image evidence from the narrow closure (`frappe/bench:latest` image ID beginning `sha256:c66af151`, `mariadb:10.6` beginning `sha256:114d40be`, `redis:6.2-alpine` beginning `sha256:ec5e187c`) is recorded for traceability only — mutable image tags are **not** the source-of-truth pins; the verified Git commits above are authoritative.
+- **Evidence manifest:** `manifest.csv`, SHA-256 `d59a33b96877fd784bb51f0f837bedf1957d41424061d11e8d27e9449b5ec456`, 26 artifacts, every reported narrow-closure test mapped to at least one artifact, all artifacts sanitized and secret-scanned (no passwords, cookies, Authorization headers, session IDs, database credentials, or CSRF tokens retained). Evidence is retained outside this repository under `/tmp/printhub-p2-closure-20260730/evidence/` — this path is **disposable and not a permanent repository artifact**; the durable record is this evidence summary together with the exact source pins, environment details, and manifest digest above, plus the accepted disposition. The raw evidence directory is not added to Git.
+- **Standard-permission conclusion:** no standard-permission gap requiring `permission_query_conditions` or `has_permission` was reproduced against the tested surfaces (Section 17).
 
 ---
 
@@ -439,3 +462,4 @@ May be Published only when: Artwork approval is server-verifiable; **or** the Ar
 |---|---|---|---|
 | 0.1 | 2026-07-29 | PrintHub Architecture Team | Initial Draft DocType Specification for PrintHub Job Card Tier A, subordinate to `JobCard_TierA_System_Design.md` (Draft 0.1). Records the Project Owner-approved design baseline; the technical DocType identity (`PrintHub Job Card`); proposed DocType-level properties; the Registered/Released/In Progress/Completed/Discarded/Voided status-to-docstatus mapping and permitted transition matrix; the proposed required/optional/framework-metadata field specification and mutability matrix; Sales Order validation requirements; the Artwork production gate and its bounded demo-only exception, with the demonstration boundary fixed at the Registered→Released transition; the multiplicity and race-safe uniqueness requirement (mechanism delegated, pre-Publication validation mandatory); controlled-transition functional requirements; the terminal-reason atomic-persistence normative requirement (mechanism pending pre-Publication validation); the provisional permission baseline (pending P-2); the approved product-surface policy; a 28-item test specification; schema/fixture/migration treatment; the pre-Publication gate checklist; and the two mutually exclusive future Publication classifications (demo-only vs. production-capable), neither selected here. No Architecture Review, Business Review, or Project Owner document lifecycle approval has yet occurred. No implementation authorization was granted. This document is not safe for coding while Draft. |
 | 0.2 | 2026-07-29 | Architecture and Business Review Correction | Applied the findings of the formal combined Architecture Review (Disposition: Corrections Required) and Business Review (Disposition: Accepted with non-blocking observations), both dated 2026-07-29. Added Section 8.1, a normative status/`docstatus` consistency invariant closing Finding F-1 (blocking): exact insert/save/submit/discard/cancel safeguards and an explicit prohibition on direct API/field-level bypass, cross-referenced to `JobCard_TierA_System_Design.md` Section 12.1. Added a "Delete" controlled transition (Section 14) and the corresponding narrowly scoped delete capability (Section 17), closing Finding F-6 (blocking): eligible only for Registered, `docstatus = 0`, pre-Release records, distinct from discard/void/administer, resolving the prior omission relative to the System Design's correction model. Added Section 13.1, closing Finding F-2 (non-blocking): terminal atomicity requirements for the race-safe uniqueness claim. Marked `terminal_reason`'s fieldtype as "proposed; confirmation required before Publication" (Section 9) and added a corresponding Pre-Publication Gate Checklist item, closing Finding F-3 (non-blocking). Added Section 17.1, closing Findings F-7/F-10 (non-blocking): Administrator policy. Added Section 14.1, closing Finding F-9 (non-blocking): controlled terminal-action API policy. Corrected the imprecise cross-reference in Section 12 from "the production-capable gate (Section 25)" to explicitly identify Section 25 as Publication Classification and Section 25.2 as the production-capable requirements, closing Finding F-8 (non-blocking). Expanded the Test Specification (Section 21) with tests T-29 through T-36 (direct API status-bypass, Finding F-5), T-37 through T-40 (Artwork demo-only and production-capable track governance-validation assertions, Finding F-4), and T-41 through T-44 (delete capability, Finding F-6), and expanded T-22's description to cover terminal-action release and simultaneous replacement creation (Finding F-2). Expanded the Pre-Publication Gate Checklist (Section 24) with explicit items for each of the above. Recorded the formal review results in Section 26: Architecture Review Corrections Required (blocking findings F-1, F-6, both addressed in this version; non-blocking findings F-2 through F-10 addressed); Business Review Accepted with non-blocking observations; targeted Architecture re-review pending; Project Owner Document Lifecycle Approval remains Not Granted; Publication remains Not Granted. No approved Project Owner design decision was changed: technical name, business purpose, Sales Order eligibility, multiplicity, lifecycle states and transition sequence, the Artwork two-track boundary, Company/Tenant treatment, the approved surface policy, and excluded scope are all unchanged. This document remains Draft and is not promoted to Published by this correction; it remains not safe for coding. No implementation authorization was granted. No other tracked document was modified. |
+| 0.3 | 2026-07-30 | P-2 Closure Evidence Synchronization | Factual synchronization recording the Project Owner-authorized P-2 dedicated execution (2026-07-29, disposition "P-2 Partially Closed — additional validation required") and narrow closure execution (2026-07-30, accepted final disposition "P-2 Closed — standard mechanisms sufficient"), both conducted against a genuine, exact-commit-verified Frappe v16.29.0 / ERPNext v16.29.0 environment. Updated the System Design cross-reference (Section 3) to Approval, Version 1.1. Rewrote Section 17 from "Provisional pending P-2" to "Validated Standard-Permission Baseline — P-2 Closed": standard DocType Role Permissions and Company User Permissions confirmed sufficient across Desk list/document-load server paths, REST collection/direct-read/create/update, cross-Company reassignment denial, Company and Sales Order Link-search scoping, private File metadata/download/upload (authorized and unauthorized-denial), export scoping, and Administrator behavior; recorded that neither `has_permission` nor `permission_query_conditions` is required by current governed evidence, and that neither is prohibited forever — either requires a future concrete reproduced gap plus a separately approved, controlled design change; added the mandatory eight-point operational-role/Company-User-Permission provisioning invariant, arising from the confirmed finding that a role-bearing user with zero Company User Permissions (U-NONE) is unrestricted, not denied, across Companies. Expanded the Test Specification (Section 21) with tests T-45 through T-50 (permanent acceptance coverage for the provisioning invariant) and closed residual observation R-2 by splitting T-36 (post-terminal attempt to alter status or terminal_reason) into distinct rows T-36 (status) and T-36a (terminal_reason). Updated the Pre-Publication Gate Checklist (Section 24) to mark complete: P-2 permission-behavior validation; standard Role and Company User Permission behavior validation; REST/API permission behavior validation; attachment metadata/download/upload permission validation; list-query and Link-search permission behavior validation; export scoping validation; Administrator behavior recorded — and added an unchecked item requiring an approved enforcement and audit procedure for the provisioning invariant before production. Added Section 24.1, recording the P-2 validation evidence: exact environment and source-commit pins, Docker image evidence (recorded for traceability only, not as source-of-truth pins), the evidence manifest (`manifest.csv`, SHA-256 `d59a33b96877fd784bb51f0f837bedf1957d41424061d11e8d27e9449b5ec456`, 26 artifacts, sanitized and secret-scanned, retained outside this repository under a disposable `/tmp` path not added to Git), and the standard-permission conclusion. Race-safe uniqueness mechanism selection/validation, terminal-reason persistence mechanism selection/validation, the Artwork production gate, and the exact app module decision all **remain open** and unmarked in the Pre-Publication Gate Checklist. No approved Project Owner design decision was changed; this document remains Draft, targets Published, and remains **not safe for coding**; Publication was **not** granted; no implementation authorization was granted. No repeat Business Review was required and none was recorded; no new Architecture Review disposition was recorded. No other tracked document was modified by this task beyond the companion System Design and Documentation Status synchronizations. |
