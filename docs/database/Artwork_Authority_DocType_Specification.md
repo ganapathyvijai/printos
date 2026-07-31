@@ -3,7 +3,7 @@
 ## 1. Document Control
 
 Version:
-0.1
+0.2
 
 Status:
 Draft
@@ -28,15 +28,15 @@ This document is intended to become a **direct coding specification only after P
 - **no implementation authorization exists**;
 - the unresolved pre-Publication gates listed in Section 22 must remain visible and must not be silently treated as closed.
 
-**Governance status:** Architecture Review **Pending**; Business Review **Pending**; Project Owner document lifecycle approval **Not Granted**; Publication **Not Granted**; Implementation Authorization **Not Granted**.
+**Governance status:** formal Architecture Review and Business Review conducted **2026-07-31**. **Architecture Review: Corrections Required. Business Review: Corrections Required.** Blocking findings: **ART-ARCH-F1** (incomplete `required_for_production` change control) and **ART-BIZ-F1** (undefined relationship between customer approval and internal production approval). Project Owner correction decisions approved **2026-07-31**; corrections are **applied in this revision** but **remain subject to targeted re-review** — neither disposition is changed to Accepted by this task. Project Owner document lifecycle approval **Not Granted**; Publication **Not Granted**; Implementation Authorization **Not Granted**.
 
-**The Artwork production gate remains open** until this specification is reviewed and its required runtime validations (Section 21) close.
+**The Artwork production gate remains open** until this specification passes targeted re-review and its required runtime validations (Section 21) close.
 
 ---
 
 ## 3. Governing Decisions and Source Documents
 
-- [../blueprint/18_Artwork_Management.md](../blueprint/18_Artwork_Management.md) — **Draft, Version 0.1**; the Artwork architecture/design authority for this specification (targets Approval; not yet approved).
+- [../blueprint/18_Artwork_Management.md](../blueprint/18_Artwork_Management.md) — **Draft, Version 0.2**; the Artwork architecture/design authority for this specification (targets Approval; not yet approved; Architecture and Business Review both Corrections Required, corrections applied, targeted re-review pending).
 - [../blueprint/05_Domain_Model.md](../blueprint/05_Domain_Model.md) — domain entities and cardinality.
 - [../blueprint/06_Bounded_Contexts.md](../blueprint/06_Bounded_Contexts.md) — Artwork context ownership.
 - [Business_Entity_Inventory.md](Business_Entity_Inventory.md) — entity inventory.
@@ -70,6 +70,7 @@ No claim is made that these names are approved by the Naming Registry. The Namin
 |---|---|---|
 | Artwork | Aggregate root, standard DocType | Company- and Sales-Order-scoped artwork identity with production-requirement classification |
 | Artwork Revision | **Standalone** aggregate, standard DocType — **not a child table** | The independently approvable unit carrying authoritative file evidence |
+| Customer Approval Evidence *(normative working name pending naming treatment)* | **Standalone**, Artwork-internal aggregate, standard DocType | The durable, mandatory record of customer approval for one exact Artwork Revision (Section 7.1) |
 | Production Artwork Set | Aggregate root, standard DocType | **Final production-release authority consumed by the Job Card** |
 | Production Artwork Set Item | **Child table** of Production Artwork Set | Immutable membership value binding one Artwork to one exact Artwork Revision |
 
@@ -92,9 +93,35 @@ Proposed technical name `PrintHub Artwork` — pending governed naming treatment
 | `company` | Link → Company | Yes | No | No | Yes (server-derived) | No | Derived from the Sales Order; **immutable after creation**; must equal Sales Order Company |
 | `sales_order` | Link → Sales Order | Yes | No | No | Yes after creation | No | **Submitted Sales Orders only**; immutable after creation |
 | `title` | Data | No | No | No | No (Draft-editable) | No | Operator-readable description |
-| `required_for_production` | Check | Yes (default 1) | No | No | Governed operation only | No | **Authoritative indicator used when calculating set completeness** |
+| `required_for_production` | Check | Yes (default 1) | No | **Internal** | **Yes — system-managed after creation** | **No** | **Authoritative indicator used when calculating set completeness. Not directly client-writable; not importable; not bulk-editable; changes only through the controlled requirement operation (Section 6a).** |
 
-**Rules.** Company must equal the Sales Order Company. Cross-Company reuse is prohibited. Tenant identity remains implicit at the site/database level; **no Tenant field**. A required Artwork must be represented in an approved Production Artwork Set before Job Card release. Optional Artwork does not block release unless later marked required through a governed Artwork operation. Changes to production requirements after an approved set exists require a **new** Production Artwork Set.
+**Rules.** Company must equal the Sales Order Company. Cross-Company reuse is prohibited. Tenant identity remains implicit at the site/database level; **no Tenant field**. A required Artwork must be represented in an approved Production Artwork Set before Job Card release. Optional Artwork does not block release unless later marked required through the controlled requirement operation (Section 6a). Changes to production requirements after an approved set exists require a **new** Production Artwork Set.
+
+### 6a. Controlled Requirement-Change Operation (corrected 2026-07-31 — ART-ARCH-F1)
+
+`required_for_production` is **not** directly editable through ordinary form save, REST field mutation, import, bulk edit, background field assignment, Administrator field mutation, or `ignore_permissions=True`. It changes only through one controlled Artwork-domain operation, conceptually equivalent to `change_artwork_production_requirement(artwork, required, reason)` (exact technical name not prescribed).
+
+**Specification:**
+
+1. Authenticate; reject Guest.
+2. Require a dedicated Artwork production-requirement-management capability, plus applicable Role Permissions and Company User Permissions.
+3. Validate a **mandatory reason** under the bounded reason-field rule (Section 7.2): reject empty/whitespace-only/leading-or-trailing-whitespace; allow internal newline/carriage-return/tab; reject other C0 control characters; maximum 500 Unicode code points; never silently truncate; plain text only.
+4. Acquire a **current locking read on the Artwork row**.
+5. Acquire a **locking read on the currently Approved Production Artwork Set for the same Sales Order, where one exists.**
+6. Use the locked values as authoritative for the decision.
+7. Update the requirement classification.
+8. **Atomically move that currently Approved Set to Withdrawn** (not Superseded — no replacement Set has yet been approved), recording withdrawal actor, timestamp and reason on the Set.
+9. Persist **durable audit evidence**: Artwork; prior value; new value; actor; timestamp; reason. **The exact technical persistence mechanism for repeated requirement-change audit events remains a pre-Publication design item and is not claimed runtime validated** (Section 21.3).
+10. Commit once.
+11. Any failure rolls back all changes together.
+
+**Lock order: (1) Artwork; (2) currently Approved Production Artwork Set.**
+
+**Consequences:** the withdrawn Set cannot be used for a new Job Card release; Released and In Progress Job Cards already bound to it follow the governed withdrawal progression guards (Section 17); Completed Job Cards remain historical; a replacement Set must be created and approved before new release; no Job Card may be silently rebound.
+
+A **Draft** Set is not production authority and must recompute completeness before submission. A **Submitted** Set whose completeness no longer matches the current required-Artwork set **must not be approved** — it must be rejected or replaced through the governed Set lifecycle.
+
+The previously undefined phrase "governed out of scope" is **removed**. For Tier A, `required_for_production` is the **sole** authoritative requirement-classification mechanism.
 
 ---
 
@@ -113,13 +140,39 @@ Proposed technical name `PrintHub Artwork Revision` — pending governed naming 
 | `approved_key` | Data-compatible, **nullable** | No | **Yes (UNIQUE)** | **Internal** | **Yes — system-managed** | No | Holds the Artwork identity **only** while Approved for Production; prevents more than one Approved revision per Artwork |
 | `approved_by` | Link → User | On approval | No | No | **Yes — immutable approval evidence** | No | |
 | `approved_on` | Datetime | On approval | No | No | **Yes — immutable approval evidence** | No | |
-| `rejected_reason` | Small Text (bounded plain text) | On rejection | No | No | Yes | No | |
+| `rejected_reason` | Small Text (bounded plain text, Section 7.2) | On rejection | No | No | Yes | No | |
 | `withdrawn_by` | Link → User | On withdrawal | No | No | Yes | No | |
 | `withdrawn_on` | Datetime | On withdrawal | No | No | Yes | No | |
-| `withdrawal_reason` | Small Text (bounded plain text) | **Mandatory for withdrawal** | No | No | Yes | No | |
+| `withdrawal_reason` | Small Text (bounded plain text, Section 7.2) | **Mandatory for withdrawal** | No | No | Yes | No | |
 | `superseded_by` | Link → proposed `PrintHub Artwork Revision` | On supersession | No | No | Yes | No | Records the replacement revision |
 
 `modified`, `modified_by` and Version history **must not** be relied upon as the authoritative approval event, because later supersession or withdrawal changes the record. Version history is **supplemental only**.
+
+### 7.1 Customer Approval Evidence Contract — Artwork-Internal (corrected 2026-07-31 — ART-BIZ-F1)
+
+**Customer approval for the exact Artwork Revision is mandatory before internal production approval. There is no Tier A waiver.** Referred to normatively as **`Customer Approval Evidence`** until governed naming is complete; final technical naming remains pending governed naming treatment and the existing AR-003 naming question, which is **not** resolved or modified by this document.
+
+**Minimum conceptual fields:**
+
+| Field | Type | Notes |
+|---|---|---|
+| `artwork_revision` | Link → proposed `PrintHub Artwork Revision` | Required; immutable |
+| `company` | Link → Company | Required; immutable; must match the Revision and Artwork |
+| `sales_order` | Link → Sales Order | Required; immutable; must match the Revision's Artwork |
+| `outcome` | Select (system-managed) | Approved or Rejected |
+| `customer_identity` | Governed customer or representative identity reference | Required |
+| `decided_on` | Datetime | Required |
+| `evidence_reference` | Data (immutable evidence-source reference) | Required |
+| `revoked` | Check (system-managed) | Where revocation is later supported |
+| Revocation metadata | Governed, immutable where present | Actor, timestamp, reason |
+
+This record is **Artwork-internal**. `Proof` is the customer-facing review artifact; **`Proof` is not approval authority**, and an Approved outcome **cannot be inferred from Proof status alone, nor from a file merely existing**. **Ordinary REST writes cannot fabricate approval.** The record is immutable after recording except through a governed revocation or correction process.
+
+The controlled Artwork Revision approval operation (Submitted for Approval → Approved for Production) **must verify current valid Customer Approval Evidence for the exact locked Revision** before permitting the transition — see the updated transition requirement in Section 9. **Customer Approval Evidence is not added to the Job Card aggregate** (Section 15).
+
+### 7.2 Bounded Reason-Field Rule
+
+Applies to `rejected_reason`, `withdrawal_reason` (this section and Section 8), and the requirement-change reason (Section 6a): reject `None`, empty, or whitespace-only input; **reject leading or trailing whitespace rather than silently trimming it**; allow internal newline, carriage-return and tab characters; reject other C0 control characters; enforce a maximum of **500 Unicode code points**; **reject over-length input — never silently truncate**; store plain text only; escape on every rendered surface.
 
 ---
 
@@ -139,7 +192,7 @@ Proposed technical name `PrintHub Production Artwork Set` — pending governed n
 | `approved_on` | Datetime | On approval | No | No | **Yes — immutable** | No | |
 | `withdrawn_by` | Link → User | On withdrawal | No | No | Yes | No | |
 | `withdrawn_on` | Datetime | On withdrawal | No | No | Yes | No | |
-| `withdrawal_reason` | Small Text (bounded plain text) | **Mandatory for withdrawal** | No | No | Yes | No | |
+| `withdrawal_reason` | Small Text (bounded plain text, Section 7.2) | **Mandatory for withdrawal** | No | No | Yes | No | |
 | `superseded_by` | Link → proposed `PrintHub Production Artwork Set` | On supersession | No | No | Yes | No | |
 
 ### 8.2 Production Artwork Set Item (Child Table)
@@ -167,13 +220,20 @@ Proposed technical name `PrintHub Production Artwork Set Item` — pending gover
 | Superseded | Replaced by a later approved revision | No — historical references remain intact | Immutable |
 | Withdrawn | Approval explicitly revoked | No | Immutable |
 
-| From | To | Mechanism | Authority |
+### 9.1 Artwork Revision Transition Matrix (corrected 2026-07-31 — ART-ARCH-F4, ART-BIZ-F1)
+
+| Current | Allowed transition | Result | Mechanism / Authority |
 |---|---|---|---|
-| Draft | Submitted for Approval | Controlled submit operation | Submit-for-approval capability |
-| Submitted for Approval | Approved for Production | Controlled approve operation | **Approve-revision capability** |
-| Submitted for Approval | Rejected | Controlled reject operation | Reject capability |
-| Approved for Production | Superseded | System consequence of a later approval, same transaction | — |
-| Approved for Production | Withdrawn | Controlled withdraw operation with mandatory reason | Withdraw/revoke capability |
+| Draft | Submit for Approval | Submitted for Approval | Controlled submit operation; submit-for-approval capability |
+| Submitted for Approval | Approve — **requires exact, current, valid Customer Approval Evidence for this locked Revision (Section 7.1)** | Approved for Production | Controlled approve operation; **Approve-revision capability** |
+| Submitted for Approval | Reject | Rejected | Controlled reject operation; reject capability |
+| Approved for Production | Supersede | Superseded | System consequence of a later approval, same transaction |
+| Approved for Production | Withdraw / revoke | Withdrawn | Controlled withdraw operation; mandatory reason; withdraw/revoke capability |
+| **Rejected** | **None** | **Terminal** | A Rejected Revision cannot return to Draft, cannot be resubmitted, cannot be approved, and cannot enter a Production Artwork Set. **Corrections require creating a new Artwork Revision.** |
+| Superseded | None | Terminal | — |
+| Withdrawn | None | Terminal | — |
+
+**The Submitted for Approval → Approved for Production transition additionally requires:** frozen `artwork_file` and `file_sha256`; exact valid Customer Approval Evidence for the exact locked Revision; the internal production-approval capability; current locking reads; execution within one transaction; and immutable `approved_by`/`approved_on` written exactly once.
 
 **No Expired state exists. Tier A approvals do not expire.** Withdrawing a revision requires any currently Approved set containing it to be withdrawn or invalidated **in the same governed transaction**.
 
@@ -181,11 +241,22 @@ Proposed technical name `PrintHub Production Artwork Set Item` — pending gover
 
 ## 10. Production Artwork Set State Model
 
-States: **Draft**, **Submitted for Approval**, **Approved for Production**, **Rejected**, **Superseded**, **Withdrawn**.
+### 10.1 Production Artwork Set Transition Matrix (corrected 2026-07-31 — ART-ARCH-F6)
+
+| Current | Allowed transition | Result |
+|---|---|---|
+| Draft | Submit for Approval | Submitted for Approval |
+| Submitted for Approval | Approve | Approved for Production |
+| Submitted for Approval | Reject | Rejected |
+| Approved for Production | Supersede through replacement approval | Superseded |
+| Approved for Production | Withdraw / revoke | Withdrawn |
+| Rejected | None | Terminal |
+| Superseded | None | Terminal |
+| Withdrawn | None | Terminal |
 
 **Only Approved for Production permits a new Registered → Released Job Card transition.**
 
-Rules: at most one set may be Approved for Production per Sales Order; approving a replacement set **supersedes the currently Approved set in the same transaction**; superseded sets remain historical and may remain bound to previously Released or later Job Cards; withdrawn sets may not be used for new release; withdrawal requires actor, timestamp and reason; approved membership is immutable; **no silent in-place replacement is permitted**.
+Rules: at most one set may be Approved for Production per Sales Order; approving a replacement set **supersedes the currently Approved set in the same transaction**; superseded sets remain historical and may remain bound to previously Released or later Job Cards; withdrawn sets may not be used for new release; withdrawal requires actor, timestamp and reason; approved membership is immutable; **no silent in-place replacement is permitted**. **A requirement change (Section 6a) may also move an Approved Set to Withdrawn through its dedicated controlled operation**, independent of a normal withdraw/revoke action.
 
 ---
 
@@ -194,13 +265,18 @@ Rules: at most one set may be Approved for Production per Sales Order; approving
 Evaluated at Production Artwork Set approval time:
 
 1. Load the Sales Order and Company.
-2. Determine the complete current set of Artwork where `sales_order` equals the set Sales Order, `company` equals the set Company, `required_for_production` is true, and the Artwork has not been governed out of scope through an explicit Artwork-domain operation.
-3. Compare that authoritative required-Artwork set with the set-item Artwork membership.
-4. Require **exact equality** — no missing required Artwork; no duplicate Artwork; no unrelated Artwork; no wrong Sales Order; no wrong Company.
-5. Validate every selected revision: belongs to the corresponding Artwork; state is Approved for Production; authoritative private File exists; stored SHA-256 exists; file identity is immutable; not Withdrawn; not Superseded at the authoritative decision point.
-6. Approve only when every condition passes.
+2. Determine the complete current set of Artwork where `sales_order` equals the set Sales Order, `company` equals the set Company, and `required_for_production` is true. **`required_for_production` is the sole authoritative requirement-classification mechanism; the previously undefined "governed out of scope" phrase is removed.**
+3. **Require at least one required Artwork** (`required Artwork count >= 1`) before the Set may be submitted or approved (corrected 2026-07-31 — ART-ARCH-F3). An empty Production Artwork Set is invalid; a Set with zero membership rows cannot be submitted; a Set cannot be approved where the authoritative required-Artwork identity set is empty; Registered → Released cannot succeed with zero required Artworks. **There is no Tier A no-Artwork exception; any future no-Artwork production path requires a separate governed design change.**
+4. Compare that authoritative required-Artwork set with the set-item Artwork membership.
+5. Require **exact equality** — no missing required Artwork; no duplicate Artwork; no unrelated Artwork; no wrong Sales Order; no wrong Company.
+6. Validate every selected revision: belongs to the corresponding Artwork; state is Approved for Production; **valid Customer Approval Evidence exists for this exact Revision** (Section 7.1); authoritative private File exists; stored SHA-256 exists; file identity is immutable; not Withdrawn; not Superseded at the authoritative decision point.
+7. Approve only when every condition passes.
 
-**A mere count comparison is insufficient — exact identity-set comparison is required.**
+**A mere count comparison is insufficient — exact identity-set equality with a minimum required-Artwork cardinality of one is required.**
+
+### 11.1 Production Artwork Set Approval Rationale (ART-BIZ-F4)
+
+Production Artwork Set approval is **not** a second file-content review. Its purpose is to: recompute the current required-Artwork identity set; verify exact completeness; verify valid customer approval for every selected Revision; verify internal production approval for every selected Revision; freeze the selected combination; and create **one atomic, server-verifiable production-release authority**. Content review already occurred at Revision approval (Section 9.1); Set approval freezes *which combination* of already-approved Revisions constitutes one production package.
 
 ---
 
@@ -251,7 +327,8 @@ All operations are authenticated, **mutation-only**, capability-checked, take **
 | Operation | Effect |
 |---|---|
 | Submit Artwork Revision for approval | Draft → Submitted; computes and stores SHA-256; freezes file identity and hash |
-| Approve Artwork Revision | Submitted → Approved; **recomputes and compares SHA-256**; sets `approved_key`, `approved_by`, `approved_on`; supersedes the prior Approved revision atomically |
+| Approve Artwork Revision | Submitted → Approved; **verifies current valid Customer Approval Evidence for the exact locked Revision (Section 7.1)**; **recomputes and compares SHA-256**; sets `approved_key`, `approved_by`, `approved_on`; supersedes the prior Approved revision atomically |
+| Change Artwork production requirement | Updates `required_for_production`; **atomically moves the currently Approved Set (if any) to Withdrawn**; records durable audit evidence (Section 6a) |
 | Reject Artwork Revision | Submitted → Rejected with reason |
 | Withdraw Artwork Revision | Approved → Withdrawn with actor, timestamp and mandatory reason; withdraws or invalidates any containing Approved set in the same transaction |
 | Submit Production Artwork Set for approval | Draft → Submitted; freezes membership |
@@ -296,19 +373,21 @@ The Job Card does **not** acquire an Artwork Revision child table, copied file h
 
 **Supersession** — the existing binding is **not** invalidated. Released may progress to In Progress, and In Progress may complete, when the bound set is Superseded but not Withdrawn. Completed remains historical. The superseded set **cannot be used for a new Job Card release**.
 
-**Withdrawal** — Released: **Released → In Progress blocked**, operational alert required, correction via the existing controlled Discard path plus a replacement Job Card. In Progress: **In Progress → Completed blocked**, operational alert required, resolution requires an approved replacement set and a governed correction procedure or controlled termination; **the Job Card must not be silently rebound**. Completed: the historical production record **remains unchanged**; withdrawal does not rewrite history; follow-up may result in controlled Cancel/Void with reason.
+**Withdrawal** (corrected 2026-07-31 — ART-ARCH-F5: the previously undefined In Progress "governed correction procedure" that implied possible rebinding is **removed**) — Released: **Released → In Progress is blocked**, an operational alert is required, and correction **uses controlled `discard()` with mandatory terminal reason** plus a replacement Job Card against a newly Approved Set. In Progress: **In Progress → Completed is blocked**, an operational alert is required, and correction **uses controlled `discard()` with mandatory terminal reason** plus a replacement Job Card against a newly Approved Set. Completed: the historical production record **remains unchanged**; withdrawal does not rewrite history; **controlled `cancel()` / Void with mandatory reason may be used only where governed business follow-up requires it.**
 
-**No Artwork Hold Job Card state is added.**
+**Rules:** `production_artwork_set` is **never modified after Release**; there is **no silent rebind**; an In Progress Job Card is **never updated** to a replacement Set; **no Artwork Hold Job Card state is added**; replacement follows the existing one-active-Job-Card-per-Sales-Order and terminal lifecycle rules.
 
 ---
 
 ## 18. Permission Specification
 
-**Artwork capabilities:** create Artwork draft; edit Artwork draft; create Artwork Revision; upload or replace Draft revision file; submit revision for approval; **approve revision for production**; reject revision; create Production Artwork Set; submit set for approval; **approve set for production**; reject set; **withdraw or revoke**; view/download approved Artwork; administer exceptional corrections.
+**Artwork capabilities:** create Artwork draft; edit Artwork draft; **manage production-requirement classification** (the controlled `required_for_production` operation, Section 6a); create Artwork Revision; upload or replace Draft revision file; submit revision for approval; **record Customer Approval Evidence outcome** (Section 7.1); **approve revision for production**; reject revision; create Production Artwork Set; submit set for approval; **approve set for production**; reject set; **withdraw or revoke**; view/download approved Artwork; administer exceptional corrections.
 
 **Production capability:** release Job Card against an approved Production Artwork Set.
 
 **Separation of duties is normative:** Artwork approval authority is **distinct** from Job Card release authority. Holding release authority does **not** grant approval authority; holding approval authority does **not** automatically grant release authority.
+
+**Maker-checker treatment (ART-BIZ-F3):** Revision submission and Revision production approval are **separate capabilities**, but **Tier A does not require the submitter and approver to be different user identities** — no mandatory `approved_by != submitted_by` server invariant is introduced. A Tenant may enforce maker-checker separation through governed role assignment as an operational matter, outside this specification's scope. This is independent of, and does not weaken, the mandatory separation between Artwork approval capability and Job Card release capability.
 
 Standard Role Permissions and Company User Permissions remain the baseline. The **P-2 provisioning invariant applies to Artwork operational roles** — a role-bearing user with **zero Company User Permissions is an invalid provisioned state**. **No `has_permission` hook** and **no `permission_query_conditions` hook** is required by current evidence; either requires a future reproduced gap plus a controlled design change. **Administrator is privileged for permission purposes but cannot bypass production-approval domain invariants.** Tenant isolation remains site/database based; **no Tenant field**.
 
@@ -324,7 +403,7 @@ The Artwork Revision **owns the authoritative File**, which **must be private**.
 
 ## 20. Direct-Bypass Guards
 
-Ordinary REST field mutation and ordinary save **must not** be able to fabricate: approval state; file hash; approved key; approval actor or timestamp; set membership; withdrawal state; or Job Card release authority. System-managed fields must be rejected or restored to server-derived values before persistence. The guards apply to ordinary save, REST resource updates, standard document method endpoints, background execution, Administrator, and privileged execution. Database UNIQUE constraints remain independently authoritative. Raw SQL by a database administrator remains outside normal application guarantees.
+Ordinary REST field mutation and ordinary save **must not** be able to fabricate: approval state; file hash; approved key; approval actor or timestamp; set membership; withdrawal state; **`required_for_production` classification**; **Customer Approval Evidence outcome**; or Job Card release authority. System-managed fields must be rejected or restored to server-derived values before persistence. The guards apply to ordinary save, REST resource updates, standard document method endpoints, background execution, Administrator, and privileged execution. Database UNIQUE constraints remain independently authoritative. Raw SQL by a database administrator remains outside normal application guarantees.
 
 ---
 
@@ -332,17 +411,17 @@ Ordinary REST field mutation and ordinary save **must not** be able to fabricate
 
 ### 21.1 Audit Fields
 
-**Artwork Revision:** `approved_by`; `approved_on`; `file_sha256`; `withdrawn_by`; `withdrawn_on`; `withdrawal_reason`; `superseded_by`. **Production Artwork Set:** `approved_by`; `approved_on`; `withdrawn_by`; `withdrawn_on`; `withdrawal_reason`; `superseded_by`.
+**Artwork Revision:** `approved_by`; `approved_on`; `file_sha256`; `withdrawn_by`; `withdrawn_on`; `withdrawal_reason`; `superseded_by`. **Customer Approval Evidence:** `outcome`; `customer_identity`; `decided_on`; `evidence_reference`; revocation metadata where present (Section 7.1). **Production Artwork Set:** `approved_by`; `approved_on`; `withdrawn_by`; `withdrawn_on`; `withdrawal_reason`; `superseded_by`. **Requirement-change events** (Section 6a): Artwork; prior value; new value; actor; timestamp; reason — **the exact technical persistence mechanism for repeated requirement-change audit events remains a pre-Publication design item and is not claimed runtime validated.**
 
 Record identity carries immutable revision/set identity; explicit fields carry approval and withdrawal events; `modified` and `modified_by` describe **current record metadata only**; Version history is **supplemental when enabled** and **must not be assumed guaranteed authoritative audit storage**.
 
 ### 21.2 Migration Requirements
 
-Do not fabricate historical approval evidence. Demo-only releases must remain identifiable as demo-only. Existing Job Cards without a Production Artwork Set reference must **not** be retro-labelled production-valid. Detect approved revisions without hashes; missing authoritative Files; duplicate revision labels within one Artwork; multiple Approved revisions per Artwork **before** creating the revision approved-key constraint; and multiple Approved sets per Sales Order **before** creating the set approved-key constraint. Prohibit silent winner selection, silent deletion and silent state changes. Require explicit governed remediation. **Fail visibly** when unresolved invalid data remains.
+Do not fabricate historical approval evidence. Demo-only releases must remain identifiable as demo-only. Existing Job Cards without a Production Artwork Set reference must **not** be retro-labelled production-valid. Detect approved revisions without hashes; **detect approved revisions lacking valid Customer Approval Evidence**; missing authoritative Files; duplicate revision labels within one Artwork; multiple Approved revisions per Artwork **before** creating the revision approved-key constraint; multiple Approved sets per Sales Order **before** creating the set approved-key constraint; and **Submitted Sets whose completeness no longer matches current requirements (stale Sets), which must be rejected or replaced, never silently approved.** Prohibit silent winner selection, silent deletion, silent state changes, and **silent Job Card rebinding to a replacement Set**. Require explicit governed remediation. **Fail visibly** when unresolved invalid data remains.
 
 ### 21.3 Evidence Still Required — Runtime Validation
 
-**No validation below is claimed to have passed.** All remain outstanding:
+**No validation below is claimed to have passed, and this correction task closes no runtime-validation gate.** All remain outstanding:
 
 1. Standalone Artwork Revision lifecycle and DocType/docstatus strategy. 2. Production Artwork Set lifecycle and DocType/docstatus strategy. 3. Nullable revision approved-key UNIQUE behaviour. 4. Nullable set approved-key UNIQUE behaviour. 5. Concurrent approval of competing revisions. 6. Concurrent approval of competing sets. 7. Atomic supersession of the previously Approved revision. 8. Atomic supersession of the previously Approved set. 9. Release-versus-withdrawal race. 10. Release-versus-set-supersession behaviour. 11. Lock ordering across Job Card and Production Artwork Set. 12. Deadlock and lock-wait treatment. 13. Two-hop private File access from Production users. 14. Approved File deletion prohibition. 15. Approved revision deletion prohibition. 16. Approved set deletion prohibition while referenced. 17. Hash computation and approval-time re-verification. 18. Server-side MIME/extension allow-list behaviour. 19. Company User Permission behaviour on Artwork records. 20. Administrator non-exemption from approval and release invariants. 21. Direct REST and privileged bypass prevention. 22. Post-release withdrawal progression guards. 23. Migration duplicate detection and constraint creation. 24. Production approval and Job Card release capability separation.
 
@@ -377,11 +456,19 @@ Do not fabricate historical approval evidence. Demo-only releases must remain id
 - [ ] Post-release withdrawal progression guards validated
 - [ ] Migration and duplicate detection validated
 - [ ] Separation of approval and release capabilities validated
+- [ ] Customer Approval Evidence technical name governed
+- [ ] Customer Approval Evidence persistence contract finalized
+- [ ] Customer-approval prerequisite runtime validated
+- [ ] Requirement-change audit persistence selected
+- [ ] Requirement-change and Set-withdrawal atomicity validated
+- [ ] Zero-required-Artwork rejection validated
+- [ ] Stale Submitted Set treatment validated
+- [ ] No-rebind progression guards validated
 - [ ] Artwork production gate closed
 - [ ] Documentation references synchronized
 - [ ] Publication granted
 
-**No item above is complete merely because the design is now documented.**
+**No item above is complete merely because the design is now documented. This correction task marks none of these items complete.**
 
 ---
 
@@ -438,19 +525,40 @@ Do not fabricate historical approval evidence. Demo-only releases must remain id
 | M-2 | Approved revision and approved set deletion prohibited while referenced |
 | M-3 | Migration detects missing hashes, missing Files, duplicate labels, multiple Approved revisions and multiple Approved sets, failing visibly without silent remediation |
 | M-4 | Demo-only releases remain identifiable; Job Cards lacking a set reference are not retro-labelled production-valid |
+| CA-1 | Revision approval rejected without current valid Customer Approval Evidence for the exact locked Revision |
+| CA-2 | Revision approval succeeds only after a valid Approved Customer Approval Evidence outcome is recorded |
+| CA-3 | Proof status alone, or file existence alone, does not satisfy the customer-approval requirement |
+| CA-4 | Customer Approval Evidence cannot be fabricated through ordinary REST field mutation |
+| RC-1 | `required_for_production` cannot be changed through ordinary save, REST, import, bulk edit, background assignment, Administrator field mutation or `ignore_permissions=True` |
+| RC-2 | Controlled requirement-change operation requires authentication, the dedicated capability, and a mandatory bounded reason |
+| RC-3 | Requirement change atomically moves the currently Approved Set (if any) to Withdrawn, recording actor, timestamp and reason |
+| RC-4 | Requirement-change lock order (Artwork, then currently Approved Set) is honored; failure rolls back both the requirement change and the Set withdrawal together |
+| RC-5 | A Draft Set recomputes completeness before submission; a Submitted Set whose completeness no longer matches current requirements is rejected or replaced, never approved |
+| Z-1 | A Sales Order with zero required Artworks cannot have its Production Artwork Set submitted or approved |
+| Z-2 | An empty-membership Production Artwork Set cannot be submitted or approved |
+| RJ-1 | A Rejected Artwork Revision cannot return to Draft, be resubmitted, be approved, or enter a Production Artwork Set |
+| RJ-2 | Correction of a Rejected Revision requires creating a new Artwork Revision |
+| NR-1 | `production_artwork_set` is never modified after Job Card Release |
+| NR-2 | An In Progress Job Card is never silently updated to a replacement Production Artwork Set |
+| NR-3 | Withdrawal of the bound Set on a Released or In Progress Job Card blocks progression and requires controlled `discard()` with mandatory terminal reason plus a replacement Job Card |
+| MC-1 | Same-identity submit and approve of one Artwork Revision is permitted in Tier A (no mandatory `approved_by != submitted_by` invariant) |
+| SO-1 | Artwork, Revisions, Customer Approval Evidence and Production Artwork Sets remain attached to their original Sales Order after amendment; no automatic relinking occurs |
 
 ---
 
 ## 24. Explicit Exclusions
 
-Proof and Approval Record internal design (Artwork-internal, deferred, subject to existing naming governance); freelancer-sourced artwork (Phase 2); Job Card Tier B scope; machine, material, costing, quantity, scheduling and time facts; per-line-item Job Card decomposition; an Artwork Hold Job Card state; an Expired approval state; any Tenant field; any ERPNext core modification; and all implementation detail.
+Proof and Approval Record internal design, and Customer Approval Evidence's final technical name and full internal design beyond the minimum authority contract in Section 7.1 (all Artwork-internal, deferred, subject to existing naming governance including AR-003, which is neither resolved nor modified); freelancer-sourced artwork (Phase 2); Job Card Tier B scope; machine, material, costing, quantity, scheduling and time facts; per-line-item Job Card decomposition; a multi-file child table on Artwork Revision (Section 6.1b of the System Design); a mandatory maker-checker identity invariant; an Artwork Hold Job Card state; an Expired approval state; any Tenant field; any ERPNext core modification; and all implementation detail.
 
 ---
 
 ## 25. Review Status
 
-- **Architecture Review:** **Pending**
-- **Business Review:** **Pending**
+- **Formal Architecture Review and Business Review:** conducted **2026-07-31**.
+- **Architecture Review:** **Corrections Required.**
+- **Business Review:** **Corrections Required.**
+- **Blocking findings:** **ART-ARCH-F1**, **ART-BIZ-F1**.
+- **Project Owner correction decisions:** approved **2026-07-31**; corrections **applied in this revision**; **targeted re-review pending** — neither disposition is changed to Accepted by this task.
 - **Project Owner Document Lifecycle Approval:** **Not Granted**
 - **Publication:** **Not Granted**
 - **Implementation Authorization:** **Not Granted**
@@ -463,6 +571,7 @@ Proof and Approval Record internal design (Artwork-internal, deferred, subject t
 | Version | Date | Author | Changes |
 |---|---|---|---|
 | 0.1 | 2026-07-31 | PrintHub Architecture Team | Initial Draft Artwork Authority DocType Specification, subordinate to `../blueprint/18_Artwork_Management.md` (Draft 0.1), created following the Project Owner's approval of the Artwork design defaults on 2026-07-31 — an approved design input that authorized documentation-only design work and is not Architecture Review, Business Review, lifecycle Approval, Publication or implementation authorization. Defines four proposed DocTypes, all names recorded as **proposed pending governed naming treatment**: `PrintHub Artwork` (aggregate root, Company- and Submitted-Sales-Order-scoped, with an authoritative `required_for_production` classification), `PrintHub Artwork Revision` (**standalone standard DocType, explicitly not a child table**, carrying state, the single authoritative private File, an immutable `file_sha256`, a nullable UNIQUE `approved_key` enforcing at most one Approved revision per Artwork, and immutable approval, rejection, withdrawal and supersession evidence), `PrintHub Production Artwork Set` (**the final production-release authority consumed by the Job Card**, with a nullable UNIQUE `approved_key` enforcing at most one Approved set per Sales Order), and `PrintHub Production Artwork Set Item` (**the only child table introduced**, carrying immutable membership values binding each required Artwork to one exact approved revision, and explicitly not the approval authority). Records six-state models for both the revision and the set with only "Approved for Production" permitting a new Registered → Released transition, **no Expired state** because Tier A approvals do not expire, full mutability matrices, database constraints, the exact-identity-set completeness predicate (a count comparison is explicitly insufficient), the controlled-operation inventory, the Job Card reference contract (one immutable `production_artwork_set` Link, schema-optional but mandatory for release, with no copied hashes, actors, timestamps, revision collections, Proof or Approval Record references and no Job Card child table), the release-gate contract with locking reads and Job-Card-then-Set lock ordering, post-release supersession and withdrawal behaviour that preserves bindings and never rewrites Completed history while **adding no Artwork Hold Job Card state**, permission capabilities with normative separation of Artwork approval authority from Job Card release authority, file and attachment rules establishing that **File is storage only and not approval authority**, direct-bypass guards, audit fields where native modified metadata is insufficient, migration requirements prohibiting fabricated evidence and silent remediation, a 24-item outstanding runtime-validation list, a 30-item unchecked Pre-Publication Gate Checklist, and a permanent test inventory. **No runtime validation is claimed to have passed and the Artwork production gate remains open.** This document remains Draft, targets Published, and is **not safe for coding**; Architecture Review and Business Review are Pending; Project Owner lifecycle approval, Publication and Implementation Authorization are all Not Granted. No Job Card Tier A document, Architecture Review Register item, ADR, Architecture Freeze, Development Roadmap, Naming Registry, Fit Analysis, Gap Analysis, standards document, product code or configuration was modified. |
+| 0.2 | 2026-07-31 | Architecture and Business Review Correction | Applied the Project Owner-approved corrections (2026-07-31) to the formal combined Architecture Review (Disposition: **Corrections Required**, blocking finding **ART-ARCH-F1**) and Business Review (Disposition: **Corrections Required**, blocking finding **ART-BIZ-F1**), both dated 2026-07-31. Added Section 6a, a controlled `required_for_production` change operation closing ART-ARCH-F1: `required_for_production` marked internal, system-managed after creation, non-importable and non-bulk-editable; the operation requires authentication, Guest rejection, a dedicated production-requirement-management capability, applicable Role and Company User Permissions, a mandatory bounded reason, locking reads on the Artwork then the currently Approved Set (in that lock order), atomic movement of that Set to Withdrawn with durable audit evidence, single commit and full rollback; removed the undefined "governed out of scope" phrase. Added Section 7.1, the Customer Approval Evidence contract, closing ART-BIZ-F1: minimum conceptual fields (`artwork_revision`, `company`, `sales_order`, `outcome`, `customer_identity`, `decided_on`, `evidence_reference`, revocation metadata); recorded as Artwork-internal with final naming pending governed treatment and AR-003 (neither resolved nor modified); `Proof` explicitly not approval authority; ordinary REST writes cannot fabricate approval. Updated the Section 9 Revision transition matrix (new Section 9.1) to require exact, current, valid Customer Approval Evidence before Submitted for Approval → Approved for Production, and to record Rejected as explicitly terminal with no return to Draft, no resubmission and no Set membership (closing ART-ARCH-F4). Added Section 10.1, the complete Production Artwork Set transition matrix (closing ART-ARCH-F6). Updated Section 11's completeness predicate to require at least one required Artwork before a Set may be submitted or approved, prohibiting empty-membership Sets and zero-required-Artwork Sales Orders with no Tier A exception (closing ART-ARCH-F3), and to validate Customer Approval Evidence for every selected Revision. Added Section 11.1 recording that Set approval is not a second content review but the act of freezing a verified combination of already-approved Revisions (closing ART-BIZ-F4). Added Section 7.2, the bounded reason-field rule (500 Unicode code points, reject-not-truncate, no surrounding whitespace), applied to `rejected_reason`, `withdrawal_reason` and the requirement-change reason (closing ART-ARCH-F7). Corrected Section 17 to remove the undefined In Progress "governed correction procedure," requiring instead that Released and In Progress Job Cards whose bound Set is Withdrawn use controlled `discard()` with mandatory terminal reason and a replacement Job Card, that `production_artwork_set` is never modified after Release, and that no silent rebinding occurs (closing ART-ARCH-F5). Updated Section 18 to add the production-requirement-management and customer-approval-recording capabilities and a Maker-Checker Treatment subsection recording that Tier A does not require distinct submitter/approver identities while Artwork-approval and Job-Card-release authority remain normatively separate (closing ART-BIZ-F3). Extended Section 20's direct-bypass guards to cover `required_for_production` and Customer Approval Evidence. Extended Section 21's audit fields and migration requirements with Customer Approval Evidence, requirement-change audit evidence, and detection of stale Submitted Sets. Added 18 new permanent tests (CA-1 through CA-4, RC-1 through RC-5, Z-1 through Z-2, RJ-1 through RJ-2, NR-1 through NR-3, MC-1, SO-1) to Section 23. Added 8 new unchecked items to the Section 22 Pre-Publication Gate Checklist for Customer Approval Evidence naming and persistence, the customer-approval runtime prerequisite, requirement-change audit persistence, requirement-change/Set-withdrawal atomicity, zero-required-Artwork rejection, stale-Set treatment, and no-rebind progression guards — **none marked complete**. Updated Section 24 to record the deferred multi-file child table and mandatory maker-checker identity exclusions. Updated Section 2 and Section 25 to record the formal review date, both Corrections Required dispositions, the two blocking findings, and that corrections are applied in this revision but **remain subject to targeted re-review** — this task does not and cannot change either disposition to Accepted, mark any runtime-validation gate closed, or close the Artwork production gate. All technical DocType names, including the working name `Customer Approval Evidence`, remain marked proposed pending governed naming treatment; AR-003 is neither resolved nor modified. No approved Project Owner design decision was changed. This document remains Draft, targets Published, and remains **not safe for coding**; Publication remains **Not Granted**; no implementation authorization was granted. No Job Card Tier A document, Architecture Review Register item, ADR, Architecture Freeze, Development Roadmap, Naming Registry, Fit Analysis, Gap Analysis or standards document was modified by this entry. |
 
 ---
 

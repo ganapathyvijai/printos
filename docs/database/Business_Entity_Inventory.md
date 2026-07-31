@@ -1,7 +1,7 @@
 # Business Entity Inventory
 
 Version:
-0.2
+0.3
 
 Status:
 Draft
@@ -347,7 +347,18 @@ This inventory is derived from, and does not reinterpret, [../blueprint/05_Domai
 - **Business Owner:** Artwork
 - **Category:** Transactional
 - **Lifecycle:** Sent → Approved / Rejected
-- **Relationships:** Artwork Revision → Proof → Approval Record.
+- **Relationships:** **Artwork Revision → Proof** — a Proof belongs to the exact Artwork Revision it presents to the customer (deliberate refinement, not an accidental mapping change; see Revision History 0.3). Proof → Customer Approval Evidence.
+- **Note (corrected 2026-07-31 — ART-BIZ-F1):** **Proof is not itself approval authority.** A Proof's existence or status is never sufficient evidence of customer approval on its own; the durable, authoritative outcome is recorded separately as Customer Approval Evidence.
+
+#### Customer Approval Evidence
+- **Business Description:** The Artwork-internal, durable, authoritative record of a customer's approval or rejection decision on one exact Artwork Revision.
+- **Business Purpose:** Provides mandatory, server-verifiable proof that customer approval was obtained for the exact Revision before internal production approval may occur. There is no Tier A waiver.
+- **Business Owner:** Artwork (**Artwork-internal**)
+- **Category:** Transactional (**standalone**, not a child table)
+- **Scoping:** One exact Artwork Revision; Company and Sales Order context match the Revision and its Artwork.
+- **Lifecycle (proposed, not runtime-validated):** Recorded (Approved / Rejected) → immutable except through a governed revocation or correction process.
+- **Relationships:** Proof → Customer Approval Evidence → Artwork Revision (production-approval gate).
+- **Note:** This record is **not a Job Card-owned entity**; the Job Card consumes only the Approved Production Artwork Set (Section — see `database/Artwork_Authority_DocType_Specification.md` Section 7.1). Its final technical name remains pending naming governance and the existing AR-003 naming question, which is **not** resolved here.
 
 #### Approval Record
 - **Business Description:** The recorded outcome of a customer or internal approval decision (e.g., Artwork approval, discount approval).
@@ -356,7 +367,7 @@ This inventory is derived from, and does not reinterpret, [../blueprint/05_Domai
 - **Category:** Transactional
 - **Lifecycle:** Pending → Approved / Rejected
 - **Relationships:** Proof → Approval Record; Quotation → Approval Record (discount/internal approvals).
-- **Architecture Notes:** Corresponds to the Approval Designer's business-level output ([../configuration/04_Approval_Designer.md](../configuration/04_Approval_Designer.md)); "Approval Management" as a standalone module name is not adopted — see [Architecture_Review_Register.md](../decisions/Architecture_Review_Register.md) AR-003.
+- **Architecture Notes:** Corresponds to the Approval Designer's business-level output ([../configuration/04_Approval_Designer.md](../configuration/04_Approval_Designer.md)); "Approval Management" as a standalone module name is not adopted — see [Architecture_Review_Register.md](../decisions/Architecture_Review_Register.md) AR-003. **AR-003 is not resolved or modified by this entry.**
 
 #### Job Card
 - **Business Description:** The production instruction and tracking record for a unit of print/production work.
@@ -740,6 +751,7 @@ None of the entities in this section are registered in [../standards/Naming_Regi
 | Production Artwork Set | Sales Order | — |
 | Production Artwork Set Item | Production Artwork Set | Production Artwork Set |
 | Proof | Artwork Revision | — |
+| Customer Approval Evidence | Proof, Artwork Revision | — |
 | Approval Record | Proof, Quotation | — |
 | Job Card | Sales Order, Approved Production Artwork Set | — |
 | Quality Check Record | Job Card | Job Card |
@@ -836,6 +848,7 @@ Sorted alphabetically. Entities marked *(candidate)* are not yet Approved Bluepr
 | Production Schedule *(candidate, Future)* | Production Planning | Operational | Not yet defined |
 | Production Stage *(candidate)* | Production | Not applicable | Not applicable |
 | Proof | Artwork | Transactional | Sent → Approved / Rejected |
+| Customer Approval Evidence | Artwork | Transactional (standalone, Artwork-internal) | Recorded (Approved/Rejected) → immutable except governed revocation/correction |
 | Publisher *(candidate)* | Marketplace | Platform | Not yet defined |
 | Purchase Order | Procurement | Transactional | Draft → Approved → Received → Closed / Cancelled |
 | Quality Check Record | Production | Transactional | Pending → Pass / Fail → Rework / Scrap |
@@ -887,6 +900,7 @@ Sorted alphabetically. Entities marked *(candidate)* are not yet Approved Bluepr
 |---|---|---|---|
 | 0.1 | 2026-07-25 | Initial | Initial Business Entity Inventory. Cataloged 75 entities across Core ERP (22), Print Domain (23), Configuration Studio (12), MachineIQ (6), Marketplace (7, including a flagged naming collision between Approved Marketplace concepts and requested plugin-marketplace entities), and AI (5, all unregistered pending AR-003). No ERPNext mapping, DocType design, or Architecture Review resolution performed. |
 | 0.2 | 2026-07-31 | Artwork Production Authority Synchronization | Corrected and extended the Artwork entity family following the Project Owner's production-capable Artwork track selection (2026-07-30) and approval of the Artwork design defaults (2026-07-31). **Artwork** is now recorded as an aggregate root scoped to one Company and one Submitted Sales Order, owning the `required_for_production` classification used to calculate Production Artwork Set completeness, with Company derived from the Sales Order and immutable, cross-Company reuse prohibited and no Tenant field; its authoritative production state is carried by its revisions rather than by the Artwork record. **Artwork Revision** is corrected from "Transactional (child of Artwork)" to a **standalone governed record — explicitly not a child table** — with the standalone rationale recorded (independently approvable; own state; independent permissions; lockable; file-integrity evidence; referenced by Production Artwork Set membership; may require unique database constraints; preserves immutable approval evidence). Added **Production Artwork Set** as a standalone aggregate root and **the final authority for Job Card production release**, scoped to one Company and one Submitted Sales Order with at most one set Approved for Production per Sales Order. Added **Production Artwork Set Item** as the child table of Production Artwork Set carrying immutable membership rows binding one required Artwork to one exact approved Artwork Revision, noted as acceptable as a child table because its rows are immutable membership values and not the approval authority. Recorded proposed six-state lifecycles for the revision and the set (Draft → Submitted for Approval → Approved for Production → Superseded or Withdrawn; Submitted for Approval → Rejected) with **no Expired state**, explicitly marked as **not runtime-validated**. Marked **Proof** and **Approval Record** as Artwork-internal, with Approval Record remaining subject to existing naming governance including the open AR-003 question, which is neither resolved nor modified. Corrected the **Job Card** dependency from "Approved Artwork" to **Approved Production Artwork Set**, and updated the parent/child relationship and entity-registry tables accordingly. Status remains Draft; no ERPNext mapping, DocType design or database schema design was performed here; no Job Card Tier A document, Architecture Review Register item, ADR, Naming Registry or standards document was modified; no implementation was authorized. |
+| 0.3 | 2026-07-31 | Architecture and Business Review Correction | Applied the Project Owner-approved corrections (2026-07-31) to the formal combined Architecture Review (Corrections Required, blocking finding ART-ARCH-F1) and Business Review (Corrections Required, blocking finding ART-BIZ-F1), both dated 2026-07-31, of the Artwork production-authority documentation package. Clarified that **Proof belongs to an exact Artwork Revision** because the Proof presents that Revision to the customer, and recorded that this Artwork-Revision parenting is a **deliberate refinement, not an accidental mapping change**. Added **Customer Approval Evidence** as a new standalone, Artwork-internal entity: the durable, authoritative outcome for the exact Revision a Proof presents, mandatory before internal production approval with no Tier A waiver; recorded that **Proof is not itself approval authority**; recorded that **Customer Approval Evidence is not a Job Card-owned entity** and that the **Job Card consumes only the Approved Production Artwork Set**; recorded that its final technical name remains pending naming governance and the existing AR-003 question, which is **not resolved** by this entry. Updated the parent/child relationship table and entity-registry table to add Customer Approval Evidence. Status remains Draft; no ERPNext mapping, DocType design, database schema design, Architecture Review Register item, ADR, Naming Registry or standards document was modified; AR-003 is neither resolved nor modified; no implementation was authorized. |
 
 ---
 
