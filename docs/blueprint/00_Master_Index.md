@@ -1,7 +1,7 @@
 # Blueprint Master Index
 
 Version:
-2.3
+2.5
 
 Status:
 Draft
@@ -10,7 +10,7 @@ Owner:
 PrintHub Architecture Team
 
 Last Updated:
-2026-07-22
+2026-08-19
 
 ---
 
@@ -74,7 +74,7 @@ This index was found to be significantly out of date during a Documentation Cons
 | 15 | 15_Production_Management.md | Production management detail | Placeholder |
 | 16 | 16_Print_Machine_Model.md | Machine/press modeling | Placeholder |
 | 17 | 17_Inventory_Model.md | Inventory model detail | Placeholder |
-| 18 | 18_Artwork_Management.md | Artwork management detail | Placeholder |
+| 18 | 18_Artwork_Management.md | Artwork management detail | Approval (Version 1.1), Project Owner Document Lifecycle Approval granted 2026-08-19; prior historical baseline Approval, Version 1.0 |
 | 19 | 19_Job_Card_Model.md | Job Card model detail | Placeholder |
 | 20 | 20_Dashboard_Architecture.md | Dashboard/reporting architecture | Placeholder |
 | 21 | 21_Data_Architecture.md | Business data domains, lifecycle, governance, retention | Future (reserved by [ADR-010](../decisions/ADR-010-Blueprint-Numbering-Strategy.md)) |
@@ -155,6 +155,8 @@ All documents listed in the Document Index above. This is the root of the Bluepr
 |2.1|2026-07-26|Owner-Verification Status Reconciliation|Status corrected from Published to Draft. The previous Published header was removed because formal Project Owner approval had not occurred (explicit Project Owner declaration, 2026-07-26); the document returns to its supported pre-publication Draft lifecycle status. This correction affects only this index document — no indexed Blueprint document changed status, and no index content or navigation entry changed.|
 |2.2|2026-07-26|Status-Reporting Reconciliation|Reconciled the internal Document Index table's Status cells against authoritative source-document headers. Corrected 12 stale "Published" labels (README, 00, and 01–10) to "Draft" to match each source document's actual header Status; the 11–20 Placeholder and 21–25 Future rows were already accurate and unchanged. No referenced document changed lifecycle status; no filenames, links, descriptions, ordering, or numbering changed. The index itself remains Draft.|
 |2.3|2026-07-28|Blueprint 25 Registration|Registered `25_MultiTenant_Architecture.md` as an active, linked document: Status changed from "Future (reserved by ADR-010)" to "Approval, Version 1.0 (not Published)," reflecting its selection via AR-002 Option A and Accepted ADR-015. Updated the Purpose cell to summarize the governed content (site/database-per-Tenant isolation, Tenant/Company distinction, backup/upgrade/service-tier principles). Added a note clarifying that the separate, pre-existing working draft `docs/architecture/04_MultiTenant_Architecture.md` is not reconciled, superseded, or retired by this registration and remains a separate, later controlled task. No other numbered entry (00–24) changed. The index itself remains Draft; no implementation authorized.|
+|2.5|2026-08-19|Project Owner Lifecycle Approval Synchronization|Corrected entry 18 (`18_Artwork_Management.md`) from "Draft (Version 1.1)" to **"Approval (Version 1.1), Project Owner Document Lifecycle Approval granted 2026-08-19; prior historical baseline Approval, Version 1.0"**, reflecting the Project Owner's explicit lifecycle approval of that document on **2026-08-19** following completed Architecture Review, Business Review, Documentation Governance verification, and independent verification with all six local Artwork findings Closed. This is a bounded, non-contradictory current-state clarification per `../Documentation_Workflow.md` Section 8, consistent with this index's own Version 2.4 precedent. **This index entry does not itself grant Publication, implementation authorization, or any other authority** — it records the referenced document's own lifecycle status only. No other numbered entry (00–17, 19–25) changed. The index itself remains Draft; no implementation authorized.|
+|2.4|2026-08-13|Stale Status Correction|Corrected entry 18 (`18_Artwork_Management.md`) from the stale "Placeholder" label — never reconciled after that document was populated and promoted to Approval, Version 1.0 on 2026-07-31 — to its actual current lifecycle position: **Draft (Version 1.1), last reviewed and Owner-approved baseline Approval, Version 1.0**. An intermediate form of this entry (2026-08-08) recorded "Approval (Version 1.1)"; that was corrected on 2026-08-13 because the Version 1.1 addition (that document's Section 7.2) is new normative content lacking Architecture Review and Business Review and therefore cannot carry Approval status under `../Documentation_Workflow.md` Sections 5 and 7. No other numbered entry (00–17, 19–25) changed. The index itself remains Draft; no implementation authorized.|
 
 ---
 
