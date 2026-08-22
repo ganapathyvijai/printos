@@ -1,7 +1,7 @@
 # Artwork Runtime-Validation Readiness Register
 
 Version:
-0.1
+0.2
 
 Status:
 Draft
@@ -10,7 +10,7 @@ Owner:
 PrintHub Architecture Team
 
 Last Updated:
-2026-08-21
+2026-08-22
 
 ---
 
@@ -35,14 +35,14 @@ Tracks, in one compact register, the current governed state of the Artwork bound
 
 # Scope
 
-Covers the Artwork bounded context as governed by `docs/blueprint/18_Artwork_Management.md` (Approval, Version 1.1) and its consuming reference contract in `docs/implementation/JobCard_TierA_System_Design.md` (Approval, Version 1.5), together with the companion `docs/database/Artwork_Authority_DocType_Specification.md` and `docs/database/JobCard_TierA_DocType_Specification.md` (both Draft). Excludes application source, ERPNext/Frappe internals, `platform/erpnext/`, schemas, databases, runtime environments, services, logs, and containers — none of which was inspected to produce this register.
+Covers the Artwork bounded context as governed by `docs/blueprint/18_Artwork_Management.md` (Approval, Version 1.2) and its consuming reference contract in `docs/implementation/JobCard_TierA_System_Design.md` (Approval, Version 1.6), together with the companion `docs/database/Artwork_Authority_DocType_Specification.md` and `docs/database/JobCard_TierA_DocType_Specification.md` (both Draft, Version 0.9). Excludes application source, ERPNext/Frappe internals, `platform/erpnext/`, schemas, databases, runtime environments, services, logs, and containers — none of which was inspected to produce this register.
 
 ---
 
 # 1. Identifier-provenance legend
 
-- **`ART-RVR-*`** — local register identifiers only, invented for this register. Not Architecture Review Register IDs, approvals, gates, findings, or execution records.
-- **`AR-003`** — the sole genuine Architecture Review Register ID in scope.
+- **`ART-RVR-*`** (including `ART-RVR-A*`, `ART-RVR-B*`, `ART-RVR-C*`) — local register identifiers only, invented for this register. Not Architecture Review Register IDs, approvals, gates, findings, or execution records.
+- **`AR-003`** — the sole genuine Architecture Review Register ID in scope. Its **actual recorded scope is limited to eight named terms** ("Print Specification," "Approval Management," "Production Workflow," "Machine Management," "Finishing," "Quality Control," "AI Assistant," "Production Orchestration") per `../decisions/Architecture_Review_Register.md`. It remains **Open globally** but is **not** the governing identifier for Artwork/Job Card technical-name registration or `printos_core` module-path selection — an earlier version of this register (0.1) incorrectly attributed both to `AR-003`; that misattribution is corrected in Section 4 below (Version 0.2).
 - **`RO-13`, `UV-017`** — planning identifiers from the canonical review baseline, **not approved normative identifiers**, **not Architecture Review Register IDs**, and **absent from the current tracked repository**. Their absence from tracked documentation does not authorize deleting, renaming, or replacing them. Their closest governed anchors are Artwork System Design §21.2's transaction, locking, revalidation, and global lock-order gates (items 11–12, 31–33, 42–43).
 - Gate numbers (e.g., "items 7–8") refer to the numbered list in Artwork System Design §21.2.
 
@@ -56,6 +56,7 @@ Covers the Artwork bounded context as governed by `docs/blueprint/18_Artwork_Man
 - **`ART-RVP57-F3`** and **`CP-037`**: absent from tracked documentation. Not recreated.
 - The 126-experiment / 39-checkpoint / 35-phase executable-looking specification: absent from the repository. Not reconstructed.
 - Correction 16 Part A-2: not continued or recreated.
+- **`AR-003` scope misattribution (corrected in this Version 0.2):** Version 0.1's Section B row labeled the registration of five proposed Artwork/Job Card technical DocType names and the selection of the `printos_core` module path as `AR-003`, and cited Naming Registry §33 as the resolving process. Both were incorrect. `AR-003`'s recorded scope (see the legend above) does not mention Artwork, Job Card, any `PrintHub *` DocType name, or `printos_core` anywhere. §33 (Term Change Policy) governs **renaming an existing Approved term**; the five names are net-new registrations, not renames, so §33 does not apply — the correct mechanism is Naming Registry §§5, 26, 38 and 39. `AR-003` itself was **not** modified, resolved, or reinterpreted by this correction — `../decisions/Architecture_Review_Register.md` was not touched. Section 4 (Section B) below now separates these into three rows: `AR-003` (its own unrelated scope, recorded for completeness), `ART-RVR-B01` (technical-name registration), and `ART-RVR-B02` (module-path governance, for which no mechanism currently exists).
 
 ---
 
@@ -81,9 +82,11 @@ Covers the Artwork bounded context as governed by `docs/blueprint/18_Artwork_Man
 
 | ID | Requirement or question | Governing document or design rule | Current status | Missing evidence | Blocking effect | Next authorized action |
 |---|---|---|---|---|---|---|
-| AR-003 | Naming Registry alignment: final governed technical names (e.g., `PrintHub Artwork`, `PrintHub Production Artwork Set`) and the `printos_core` module path | Architecture Review Register, AR-003 | Open | Project Owner naming decision via Term Change Policy | Blocks Publication of both DocType Specs per each Specification's own Publication conditions | Project Owner resolves AR-003 per Naming Registry §33 process (not performed here) |
+| AR-003 | Naming Registry Alignment (Non-Approved Module Names and Unregistered Terms) — its own recorded eight-term scope only ("Print Specification," "Approval Management," "Production Workflow," "Machine Management," "Finishing," "Quality Control," "AI Assistant," "Production Orchestration"). Recorded here for completeness only — **not** a blocker of Artwork/Job Card Publication. | Architecture Review Register, AR-003 | Open (globally, outside this register's substantive scope) | Project Owner decision per Naming Registry §26/39 (Options A/B/C recorded in AR-003 itself) | None to this Artwork/Job Card package; genuinely blocks only its own eight named terms elsewhere in the platform | No action required by this register |
+| ART-RVR-B01 | Registration of the five proposed technical names (`PrintHub Artwork`, `PrintHub Artwork Revision`, `PrintHub Production Artwork Set`, `PrintHub Production Artwork Set Item`, `PrintHub Job Card`) under Naming Registry §§5, 26, 38 and 39 | Naming Registry §§5, 26, 38, 39 (not §33 — these are net-new terms, not renames of an existing Approved term) | Unregistered — not present in the Naming Registry at any status | Project Owner/Architecture-level naming decision; §39 checklist completion; ADR **only if** a conflict is found during Under Review (§5 Naming Lifecycle) | Blocks both DocType Specifications' own Pre-Publication Gate Checklist item ("Proposed technical names governed") | Project Owner/Architecture Review initiates §5 Naming Lifecycle registration for the set (see also `ART-RVR-C08`) |
+| ART-RVR-B02 | Selection and governance of the `printos_core` module paths for Artwork and Job Card | Module Dependency Matrix (states paths "remain unresolved and are pre-Publication decisions"); no other governing document found | **No governance mechanism currently exists** for this decision | A documented module-path convention or decision record — currently absent entirely; even the *mechanism* (Standards update, ADR, or Specification-level decision) that would govern this is undecided | Blocks both DocType Specifications' own Pre-Publication Gate Checklist item ("Exact `printos_core` module paths selected") | Cannot be authorized by this register; requires the Project Owner/Architecture Review to first decide which mechanism will govern this, since none currently exists |
 
-No other genuine unresolved governance decision was found; the newer-Revision/Approved-Set question is resolved (Section A, ART-RVR-A07).
+No other genuine unresolved governance decision was found; the newer-Revision/Approved-Set question is resolved (Section A, ART-RVR-A07). **No technical name is represented as approved and no module-path candidate is represented as existing by this Section.**
 
 ---
 
@@ -101,6 +104,7 @@ No other genuine unresolved governance decision was found; the newer-Revision/Ap
 | ART-RVR-C05 | Migration/duplicate-detection sequencing before constraint creation | Artwork SD §21.2 items 23, 56–57 | Design-level only | Migration script implementation | Leaves safe constraint rollout unproven | Authorized inspection of migration implementation |
 | ART-RVR-C06 | Stable domain-error translation (no SQL/index/stack-trace exposure) | Artwork SD §21.2 items 44, 62 | Design-level only | Error-handling implementation | Leaves safe error-surface behavior unproven | Authorized source inspection of error-translation layer |
 | ART-RVR-C07 | Two-hop private File access restriction for Production users | Artwork SD §21.2 item 13 | Design-level only | File/permission implementation | Leaves file-access boundary unproven | Authorized source inspection of file access controller |
+| ART-RVR-C08 | Source-based collision verification of the five proposed technical names (`PrintHub Artwork`, `PrintHub Artwork Revision`, `PrintHub Production Artwork Set`, `PrintHub Production Artwork Set Item`, `PrintHub Job Card`) against Frappe/ERPNext DocType, module, and reserved-name namespaces | Naming Registry §39 checklist ("ERPNext compatibility confirmed — no collision with ERPNext Reserved Terms, Section 21") | Partially checked from documentation only: none of the five names appears in Naming Registry §21's curated Reserved Terms table (a small, explicitly non-exhaustive list) | Full Frappe/ERPNext DocType and module namespace verification — not obtainable from documentation alone | Confident Approval of the five names remains unsupported until this evidence exists; **names may enter Proposed status before this inspection**, but source inspection remains unauthorized here | Authorized source inspection of Frappe/ERPNext DocType, module, and reserved-name namespaces |
 
 ---
 
@@ -122,10 +126,10 @@ No other genuine unresolved governance decision was found; the newer-Revision/Ap
 
 # 7. Row counts and final disposition
 
-- **Rows:** A = 11, B = 1, C = 8 (including `RO-13`), D = 7 (including `UV-017`).
-- **Genuine governance decisions remaining:** 1 — `AR-003`.
-- **Source-inspection authorization needed:** yes, for all 8 rows in Section C, including `RO-13` (not granted by this document).
-- **Runtime-validation authorization needed:** yes, for all 7 rows in Section D, including `UV-017` (not granted by this document). The Artwork production gate remains Open and is not closed by this register.
+- **Rows:** A = 11, B = 3 (`AR-003`, `ART-RVR-B01`, `ART-RVR-B02`), C = 9 (including `RO-13` and `ART-RVR-C08`), D = 7 (including `UV-017`).
+- **Genuine Artwork governance questions remaining:** 2 — `ART-RVR-B01` (technical-name registration) and `ART-RVR-B02` (module-path selection and governance). `AR-003` is recorded in Section B for completeness but is **not** a genuine Artwork governance question — it remains Open globally under its own, unrelated eight-term scope.
+- **Source-inspection rows:** 9, in Section C, including `RO-13` and `ART-RVR-C08` (not granted by this document).
+- **Runtime-validation rows:** 7, in Section D, including `UV-017` (not granted by this document). All 62 Artwork runtime gates and the Artwork production gate remain **Open** and are not closed by this register.
 
 **Design rules are documented to the extent shown above; implementation and runtime-validation readiness remain unproven until the identified governance, source-inspection, and runtime-evidence gaps are resolved.**
 
@@ -133,10 +137,10 @@ No other genuine unresolved governance decision was found; the newer-Revision/Ap
 
 # Related Documents
 
-- [../blueprint/18_Artwork_Management.md](../blueprint/18_Artwork_Management.md) — Approval, Version 1.1; the governing Artwork architecture and business-design baseline this register summarizes.
-- [../implementation/JobCard_TierA_System_Design.md](../implementation/JobCard_TierA_System_Design.md) — Approval, Version 1.5; the consuming Production Artwork Set reference contract.
-- [../database/Artwork_Authority_DocType_Specification.md](../database/Artwork_Authority_DocType_Specification.md) — Draft; not Published; not safe for coding.
-- [../database/JobCard_TierA_DocType_Specification.md](../database/JobCard_TierA_DocType_Specification.md) — Draft; not Published; not safe for coding.
+- [../blueprint/18_Artwork_Management.md](../blueprint/18_Artwork_Management.md) — Approval, Version 1.2; the governing Artwork architecture and business-design baseline this register summarizes.
+- [../implementation/JobCard_TierA_System_Design.md](../implementation/JobCard_TierA_System_Design.md) — Approval, Version 1.6; the consuming Production Artwork Set reference contract.
+- [../database/Artwork_Authority_DocType_Specification.md](../database/Artwork_Authority_DocType_Specification.md) — Draft, Version 0.9; not Published; not safe for coding.
+- [../database/JobCard_TierA_DocType_Specification.md](../database/JobCard_TierA_DocType_Specification.md) — Draft, Version 0.9; not Published; not safe for coding.
 - [../decisions/Architecture_Review_Register.md](../decisions/Architecture_Review_Register.md) — source of `AR-003`, cited but not modified by this register.
 - [../Documentation_Status.md](../Documentation_Status.md) — synchronized alongside this register's creation.
 
@@ -146,6 +150,7 @@ No other genuine unresolved governance decision was found; the newer-Revision/Ap
 
 | Version | Date | Author | Changes |
 |---|---|---|---|
+| 0.2 | 2026-08-22 | AI-Assisted, Project Owner-Directed Documentation Work — AR-003 Scope Misattribution Correction | Corrected Section B, which in Version 0.1 incorrectly labeled the registration of the five proposed Artwork/Job Card technical DocType names and the selection of the `printos_core` module path as `AR-003`, and incorrectly cited Naming Registry §33 (Term Change Policy, which governs renaming an existing Approved term, not net-new registration) as the resolving process. Direct inspection of `../decisions/Architecture_Review_Register.md` confirmed `AR-003`'s actual recorded scope is limited to its own eight named terms, none Artwork- or Job Card-related. Section B now contains **three rows**: `AR-003` (its own unrelated scope, recorded for completeness, remaining Open globally); `ART-RVR-B01` (technical-name registration, governed by Naming Registry §§5, 26, 38 and 39); and `ART-RVR-B02` (module-path selection and governance, for which no mechanism currently exists). Added Section C row `ART-RVR-C08` for source-based collision verification of the five proposed names against Frappe/ERPNext DocType, module, and reserved-name namespaces, noting that names may enter Proposed status before this inspection but that confident Approval remains unsupported until it exists. Updated the legend, reconciliation findings, and Related Documents to reflect the correction and the governing System Designs' own concurrent bounded corrections (Artwork System Design → Approval, Version 1.2; Job Card Tier A System Design → Approval, Version 1.6; both companion DocType Specifications → Draft, Version 0.9). **Row counts recalculated: A = 11 (unchanged), B = 1 → 3, C = 8 → 9, D = 7 (unchanged).** `AR-003` itself was **not** modified, resolved, or reinterpreted. **No technical name or module path is represented as selected or approved by this correction; no module-path candidate is represented as existing.** All 62 Artwork runtime gates and the Artwork production gate remain **Open**; no gate is closed. This correction grants **no** source-inspection, implementation, Publication, or runtime-validation authority. No AR identifier was invented. This document remains Draft and has not undergone Architecture Review, Business Review, or Project Owner lifecycle approval. |
 | 0.1 | 2026-08-21 | AI-Assisted, Project Owner-Directed Documentation Work | Initial compact readiness-register draft. Consolidates approved normative facts (Section A, 11 rows), the remaining governance decision (Section B, `AR-003`), source-inspection questions (Section C, 8 rows including `RO-13`), and absent runtime evidence (Section D, 7 rows including `UV-017`). Preserves `RO-13` and `UV-017` as planning-only identifiers from the canonical review baseline — not approved normative identifiers, not Architecture Review Register IDs, absent from tracked documentation, and not deleted or renamed. Records that the subject of the former `ART-RVP29-F1` question is resolved by approved Artwork System Design §7.2 and is recorded in Section A accordingly. Creates **no** Architecture Review Register item; no AR identifier was invented. Does **not** reconstruct Correction 16 Part A-2 or the absent 126-experiment/39-checkpoint/35-phase specification. Grants **no** implementation, source-inspection, runtime-validation, Publication, production, or gate-closure authority. This document is Draft and has not undergone Architecture Review, Business Review, or Project Owner lifecycle approval. |
 
 ---
