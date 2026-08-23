@@ -1,7 +1,7 @@
 # Naming Registry
 
 Version:
-1.4
+1.5
 
 Status:
 Draft
@@ -10,7 +10,7 @@ Owner:
 PrintHub Architecture Team
 
 Last Updated:
-2026-07-22
+2026-08-22
 
 ---
 
@@ -308,6 +308,25 @@ flowchart LR
 | Work Order | Not an approved name — see Job Card | — | **Deprecated per [ADR-014](../decisions/ADR-014-Production-Terminology.md)** |
 | Quality Record | Corresponds to Blueprint's "Quality Check Record" (`09_PrintOS_Modules.md`, Job Cards) | `09_PrintOS_Modules.md` | **Pending ADR** — confirm exact name |
 | Maintenance Log | Not yet defined in Blueprint | — | **Proposed** |
+
+## 13a. Artwork/Job Card Technical DocType Names (Proposed 2026-08-22)
+
+Six net-new technical DocType-name candidates for the already-governed Artwork System Design (Approval, Version 1.3) and Job Card Tier A System Design (Approval, Version 1.7). Entered by explicit Project Owner decision on **2026-08-22** at **Proposed** status only (Naming Lifecycle, Section 5) — **Under Review has not begun for any of them, and none is Approved.** Each is a **net-new registration, not a rename** of any existing Approved term; Section 33 (Term Change Policy) does not govern this entry. Source-based collision verification against Frappe/ERPNext DocType, module, and reserved-name namespaces (`ART-RVR-C08`, `../reviews/Artwork_Runtime_Validation_Readiness_Register.md`) remains **unauthorized and outstanding** — this Registry entry records Proposed status only and does not represent that collision verification has occurred.
+
+| Term | Category | Status | Business Owner | Architecture Owner | Source Document | Approved By | ADR Reference |
+|---|---|---|---|---|---|---|---|
+| `PrintHub Artwork` | Technical (Entity/DocType) | Proposed | Project Owner | Project Architecture Team | `../blueprint/18_Artwork_Management.md` §3; `../database/Artwork_Authority_DocType_Specification.md` §4/§5 | Pending — not yet Approved | — |
+| `PrintHub Artwork Revision` | Technical (Entity/DocType) | Proposed | Project Owner | Project Architecture Team | `../blueprint/18_Artwork_Management.md` §6.2; `../database/Artwork_Authority_DocType_Specification.md` §5/§7 | Pending — not yet Approved | — |
+| `PrintHub Customer Approval Evidence` | Technical (Entity/DocType) | Proposed | Project Owner | Project Architecture Team | `../blueprint/18_Artwork_Management.md` §6.2a; `../database/Artwork_Authority_DocType_Specification.md` §7.1 | Pending — not yet Approved | — |
+| `PrintHub Production Artwork Set` | Technical (Entity/DocType) | Proposed | Project Owner | Project Architecture Team | `../blueprint/18_Artwork_Management.md` §6.3; `../database/Artwork_Authority_DocType_Specification.md` §5/§8.1 | Pending — not yet Approved | — |
+| `PrintHub Production Artwork Set Item` | Technical (Entity/DocType, child table) | Proposed | Project Owner | Project Architecture Team | `../blueprint/18_Artwork_Management.md` §6.4; `../database/Artwork_Authority_DocType_Specification.md` §5/§8.2 | Pending — not yet Approved | — |
+| `PrintHub Job Card` | Technical (Entity/DocType) | Proposed | Project Owner | Project Architecture Team | `../implementation/JobCard_TierA_System_Design.md`; `../database/JobCard_TierA_DocType_Specification.md` §5 | Pending — not yet Approved | [ADR-014](../decisions/ADR-014-Production-Terminology.md) — **rationale/traceability only** |
+
+Notes:
+
+- `PrintHub Customer Approval Evidence` is the **first tracked technical-name candidate** for the already-governed, standalone, Artwork-internal Customer Approval Evidence DocType (`../blueprint/18_Artwork_Management.md` §6.2a). This entry introduces only a **provisional technical identity**; the underlying entity, its business rules, its uniqueness behavior, and its revocation treatment are pre-existing and unchanged by this registration.
+- For `PrintHub Job Card`: **[ADR-014](../decisions/ADR-014-Production-Terminology.md)** is cited here only as rationale and traceability for the business term `Job Card` and the documented need for a distinct technical identity to avoid collision with ERPNext's native `Job Card` DocType. ADR-014 approved the **business term** `Job Card` and states "Technical usage: DocType name 'Job Card'" (unprefixed) — **it does not mention or approve the exact prefixed string `PrintHub Job Card`.** This Registry entry does not claim otherwise.
+- No Architecture Review disposition, Business Review disposition, or source-based collision verification is recorded or claimed for any of the six names. All six remain Proposed only.
 
 ## 14. Service Naming Registry
 
@@ -890,6 +909,7 @@ The four-way split into Business, Technical, Infrastructure, and Integration voc
 |1.2|2026-07-22|Documentation Consistency Fix|Repaired 3 stale cross-references (Section 8, 9, Future Considerations) from `12_Integration_Architecture.md`/`13_Security_Architecture.md`/`15_MultiTenant_Architecture.md` to `22_Integration_Architecture.md`/`23_Security_Architecture.md`/`25_MultiTenant_Architecture.md` per ADR-010. Added Section 27a registering the 11–20 Blueprint scaffold document names as Proposed terminology, per ADR-010 and the Mandatory Registration rule (§38). No existing Approved term changed.|
 |1.3|2026-07-22|ADR Synchronization|Closed Naming Decision Matrix items #2, #4, #7, #8, #12, #16, and new item #18 as Resolved, each citing its accepted ADR (ADR-011 through ADR-014). Updated Business Vocabulary (§6), Module Registry (§11, incl. diagram), Bounded Context Names (§12, incl. diagram), Entity Naming Registry (§13), Service Naming Registry (§14), Synonym Registry (§25), and §27a to reflect: "Accounts" (not Finance/Financial Management) canonical; "Estimation" (not Estimations/Estimating) canonical for the context/module; "Quotation" (not Quote/Estimate/Proposal) canonical; "Job Card" (not Job Ticket/Work Order) canonical, "Production Order" rejected; "Production Management" approved as documentation-umbrella term only. Populated the previously-empty Deprecated Names table (§28) with 10 entries. Remaining Pending ADR items (#3, #5, #6, #9, #10, #11, #13, #14, #15, #17) left unchanged.|
 |1.4|2026-07-28|Tenant/Company ADR Synchronization|Ratified "Tenant" as an Approved term (Section 8, Infrastructure Vocabulary Registry) and formally distinguished it from "Company": Tenant is the print-shop organization/subscription represented by one isolated Frappe site and one isolated operational database (site identity, database, files/private files, credentials/secrets, configuration, backups, upgrade rollout, and operational-management boundary); Company is retained, unchanged in substance and not deprecated, as the ERPNext legal/accounting entity and business-scoping anchor inside a Tenant, with a Tenant able to contain one or more Companies. Removed the obsolete "pending ADR" hedge from the Company (Infrastructure Vocabulary Registry) row. Closed Naming Decision Matrix item #11 as Resolved, citing Accepted ADR-015 (Version 1.0, 2026-07-28). No Tenant DocType introduced; no implementation authorization granted. Header Version reconciled from 1.0 to 1.4 to match this Revision History, which had already reached 1.3 before this entry — a pre-existing header lag corrected as part of this update, not a separate content change. Remaining Pending ADR items (#1, #3, #5, #6, #9, #10, #13, #14, #15, #17) left unchanged.|
+|1.5|2026-08-22|Artwork/Job Card Technical DocType Names — Proposed Registration|Added Section 13a, recording six net-new technical DocType-name candidates for the Artwork and Job Card Tier A packages at **Proposed** status only, per explicit Project Owner decision dated 2026-08-22: `PrintHub Artwork`, `PrintHub Artwork Revision`, `PrintHub Customer Approval Evidence`, `PrintHub Production Artwork Set`, `PrintHub Production Artwork Set Item`, and `PrintHub Job Card`. Each is a **net-new registration, not a rename** — Section 33 (Term Change Policy) does not govern this entry. **`PrintHub Customer Approval Evidence` is introduced here as the first tracked technical-name candidate** for the already-governed, standalone, Artwork-internal Customer Approval Evidence entity (`../blueprint/18_Artwork_Management.md` §6.2a) — the underlying entity and its business rules are pre-existing and unchanged; only a provisional technical identity is added. For `PrintHub Job Card`, [ADR-014](../decisions/ADR-014-Production-Terminology.md) is cited as **rationale/traceability only** for the business term `Job Card` and the ERPNext-collision-avoidance need; ADR-014's own text approves the business term `Job Card` and states "Technical usage: DocType name 'Job Card'" (unprefixed) — **ADR-014 did not approve the exact prefixed string `PrintHub Job Card`**, and this entry does not represent otherwise. **None of the six names is Approved.** Naming Lifecycle Under Review (Section 5) has **not begun** for any of them. No Architecture Review disposition or Business Review disposition is recorded. Source-based collision verification against Frappe/ERPNext DocType, module, and reserved-name namespaces (`ART-RVR-C08`) **remains unauthorized and outstanding** — not performed, and not claimed to have occurred. This entry does not resolve or modify `AR-003` (unrelated, recorded scope limited to its own eight named terms, remains Open); does not select or establish any `printos_core` module path (`ART-RVR-B02`, separately unresolved); and does not authorize source inspection, implementation, Publication, runtime validation, production use, or closure of any Artwork or Job Card gate. No existing Approved term was renamed, deprecated, or altered. No other section of this document was modified.|
 
 ---
 

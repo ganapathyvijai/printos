@@ -1,7 +1,7 @@
 # ERPNext DocType Mapping
 
 Version:
-0.3
+0.4
 
 Status:
 Draft
@@ -10,7 +10,7 @@ Owner:
 PrintHub Architecture Team
 
 Last Updated:
-2026-07-31
+2026-08-22
 
 ---
 
@@ -152,7 +152,7 @@ Five entities (Marketplace Package, Marketplace Template, Extension, Publisher, 
 #### Artwork
 - **Business Owner / Bounded Context:** Artwork
 - **Implementation Owner:** Custom PrintHub
-- **Target DocType:** New custom PrintHub DocType — proposed technical name `PrintHub Artwork`, *pending governed naming treatment*.
+- **Target DocType:** New custom PrintHub DocType — technical name `PrintHub Artwork`, **Naming Registry status: Proposed, not Approved** (per Project Owner decision dated 2026-08-22; `../standards/Naming_Registry.md` Section 13a).
 - **Implementation Strategy:** No ERPNext native equivalent beyond generic File attachment; Core Domain per [../blueprint/05_Domain_Model.md](../blueprint/05_Domain_Model.md), Customize per [ERPNext_Fit_Analysis.md](../architecture/ERPNext_Fit_Analysis.md) Section 4. **ERPNext core remains immutable** — no ERPNext DocType is modified to support Artwork.
 - **Customization Required:** New DocType
 - **Dependencies:** [ERPNext_Gap_Analysis.md](../architecture/ERPNext_Gap_Analysis.md) ("Artwork & Proof Lifecycle").
@@ -160,16 +160,24 @@ Five entities (Marketplace Package, Marketplace Template, Extension, Publisher, 
 #### Artwork Revision
 - **Business Owner / Bounded Context:** Artwork
 - **Implementation Owner:** Custom PrintHub
-- **Target DocType:** **New standalone custom PrintHub DocType in `printos_core`** — proposed technical name `PrintHub Artwork Revision`, *pending governed naming treatment*. **Corrected 2026-07-31: this entity was previously mapped as a child table of Artwork. That mapping is withdrawn.**
+- **Target DocType:** **New standalone custom PrintHub DocType in `printos_core`** — technical name `PrintHub Artwork Revision`, **Naming Registry status: Proposed, not Approved**. **Corrected 2026-07-31: this entity was previously mapped as a child table of Artwork. That mapping is withdrawn.**
 - **Standalone rationale:** independently approvable; requires its own state; requires independent permissions; must be lockable; requires file-integrity evidence; may be referenced by Production Artwork Set membership; may require unique database constraints; must preserve immutable approval evidence. A child table can satisfy none of these.
 - **Implementation Strategy:** Same rationale as Artwork; built on ERPNext's native File mechanism **for underlying storage only — File is never the approval authority**.
 - **Customization Required:** New DocType
 - **Dependencies:** Same as Artwork.
 
+#### Customer Approval Evidence
+- **Business Owner / Bounded Context:** Artwork
+- **Implementation Owner:** Custom PrintHub
+- **Target DocType:** **New standalone, Artwork-internal custom PrintHub DocType** — technical name `PrintHub Customer Approval Evidence`, **Naming Registry status: Proposed, not Approved** (added 2026-08-22 as the first documented technical-name candidate for this already-governed entity; the entity and its business rules, defined in `../blueprint/18_Artwork_Management.md` §6.2a and `../database/Artwork_Authority_DocType_Specification.md` §7.1, are unchanged).
+- **Implementation Strategy:** No ERPNext native equivalent. The durable, mandatory record of customer approval for one exact Artwork Revision; not itself approval authority for Job Card release.
+- **Customization Required:** New DocType
+- **Dependencies:** Artwork; Artwork Revision; Proof.
+
 #### Production Artwork Set
 - **Business Owner / Bounded Context:** Artwork
 - **Implementation Owner:** Custom PrintHub
-- **Target DocType:** New custom PrintHub DocType — proposed technical name `PrintHub Production Artwork Set`, *pending governed naming treatment*.
+- **Target DocType:** New custom PrintHub DocType — technical name `PrintHub Production Artwork Set`, **Naming Registry status: Proposed, not Approved**.
 - **Implementation Strategy:** No ERPNext native equivalent. This is the **final production-release authority consumed by the Job Card**: it binds one exact approved Artwork Revision per required Artwork for a Sales Order. At most one set is Approved for Production per Sales Order.
 - **Customization Required:** New DocType
 - **Dependencies:** Artwork; Artwork Revision; Sales Order (Submitted); Company.
@@ -177,7 +185,7 @@ Five entities (Marketplace Package, Marketplace Template, Extension, Publisher, 
 #### Production Artwork Set Item
 - **Business Owner / Bounded Context:** Artwork
 - **Implementation Owner:** Custom PrintHub
-- **Target DocType:** New custom PrintHub DocType — **child table of Production Artwork Set** — proposed technical name `PrintHub Production Artwork Set Item`, *pending governed naming treatment*.
+- **Target DocType:** New custom PrintHub DocType — **child table of Production Artwork Set** — technical name `PrintHub Production Artwork Set Item`, **Naming Registry status: Proposed, not Approved**.
 - **Implementation Strategy:** Immutable membership rows binding one Artwork to one exact Artwork Revision. Acceptable as a child table **because its rows are immutable aggregate membership values — it is not the approval authority itself**.
 - **Customization Required:** New DocType (child table)
 - **Dependencies:** Production Artwork Set; Artwork; Artwork Revision.
@@ -197,6 +205,8 @@ Five entities (Marketplace Package, Marketplace Template, Extension, Publisher, 
 - **Implementation Strategy:** No ERPNext native equivalent to a business-specific approval outcome record; built on top of Frappe's native Workflow engine (used by the Approval Definition configuration entity) but the outcome record itself is Custom. The "Approval Management" naming question (AR-003) is non-blocking — it does not change where this entity lives.
 - **Customization Required:** New DocType
 - **Dependencies:** [Architecture Review Register](../decisions/Architecture_Review_Register.md) AR-003 (non-blocking, terminology only); [../configuration/04_Approval_Designer.md](../configuration/04_Approval_Designer.md).
+
+**Supporting infrastructure note — Frappe `File` (updated 2026-08-22):** Artwork evidence storage relies on Frappe's native `File` primitive. `File` is **not a Business Entity Inventory entity** — it does not appear in `../database/Business_Entity_Inventory.md` or `../architecture/Canonical_Domain_Model.md` — and is therefore **intentionally excluded from the entity-scoped Master Mapping Table above**, which assigns ownership only to cataloged business entities. `File` is **storage only and is never approval authority**; this rule is normatively governed by `../blueprint/18_Artwork_Management.md` Section 10 (File Integrity and Authority), not by this document. This note is documentation-scope clarification only: it introduces no new File behavior, implementation mechanism, or coding decision, and does not modify the Artwork System Design's governing rule.
 
 ---
 
@@ -701,14 +711,14 @@ The following five entities are neither Approved nor covered by any existing Arc
 | Job Types | Estimation/Production | Custom PrintHub | New PrintHub DocType | New DocType |
 | Finishing Types | Estimation/Production | Custom PrintHub | New PrintHub DocType | New DocType |
 | Paper Sizes | Estimation | Custom PrintHub | New PrintHub DocType | New DocType |
-| Artwork | Artwork | Custom PrintHub | New PrintHub DocType (proposed `PrintHub Artwork`) | New DocType |
-| Artwork Revision | Artwork | Custom PrintHub | **New standalone PrintHub DocType** (proposed `PrintHub Artwork Revision`) — *corrected 2026-07-31 from child table of Artwork* | New DocType |
-| Production Artwork Set | Artwork | Custom PrintHub | New PrintHub DocType (proposed `PrintHub Production Artwork Set`) | New DocType |
-| Production Artwork Set Item | Artwork | Custom PrintHub | New PrintHub DocType — child table of Production Artwork Set (proposed `PrintHub Production Artwork Set Item`) | New DocType |
-| File (Artwork evidence storage) | Artwork | Native Frappe | `File` — **storage primitive only; never the approval authority** | None |
+| Artwork | Artwork | Custom PrintHub | New PrintHub DocType (`PrintHub Artwork` — Naming Registry: Proposed, not Approved) | New DocType |
+| Artwork Revision | Artwork | Custom PrintHub | **New standalone PrintHub DocType** (`PrintHub Artwork Revision` — Naming Registry: Proposed, not Approved) — *corrected 2026-07-31 from child table of Artwork* | New DocType |
+| Customer Approval Evidence | Artwork | Custom PrintHub | **New standalone, Artwork-internal PrintHub DocType** (`PrintHub Customer Approval Evidence` — Naming Registry: Proposed, not Approved) — *added 2026-08-22 as first documented technical-name candidate for this already-governed entity* | New DocType |
+| Production Artwork Set | Artwork | Custom PrintHub | New PrintHub DocType (`PrintHub Production Artwork Set` — Naming Registry: Proposed, not Approved) | New DocType |
+| Production Artwork Set Item | Artwork | Custom PrintHub | New PrintHub DocType — child table of Production Artwork Set (`PrintHub Production Artwork Set Item` — Naming Registry: Proposed, not Approved) | New DocType |
 | Proof | Artwork | Custom PrintHub | New PrintHub DocType | New DocType |
 | Approval Record | Artwork | Custom PrintHub | New PrintHub DocType | New DocType |
-| Job Card | Production | Custom PrintHub | New PrintHub DocType | New DocType |
+| Job Card | Production | Custom PrintHub | New PrintHub DocType (`PrintHub Job Card` — Naming Registry: Proposed, not Approved; ADR-014 is rationale only for the business term `Job Card`, not approval of this exact prefixed name) | New DocType |
 | Quality Check Record | Production | Custom PrintHub | New PrintHub DocType | New DocType |
 | Machine | Production | Pending Architecture Review | Pending AR-004 | — |
 | Machine Profile | Production | Pending Architecture Review | Pending AR-004 | — |
@@ -774,27 +784,27 @@ The following five entities are neither Approved nor covered by any existing Arc
 
 | Implementation Owner | Count |
 |---|---:|
-| Native ERPNext | 20 |
-| Extended ERPNext | 10 |
-| Custom PrintHub | 17 |
+| Native ERPNext | 16 |
+| Extended ERPNext | 11 |
+| Custom PrintHub | 21 |
 | External Plugin | 8 |
-| Pending Architecture Review | 13 |
+| Pending Architecture Review | 14 |
 | No Implementation Owner (Not a Domain Entity / Not Modeled) | 3 |
 | No Implementation Owner Assigned (Unregistered, uncovered by any AR item) | 5 |
-| **Total** | **76*** |
+| **Total** | **78*** |
 
-*76 rows because "Print Specification" is listed once for traceability despite not being a modeled entity in the 75-entity Business Entity Inventory count; it is not double-counted against the Inventory's own total.
+*78 rows: all 75 real entities from the 75-entity Business Entity Inventory count, plus three explicitly disclosed non-entity traceability rows — "Print Specification" (not a modeled entity), "Production Stage" and "Machine Queue" (both explicitly "Not a Distinct Entity" per the Inventory's own treatment) — none of the three double-counted against the Inventory's own 75-entity total. This Version 0.4 revision (a) added the previously-missing mapping for **Customer Approval Evidence**, the 75th real entity, closing a pre-existing completeness gap, and (b) removed the **`File (Artwork evidence storage)`** row, which was never a Business Entity Inventory entity and is out of this table's entity-only scope; File's storage-only, never-approval-authority role is preserved in the Artwork Context narrative and remains governed by `../blueprint/18_Artwork_Management.md` Section 10. These figures also correct a pre-existing arithmetic mismatch between this table and the actual row-by-row content that predates this task (see Revision History).
 
 ---
 
 # Validation
 
-- ✓ **Every business entity appears exactly once.** All 75 entities from [../database/Business_Entity_Inventory.md](../database/Business_Entity_Inventory.md) appear exactly once in the Master Mapping Table, plus "Print Specification" listed once for traceability per the Inventory's own treatment of it.
+- ✓ **Every business entity appears exactly once.** All 75 real entities from [../database/Business_Entity_Inventory.md](../database/Business_Entity_Inventory.md) appear exactly once in the Master Mapping Table (2026-08-22: **Customer Approval Evidence** added, closing the only prior real-entity omission), plus three explicitly disclosed non-entity traceability rows — "Print Specification," "Production Stage," and "Machine Queue" — none double-counted against the Inventory's own 75-entity total. Total table rows: **78**. Frappe `File` is intentionally **excluded** from this table as a supporting infrastructure primitive, not a Business Entity Inventory entity (see the Artwork Context narrative note); no duplicate normalized entity name exists anywhere in the table.
 - ✓ **Every entity has exactly one implementation owner** (or an explicit, singular "No Implementation Owner" disposition where forcing one would misrepresent the entity's actual status, per the three Not-a-Domain-Entity/Not-Modeled rows and five Unregistered rows).
 - ✓ **No duplicate ERPNext DocTypes are introduced.** Each Native/Extended target DocType (Customer, Sales Order, Price List, Item Group, Purchase Order, Supplier, Warehouse, Delivery Note, Sales Invoice, Payment Entry, Journal Entry, Sales Taxes and Charges Template, Payment Terms Template, Currency, GST Settings, Employee, Department, Company, Branch, UOM, Workflow, Customize Form, Dashboard Chart, Query/Script Report, Notification, Webhook) is referenced by exactly one entity above, except where an entity and its Value Object variants legitimately extend the same base (none found).
 - ✓ **No duplicate PrintHub DocTypes are introduced.** Each "New PrintHub DocType" target is unique per entity; no two entities share a proposed Custom DocType.
 - ✓ **No ERPNext functionality is recreated without justification.** Every Custom PrintHub classification cites either [ERPNext_Fit_Analysis.md](../architecture/ERPNext_Fit_Analysis.md) or [ERPNext_Gap_Analysis.md](../architecture/ERPNext_Gap_Analysis.md) as the source of the "no native equivalent" finding — none is asserted independently by this document.
-- ✓ **Every Pending decision references an Architecture Review item.** All 13 Pending Architecture Review rows cite AR-002, AR-003, AR-004, AR-005, AR-006, or AR-011 by number; the 5 Unregistered rows explicitly do **not** claim an AR reference, since none exists, and are marked "No Implementation Owner Assigned" rather than misusing the Pending category.
+- ✓ **Every Pending decision references an Architecture Review item.** All 14 Pending Architecture Review rows cite AR-002, AR-003, AR-004, AR-005, AR-006, or AR-011 by number; the 5 Unregistered rows explicitly do **not** claim an AR reference, since none exists, and are marked "No Implementation Owner Assigned" rather than misusing the Pending category.
 
 ---
 
@@ -816,6 +826,7 @@ The following five entities are neither Approved nor covered by any existing Arc
 |---|---|---|---|
 | 0.1 | 2026-07-25 | Initial | Initial ERPNext DocType Mapping. Assigned implementation ownership to all 75 Business Entity Inventory entities: 20 Native ERPNext, 10 Extended ERPNext, 17 Custom PrintHub, 8 External Plugin, 13 Pending Architecture Review (citing AR-002, AR-003, AR-004, AR-005, AR-006, AR-011), 3 Not-a-Domain-Entity/Not-Modeled, and 5 Unregistered entities left without an implementation owner (no covering AR item exists). Introduced a Blocking-vs-Non-Blocking AR methodology to avoid over-applying "Pending Architecture Review" to entities whose implementation location is already clear despite an open terminology question. No DocType fields, database schema, code, or AR/ADR resolution produced. |
 | 0.2 | 2026-07-25 | Documentation Clarification | Clarified Reporting and Configuration Studio ownership language for reports and dashboards. Reporting owns reporting capability and consumption; Configuration Studio owns Report Definition and Dashboard Definition configuration artifacts. Documentation clarification only; no architecture change. Dashboard Definition's Implementation Owner (Extended ERPNext) and Target DocType are unchanged. |
+| 0.4 | 2026-08-22 | Naming-Status Synchronization and Mapping-Scope Correction | **Bounded naming-status synchronization and mapping-scope correction only; Draft status is retained.** Per explicit Project Owner decision dated 2026-08-22, six technical DocType names entered Naming Registry **Proposed** status (`../standards/Naming_Registry.md` Section 13a): `PrintHub Artwork`, `PrintHub Artwork Revision`, `PrintHub Customer Approval Evidence`, `PrintHub Production Artwork Set`, `PrintHub Production Artwork Set Item`, and `PrintHub Job Card`. Synchronized the five existing candidate occurrences (Artwork, Artwork Revision, Production Artwork Set, Production Artwork Set Item entries; summary table rows) from "proposed pending governed naming treatment" to "Naming Registry: Proposed, not Approved." **Added the previously-missing Customer Approval Evidence entity mapping** — the 75th real Business Entity Inventory entity, part of that document's 75-entity count since its own Version 0.3 (2026-07-31) but never mapped here until this correction — recording its **first documented technical-name candidate** (`PrintHub Customer Approval Evidence`); the entity's business rules (`../blueprint/18_Artwork_Management.md` §6.2a; `../database/Artwork_Authority_DocType_Specification.md` §7.1) are unchanged. **Following a subsequent Project Owner mapping-scope decision (Option B, 2026-08-22), removed the historically-added `File (Artwork evidence storage)` row from the Master Mapping Table**, because Frappe `File` is supporting infrastructure — not a Business Entity Inventory entity and not present in `../architecture/Canonical_Domain_Model.md` — and therefore outside this table's entity-only scope; File's storage-only, never-approval-authority role is preserved in the Artwork Context narrative and remains governed by `../blueprint/18_Artwork_Management.md` Section 10; no new File behavior, implementation mechanism, or coding decision is introduced. **A full row-by-row reconciliation, not a simple `+1` delta, was performed**: the committed Version 0.3 Implementation Ownership Statistics were already inconsistent with the table's actual rows — the true underlying HEAD counts were **Native ERPNext 16, Extended ERPNext 11, Custom PrintHub 20, External Plugin 8, Pending Architecture Review 14, No Implementation Owner (Not a Domain Entity / Not Modeled) 3, No Implementation Owner Assigned 5, Total 78** — against a committed statistics table that incorrectly stated Native ERPNext 20, Extended ERPNext 10, Custom PrintHub 17, Pending Architecture Review 13, Total 76. This Version 0.4 corrects the statistics to their true figures: **Custom PrintHub 20 → 21** (the one net addition, Customer Approval Evidence in, File out of the table entirely since File was never counted in any prior statistics category) and **Total 78 → 78** (one real entity added, one out-of-scope infrastructure row removed, net zero row-count change) — previously stated figures of Custom PrintHub 17/18 and Total 76/77 are superseded by these corrected figures. Updated the Validation section to state 75 real entities, 3 disclosed non-entity rows, 78 total rows, 14 Pending Architecture Review rows, and File's intentional exclusion. **Added `PrintHub Job Card`'s Naming Registry status to the summary table's Job Card row**, recording that [ADR-014](../decisions/ADR-014-Production-Terminology.md) is cited only as rationale/traceability for the business term `Job Card` — ADR-014 states "Technical usage: DocType name 'Job Card'" (unprefixed) and did not approve the exact prefixed string `PrintHub Job Card`. **No ERPNext fit/gap conclusion or other mapping decision was altered beyond naming status, the one new entity mapping, and the one infrastructure-row removal; no mapping implementation, database schema, field, or coding authority is introduced.** `AR-003` was not resolved or modified. No implementation was authorized; no source was inspected or modified. |
 | 0.3 | 2026-07-31 | Artwork Production Authority Mapping Correction | Corrected and extended the Artwork Context mapping following the Project Owner's production-capable Artwork track selection (2026-07-30) and approval of the Artwork design defaults (2026-07-31). **Corrected Artwork Revision from "New PrintHub DocType (child table of Artwork)" to a new standalone custom PrintHub DocType in `printos_core`**, recording the standalone rationale (independently approvable; own state; independent permissions; lockable; file-integrity evidence; referenced by Production Artwork Set membership; may require unique database constraints; preserves immutable approval evidence). Added mappings for **Production Artwork Set** (new custom PrintHub DocType; the final production-release authority consumed by the Job Card; at most one Approved for Production per Sales Order) and **Production Artwork Set Item** (new custom PrintHub DocType as a child table of Production Artwork Set, carrying immutable membership rows and explicitly not the approval authority). Recorded **File as a native Frappe storage primitive only, never the approval authority**. Recorded that **ERPNext core remains immutable** — no ERPNext DocType is modified to support Artwork. All new technical DocType names are recorded as **proposed pending governed naming treatment**; the Naming Registry is not modified and AR-003 is neither resolved nor modified. Status remains Draft; no Architecture Review Register item was altered; no other entity's implementation ownership changed; no Job Card Tier A document, ADR or standards document was modified; no implementation was authorized. |
 
 ---

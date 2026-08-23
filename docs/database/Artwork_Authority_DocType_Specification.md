@@ -3,7 +3,7 @@
 ## 1. Document Control
 
 Version:
-0.9
+1.0
 
 Status:
 Draft
@@ -34,20 +34,20 @@ This document is intended to become a **direct coding specification only after P
 
 **First targeted re-review:** completed read-only **2026-07-31**. Original Architecture findings ART-ARCH-F1 through ART-ARCH-F11: Closed. Original Business finding ART-BIZ-F1: Partially Closed. **Second narrow targeted re-review:** completed read-only **2026-07-31** — Architecture Review and Business Review both **Accepted with non-blocking corrections**; ART-TRR-BIZ-F1 and ART-TRR-ARCH-F1 **Closed**. The Project Owner approved the Customer Approval Evidence uniqueness rule on **2026-07-31** (Section 7.1b); ART-TRR2-ARCH-F1, ART-TRR2-ARCH-F2 and ART-TRR2-BIZ-F1 were **corrected in the prior revision**. **Post-correction verification:** completed read-only **2026-07-31** — disposition **Post-correction verification: Passed with non-blocking observations**. Verified: Customer Approval Evidence uniqueness; the `approved_revision_key` permanent uniqueness claim; uniqueness retention after revocation; the database-constraint and migration contract. Identified **ART-PCV-F1** (System Design), **ART-PCV-F2** (this document's stale governing-reference version/status, Section 3 — corrected in the prior revision), **ART-PCV-F3** (Documentation Status). **Final cleanup verification:** completed read-only **2026-07-31** — disposition **Final cleanup verification: Passed**.
 
-**Governing Artwork System Design lifecycle status:** the Project Owner granted Document Lifecycle Approval to `../blueprint/18_Artwork_Management.md` on **2026-07-31** at **Approval, Version 1.0**. Following completed Architecture Review, Business Review, Documentation Governance, and independent verification of its Section 7.2 addition (all six local findings Closed, no material finding remaining), the Project Owner granted a further, independent Document Lifecycle Approval on **2026-08-19**, promoting that document to **Approval, Version 1.1**, which then received a bounded reference-only correction on **2026-08-22** (correcting an `AR-003` scope misattribution, changing no normative content) to become **Approval, Version 1.2** — its **current approved baseline**, with **Approval, Version 1.1 and, before it, Approval, Version 1.0 preserved as prior historical baselines**. This is a **bounded governing-reference synchronization only**: it is **not** Publication of this DocType Specification, **not** runtime-validation authorization, and **not** implementation authorization. This specification's own **Project Owner lifecycle approval remains Not Granted**; Publication **Not Granted**; direct coding reliance **prohibited while Draft**; Implementation Authorization **Not Granted**.
+**Governing Artwork System Design lifecycle status:** the Project Owner granted Document Lifecycle Approval to `../blueprint/18_Artwork_Management.md` on **2026-07-31** at **Approval, Version 1.0**. Following completed Architecture Review, Business Review, Documentation Governance, and independent verification of its Section 7.2 addition (all six local findings Closed, no material finding remaining), the Project Owner granted a further, independent Document Lifecycle Approval on **2026-08-19**, promoting that document to **Approval, Version 1.1**, which then received a bounded reference-only correction on **2026-08-22** (correcting an `AR-003` scope misattribution, changing no normative content) to become **Approval, Version 1.2**, and this same day's bounded naming-status synchronization to become **Approval, Version 1.3** — its **current approved baseline**, with **Approval, Version 1.2, Approval, Version 1.1, and, before them, Approval, Version 1.0 preserved as prior historical baselines**. This is a **bounded governing-reference synchronization only**: it is **not** Publication of this DocType Specification, **not** runtime-validation authorization, and **not** implementation authorization. This specification's own **Project Owner lifecycle approval remains Not Granted**; Publication **Not Granted**; direct coding reliance **prohibited while Draft**; Implementation Authorization **Not Granted**.
 
 ---
 
 ## 3. Governing Decisions and Source Documents
 
-- [../blueprint/18_Artwork_Management.md](../blueprint/18_Artwork_Management.md) — currently **Approval, Version 1.2** (Project Owner Document Lifecycle Approval **Granted 2026-08-19** at Version 1.1, following completed Architecture Review — Accepted with non-blocking corrections — and Business Review — Accepted with non-blocking corrections — of the Version 1.1 package, with all six local Artwork findings Closed; carried forward through a bounded reference-only correction on **2026-08-22** correcting an `AR-003` scope misattribution); prior historical baselines **Approval, Version 1.1** and **Approval, Version 1.0** (Granted 2026-07-31). This is the governing architecture/design authority for this specification. This Approval is **not** Publication of this DocType Specification, **not** runtime-validation authorization, and **not** implementation authorization.
+- [../blueprint/18_Artwork_Management.md](../blueprint/18_Artwork_Management.md) — currently **Approval, Version 1.3** (Project Owner Document Lifecycle Approval **Granted 2026-08-19** at Version 1.1, following completed Architecture Review — Accepted with non-blocking corrections — and Business Review — Accepted with non-blocking corrections — of the Version 1.1 package, with all six local Artwork findings Closed; carried forward through a bounded reference-only correction and a bounded naming-status synchronization, both on **2026-08-22**); prior historical baselines **Approval, Version 1.2**, **Approval, Version 1.1**, and **Approval, Version 1.0** (Granted 2026-07-31). This is the governing architecture/design authority for this specification. This Approval is **not** Publication of this DocType Specification, **not** runtime-validation authorization, and **not** implementation authorization.
 - [../blueprint/05_Domain_Model.md](../blueprint/05_Domain_Model.md) — domain entities and cardinality.
 - [../blueprint/06_Bounded_Contexts.md](../blueprint/06_Bounded_Contexts.md) — Artwork context ownership.
 - [Business_Entity_Inventory.md](Business_Entity_Inventory.md) — entity inventory.
 - [ERPNext_DocType_Mapping.md](ERPNext_DocType_Mapping.md) — implementation ownership mapping.
 - [../implementation/Module_Dependency_Matrix.md](../implementation/Module_Dependency_Matrix.md) — module dependency direction.
 - [../decisions/ADR-015-Tenant-Company-Multi-Tenancy-Model.md](../decisions/ADR-015-Tenant-Company-Multi-Tenancy-Model.md) — Accepted; Tenant/Company distinction.
-- [../implementation/JobCard_TierA_System_Design.md](../implementation/JobCard_TierA_System_Design.md) — the consuming Production design; currently **Approval, Version 1.6** (Project Owner Document Lifecycle Approval granted 2026-08-19 at Version 1.5; carried forward through its own bounded reference-only correction on 2026-08-22), prior historical baselines **Approval, Version 1.5** and **Approval, Version 1.4**. Its Version 1.5 content records the `production_artwork_set` reference contract, now approved.
+- [../implementation/JobCard_TierA_System_Design.md](../implementation/JobCard_TierA_System_Design.md) — the consuming Production design; currently **Approval, Version 1.7** (Project Owner Document Lifecycle Approval granted 2026-08-19 at Version 1.5; carried forward through its own bounded reference-only correction and naming-status synchronization, both on 2026-08-22), prior historical baselines **Approval, Version 1.6**, **Approval, Version 1.5**, and **Approval, Version 1.4**. Its Version 1.5 content records the `production_artwork_set` reference contract, now approved.
 
 **Project Owner design defaults approved 2026-07-31.** That approval is an approved design input only — it is not Architecture Review, Business Review, document lifecycle Approval, Publication, or implementation authorization.
 
@@ -55,16 +55,17 @@ This document is intended to become a **direct coding specification only after P
 
 ## 4. Naming Boundary
 
-All technical DocType names below are **proposed working names only — pending governed naming treatment**:
+All five technical DocType names below are **Naming Registry Proposed** (per Project Owner decision dated 2026-08-22; `../standards/Naming_Registry.md` Section 13a) — **none is Approved; Under Review has not begun; source-based collision verification remains outstanding and unauthorized**:
 
-| Business term (approved) | Proposed technical name — pending governed naming treatment |
+| Business term (approved) | Technical name — Naming Registry status: Proposed |
 |---|---|
 | Artwork | `PrintHub Artwork` |
 | Artwork Revision | `PrintHub Artwork Revision` |
+| Customer Approval Evidence | `PrintHub Customer Approval Evidence` — first documented provisional technical identity for this existing, already-governed entity (Section 5, Section 7.1); the entity and its business rules are unchanged |
 | Production Artwork Set | `PrintHub Production Artwork Set` |
 | — (set membership row) | `PrintHub Production Artwork Set Item` |
 
-No claim is made that these names are approved by the Naming Registry. The Naming Registry is not modified by this specification, and AR-003 is neither resolved nor modified.
+No claim is made that these names are Approved by the Naming Registry. This specification does not modify the Naming Registry beyond citing its Section 13a Proposed entries, and `AR-003` is neither resolved nor modified.
 
 ---
 
@@ -74,7 +75,7 @@ No claim is made that these names are approved by the Naming Registry. The Namin
 |---|---|---|
 | Artwork | Aggregate root, standard DocType | Company- and Sales-Order-scoped artwork identity with production-requirement classification |
 | Artwork Revision | **Standalone** aggregate, standard DocType — **not a child table** | The independently approvable unit carrying authoritative file evidence |
-| Customer Approval Evidence *(normative working name pending naming treatment)* | **Standalone**, Artwork-internal aggregate, standard DocType | The durable, mandatory record of customer approval for one exact Artwork Revision (Section 7.1) |
+| Customer Approval Evidence *(technical name `PrintHub Customer Approval Evidence` — Naming Registry status: Proposed, not Approved)* | **Standalone**, Artwork-internal aggregate, standard DocType | The durable, mandatory record of customer approval for one exact Artwork Revision (Section 7.1) |
 | Production Artwork Set | Aggregate root, standard DocType | **Final production-release authority consumed by the Job Card** |
 | Production Artwork Set Item | **Child table** of Production Artwork Set | Immutable membership value binding one Artwork to one exact Artwork Revision |
 
@@ -90,7 +91,7 @@ No claim is made that these names are approved by the Naming Registry. The Namin
 
 ## 6. Proposed DocType — Artwork
 
-Proposed technical name `PrintHub Artwork` — pending governed naming treatment. App-owned standard DocType in `printos_core`; exact module path unresolved (Section 22).
+Technical name `PrintHub Artwork` — Naming Registry status: Proposed, not Approved. App-owned standard DocType in `printos_core`; exact module path unresolved (Section 22).
 
 | Field | Type | Required | Unique | Hidden | Read-only to clients | Importable | Notes |
 |---|---|---|---|---|---|---|---|
@@ -131,11 +132,11 @@ The previously undefined phrase "governed out of scope" is **removed**. For Tier
 
 ## 7. Proposed DocType — Artwork Revision (Standalone)
 
-Proposed technical name `PrintHub Artwork Revision` — pending governed naming treatment. **Standalone standard DocType; explicitly not a child table.**
+Technical name `PrintHub Artwork Revision` — Naming Registry status: Proposed, not Approved. **Standalone standard DocType; explicitly not a child table.**
 
 | Field | Type | Required | Unique | Hidden/internal | Read-only to clients | Importable | Notes |
 |---|---|---|---|---|---|---|---|
-| `artwork` | Link → proposed `PrintHub Artwork` | Yes | No | No | Yes after creation | No | Immutable |
+| `artwork` | Link → `PrintHub Artwork` (Naming Registry status: Proposed, not Approved) | Yes | No | No | Yes after creation | No | Immutable |
 | `company` | Link → Company | Yes | No | No | Yes (server-derived) | No | Derived from Artwork; immutable; **retained for native Company User Permission scoping** |
 | `revision_label` | Data | Yes | **Within one Artwork** | No | Yes (system-assigned) | No | Human-readable sequence such as R1/R2; **not the authoritative record identity** |
 | `state` | Select | Yes | No | No | **Yes — system-managed** | No | Section 9 state model |
@@ -148,19 +149,19 @@ Proposed technical name `PrintHub Artwork Revision` — pending governed naming 
 | `withdrawn_by` | Link → User | On withdrawal | No | No | Yes | No | |
 | `withdrawn_on` | Datetime | On withdrawal | No | No | Yes | No | |
 | `withdrawal_reason` | Small Text (bounded plain text, Section 7.2) | **Mandatory for withdrawal** | No | No | Yes | No | |
-| `superseded_by` | Link → proposed `PrintHub Artwork Revision` | On supersession | No | No | Yes | No | Records the replacement revision |
+| `superseded_by` | Link → `PrintHub Artwork Revision` (Naming Registry status: Proposed, not Approved) | On supersession | No | No | Yes | No | Records the replacement revision |
 
 `modified`, `modified_by` and Version history **must not** be relied upon as the authoritative approval event, because later supersession or withdrawal changes the record. Version history is **supplemental only**.
 
 ### 7.1 Customer Approval Evidence Contract — Artwork-Internal (corrected 2026-07-31 — ART-BIZ-F1)
 
-**Customer approval for the exact Artwork Revision is mandatory before internal production approval. There is no Tier A waiver.** Referred to normatively as **`Customer Approval Evidence`** until governed naming is complete; final technical naming remains pending governed naming treatment under Naming Registry §§5, 26, 38 and 39 (a separate, currently untracked Artwork naming question — **not** governed by `AR-003`, whose own recorded scope is unrelated), which is **not** resolved or established by this document.
+**Customer approval for the exact Artwork Revision is mandatory before internal production approval. There is no Tier A waiver.** Referred to normatively as **`Customer Approval Evidence`**; its provisional technical name is `PrintHub Customer Approval Evidence` — **Naming Registry status: Proposed only, not Approved** (per Project Owner decision dated 2026-08-22; `../standards/Naming_Registry.md` Section 13a; not governed by `AR-003`, whose own recorded scope is unrelated). Under Review has not begun and source-based collision verification remains unauthorized and outstanding; this document does not resolve or establish the name's final status.
 
 **Minimum conceptual fields:**
 
 | Field | Type | Notes |
 |---|---|---|
-| `artwork_revision` | Link → proposed `PrintHub Artwork Revision` | Required; immutable |
+| `artwork_revision` | Link → `PrintHub Artwork Revision` (Naming Registry status: Proposed, not Approved) | Required; immutable |
 | `company` | Link → Company | Required; immutable; must match the Revision and Artwork |
 | `sales_order` | Link → Sales Order | Required; immutable; must match the Revision's Artwork |
 | `outcome` | Select (system-managed) | Approved or Rejected |
@@ -233,7 +234,7 @@ Applies to `rejected_reason`, `withdrawal_reason` (this section and Section 8), 
 
 ### 8.1 Production Artwork Set
 
-Proposed technical name `PrintHub Production Artwork Set` — pending governed naming treatment. **The final production-release authority consumed by the Job Card.**
+Technical name `PrintHub Production Artwork Set` — Naming Registry status: Proposed, not Approved. **The final production-release authority consumed by the Job Card.**
 
 | Field | Type | Required | Unique | Hidden/internal | Read-only to clients | Importable | Notes |
 |---|---|---|---|---|---|---|---|
@@ -246,16 +247,16 @@ Proposed technical name `PrintHub Production Artwork Set` — pending governed n
 | `withdrawn_by` | Link → User | On withdrawal | No | No | Yes | No | |
 | `withdrawn_on` | Datetime | On withdrawal | No | No | Yes | No | |
 | `withdrawal_reason` | Small Text (bounded plain text, Section 7.2) | **Mandatory for withdrawal** | No | No | Yes | No | |
-| `superseded_by` | Link → proposed `PrintHub Production Artwork Set` | On supersession | No | No | Yes | No | |
+| `superseded_by` | Link → `PrintHub Production Artwork Set` (Naming Registry status: Proposed, not Approved) | On supersession | No | No | Yes | No | |
 
 ### 8.2 Production Artwork Set Item (Child Table)
 
-Proposed technical name `PrintHub Production Artwork Set Item` — pending governed naming treatment.
+Technical name `PrintHub Production Artwork Set Item` — Naming Registry status: Proposed, not Approved.
 
 | Field | Type | Required | Notes |
 |---|---|---|---|
-| `artwork` | Link → proposed `PrintHub Artwork` | Yes | |
-| `artwork_revision` | Link → proposed `PrintHub Artwork Revision` | Yes | The exact approved revision |
+| `artwork` | Link → `PrintHub Artwork` (Naming Registry status: Proposed, not Approved) | Yes | |
+| `artwork_revision` | Link → `PrintHub Artwork Revision` (Naming Registry status: Proposed, not Approved) | Yes | The exact approved revision |
 | `revision_label` | Data | No | **Read-only display value only** — the authoritative value remains on the revision |
 
 **Set-item rules:** one row per required Artwork; no duplicate Artwork membership; every linked Artwork belongs to the same Company and Sales Order; every linked revision belongs to the linked Artwork; every linked revision must be Approved for Production at set approval; membership becomes **immutable when the set is submitted for approval**; membership is **not modified in place after approval**; changed content requires a **new set**.
@@ -411,7 +412,7 @@ The Job Card Tier A specification will eventually add **one** conceptual field. 
 |---|---|
 | Concept | Production Artwork Set reference |
 | Proposed field name | `production_artwork_set` |
-| Type | Link → proposed `PrintHub Production Artwork Set` |
+| Type | Link → `PrintHub Production Artwork Set` (Naming Registry status: Proposed, not Approved) |
 | Schema-required | **No** — Registered records may be created before Artwork approval |
 | Required | **Mandatory for successful Registered → Released** |
 | Client mutability | **None** |
@@ -498,7 +499,7 @@ Do not fabricate historical approval evidence. Demo-only releases must remain id
 - [x] Architecture Review complete — **Accepted with non-blocking corrections** (second narrow targeted re-review, 2026-07-31)
 - [x] Business Review complete — **Accepted with non-blocking corrections** (second narrow targeted re-review, 2026-07-31)
 - [ ] Project Owner lifecycle approval granted
-- [ ] Proposed technical names governed
+- [ ] Proposed technical names governed *(all five now Naming Registry Proposed, 2026-08-22; Under Review, Approval, and collision verification remain outstanding — item remains Open)*
 - [ ] Exact `printos_core` module paths selected
 - [ ] Artwork Revision standalone design validated
 - [ ] Revision state/docstatus strategy selected and validated
@@ -522,7 +523,7 @@ Do not fabricate historical approval evidence. Demo-only releases must remain id
 - [ ] Post-release withdrawal progression guards validated
 - [ ] Migration and duplicate detection validated
 - [ ] Separation of approval and release capabilities validated
-- [ ] Customer Approval Evidence technical name governed
+- [ ] Customer Approval Evidence technical name governed *(candidate `PrintHub Customer Approval Evidence` now Naming Registry Proposed, 2026-08-22; Under Review, Approval, and collision verification remain outstanding — item remains Open)*
 - [ ] Customer Approval Evidence persistence contract finalized
 - [ ] Customer-approval prerequisite runtime validated
 - [ ] Requirement-change audit persistence selected
@@ -672,7 +673,7 @@ Proof and Approval Record internal design, and Customer Approval Evidence's fina
 - **Final cleanup verification:** completed read-only **2026-07-31**; disposition **Final cleanup verification: Passed**.
 - **Bounded Artwork Approval V1 review:** completed read-only **2026-08-13** over the Version 1.1 / Draft 0.7 package. **Architecture Review: Accepted with non-blocking corrections. Business Review: Accepted with non-blocking corrections.** A parallel Documentation Governance pass identified one blocking accuracy defect and one non-blocking wording defect, both located in the governing System Design's own governance/revision-history text. Local review labels **LR-ARCH-1, LR-ARCH-2, LR-BIZ-1, LR-GOV-1, LR-GOV-2** — **local labels only, not Architecture Review Register identifiers; no AR identifier was created and AR-003 remains unresolved.** The corrections affecting this specification (**LR-ARCH-1** — Section 10.1 supersession-trigger completeness; **LR-ARCH-2** — Section 10.2 complete-propagation guard) are **applied in this same Draft 0.7 revision**, together with **LV-OBS-1**, a further non-blocking Section 10.1 wording clarification raised and corrected subsequently.
 - **Verification outcome (completed read-only, 2026-08-13).** An independent read-only post-correction verification has been **completed**. Final results: **Architecture Review — Accepted with non-blocking corrections, with all identified corrections verified applied; Business Review — Accepted; Documentation Governance — Passed.** **LR-ARCH-1, LR-ARCH-2, LR-BIZ-1, LR-GOV-1, LR-GOV-2 and LV-OBS-1 are all Closed by independent read-only verification**, and **no material review finding remains**. These are **local review labels, not Architecture Review Register identifiers**. Review completion is **not** lifecycle Approval, **not** Publication, **not** runtime-validation authorization, **not** implementation authorization, and **not** production readiness. This specification is **not promoted** and remains **Draft, Version 0.7**, **not Published** and **not safe for coding**; the governing System Design remains **Draft, Version 1.1** with **Approval, Version 1.0** as its prior approved baseline. **AR-003 remains unresolved; all 62 runtime gates and the Artwork production gate remain Open; no Full Architecture Freeze is claimed.**
-- **Governing Artwork System Design:** `../blueprint/18_Artwork_Management.md` — currently **Approval, Version 1.2**, Project Owner Document Lifecycle Approval **Granted 2026-08-19** at Version 1.1 (Architecture Review and Business Review of the Version 1.1 package both Accepted with non-blocking corrections; all six local Artwork findings Closed), carried forward through a bounded reference-only correction on **2026-08-22**; prior historical baselines **Approval, Version 1.1** and **Approval, Version 1.0**, Granted 2026-07-31. This governing approval is **not** Publication of this DocType Specification and **not** implementation authorization.
+- **Governing Artwork System Design:** `../blueprint/18_Artwork_Management.md` — currently **Approval, Version 1.3**, Project Owner Document Lifecycle Approval **Granted 2026-08-19** at Version 1.1 (Architecture Review and Business Review of the Version 1.1 package both Accepted with non-blocking corrections; all six local Artwork findings Closed), carried forward through a bounded reference-only correction and a bounded naming-status synchronization, both on **2026-08-22**; prior historical baselines **Approval, Version 1.2**, **Approval, Version 1.1**, and **Approval, Version 1.0**, Granted 2026-07-31. This governing approval is **not** Publication of this DocType Specification and **not** implementation authorization.
 - **Project Owner Document Lifecycle Approval (this specification):** **Not Granted**
 - **Publication:** **Not Granted**
 - **Implementation Authorization:** **Not Granted**
@@ -684,6 +685,7 @@ Proof and Approval Record internal design, and Customer Approval Evidence's fina
 
 | Version | Date | Author | Changes |
 |---|---|---|---|
+| 1.0 | 2026-08-22 | Naming-Status and Candidate Synchronization | **Bounded naming-status and candidate synchronization only; Draft status and non-Publication are retained.** Per explicit Project Owner decision dated 2026-08-22, the five Artwork technical DocType names (`PrintHub Artwork`, `PrintHub Artwork Revision`, `PrintHub Production Artwork Set`, `PrintHub Production Artwork Set Item`) entered Naming Registry **Proposed** status (`../standards/Naming_Registry.md` Section 13a), and **`PrintHub Customer Approval Evidence` was added to Section 4 (Naming Boundary) and Section 5 (Aggregate Boundaries) as the first documented provisional technical-name candidate** for the existing, already-governed Customer Approval Evidence entity — the entity and its Section 7.1 business rules are unchanged; only a provisional technical identity is added. Updated Sections 2, 3, 4, 5, 6, 7, 7.1, 8, 8.1, 8.2, and 15's Link-target and naming-status parentheticals to state Proposed, not Approved, status consistently. Kept the Section 22 Pre-Publication Gate Checklist items "Proposed technical names governed" and "Customer Approval Evidence technical name governed" **Open** — Registry Proposed status alone does not satisfy "governed." Updated the governing-reference citations to Artwork System Design **Approval, Version 1.3** and Job Card Tier A System Design **Approval, Version 1.7**. **No conceptual DocType, field, state model, constraint, controlled operation, permission, test, migration rule, or runtime-validation gate was modified; no technical name or module path was selected or approved.** `AR-003` was not resolved or modified. This specification remains **Draft, Version 1.0**, targets Published, and remains **not safe for coding**; its own Project Owner lifecycle approval, Publication, and Implementation Authorization all remain **Not Granted**. All 62 runtime-validation items remain open and unchecked. No AR identifier was invented. |
 | 0.9 | 2026-08-22 | AR-003 Scope Misattribution Correction | Bounded reference-only correction, per `../Documentation_Workflow.md` Section 8, mirroring the identical correction applied to the governing `../blueprint/18_Artwork_Management.md` (→ Approval, Version 1.2) on the same date. Corrected two current-state occurrences that incorrectly attributed Customer Approval Evidence's pending technical naming to `AR-003` (Section 7.1's naming clause; Section 24 Exclusions), replacing them with references to Naming Registry §§5, 26, 38 and 39 and stating plainly that `AR-003`'s own recorded scope (its eight named terms) is unrelated. Updated the governing-reference citations (Sections 2, 3, 25) to cite Artwork System Design **Approval, Version 1.2** and Job Card Tier A System Design **Approval, Version 1.6**, both carried forward through their own identical bounded corrections on 2026-08-22. `AR-003` itself was **not** modified, resolved, or reinterpreted. **No conceptual DocType, field, state model, constraint, controlled operation, permission, test, migration rule, or runtime-validation gate was modified; no technical name or module path was selected or approved.** This specification remains **Draft, Version 0.9**, targets Published, and remains **not safe for coding**; its own Project Owner lifecycle approval, Publication, and Implementation Authorization all remain **Not Granted**; no implementation was authorized; no source was inspected or modified; no environment, test, or migration was run. All 62 runtime-validation items remain open and unchecked. No Architecture Review Register item was created or modified; no AR identifier was invented; AR-003 was not resolved or modified. |
 | 0.8 | 2026-08-19 | Governing Reference Update — Artwork System Design Approval Synchronization | Bounded governing-reference synchronization only, per `../Documentation_Workflow.md` Section 8 ("Minor Updates — Clarifications, added examples, or non-contradictory expansions are minor updates, incrementing the MINOR version"), consistent with this document's own Version 0.6 precedent for an identical class of change. Recorded that the Project Owner granted a further, independent Document Lifecycle Approval to `../blueprint/18_Artwork_Management.md` on **2026-08-19**, promoting it from Draft, Version 1.1 to **Approval, Version 1.1** — its current approved baseline — following completed Architecture Review (Accepted with non-blocking corrections), Business Review (Accepted with non-blocking corrections), Documentation Governance verification (Passed), and independent verification confirming all six local Artwork findings (LR-ARCH-1, LR-ARCH-2, LR-BIZ-1, LR-GOV-1, LR-GOV-2, LV-OBS-1) Closed with no material finding remaining. **Approval, Version 1.0** is preserved as the prior historical baseline. Updated the three current-state governing-reference citations in Sections 2 and 3 accordingly. **No conceptual DocType, field, state model, constraint, controlled operation, permission, test, migration rule, or runtime-validation gate was modified.** This specification remains **Draft, Version 0.8**, targets Published, and remains **not safe for coding**; its own Project Owner lifecycle approval, Publication, and Implementation Authorization all remain **Not Granted**; no implementation was authorized; no source was inspected or modified; no environment, test, or migration was run. All 62 runtime-validation items remain open and unchecked; none is claimed to have passed. No Job Card Tier A document, Business Entity Inventory, Module Dependency Matrix, Architecture Review Register item, ADR, Architecture Freeze, Development Roadmap, Naming Registry, Fit Analysis, Gap Analysis or standards document was modified by this entry; no AR identifier was invented; AR-003 was not resolved or modified. |
 | 0.7 | 2026-08-13 | Governing Reference Update — Newer-Revision/Approved-Set Supersession Rule (lifecycle citation corrected 2026-08-13) | **Lifecycle citation correction.** This entry first cited the governing System Design as "Approval, Version 1.1." That was incorrect: because its Section 7.2 is new normative content lacking Architecture Review and Business Review, that document is **Draft, Version 1.1**, with **Approval, Version 1.0 remaining its last fully reviewed and Owner-approved baseline** (`../Documentation_Workflow.md` Sections 5 and 7). All citations in Sections 2, 3 and 25 are corrected accordingly, and targeted review of Section 7.2 is recorded as Pending. **Content of this revision.** Recorded the Project Owner-approved bounded documentation reset (2026-08-08) to the governing `../blueprint/18_Artwork_Management.md`, which moved from Approval, Version 1.0 to **Draft, Version 1.1** (Minor, additive): retention of the governed six-state Production Artwork Set lifecycle, and a new business rule resolving the previously open question of what happens to an already-Approved Production Artwork Set when a member Revision is superseded by a newer internal approval. Updated Section 2 and Section 3's citations of the governing System Design version from 1.0 to 1.1. Added Section 10.2, mirroring System Design Section 7.2: where a newer Revision is approved and the previous current Revision it replaces is a member of a currently Approved Set, that Set moves Approved for Production → Superseded (not Withdrawn) in the same transaction, its `approved_key` is cleared, it is never rewritten, Released/In Progress Job Cards bound to it are unaffected under the existing Superseded-not-Withdrawn rule (Section 17), and no Job Card is silently rebound. Updated Section 25 to cite the governing System Design's corrected lifecycle position. **No new conceptual field, state, or runtime-validation gate number was added** — this rule is covered by the existing atomic-supersession gates (Section 21.3, items 7–8); none is claimed to have passed. **No new Architecture Review Register identifier was created; AR-003 remains unresolved.** This document remains Draft, targets Published, and remains **not safe for coding**; Publication remains **Not Granted**; no implementation authorization was granted; no source was inspected or modified; no environment, test, or migration was run. No Job Card Tier A document's substantive content, Business Entity Inventory, Module Dependency Matrix, Architecture Review Register item, ADR, Architecture Freeze, Development Roadmap, Naming Registry, Fit Analysis, Gap Analysis or standards document was modified by this entry. **Bounded review corrections applied within this same Version 0.7 revision (2026-08-13).** Following the completed read-only bounded Architecture and Business Review (Section 25 — both Accepted with non-blocking corrections), two corrections affecting this specification were applied here without a version increment, since Version 0.7 remains uncommitted: **LR-ARCH-1** — Section 10.1's transition matrix and Rules now name **member-Revision supersession (Section 10.2)** as a governed cause of Set supersession alongside replacement-Set approval, with a normative summary separating the Superseded causes from the Withdrawn causes (customer-approval revocation, explicit Set withdrawal, member-Revision withdrawal, requirement change), recording that neither terminal state permits a new Job Card release or rewrites historical membership or bindings, and that they differ only for already-bound Job Cards; **LR-ARCH-2** — Section 10.2 now requires the operation to detect **every** currently Approved Set containing the previous Revision and either supersede all of them in the same transaction or fail visibly and roll back entirely, never silently selecting a winner or leaving partial propagation, mirroring the Section 7.1a revocation guard and without authorizing more than one Approved Set per Sales Order. **Verification completed (2026-08-13).** An independent read-only post-correction verification has since been completed: **LR-ARCH-1 and LR-ARCH-2 are Closed by verified correction**, with final results **Architecture Review — Accepted with non-blocking corrections (all identified corrections verified applied); Business Review — Accepted; Documentation Governance — Passed**. **LV-OBS-1 — local non-blocking wording observation (applied within this same Version 0.7 revision).** The Section 10.1 Rules sentence previously read "superseded sets remain historical and may remain bound to previously Released or later Job Cards." The phrase "or later Job Cards" was ambiguous: the governed meaning is Job Cards at later *lifecycle stages*, but it could be misread as Job Cards created *later*, conflicting with the adjacent rule that no Superseded Set may authorize a new release. The sentence now states that Superseded Sets may remain bound to Job Cards already Released before supersession, including those that later progress to In Progress or Completed, that they cannot authorize a new Job Card release, and that no Job Card is silently rebound — wording materially identical to the governing System Design's Section 8.1. **This clarifies existing behaviour and changes no business semantics**; the rule is unchanged and stated identically in Section 10.2, Section 17 and the Section 10.1 governed-causes summary. Withdrawn-state progression blocking is unaffected. **LV-OBS-1 is a local review label, not an Architecture Review Register identifier; it is Closed by the independent read-only verification completed 2026-08-13.** With that, **all six local Artwork findings — LR-ARCH-1, LR-ARCH-2, LR-BIZ-1, LR-GOV-1, LR-GOV-2 and LV-OBS-1 — are Closed, and no material Artwork review finding remains.** Review completion is **not** lifecycle Approval; this specification remains **Draft, Version 0.7**, **not Published** and **not safe for coding**. No conceptual field, state, constraint, controlled operation, permission, test, migration rule or runtime-validation gate was added or closed; this specification remains **Draft, Version 0.7**, **not Published**, **not safe for coding**; AR-003 was not resolved and no AR identifier was created. |
