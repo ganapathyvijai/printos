@@ -3,7 +3,7 @@
 ## 1. Document Control
 
 Version:
-1.2
+1.3
 
 Status:
 Draft
@@ -55,9 +55,9 @@ This document is intended to become a **direct coding specification only after P
 
 ## 4. Naming Boundary
 
-All five technical DocType names below are **Naming Registry Proposed** (per Project Owner decision dated 2026-08-22; `../standards/Naming_Registry.md` Section 13a) — **none is Approved; Under Review has not begun; source-based collision verification remains outstanding and unauthorized**:
+All five technical DocType names below are **Naming Registry Under Review** — registered Proposed on 2026-08-22 (`../standards/Naming_Registry.md` Section 13a) and entered Under Review as part of one bounded six-name package by explicit Project Owner decision dated 2026-09-11 (Section 13i) — **none is Approved; Architecture Review and Business Review are both pending; source-based collision verification remains incomplete (Stage 1 Frappe/ERPNext complete and independently verified, Stages 2 and 3 outstanding)**:
 
-| Business term (approved) | Technical name — Naming Registry status: Proposed |
+| Business term (approved) | Technical name — Naming Registry status: Under Review |
 |---|---|
 | Artwork | `PrintHub Artwork` |
 | Artwork Revision | `PrintHub Artwork Revision` |
@@ -75,7 +75,7 @@ No claim is made that these names are Approved by the Naming Registry. This spec
 |---|---|---|
 | Artwork | Aggregate root, standard DocType | Company- and Sales-Order-scoped artwork identity with production-requirement classification |
 | Artwork Revision | **Standalone** aggregate, standard DocType — **not a child table** | The independently approvable unit carrying authoritative file evidence |
-| Customer Approval Evidence *(technical name `PrintHub Customer Approval Evidence` — Naming Registry status: Proposed, not Approved)* | **Standalone**, Artwork-internal aggregate, standard DocType | The durable, mandatory record of customer approval for one exact Artwork Revision (Section 7.1) |
+| Customer Approval Evidence *(technical name `PrintHub Customer Approval Evidence` — Naming Registry status: Under Review, not Approved)* | **Standalone**, Artwork-internal aggregate, standard DocType | The durable, mandatory record of customer approval for one exact Artwork Revision (Section 7.1) |
 | Production Artwork Set | Aggregate root, standard DocType | **Final production-release authority consumed by the Job Card** |
 | Production Artwork Set Item | **Child table** of Production Artwork Set | Immutable membership value binding one Artwork to one exact Artwork Revision |
 
@@ -91,7 +91,7 @@ No claim is made that these names are Approved by the Naming Registry. This spec
 
 ## 6. Proposed DocType — Artwork
 
-Technical name `PrintHub Artwork` — Naming Registry status: Proposed, not Approved. App-owned standard DocType in `printos_core`; **per the Project Owner's 2026-09-09 module-path decision (`../standards/Naming_Registry.md` Section 13h; `ART-RVR-B02`, resolved and reclassified to Governed and stable), conceptual module: `Artwork`, normalized DocType name `printhub_artwork` — a design/governance resolution only, not yet implemented (Section 22)**.
+Technical name `PrintHub Artwork` — Naming Registry status: Under Review, not Approved. App-owned standard DocType in `printos_core`; **per the Project Owner's 2026-09-09 module-path decision (`../standards/Naming_Registry.md` Section 13h; `ART-RVR-B02`, resolved and reclassified to Governed and stable), conceptual module: `Artwork`, normalized DocType name `printhub_artwork` — a design/governance resolution only, not yet implemented (Section 22)**.
 
 | Field | Type | Required | Unique | Hidden | Read-only to clients | Importable | Notes |
 |---|---|---|---|---|---|---|---|
@@ -132,11 +132,11 @@ The previously undefined phrase "governed out of scope" is **removed**. For Tier
 
 ## 7. Proposed DocType — Artwork Revision (Standalone)
 
-Technical name `PrintHub Artwork Revision` — Naming Registry status: Proposed, not Approved. **Standalone standard DocType; explicitly not a child table.**
+Technical name `PrintHub Artwork Revision` — Naming Registry status: Under Review, not Approved. **Standalone standard DocType; explicitly not a child table.**
 
 | Field | Type | Required | Unique | Hidden/internal | Read-only to clients | Importable | Notes |
 |---|---|---|---|---|---|---|---|
-| `artwork` | Link → `PrintHub Artwork` (Naming Registry status: Proposed, not Approved) | Yes | No | No | Yes after creation | No | Immutable |
+| `artwork` | Link → `PrintHub Artwork` (Naming Registry status: Under Review, not Approved) | Yes | No | No | Yes after creation | No | Immutable |
 | `company` | Link → Company | Yes | No | No | Yes (server-derived) | No | Derived from Artwork; immutable; **retained for native Company User Permission scoping** |
 | `revision_label` | Data | Yes | **Within one Artwork** | No | Yes (system-assigned) | No | Human-readable sequence such as R1/R2; **not the authoritative record identity** |
 | `state` | Select | Yes | No | No | **Yes — system-managed** | No | Section 9 state model |
@@ -149,19 +149,19 @@ Technical name `PrintHub Artwork Revision` — Naming Registry status: Proposed,
 | `withdrawn_by` | Link → User | On withdrawal | No | No | Yes | No | |
 | `withdrawn_on` | Datetime | On withdrawal | No | No | Yes | No | |
 | `withdrawal_reason` | Small Text (bounded plain text, Section 7.2) | **Mandatory for withdrawal** | No | No | Yes | No | |
-| `superseded_by` | Link → `PrintHub Artwork Revision` (Naming Registry status: Proposed, not Approved) | On supersession | No | No | Yes | No | Records the replacement revision |
+| `superseded_by` | Link → `PrintHub Artwork Revision` (Naming Registry status: Under Review, not Approved) | On supersession | No | No | Yes | No | Records the replacement revision |
 
 `modified`, `modified_by` and Version history **must not** be relied upon as the authoritative approval event, because later supersession or withdrawal changes the record. Version history is **supplemental only**.
 
 ### 7.1 Customer Approval Evidence Contract — Artwork-Internal (corrected 2026-07-31 — ART-BIZ-F1)
 
-**Customer approval for the exact Artwork Revision is mandatory before internal production approval. There is no Tier A waiver.** Referred to normatively as **`Customer Approval Evidence`**; its provisional technical name is `PrintHub Customer Approval Evidence` — **Naming Registry status: Proposed only, not Approved** (per Project Owner decision dated 2026-08-22; `../standards/Naming_Registry.md` Section 13a; not governed by `AR-003`, whose own recorded scope is unrelated). Under Review has not begun and source-based collision verification remains unauthorized and outstanding; this document does not resolve or establish the name's final status.
+**Customer approval for the exact Artwork Revision is mandatory before internal production approval. There is no Tier A waiver.** Referred to normatively as **`Customer Approval Evidence`**; its provisional technical name is `PrintHub Customer Approval Evidence` — **Naming Registry status: Under Review, not Approved** (registered Proposed per Project Owner decision dated 2026-08-22 and entered Under Review as part of one bounded six-name package on 2026-09-11; `../standards/Naming_Registry.md` Sections 13a and 13i; not governed by `AR-003`, whose own recorded scope is unrelated). Architecture Review and Business Review are both pending, and source-based collision verification remains incomplete (Stage 1 complete and independently verified; Stages 2 and 3 outstanding); this document does not resolve or establish the name's final status.
 
 **Minimum conceptual fields:**
 
 | Field | Type | Notes |
 |---|---|---|
-| `artwork_revision` | Link → `PrintHub Artwork Revision` (Naming Registry status: Proposed, not Approved) | Required; immutable |
+| `artwork_revision` | Link → `PrintHub Artwork Revision` (Naming Registry status: Under Review, not Approved) | Required; immutable |
 | `company` | Link → Company | Required; immutable; must match the Revision and Artwork |
 | `sales_order` | Link → Sales Order | Required; immutable; must match the Revision's Artwork |
 | `outcome` | Select (system-managed) | Approved or Rejected |
@@ -234,7 +234,7 @@ Applies to `rejected_reason`, `withdrawal_reason` (this section and Section 8), 
 
 ### 8.1 Production Artwork Set
 
-Technical name `PrintHub Production Artwork Set` — Naming Registry status: Proposed, not Approved. **The final production-release authority consumed by the Job Card.**
+Technical name `PrintHub Production Artwork Set` — Naming Registry status: Under Review, not Approved. **The final production-release authority consumed by the Job Card.**
 
 | Field | Type | Required | Unique | Hidden/internal | Read-only to clients | Importable | Notes |
 |---|---|---|---|---|---|---|---|
@@ -247,16 +247,16 @@ Technical name `PrintHub Production Artwork Set` — Naming Registry status: Pro
 | `withdrawn_by` | Link → User | On withdrawal | No | No | Yes | No | |
 | `withdrawn_on` | Datetime | On withdrawal | No | No | Yes | No | |
 | `withdrawal_reason` | Small Text (bounded plain text, Section 7.2) | **Mandatory for withdrawal** | No | No | Yes | No | |
-| `superseded_by` | Link → `PrintHub Production Artwork Set` (Naming Registry status: Proposed, not Approved) | On supersession | No | No | Yes | No | |
+| `superseded_by` | Link → `PrintHub Production Artwork Set` (Naming Registry status: Under Review, not Approved) | On supersession | No | No | Yes | No | |
 
 ### 8.2 Production Artwork Set Item (Child Table)
 
-Technical name `PrintHub Production Artwork Set Item` — Naming Registry status: Proposed, not Approved.
+Technical name `PrintHub Production Artwork Set Item` — Naming Registry status: Under Review, not Approved.
 
 | Field | Type | Required | Notes |
 |---|---|---|---|
-| `artwork` | Link → `PrintHub Artwork` (Naming Registry status: Proposed, not Approved) | Yes | |
-| `artwork_revision` | Link → `PrintHub Artwork Revision` (Naming Registry status: Proposed, not Approved) | Yes | The exact approved revision |
+| `artwork` | Link → `PrintHub Artwork` (Naming Registry status: Under Review, not Approved) | Yes | |
+| `artwork_revision` | Link → `PrintHub Artwork Revision` (Naming Registry status: Under Review, not Approved) | Yes | The exact approved revision |
 | `revision_label` | Data | No | **Read-only display value only** — the authoritative value remains on the revision |
 
 **Set-item rules:** one row per required Artwork; no duplicate Artwork membership; every linked Artwork belongs to the same Company and Sales Order; every linked revision belongs to the linked Artwork; every linked revision must be Approved for Production at set approval; membership becomes **immutable when the set is submitted for approval**; membership is **not modified in place after approval**; changed content requires a **new set**.
@@ -412,7 +412,7 @@ The Job Card Tier A specification will eventually add **one** conceptual field. 
 |---|---|
 | Concept | Production Artwork Set reference |
 | Proposed field name | `production_artwork_set` |
-| Type | Link → `PrintHub Production Artwork Set` (Naming Registry status: Proposed, not Approved) |
+| Type | Link → `PrintHub Production Artwork Set` (Naming Registry status: Under Review, not Approved) |
 | Schema-required | **No** — Registered records may be created before Artwork approval |
 | Required | **Mandatory for successful Registered → Released** |
 | Client mutability | **None** |
@@ -499,7 +499,7 @@ Do not fabricate historical approval evidence. Demo-only releases must remain id
 - [x] Architecture Review complete — **Accepted with non-blocking corrections** (second narrow targeted re-review, 2026-07-31)
 - [x] Business Review complete — **Accepted with non-blocking corrections** (second narrow targeted re-review, 2026-07-31)
 - [ ] Project Owner lifecycle approval granted
-- [ ] Proposed technical names governed *(all five now Naming Registry Proposed, 2026-08-22; Under Review, Approval, and collision verification remain outstanding — item remains Open)*
+- [ ] Proposed technical names governed *(all five now Naming Registry **Under Review** as part of one bounded six-name package, 2026-09-11, Section 13i — registered Proposed 2026-08-22; Architecture Review, Business Review, §26/§39 naming-governance review, Approval, and full collision verification all remain outstanding — **item remains Open**)*
 - [x] Exact `printos_core` module paths selected *(resolved at design/governance level 2026-09-09 — `Artwork` module for all five DocTypes in this specification, per `../standards/Naming_Registry.md` Section 13h; `ART-RVR-B02`, Governed and stable; no directory, Module Def, or file created — this checklist item's underlying design decision is closed, but Publication and coding readiness remain gated by every other Open item below)*
 - [ ] Artwork Revision standalone design validated
 - [ ] Revision state/docstatus strategy selected and validated
@@ -523,7 +523,7 @@ Do not fabricate historical approval evidence. Demo-only releases must remain id
 - [ ] Post-release withdrawal progression guards validated
 - [ ] Migration and duplicate detection validated
 - [ ] Separation of approval and release capabilities validated
-- [ ] Customer Approval Evidence technical name governed *(candidate `PrintHub Customer Approval Evidence` now Naming Registry Proposed, 2026-08-22; Under Review, Approval, and collision verification remain outstanding — item remains Open)*
+- [ ] Customer Approval Evidence technical name governed *(candidate `PrintHub Customer Approval Evidence` now Naming Registry **Under Review** as part of one bounded six-name package, 2026-09-11, Section 13i — registered Proposed 2026-08-22; Architecture Review, Business Review, §26/§39 naming-governance review, Approval, and full collision verification all remain outstanding — **item remains Open**)*
 - [ ] Customer Approval Evidence persistence contract finalized
 - [ ] Customer-approval prerequisite runtime validated
 - [ ] Requirement-change audit persistence selected
@@ -685,6 +685,7 @@ Proof and Approval Record internal design, and Customer Approval Evidence's fina
 
 | Version | Date | Author | Changes |
 |---|---|---|---|
+| 1.3 | 2026-09-11 | Under Review Initiation Synchronization (Five Artwork Authority Names, Option A) | Per explicit Project Owner decision dated 2026-09-11 selecting **Option A** (full detail in `../standards/Naming_Registry.md` Section 13i), synchronized this specification's current naming-status statements to record that the five Artwork authority technical DocType names — `PrintHub Artwork`, `PrintHub Artwork Revision`, `PrintHub Customer Approval Evidence`, `PrintHub Production Artwork Set`, `PrintHub Production Artwork Set Item` — entered **Naming Registry Under Review** as part of one bounded six-name package (the sixth, `PrintHub Job Card`, is Production-module-owned and covered by its own specification). Updated Section 4's naming-boundary statement, the Section 5 aggregate-boundary table header and Customer Approval Evidence row, Section 7.1's Customer Approval Evidence naming clause, and every inline `Naming Registry status:` annotation across Sections 5–8 and 15 from **Proposed** to **Under Review**; each continues to state **not Approved**. Updated the two Section 22 Pre-Publication Gate Checklist items ("Proposed technical names governed"; "Customer Approval Evidence technical name governed") to record Under Review status while keeping **both items explicitly Open** — Under Review status alone does not satisfy "governed", which requires completed review and Approval. **Neither checklist item is marked closed, passed, complete, or implementation-ready, and no other checklist item changed.** **Architecture Review and Business Review are both pending — opened, not completed; no reviewer, review date, disposition, finding, or outcome is recorded, because none exists.** Source-based collision verification is recorded as **incomplete**: Stage 1 (exact Frappe/ERPNext v16.29.0 baselines) complete and independently verified, Stages 2 and 3 outstanding; **`ART-RVR-C08` as a whole remains incomplete and no final collision clearance exists.** **No conceptual DocType, field, state model, constraint, controlled operation, permission, test, migration rule, or runtime-validation gate was modified; no name was Approved; no module, path, or implementation decision changed; no directory, Module Def, or file was created.** `AR-003` was not resolved or modified. This specification remains **Draft, Version 1.3**, targets Published, and remains **not safe for coding**; its own Project Owner lifecycle approval, Publication, and Implementation Authorization all remain **Not Granted**. All 62 runtime-validation items remain open and unchecked. No AR identifier or planning identifier was invented. All earlier revision-history rows are preserved unchanged. No source was inspected or modified; no environment, test, or migration was run. |
 | 1.2 | 2026-09-09 | Identifier-Stability Correction (ART-RVR-A12 → ART-RVR-B02) | Per explicit Project Owner authorization dated 2026-09-09, corrects a defect in **Version 1.1** (committed): that version accurately recorded the module-path governance resolution but incorrectly cited the identifier as renamed from `ART-RVR-B02` to `ART-RVR-A12`. **`ART-RVR-B02` is the stable planning identifier and was never renamed** — `ART-RVR-A12` was an erroneous replacement identifier introduced in a companion document (`../reviews/Artwork_Runtime_Validation_Readiness_Register.md` Version 0.10) and since corrected there (Version 0.11). Its move from Section B to Section A in that register is a **classification change** (from Governance decision required to Governed and stable), **not an identifier change**. Corrected Section 6's naming-status line and Section 22's "Exact `printos_core` module paths selected" checklist item to cite `ART-RVR-B02` (Governed and stable) instead of the erroneous `ART-RVR-A12` form. **No conceptual DocType, field, state model, constraint, controlled operation, permission, test, migration rule, or runtime-validation gate was modified; no technical name was selected or Approved; no directory, Module Def, or file was created; the underlying module-path decision itself is unchanged.** `AR-003` was not resolved or modified. **Version 1.1's revision-history row is preserved unchanged** as an accurate record of what that version actually did, including its erroneous identifier reference — this correction does not rewrite committed history, per `../Documentation_Workflow.md` Section 8. This specification remains **Draft, Version 1.2**, targets Published, and remains **not safe for coding**; its own Project Owner lifecycle approval, Publication, and Implementation Authorization all remain **Not Granted**. All 62 runtime-validation items remain open and unchecked. No AR identifier was invented. No source was inspected or modified as part of this documentation task; no environment, test, or migration was run. |
 | 1.1 | 2026-09-09 | Module-Path Governance Resolution Synchronization (ART-RVR-B02) | Per explicit Project Owner decision dated 2026-09-09 (`../standards/Naming_Registry.md` Section 13h; `ART-RVR-B02` resolved and moved to `ART-RVR-A12`), synchronized this specification's current-state module-path statements. Updated Section 6's `PrintHub Artwork` naming-status line to record the adopted conceptual module `Artwork` and normalized DocType name `printhub_artwork`, explicitly labeled a design/governance resolution only, not implementation. Updated Section 22's "Exact `printos_core` module paths selected" checklist item from Open to **Closed at the design/governance level**, citing the same decision, while explicitly preserving every other Pre-Publication Gate Checklist item's Open status and stating that Publication and coding readiness remain separately gated. **No conceptual DocType, field, state model, constraint, controlled operation, permission, test, migration rule, or runtime-validation gate was modified; no technical name was selected or Approved; no directory, Module Def, or file was created.** `AR-003` was not resolved or modified. This specification remains **Draft, Version 1.1**, targets Published, and remains **not safe for coding**; its own Project Owner lifecycle approval, Publication, and Implementation Authorization all remain **Not Granted**. All 62 runtime-validation items remain open and unchecked. No AR identifier was invented. No source was inspected or modified as part of this documentation task; no environment, test, or migration was run. |
 | 1.0 | 2026-08-22 | Naming-Status and Candidate Synchronization | **Bounded naming-status and candidate synchronization only; Draft status and non-Publication are retained.** Per explicit Project Owner decision dated 2026-08-22, the five Artwork technical DocType names (`PrintHub Artwork`, `PrintHub Artwork Revision`, `PrintHub Production Artwork Set`, `PrintHub Production Artwork Set Item`) entered Naming Registry **Proposed** status (`../standards/Naming_Registry.md` Section 13a), and **`PrintHub Customer Approval Evidence` was added to Section 4 (Naming Boundary) and Section 5 (Aggregate Boundaries) as the first documented provisional technical-name candidate** for the existing, already-governed Customer Approval Evidence entity — the entity and its Section 7.1 business rules are unchanged; only a provisional technical identity is added. Updated Sections 2, 3, 4, 5, 6, 7, 7.1, 8, 8.1, 8.2, and 15's Link-target and naming-status parentheticals to state Proposed, not Approved, status consistently. Kept the Section 22 Pre-Publication Gate Checklist items "Proposed technical names governed" and "Customer Approval Evidence technical name governed" **Open** — Registry Proposed status alone does not satisfy "governed." Updated the governing-reference citations to Artwork System Design **Approval, Version 1.3** and Job Card Tier A System Design **Approval, Version 1.7**. **No conceptual DocType, field, state model, constraint, controlled operation, permission, test, migration rule, or runtime-validation gate was modified; no technical name or module path was selected or approved.** `AR-003` was not resolved or modified. This specification remains **Draft, Version 1.0**, targets Published, and remains **not safe for coding**; its own Project Owner lifecycle approval, Publication, and Implementation Authorization all remain **Not Granted**. All 62 runtime-validation items remain open and unchecked. No AR identifier was invented. |
