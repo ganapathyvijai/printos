@@ -4,13 +4,13 @@ Status:
 Draft
 
 Version:
-1.0
+1.1
 
 Owner:
 Project Architecture
 
 Last Updated:
-2026-07-22
+2026-09-19
 
 ---
 
@@ -185,6 +185,10 @@ Documentation versioning exists to make it possible to know, at any point in tim
 - **Major Updates** — Substantive rewrites of scope, structure, or intent are treated as a new MAJOR version and follow the full lifecycle from Draft.
 - **Deprecation** — When a document is superseded, its Status is set to Deprecated, and it must state which document supersedes it. Deprecated documents remain in place; they are not deleted.
 - **Archive Policy** — A Deprecated document moves to Archived only once nothing active still references it. Archived documents are retained indefinitely for audit and historical traceability, consistent with the project's stance against destructive, irreversible actions.
+- **Current-Version Authorities** — Exact current version numbers for a cited document are required only in: that document's own header; that document's own Revision History; designated current-status tables and indexes (e.g., `Documentation_Map.md`'s Category Index and Architecture Coverage tables, `Documentation_Status.md`'s Documentation Statistics and Status Breakdown tables, `decisions/00_ADR_Index.md`); and ADR, architecture-review, blueprint-index, or similar register/index entries whose stated purpose is to report current state. These are the places where current-version drift is not tolerated.
+- **Deliberately Pinned Baselines** — A cross-reference may retain a specific earlier version, even after the cited document has moved on to a later version, when the sentence intentionally identifies the version that recorded a binding decision, passed a particular review, established an approved baseline, or supplied evidence for a dated disposition or validation. Such a citation must be explicitly labeled as a baseline — for example, `decision baseline: Version 1.0`, `approved baseline: Version 1.7`, or `validation baseline: Version 0.5` — and must never be worded so as to imply it is the document's current version.
+- **Reference-Only Minor Updates** — A non-substantive reference correction that increments a document's MINOR version (for example, correcting a stale citation elsewhere) does not automatically require every ordinary narrative reference to that document, in every other document, to be edited in the same pass. A dependent document requires synchronization only when it: explicitly claims to show the cited document's current version; is a designated current-status index, register, map, or status table (see Current-Version Authorities above); would become factually false about lifecycle status, disposition, authority, publication, or implementation authorization as a result of the change; contains a broken or renamed path; or intentionally needs to cite the new version as a new pinned baseline.
+- **Coordinated End-State Consistency** — When several documents are updated together in one coordinated task, every current-version citation added or changed by that task must use the version each cited document will hold at the end of the task, not the version it held before the task began. A citation must never be drafted against a pre-task version of another document that the same task is simultaneously incrementing.
 
 ---
 
@@ -198,6 +202,8 @@ Cross-referencing is what turns a set of individual documents into a coherent, n
 - **Referenced Decisions** — Where a document's content follows from a specific Architecture Decision Record, that ADR must be cited by name (e.g., ADR-002-PrintOS-Core), so the decision's rationale is one click away.
 - **Referenced Research** — Where a decision was informed by prior research, the Research document should be cited so future readers can see the evaluation that led to the decision, not just its outcome.
 - **Link Maintenance** — When a document is renamed, deprecated, or archived, every document that references it must be checked and updated as part of the same change. A broken cross-reference is treated as a documentation defect, not a low-priority cleanup item, and is caught by the Cross-reference Review lens (Section 7).
+- **Ordinary Narrative References** — Ordinary explanatory prose citing another document should identify it by its stable document name or path, and include that document's lifecycle Status when the statement depends on it (for example, "Accepted ADR-015", "Blueprint 25, Approval, not Published", "Job Card Tier A DocType Specification, Draft and not safe for coding"). Ordinary narrative should normally omit the cited document's version number; see Section 8's Current-Version Authorities, Deliberately Pinned Baselines, and Reference-Only Minor Updates provisions for where a version number is required, permitted as a labeled baseline, or unnecessary.
+- **Historical Record Preservation** — Historical Revision History rows and dated review records remain unchanged when a document they reference later receives a new version. A later current-state note elsewhere in the same or another document may explain the newer version, but historical Revision History text must never be silently rewritten to reflect information that postdates it.
 
 ---
 
@@ -285,6 +291,7 @@ The following capabilities are anticipated as the documentation set grows, but a
 | Version | Date | Author | Changes |
 |---|---|---|---|
 | 1.0 | 2026-07-22 | Initial | Initial Version |
+| 1.1 | 2026-09-19 | Version-Citation Policy (ChatGPT Architecture Recommendation) | Added a version-citation policy across Sections 8 and 9: ordinary narrative references normally omit version numbers and cite document identity and Status instead; exact current versions remain required only in document headers, Revision History, and designated current-status indexes/registers/maps; a cross-reference may retain an earlier version only when explicitly labeled as a pinned decision, approved, or validation baseline, never presented as the document's current version; historical Revision History rows and dated review records are preserved unchanged when a referenced document's version later changes; a reference-only MINOR update to one document does not automatically require editing every ordinary narrative reference to it elsewhere; and a coordinated multi-document update must cite each document's end-of-task version, not its pre-task version. This is a Draft governance amendment; it is not Published and grants no implementation, migration, or execution authority. Bulk migration of existing references requires separate authorization. Future separately authorized document changes should follow this policy. |
 
 ---
 

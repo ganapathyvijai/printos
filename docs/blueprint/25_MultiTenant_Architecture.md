@@ -1,7 +1,7 @@
 # Multi-Tenant Architecture
 
 Version:
-1.0
+1.1
 
 Status:
 Approval
@@ -10,7 +10,7 @@ Owner:
 PrintHub Architecture Team
 
 Last Updated:
-2026-07-28
+2026-09-19
 
 ---
 
@@ -22,9 +22,9 @@ This document defines the concrete multi-tenant topology reserved by [ADR-006-Mu
 
 # 2. Status and Authority Boundary
 
-- This document is **Approval, Version 1.0**. Architecture Review, Business Review, and Project Owner Approval are complete (Section 26); it is a governed, Owner-approved architecture record.
+- This document is **Approval, Version 1.1**. Architecture Review, Business Review, and Project Owner Approval are complete (Section 26); it is a governed, Owner-approved architecture record.
 - It is **not yet Published** and is **not yet a direct coding basis** — per `Documentation_Workflow.md` §5, Publication is a separate, later lifecycle stage from Approval, and only a Published document is a safe basis for code.
-- **AR-002 remains Open** — reaching Approval on this document does not itself close AR-002. Closure requires the remaining repository-recording steps (Naming Registry synchronization, ADR Index registration, and formal Architecture Review Register closure), none of which is performed by this promotion.
+- **AR-002 is Resolved** in the Architecture Review Register, through Project Owner selection of Option A on 2026-07-28. The resolving decision is Accepted [ADR-015-Tenant-Company-Multi-Tenancy-Model](../decisions/ADR-015-Tenant-Company-Multi-Tenancy-Model.md); this document is the Approval-stage architecture elaboration of that decision. This document remains **not Published** and grants **no implementation authorization** — reaching Approval on this document does not itself grant Publication or implementation authorization, both of which remain separate, later gates.
 - **No implementation authorization is granted** by this document (Section 24).
 
 ---
@@ -333,12 +333,12 @@ The following remain open for future, separate design work. **Topology and Tenan
 # 23. Relationship to Other Documents
 
 - [ADR-006-MultiTenant-Strategy](../decisions/ADR-006-MultiTenant-Strategy.md) — establishes the design constraint this document concretizes; remains Accepted, unchanged.
-- [ADR-015-Tenant-Company-Multi-Tenancy-Model](../decisions/ADR-015-Tenant-Company-Multi-Tenancy-Model.md) (Draft, companion) — carries the binding decision this document elaborates.
-- [AR-002 — Architecture Review Register](../decisions/Architecture_Review_Register.md) — the review item this document, together with ADR-015, is intended to resolve once both complete their lifecycle.
-- [../implementation/Architecture_Freeze.md](../implementation/Architecture_Freeze.md) — Approval, Version 1.1.
-- [../roadmap/01_Development_Roadmap.md](../roadmap/01_Development_Roadmap.md) — Approval, Version 1.1.
-- [../implementation/Module_Dependency_Matrix.md](../implementation/Module_Dependency_Matrix.md) — Draft, Version 0.4.
-- [../standards/Naming_Registry.md](../standards/Naming_Registry.md) — Section 27, item 11 (Tenant vs. Company), to be synchronized only after ADR-015 reaches Accepted.
+- [ADR-015-Tenant-Company-Multi-Tenancy-Model](../decisions/ADR-015-Tenant-Company-Multi-Tenancy-Model.md) (Accepted, companion) — carries the binding decision this document elaborates.
+- [AR-002 — Architecture Review Register](../decisions/Architecture_Review_Register.md) — Resolved through Project Owner selection of Option A; this document, together with Accepted ADR-015, is the completed architecture elaboration that resolution required.
+- [../implementation/Architecture_Freeze.md](../implementation/Architecture_Freeze.md) — Approval.
+- [../roadmap/01_Development_Roadmap.md](../roadmap/01_Development_Roadmap.md) — Approval.
+- [../implementation/Module_Dependency_Matrix.md](../implementation/Module_Dependency_Matrix.md) — Draft.
+- [../standards/Naming_Registry.md](../standards/Naming_Registry.md) — Section 27, item 11 (Tenant vs. Company) — Resolved.
 - [../configuration/Configuration_Studio_Architecture.md](../configuration/Configuration_Studio_Architecture.md) — Tenant Override reconciliation remains separate, later work (Section 15).
 - [../architecture/Plugin_Architecture.md](../architecture/Plugin_Architecture.md) — tenant-scoped plugin configuration remains separate, later work (Section 16).
 - [../implementation/07_Deployment_Strategy.md](../implementation/07_Deployment_Strategy.md) — provisioning, backup, and release mechanics remain separate, later work.
@@ -352,7 +352,7 @@ None of the referenced documents is Published; none is described as Published by
 
 **Implementation Authorization:** Not Granted
 
-This architecture Draft does not authorize:
+This Approval-stage architecture document does not authorize:
 
 - schema changes;
 - site provisioning;
@@ -413,7 +413,7 @@ None of these observations changes the topology, Tenant/Company definitions, car
 
 - This document is approved as a governed architecture record elaborating the companion ADR-015 decision. All substantive architecture content (Sections 1–24) is unchanged by this promotion.
 - **This document is not Published.** Publication remains a separate, later lifecycle stage, required only for the portions actually relied upon as a direct coding basis.
-- **AR-002 remains Open** in the Architecture Review Register. Closure requires the remaining repository-recording steps — Naming Registry synchronization, ADR Index registration, and formal Register closure — none of which is performed by this promotion. **AR-002 is not stated or implied to be Resolved.**
+- **AR-002 is Resolved** in the Architecture Review Register, through Project Owner selection of Option A on 2026-07-28. The resolving decision is Accepted ADR-015-Tenant-Company-Multi-Tenancy-Model. This promotion is the Approval-stage architecture elaboration AR-002's Option A required; it does not itself grant Publication or implementation authorization, both of which remain separate, later gates and remain Not Granted.
 - The Project Owner has separately stated an intention to provide product modifications and suggestions after reviewing the first authorized working ERP slice. This is a **future feedback intent only** and does **not** authorize implementation now; it must not be read as approval to begin coding.
 
 **Implementation Authorization:** Not Granted. Approval of this document does not authorize Job Card Tier A coding, DocType creation, schema changes, migrations, hooks, fixtures, site provisioning, tenant creation, Docker changes, CI/CD changes, Deployment Strategy changes, Tenant Override implementation, plugin implementation, central Customer identity design or implementation, or cross-tenant analytics design or implementation. A separate, later, scoped implementation-authorization decision — preceded by Published implementation specifications — remains required.
@@ -442,6 +442,7 @@ None of these observations changes the topology, Tenant/Company definitions, car
 |----------|------|--------|---------|
 | 0.1 | 2026-07-28 | Initial Draft | Initial Draft creation following Project Owner selection of AR-002 Option A (2026-07-28). Elaborates the companion ADR-015 decision: isolated site/database-per-Tenant topology, Tenant/Company boundary definitions, shared/isolated component matrix, backup boundary, upgrade governance, service-tier principles, provisioning/operations boundary, Job Card Tier A tenancy consequence, Configuration Studio and Plugin boundaries, explicit central-identity and cross-tenant-analytics exclusions, failure/blast-radius and security principles, risks, and open implementation details. Does not design Job Card fields, central identity, or analytics. No implementation authorized. AR-002 remains Open pending review and approval of this document and ADR-015. |
 | 1.0 | 2026-07-28 | Project Owner Lifecycle Approval | Architecture Review completed — Accepted with non-blocking observations (0 Critical, 0 High findings, 0 mandatory corrections). Business Review completed — Accepted with non-blocking observations (0 blocking business issues, 0 mandatory corrections). Project Owner approved lifecycle promotion from Draft 0.1 to Approval 1.0. Updated Section 2 (Status and Authority Boundary) and Section 25 (Review Requirements) to reflect completed reviews; all substantive architecture content (Sections 1, 3–24) unchanged. Non-blocking observations (future Security Review before production; optional wording harmonization; ADR-015 length acceptable under precedent) recorded in the new Section 26 Review Record without being applied. Document remains **not Published**. AR-002 remains Open pending remaining repository-recording steps (Naming Registry synchronization, ADR Index registration, Register closure) and is not stated or implied to be Resolved. The Project Owner's stated intent to provide product feedback after reviewing the first authorized working ERP slice is recorded as future intent only and does not authorize implementation. Implementation Authorization remains Not Granted. |
+| 1.1 | 2026-09-19 | AR-002 and Related-Reference Synchronization (MT-R2) | Corrected active statements in Section 2 and Section 26 that said AR-002 remains Open, recording that AR-002 is Resolved in the Architecture Review Register through Project Owner selection of Option A, with Accepted ADR-015 as the resolving decision. Corrected Section 23 (Relationship to Other Documents): ADR-015 citation updated from Draft to Accepted; AR-002 citation updated to Resolved; the Architecture_Freeze.md, 01_Development_Roadmap.md, Module_Dependency_Matrix.md, and Naming_Registry.md §27 item 11 citations converted to versionless ordinary narrative references (identity and Status only), per `Documentation_Workflow.md` Version 1.1 §§8–9. Corrected Section 24's lifecycle language from "This architecture Draft" to "This Approval-stage architecture document" — the Implementation Authorization value (Not Granted) is unchanged. Corrected Section 2's self-citation from Approval, Version 1.0 to Approval, Version 1.1. Bounded consistency and cross-reference correction only; no topology, Tenant, Company, isolation, backup, service-tier, Job Card, or implementation rule changed; document remains not Published; no implementation authorization granted. |
 
 ---
 

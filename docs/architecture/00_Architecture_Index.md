@@ -1,7 +1,7 @@
 # Architecture Documentation — Master Index
 
 Version:
-1.0
+1.6
 
 Status:
 Draft
@@ -10,7 +10,7 @@ Owner:
 PrintHub Architecture Team
 
 Last Updated:
-2026-07-23
+2026-09-19
 
 ---
 
@@ -30,7 +30,7 @@ This folder does not duplicate existing documentation. Where a topic already has
 
 - `docs/blueprint/04_System_Architecture.md` remains the business-architecture-level system overview; [01_System_Architecture.md](01_System_Architecture.md) here is its deeper technical companion.
 - `docs/technical/02_Clean_Architecture.md` and `docs/technical/03_Layer_Architecture.md` remain the authoritative layer definitions; [02_Clean_Architecture.md](02_Clean_Architecture.md) here consolidates the cross-cutting rationale and diagrams.
-- `docs/blueprint/25_MultiTenant_Architecture.md` (reserved per [ADR-010](../decisions/ADR-010-Blueprint-Numbering-Strategy.md)) remains the eventual authoritative Multi-Tenant Architecture document; [04_MultiTenant_Architecture.md](04_MultiTenant_Architecture.md) here is a working draft pending that document's creation — see its own Scope note.
+- `docs/blueprint/25_MultiTenant_Architecture.md` now exists at Approval, Version 1.0, but is not Published. [04_MultiTenant_Architecture.md](04_MultiTenant_Architecture.md) remains a pre-existing, unreconciled working draft. Reconciling, merging, deprecating, or explicitly separating that Draft requires a later controlled task.
 - `docs/blueprint/22_Integration_Architecture.md` and `24_Deployment_Architecture.md` (also reserved per ADR-010) are the eventual authoritative documents for those topics; [10_Integration_Architecture.md](10_Integration_Architecture.md) and [09_Deployment_Architecture.md](09_Deployment_Architecture.md) here are working drafts with the same caveat.
 
 ---
@@ -42,7 +42,7 @@ This folder does not duplicate existing documentation. Where a topic already has
 | 01 | [System Architecture](01_System_Architecture.md) | End-to-end technical system view: ERPNext + printos_core + supporting services |
 | 02 | [Clean Architecture](02_Clean_Architecture.md) | Cross-cutting rationale and enforcement of Clean Architecture across PrintOS |
 | 03 | [DDD Architecture](03_DDD_Architecture.md) | How Domain-Driven Design is applied structurally, beyond the Blueprint's domain model |
-| 04 | [Multi-Tenant Architecture](04_MultiTenant_Architecture.md) | Working draft of single/multi-tenant/hybrid design (see reserved Blueprint path above) |
+| 04 | [Multi-Tenant Architecture](04_MultiTenant_Architecture.md) | Pre-decision working draft; pending controlled reconciliation with `docs/blueprint/25_MultiTenant_Architecture.md` (Approval, Version 1.1, not Published) |
 | 05 | [Extensibility Architecture](05_Extensibility_Architecture.md) | How PrintOS is extended safely without modifying ERPNext core |
 | 06 | [Event Architecture](06_Event_Architecture.md) | Domain events, publication, and consumption across bounded contexts |
 | 07 | [Security Architecture](07_Security_Architecture.md) | Authentication, authorization, data protection, and secure defaults |
@@ -66,7 +66,7 @@ This folder does not duplicate existing documentation. Where a topic already has
 
 # Future Considerations
 
-- As `docs/blueprint/22_Integration_Architecture.md`, `24_Deployment_Architecture.md`, and `25_MultiTenant_Architecture.md` are formally authored, the corresponding documents in this folder should be reconciled with them (merged, superseded, or explicitly scoped apart) rather than left as parallel drafts indefinitely.
+- As `docs/blueprint/22_Integration_Architecture.md` and `24_Deployment_Architecture.md` are formally authored, their corresponding working drafts should be reconciled with them. `docs/blueprint/25_MultiTenant_Architecture.md` has already been authored at Approval, Version 1.0; reconciliation of `04_MultiTenant_Architecture.md` with it remains a separate controlled task.
 
 ---
 
@@ -94,6 +94,8 @@ This folder does not duplicate existing documentation. Where a topic already has
 | 1.2 | 2026-07-24 | ERPNext Gap Analysis | Added `ERPNext_Gap_Analysis.md` to Contents — sizes the capability gaps identified by the Fit Analysis into 28 detailed gap records, feeding forward into ERPNext DocType Mapping. |
 | 1.3 | 2026-07-25 | Canonical Domain Model | Added `Canonical_Domain_Model.md` to Contents — organizes the Business Entity Inventory into Bounded Contexts, Aggregates, Child Entities, Value Objects, and Domain Services ahead of ERPNext DocType Mapping. |
 | 1.4 | 2026-07-25 | Plugin Architecture | Added `Plugin_Architecture.md` to Contents — the uniform Ports & Adapters standard governing every current and future external integration. |
+| 1.5 | 2026-09-19 | Blueprint 25 Reference Synchronization | Corrected active Multi-Tenant references to record that `docs/blueprint/25_MultiTenant_Architecture.md` exists at Approval, Version 1.0 but is not Published, while `04_MultiTenant_Architecture.md` remains an unreconciled working draft. Reconciled the pre-existing header lag from Version 1.0 to the new Version 1.5. Reference-only correction; no architecture decision, reconciliation disposition, deprecation, publication, or implementation authorization. |
+| 1.6 | 2026-09-19 | Blueprint 25 Post-MT-R2 Designated-Authority Synchronization | Updated the Contents table row for document 04 so its Blueprint 25 reference reads Approval, Version 1.1, not Published, matching Blueprint 25's corrected current version following MT-R2. Reference-only correction; no architecture decision, reconciliation disposition, or implementation authorization changed. |
 
 ---
 

@@ -4,7 +4,7 @@ Status:
 Accepted
 
 Version:
-1.0
+1.1
 
 Date:
 2026-07-28
@@ -183,8 +183,8 @@ Only the alternatives officially recorded against AR-002 are considered here; no
 
 ## 14. Required Follow-Up Documents
 
-- `docs/blueprint/25_MultiTenant_Architecture.md` — the architecture-design elaboration of this decision (drafted alongside this ADR; see companion document).
-- Naming Registry synchronization — closing Section 27, item 11 ("Tenant" vs. "Company"), to occur only after this ADR reaches Accepted.
+- `docs/blueprint/25_MultiTenant_Architecture.md` — the architecture-design elaboration of this decision, Approval, not Published.
+- Naming Registry synchronization — Section 27, item 11 ("Tenant" vs. "Company") is Resolved, citing this Accepted ADR.
 - Deployment and operational architecture — provisioning, monitoring, backup tooling, and release-ring mechanics.
 - Published Job Card Tier A specifications — DocType, permission, and validation design, informed by Section 6 above.
 - A separate scoped implementation-authorization decision, preceded by Published implementation specifications.
@@ -195,7 +195,7 @@ Only the alternatives officially recorded against AR-002 are considered here; no
 
 **Implementation Authorization:** Not Granted
 
-Draft status, and any later Acceptance of this ADR, does **not** itself authorize coding, schema changes, site provisioning, Docker or CI/CD changes, migrations, or any other implementation activity. A separate, later, scoped implementation-authorization decision — preceded by Published implementation specifications — remains required before any coding may begin. Every roadmap workstream remains Not Authorized regardless of this ADR's eventual disposition.
+Acceptance of this ADR does **not** itself authorize coding, schema changes, site provisioning, Docker or CI/CD changes, migrations, or any other implementation activity. A separate, later, scoped implementation-authorization decision — preceded by Published implementation specifications — remains required before any coding may begin. Every roadmap workstream remains Not Authorized by this ADR's Accepted disposition.
 
 ---
 
@@ -206,10 +206,10 @@ Draft status, and any later Acceptance of this ADR, does **not** itself authoriz
 - [ADR-001-ERPNext-Framework](ADR-001-ERPNext-Framework.md) — central version-governance precedent (AR-001, Resolved)
 - [../standards/Naming_Registry.md](../standards/Naming_Registry.md) Section 27, item 11
 - [../architecture/04_MultiTenant_Architecture.md](../architecture/04_MultiTenant_Architecture.md) (working draft, to be reconciled with the document below)
-- `docs/blueprint/25_MultiTenant_Architecture.md` (companion Draft document, this same task)
-- [../implementation/Architecture_Freeze.md](../implementation/Architecture_Freeze.md) — Approval, Version 1.1
-- [../roadmap/01_Development_Roadmap.md](../roadmap/01_Development_Roadmap.md) — Approval, Version 1.1
-- [../implementation/Module_Dependency_Matrix.md](../implementation/Module_Dependency_Matrix.md) — Draft, Version 0.4
+- `docs/blueprint/25_MultiTenant_Architecture.md` (companion document, Approval, not Published)
+- [../implementation/Architecture_Freeze.md](../implementation/Architecture_Freeze.md) — Approval
+- [../roadmap/01_Development_Roadmap.md](../roadmap/01_Development_Roadmap.md) — Approval
+- [../implementation/Module_Dependency_Matrix.md](../implementation/Module_Dependency_Matrix.md) — Draft
 
 None of the above documents is Published; none is described as Published by this ADR.
 
@@ -251,6 +251,8 @@ None of these observations changes the topology, Tenant/Company definitions, car
 - **AR-002 is not stated or implied to be Resolved by this document.**
 - The Project Owner has separately stated an intention to provide product modifications and suggestions after reviewing the first authorized working ERP slice. This is a **future feedback intent only** and does **not** authorize implementation now; it must not be read as approval to begin coding.
 
+**Subsequent current-state synchronization (2026-09-19):** The AR-002 statements above are preserved as part of the dated 2026-07-28 Project Owner Approval record. After that approval, the remaining repository-recording steps were completed and AR-002 was formally recorded as Resolved in the Architecture Review Register through Project Owner selection of Option A, citing this Accepted ADR as the resolving decision. Naming Registry Section 27 item 11 is Resolved, and Blueprint 25 is at Approval, not Published. This subsequent disposition grants no implementation authorization and changes none of this ADR's architecture decisions.
+
 **Implementation Authorization:** Not Granted. Acceptance of this ADR does not authorize Job Card Tier A coding, DocType creation, schema changes, migrations, hooks, fixtures, site provisioning, tenant creation, Docker changes, CI/CD changes, Deployment Strategy changes, Tenant Override implementation, plugin implementation, central Customer identity design or implementation, or cross-tenant analytics design or implementation. A separate, later, scoped implementation-authorization decision — preceded by Published implementation specifications — remains required.
 
 ---
@@ -261,6 +263,7 @@ None of these observations changes the topology, Tenant/Company definitions, car
 |----------|------|--------|---------|
 | 0.1 | 2026-07-28 | Initial Draft | Initial Draft creation following Project Owner selection of AR-002 Option A (2026-07-28). Records the Tenant/Company definitions, isolated site/database-per-Tenant topology, isolation invariants, Job Card Tier A consequence, upgrade-governance and service-tier principles, platform-owner access principle, explicit central-identity and cross-tenant-analytics exclusions, and the implementation-authorization boundary. Companion to ADR-006 (not a supersession or amendment). AR-002 remains Open pending this ADR's and the companion Multi-Tenant Architecture document's review and approval. No implementation authorized. |
 | 1.0 | 2026-07-28 | Project Owner Lifecycle Approval | Architecture Review completed — Accepted with non-blocking observations (0 Critical, 0 High findings, 0 mandatory corrections). Business Review completed — Accepted with non-blocking observations (0 blocking business issues, 0 mandatory corrections). Project Owner approved lifecycle promotion from Draft 0.1 to Accepted 1.0. The topology, Tenant/Company decision, and all Section 2–14 content are unchanged. Non-blocking observations (future Security Review before production; optional wording harmonization; ADR length acceptable under precedent) recorded in Section 17 without being applied. ADR-006 was not amended and remains Accepted, unchanged. AR-002 remains Open pending remaining repository-recording steps (Naming Registry synchronization, ADR Index registration, Register closure) and is not stated or implied to be Resolved. The Project Owner's stated intent to provide product feedback after reviewing the first authorized working ERP slice is recorded as future intent only and does not authorize implementation. Implementation Authorization remains Not Granted. |
+| 1.1 | 2026-09-19 | Cross-Reference and Disposition Synchronization (MT-R4) | Synchronized stale active references in Sections 14, 15, and 16: Blueprint 25 is Approval, not Published; Naming Registry Section 27 item 11 is Resolved; the "Draft status, and any later Acceptance" implementation-authorization wording was corrected to reflect this ADR's Accepted disposition; and the Architecture_Freeze.md, 01_Development_Roadmap.md, and Module_Dependency_Matrix.md references were converted to versionless ordinary narrative. Added a clearly labeled Subsequent current-state synchronization note to Section 17, recording that AR-002 was subsequently formally recorded as Resolved in the Architecture Review Register, citing this Accepted ADR as the resolving decision. The dated 2026-07-28 Project Owner Approval record, both historical AR-002 statements within it, and Revision History rows 0.1 and 1.0 are preserved verbatim. Sections 2–13 are unchanged. Status remains Accepted; Implementation Authorization remains Not Granted. |
 
 ---
 

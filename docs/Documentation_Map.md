@@ -1,7 +1,7 @@
 # Documentation Map
 
 Version:
-1.5
+1.7
 
 Status:
 Draft
@@ -10,7 +10,7 @@ Owner:
 PrintHub Architecture Team
 
 Last Updated:
-2026-07-26
+2026-09-19
 
 ---
 
@@ -50,11 +50,11 @@ flowchart TB
 
 Configuration Studio documentation (`docs/configuration/`) is a cross-cutting layer: it depends on Business (which module/workflow concepts it exposes as configurable) and Technical (the Clean Architecture layering it must respect), and it is depended upon by nothing above it. It does not replace or duplicate Technical or Database documentation — see [configuration/01_Configuration_Architecture.md](configuration/01_Configuration_Architecture.md) for the explicit boundary.
 
-Architecture documentation (`docs/architecture/`) is likewise cross-cutting: it elaborates Technical Architecture into system-wide deep-dives (Clean Architecture rationale, DDD application, multi-tenancy, extensibility, eventing, security, performance, deployment, integration) without introducing new binding decisions of its own — see [architecture/00_Architecture_Index.md](architecture/00_Architecture_Index.md). Three of its documents (Multi-Tenant, Deployment, Integration Architecture) are explicitly marked working drafts pending reconciliation with paths reserved in `docs/blueprint/` by ADR-010.
+Architecture documentation (`docs/architecture/`) is likewise cross-cutting: it elaborates Technical Architecture into system-wide deep-dives (Clean Architecture rationale, DDD application, multi-tenancy, extensibility, eventing, security, performance, deployment, integration) without introducing new binding decisions of its own — see [architecture/00_Architecture_Index.md](architecture/00_Architecture_Index.md). Three documents remain working drafts: Multi-Tenant awaits reconciliation with the existing Blueprint 25 (Approval, Version 1.0); Deployment and Integration await their reserved Blueprint documents.
 
-Implementation documentation (`docs/implementation/`) is strictly downstream: it sequences and plans delivery of everything above it, and must never redefine architecture, business rules, or naming — see [implementation/00_Implementation_Index.md](implementation/00_Implementation_Index.md). Two key implementation-architecture artifacts: [implementation/Module_Dependency_Matrix.md](implementation/Module_Dependency_Matrix.md) (Draft, Version 0.3) defines business, implementation, ERPNext, configuration, plugin, Architecture Review, transitive, convergent, and optional dependencies across PrintHub modules — a conditional implementation-architecture reference, not a roadmap or implementation schedule; and [implementation/Architecture_Freeze.md](implementation/Architecture_Freeze.md) (Approval, Version 1.0) is the effective Layered Architecture Freeze, defining the frozen conceptual baseline, conditional references, excluded AR-gated layers, governance gaps, Development Roadmap boundary, implementation-authorization boundary, and Full Freeze exit criteria — it is effective only within its declared layered scope, it is not a Full Architecture Freeze, it is not Published, and it does not authorize implementation.
+Implementation documentation (`docs/implementation/`) is strictly downstream: it sequences and plans delivery of everything above it, and must never redefine architecture, business rules, or naming — see [implementation/00_Implementation_Index.md](implementation/00_Implementation_Index.md). Two key implementation-architecture artifacts: [implementation/Module_Dependency_Matrix.md](implementation/Module_Dependency_Matrix.md) (Draft, Version 0.7) defines business, implementation, ERPNext, configuration, plugin, Architecture Review, transitive, convergent, and optional dependencies across PrintHub modules — a conditional implementation-architecture reference, not a roadmap or implementation schedule; and [implementation/Architecture_Freeze.md](implementation/Architecture_Freeze.md) (Approval, Version 1.2) is the effective Layered Architecture Freeze, defining the frozen conceptual baseline, conditional references, excluded AR-gated layers, governance gaps, Development Roadmap boundary, implementation-authorization boundary, and Full Freeze exit criteria — it is effective only within its declared layered scope, it is not a Full Architecture Freeze, it is not Published, and it does not authorize implementation.
 
-Roadmap documentation (`docs/roadmap/`) owns the approved governed Development Roadmap — [roadmap/01_Development_Roadmap.md](roadmap/01_Development_Roadmap.md) (Approval, Version 1.0), the approved governed bridge between the effective Layered Architecture Freeze and future execution planning. It defines dependency-tiered capability workstreams, Architecture Review gates, readiness classifications, traceability requirements, and deferred boundaries. Architecture Review, Business Review, and Project Owner Approval are all complete. It remains **not Published** and **does not authorize implementation**; it is non-temporal; it does not reuse Product Roadmap or legacy technical phase numbering; and it does not replace the Product Roadmap, Implementation Plan, Sprint Plan, or Release Checklist. It treats [implementation/01_Phase_1_Roadmap.md](implementation/01_Phase_1_Roadmap.md) and [implementation/02_Module_Implementation_Order.md](implementation/02_Module_Implementation_Order.md) as unreconciled conditional legacy inputs. The category relationship is deliberate: `docs/roadmap/` owns the governed Development Roadmap, while `docs/implementation/` retains the technical implementation-order, execution-plan, milestone, sprint, and release artifacts; the Development Roadmap feeds future execution planning but is not itself an execution plan. The `00_` Roadmap index slot remains reserved — no index is created until the folder holds multiple governed roadmap artifacts.
+Roadmap documentation (`docs/roadmap/`) owns the approved governed Development Roadmap — [roadmap/01_Development_Roadmap.md](roadmap/01_Development_Roadmap.md) (Approval, Version 1.2), the approved governed bridge between the effective Layered Architecture Freeze and future execution planning. It defines dependency-tiered capability workstreams, Architecture Review gates, readiness classifications, traceability requirements, and deferred boundaries. Architecture Review, Business Review, and Project Owner Approval are all complete. It remains **not Published** and **does not authorize implementation**; it is non-temporal; it does not reuse Product Roadmap or legacy technical phase numbering; and it does not replace the Product Roadmap, Implementation Plan, Sprint Plan, or Release Checklist. It treats [implementation/01_Phase_1_Roadmap.md](implementation/01_Phase_1_Roadmap.md) and [implementation/02_Module_Implementation_Order.md](implementation/02_Module_Implementation_Order.md) as unreconciled conditional legacy inputs. The category relationship is deliberate: `docs/roadmap/` owns the governed Development Roadmap, while `docs/implementation/` retains the technical implementation-order, execution-plan, milestone, sprint, and release artifacts; the Development Roadmap feeds future execution planning but is not itself an execution plan. The `00_` Roadmap index slot remains reserved — no index is created until the folder holds multiple governed roadmap artifacts.
 
 ---
 
@@ -67,7 +67,7 @@ Roadmap documentation (`docs/roadmap/`) owns the approved governed Development R
 | Technical | `docs/technical/` | [00_Master_Index.md](technical/00_Master_Index.md) | Clean Architecture, layering, dependency rules, project structure, request lifecycle, error handling, extensibility |
 | Database | `docs/database/` | [00_Master_Index.md](database/00_Master_Index.md) | Data architecture, DocType strategy, master data, entity relationships, naming, data lifecycle |
 | Configuration | `docs/configuration/` | [00_Master_Index.md](configuration/00_Master_Index.md) | Configuration Studio: module manager, workflow/approval/form/dashboard/automation/notification/role/report/integration designers, feature flags, tenant customization, templates, deployment |
-| Architecture | `docs/architecture/` | [00_Architecture_Index.md](architecture/00_Architecture_Index.md) | System/Clean/DDD architecture deep-dives, multi-tenancy, extensibility, eventing, security, performance, deployment, integration (3 documents are working drafts pending reconciliation with reserved Blueprint paths — see ADR-010) |
+| Architecture | `docs/architecture/` | [00_Architecture_Index.md](architecture/00_Architecture_Index.md) | System/Clean/DDD architecture deep-dives, multi-tenancy, extensibility, eventing, security, performance, deployment, integration. Three documents remain working drafts: Multi-Tenant awaits reconciliation with the existing Blueprint 25 (Approval, Version 1.1); Deployment and Integration await their reserved Blueprint documents |
 | Implementation | `docs/implementation/` | [00_Implementation_Index.md](implementation/00_Implementation_Index.md) | Delivery planning: roadmap, module build order, ERPNext mapping, customization/migration/testing/deployment strategy, go-live readiness. Downstream-only — never redefines architecture, business rules, or naming |
 | Standards | `docs/standards/` | [README.md](standards/README.md) | Naming, coding, testing, git, API, database, security, documentation conventions |
 | Decisions | `docs/decisions/` | [00_ADR_Index.md](decisions/00_ADR_Index.md) | Architecture Decision Records (binding, discrete decisions) |
@@ -75,7 +75,7 @@ Roadmap documentation (`docs/roadmap/`) owns the approved governed Development R
 | Reviews | `docs/reviews/` | — | Recorded evaluation of documents/implementations |
 | Milestones | `docs/milestones/` | — | Completion records for project milestones |
 | Templates | `docs/templates/` | — | Reusable document structures per category |
-| Roadmap | `docs/roadmap/` | — (`00_` index slot reserved) | Approved governed Development Roadmap: [roadmap/01_Development_Roadmap.md](roadmap/01_Development_Roadmap.md) (Approval, Version 1.0; Architecture Review, Business Review, and Project Owner Approval complete) — dependency-tiered capability workstreams, Architecture Review gates, readiness classifications, traceability, and deferred boundaries; non-temporal, not Published, and does not authorize implementation |
+| Roadmap | `docs/roadmap/` | — (`00_` index slot reserved) | Approved governed Development Roadmap: [roadmap/01_Development_Roadmap.md](roadmap/01_Development_Roadmap.md) (Approval, Version 1.2; Architecture Review, Business Review, and Project Owner Approval complete) — dependency-tiered capability workstreams, Architecture Review gates, readiness classifications, traceability, and deferred boundaries; non-temporal, not Published, and does not authorize implementation |
 | API, Changelog, Prompts, Sprints, UI | `docs/api/`, `docs/changelog/`, `docs/prompts/`, `docs/sprints/`, `docs/ui/` | — | Reserved, not yet populated (see `Documentation_Status.md`, Remaining Gaps) |
 
 ---
@@ -112,33 +112,33 @@ flowchart LR
 
 | Layer | Status |
 |---|---|
-| Business/Domain architecture | Covered — Blueprint (22 documents) + Business (23 documents) |
-| Technical/Clean Architecture | Covered — Technical (10 documents) |
-| Database/data architecture | Covered — Database (7 documents) |
-| Configuration/no-code layer | Covered — Configuration (16 documents) |
-| Cross-cutting architecture deep-dives | Covered — Architecture (11 documents); 3 (Multi-Tenant, Deployment, Integration) are explicit working drafts pending reconciliation with reserved Blueprint paths |
-| Implementation/delivery planning | Partially covered — Implementation (9 of 16 documents populated: 00–08; 09–15 remain Placeholder) |
+| Business/Domain architecture | Covered — Blueprint (23 documents) + Business (23 documents) |
+| Technical/Clean Architecture | Covered — Technical (11 documents) |
+| Database/data architecture | Covered — Database (11 documents) |
+| Configuration/no-code layer | Covered — Configuration (17 documents) |
+| Cross-cutting architecture deep-dives | Covered — Architecture (15 documents); Multi-Tenant remains an unreconciled working draft alongside the existing Blueprint 25; Deployment and Integration remain working drafts pending their reserved Blueprint documents |
+| Implementation/delivery planning | Partially covered — Implementation (12 of 19 documents populated; 09–15 remain empty placeholders) |
 | Engineering standards | Covered — Standards (20 documents) |
-| Binding decisions | Covered — Decisions (15 documents: 14 ADRs + index) |
-| Multi-tenant SaaS architecture | **Gap** — reserved at `docs/blueprint/25_MultiTenant_Architecture.md`, not yet written (see ADR-006) |
+| Binding decisions | Covered — Decisions (17 documents: 15 Accepted ADRs, Draft ADR index, Draft Architecture Review Register) |
+| Multi-tenant SaaS architecture | Covered at Approval — `docs/blueprint/25_MultiTenant_Architecture.md`, Version 1.1; not Published and does not authorize implementation |
 | MachineIQ detailed architecture | **Gap** — deferred per ADR-008 |
 | Marketplace detailed architecture | **Gap** — deferred per ADR-009, Phase 5 |
 | API contracts | **Gap** — `docs/api/` reserved, empty |
 | UI/UX design documentation | **Gap** — `docs/ui/` reserved, empty |
-| Roadmap detail beyond Blueprint summary | Covered (Approval) — [roadmap/01_Development_Roadmap.md](roadmap/01_Development_Roadmap.md) (Approval, Version 1.0), the approved governed Development Roadmap; Architecture Review, Business Review, and Project Owner Approval complete; not Published; does not authorize implementation (Product Roadmap strategic summary remains at `Blueprint 03_Product_Roadmap.md`) |
+| Roadmap detail beyond Blueprint summary | Covered (Approval) — [roadmap/01_Development_Roadmap.md](roadmap/01_Development_Roadmap.md) (Approval, Version 1.2), the approved governed Development Roadmap; Architecture Review, Business Review, and Project Owner Approval complete; not Published; does not authorize implementation (Product Roadmap strategic summary remains at `Blueprint 03_Product_Roadmap.md`) |
 
 ---
 
 # Future Considerations
 
-- Once a formal `docs/business/Business_Glossary.md` is created (currently an Open Question in `Naming_Registry.md`), this map must be updated to reflect it as the authoritative business vocabulary source ahead of the Naming Registry.
+- The existing `docs/business/01_Business_Glossary.md` is Draft, Version 1.0. It explains business meanings; `docs/standards/Naming_Registry.md` governs approved names.
 - As Freelancer, Supplier, Service Engineer, and Marketplace phases are scoped, new category entries (or new documents within existing categories) will need to be added here.
 
 ---
 
 # Open Questions
 
-- Should `docs/api/`, `docs/sprints/`, and `docs/ui/` be populated now or intentionally deferred until their owning phase begins? (`docs/roadmap/` is now activated with the approved Development Roadmap, Approval, Version 1.0.)
+- Should `docs/api/`, `docs/sprints/`, and `docs/ui/` be populated now or intentionally deferred until their owning phase begins? (`docs/roadmap/` is now activated with the approved Development Roadmap, Approval, Version 1.2.)
 
 ---
 
@@ -168,6 +168,8 @@ flowchart LR
 | 1.3 | 2026-07-26 | Freeze Activation Synchronization | Synchronized the Architecture Freeze navigation reference to Approval, Version 1.0, and effective layered scope, reflecting formal Project Owner approval; the reference states it is not a Full Architecture Freeze, not Published, and does not authorize implementation. No other navigation entry changed. Header Version reconciled to 1.3 (previously lagged this Revision History, which had already reached 1.2). |
 | 1.4 | 2026-07-26 | Development Roadmap Registration | Registered the Draft PrintHub Development Roadmap (`roadmap/01_Development_Roadmap.md`, Draft, Version 0.1) and activated the previously reserved Roadmap category: added a Roadmap narrative to the Documentation Hierarchy, split Roadmap out of the reserved-categories row into its own active Category Index entry, and updated the Architecture Coverage table from "Gap — reserved, empty" to "Covered (Draft)". Recorded the roadmap-governance-versus-implementation-execution distinction (`docs/roadmap/` owns the governed roadmap; `docs/implementation/` retains execution artifacts) and that the `00_` index slot remains reserved. Navigation update only: no lifecycle promotion and no implementation authorization; the Development Roadmap remains Draft. Header Version incremented to 1.4. |
 | 1.5 | 2026-07-26 | Development Roadmap Approval Synchronization | Synchronized every navigation reference to the PrintHub Development Roadmap (Roadmap-category narrative, Category Index entry, Architecture Coverage row, Open Questions note) from Draft, Version 0.1 to Approval, Version 1.0, reflecting completed Architecture Review, Business Review, and Project Owner Approval. All updated references state the roadmap remains not Published and does not authorize implementation. No other navigation entry changed; no Roadmap index created; no source document modified. Header Version incremented to 1.5. |
+| 1.6 | 2026-09-19 | Documentation census alignment | Corrected current category counts and referenced versions; recorded the existing Multi-Tenant Blueprint and Draft Business Glossary. Navigation-only factual correction; no lifecycle, architecture, milestone, or implementation decision. |
+| 1.7 | 2026-09-19 | Blueprint 25 Post-MT-R2 Designated-Authority Synchronization | Updated the Category Index row and the Architecture Coverage table's designated current-status row for Multi-tenant SaaS architecture from Version 1.0 to Version 1.1, matching Blueprint 25's corrected current version following MT-R2. Ordinary-narrative citations of Blueprint 25 elsewhere in this document remain deferred to a separately authorized bulk migration to versionless references. No lifecycle count, category count, or coverage classification changed. |
 
 ---
 
