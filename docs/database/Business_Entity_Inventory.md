@@ -1,7 +1,7 @@
 # Business Entity Inventory
 
 Version:
-0.4
+0.5
 
 Status:
 Draft
@@ -10,7 +10,7 @@ Owner:
 PrintHub Architecture Team
 
 Last Updated:
-2026-08-22
+2026-09-20
 
 ---
 
@@ -363,11 +363,11 @@ This inventory is derived from, and does not reinterpret, [../blueprint/05_Domai
 #### Approval Record
 - **Business Description:** The recorded outcome of a customer or internal approval decision (e.g., Artwork approval, discount approval).
 - **Business Purpose:** Provides traceable evidence that a required approval gate was satisfied.
-- **Business Owner:** Artwork (primary; **Artwork-internal**, subject to existing naming governance including the open AR-003 Approval Record naming question); also referenced by Estimation, Production
+- **Business Owner:** Artwork (primary; **Artwork-internal**); also referenced by Estimation, Production
 - **Category:** Transactional
 - **Lifecycle:** Pending → Approved / Rejected
 - **Relationships:** Proof → Approval Record; Quotation → Approval Record (discount/internal approvals).
-- **Architecture Notes:** Corresponds to the Approval Designer's business-level output ([../configuration/04_Approval_Designer.md](../configuration/04_Approval_Designer.md)); "Approval Management" as a standalone module name is not adopted — see [Architecture_Review_Register.md](../decisions/Architecture_Review_Register.md) AR-003. **AR-003 is not resolved or modified by this entry.**
+- **Architecture Notes:** Corresponds to the Approval Designer's business-level output ([../configuration/04_Approval_Designer.md](../configuration/04_Approval_Designer.md)); "Approval Management" as a standalone module name is Not Adopted — see [Architecture_Review_Register.md](../decisions/Architecture_Review_Register.md) AR-003, Resolved 2026-09-19. Approval Record's own naming/classification was never one of AR-003's eight named terms and remains **Unassigned — outside AR-003**, a separate, currently unassigned governance question.
 
 #### Job Card
 - **Business Description:** The production instruction and tracking record for a unit of print/production work.
@@ -404,14 +404,14 @@ This inventory is derived from, and does not reinterpret, [../blueprint/05_Domai
 - **Lifecycle:** Active → Retired
 - **Relationships:** Delivery Method → Dispatch Record.
 
-#### "Print Specification" (Not Yet Approved — see Architecture Notes)
-- **Business Description:** A candidate aggregate concept representing a print job's full technical specification (size, stock, finish combination).
+#### "Print Specification" (Not Adopted — see Architecture Notes)
+- **Business Description:** A requested aggregate concept representing a print job's full technical specification (size, stock, finish combination).
 - **Business Purpose:** Requested as a unifying specification concept for Estimation and Production input.
-- **Business Owner:** Not yet assigned
-- **Category:** Master Data (candidate)
-- **Lifecycle:** Not yet defined
-- **Relationships:** Would combine Product Template, Job Types, Finishing Types, Paper Sizes if adopted.
-- **Architecture Notes:** Not an Approved Naming Registry term. Per [ERPNext_Gap_Analysis.md](../architecture/ERPNext_Gap_Analysis.md) ("Print Specification Modeling"), the underlying need already appears covered by the combination of already-Approved master data entities above. Tracked under [Architecture_Review_Register.md](../decisions/Architecture_Review_Register.md) AR-003 — not resolved here. Listed for completeness only, per this task's explicit request.
+- **Business Owner:** Not applicable — not adopted
+- **Category:** Not a business entity (not-adopted traceability entry only)
+- **Lifecycle:** Not applicable
+- **Relationships:** Not applicable — its underlying need is already covered by the existing Product Template, Job Types, Finishing Types, and Paper Sizes entities.
+- **Architecture Notes:** [Architecture_Review_Register.md](../decisions/Architecture_Review_Register.md) **AR-003** has Resolved (2026-09-19) that "Print Specification" is **Not Adopted** as a module, DocType, entity, or umbrella object. Per [ERPNext_Gap_Analysis.md](../architecture/ERPNext_Gap_Analysis.md) ("Print Specification Modeling"), its underlying business need maps to the combination of already-Approved Product Template, Job Types, Finishing Types, and Paper Sizes entities above. This entry is retained for not-adopted traceability only, per this task's explicit request, and is not itself a business entity.
 
 #### "Production Stage" (Not a Distinct Entity — see Architecture Notes)
 - **Business Description:** Requested as a candidate entity representing a Job Card's current position in the production process.
@@ -678,7 +678,7 @@ This section contains two distinct groups that must not be conflated — flagged
 
 # 6. AI Entities
 
-None of the entities in this section are registered in [../standards/Naming_Registry.md](../standards/Naming_Registry.md) or scoped in any Blueprint document. "AI Assistant" itself is flagged as an unregistered term in [../architecture/ERPNext_Fit_Analysis.md](../architecture/ERPNext_Fit_Analysis.md) and [Architecture_Review_Register.md](../decisions/Architecture_Review_Register.md) AR-003. This section is listed for completeness per this task's explicit request; none of these entities should be treated as Approved pending that resolution.
+None of the entities in this section are registered in [../standards/Naming_Registry.md](../standards/Naming_Registry.md) or scoped in any Blueprint document. "AI Assistant" itself is registered as a **Proposed name only** (Naming Registry Section 40; [Architecture_Review_Register.md](../decisions/Architecture_Review_Register.md) **AR-003**, Resolved 2026-09-19), with no Approved Bounded Context, architecture, provider, model, plugin design, implementation owner, or implementation authorization. The five candidate sub-entities below (Conversation, Prompt, Knowledge Source, Recommendation, AI Action) were never among AR-003's eight named terms; they remain unregistered and outside AR-003's scope, pending separate future governance. This section is listed for completeness per this task's explicit request; none of these entities should be treated as Approved.
 
 #### Conversation
 - **Business Description:** A candidate entity representing a session of interaction between a user and the AI Assistant capability.
@@ -687,7 +687,7 @@ None of the entities in this section are registered in [../standards/Naming_Regi
 - **Category:** Intelligence (candidate)
 - **Lifecycle:** Not yet defined
 - **Relationships:** Would relate to Prompt.
-- **Architecture Notes:** Unregistered term; see AR-003.
+- **Architecture Notes:** Unregistered — outside AR-003, pending separate future governance.
 
 #### Prompt
 - **Business Description:** A candidate entity representing a single user input/instruction to the AI Assistant.
@@ -696,7 +696,7 @@ None of the entities in this section are registered in [../standards/Naming_Regi
 - **Category:** Intelligence (candidate)
 - **Lifecycle:** Not yet defined
 - **Relationships:** Conversation → Prompt.
-- **Architecture Notes:** Unregistered term; see AR-003.
+- **Architecture Notes:** Unregistered — outside AR-003, pending separate future governance.
 
 #### Knowledge Source
 - **Business Description:** A candidate entity representing a reference source the AI Assistant draws upon.
@@ -705,7 +705,7 @@ None of the entities in this section are registered in [../standards/Naming_Regi
 - **Category:** Intelligence (candidate)
 - **Lifecycle:** Not yet defined
 - **Relationships:** Not yet defined.
-- **Architecture Notes:** Unregistered term; see AR-003.
+- **Architecture Notes:** Unregistered — outside AR-003, pending separate future governance.
 
 #### Recommendation
 - **Business Description:** A candidate entity representing an AI-generated suggestion (distinct from MachineIQ's "Insight," §23).
@@ -714,7 +714,7 @@ None of the entities in this section are registered in [../standards/Naming_Regi
 - **Category:** Intelligence (candidate)
 - **Lifecycle:** Not yet defined
 - **Relationships:** Not yet defined.
-- **Architecture Notes:** Unregistered term; potential overlap with MachineIQ's "Insight" (§23) not yet reconciled. See AR-003.
+- **Architecture Notes:** Unregistered — outside AR-003, pending separate future governance; potential overlap with MachineIQ's "Insight" (§23) not yet reconciled.
 
 #### AI Action
 - **Business Description:** A candidate entity representing an action the AI Assistant performs or proposes on behalf of a user.
@@ -723,7 +723,7 @@ None of the entities in this section are registered in [../standards/Naming_Regi
 - **Category:** Intelligence (candidate)
 - **Lifecycle:** Not yet defined
 - **Relationships:** Prompt → AI Action.
-- **Architecture Notes:** Unregistered term; see AR-003.
+- **Architecture Notes:** Unregistered — outside AR-003, pending separate future governance.
 
 ---
 
@@ -841,7 +841,7 @@ Sorted alphabetically. Entities marked *(candidate)* are not yet Approved Bluepr
 | Payment | Accounts | Transactional | Recorded → Reconciled |
 | Payment Terms | Accounts | Reference Data | Active → Inactive |
 | Price List | Sales / Estimation | Master Data | Active → Expired |
-| Print Specification *(candidate)* | Not yet assigned | Master Data | Not yet defined |
+| Print Specification *(Not Adopted — traceability only)* | Not applicable | Not a business entity | Not applicable |
 | Prompt *(candidate)* | AI | Intelligence | Not yet defined |
 | Product Category | Sales / Estimation | Reference Data | Active → Inactive |
 | Product Template | Sales / Estimation | Master Data | Active → Discontinued |
@@ -872,11 +872,11 @@ Sorted alphabetically. Entities marked *(candidate)* are not yet Approved Bluepr
 # Validation
 
 - ✓ **Every Blueprint module has entities.** CRM (Lead/Enquiry, Customer), Sales (Sales Order, Price List), Estimation (Quotation, Quotation Line, Cost Estimate), Artwork (Artwork, Artwork Revision, Proof, Approval Record), Production Planning (Production Schedule *[candidate]*), Job Cards (Job Card, Quality Check Record), Machine Scheduling (Machine, Machine Profile), Inventory (Material, Substrate, Units of Measure), Purchasing (Purchase Order, Supplier), Warehouse (Warehouse), Dispatch (Dispatch Record, Delivery Method), Accounts (Invoice, Payment, Journal Entry, Tax Template), GST (GST Configuration), HR (Employee, Department), Administration (Company, Branch, all Configuration Studio entities), Reports/Analytics (none — Reports/Dashboards are explicitly excluded as non-entities per this document's scope), MachineIQ (Section 4 entities), Marketplace (Section 5 entities).
-- ✓ **Every ERPNext Gap has supporting entities.** All 13 Customize-classified gaps in [../architecture/ERPNext_Gap_Analysis.md](../architecture/ERPNext_Gap_Analysis.md) map to entities above: Print Estimation & Costing Engine → Quotation/Quotation Line/Cost Estimate; Print Specification Modeling → "Print Specification" *(candidate)* plus its constituent Approved entities; Artwork & Proof Lifecycle → Artwork/Artwork Revision/Proof; Business Approval Orchestration → Approval Record/Approval Definition; Production Planning & Orchestration → Production Schedule *(candidate)*; Job Card Execution & Lifecycle → Job Card; Machine Scheduling & Capability Modeling → Machine/Machine Profile; Quality Check Processing → Quality Check Record; Configuration Studio Governance Layer → Section 3 entities; Feature Flag Engine → Feature Flag; Tenant Customization/Resolution Engine → Tenant Override; Automation Rule Condition Evaluator → Automation Rule; Module Dependency Management → Module Definition.
+- ✓ **Every ERPNext Gap has supporting entities.** All 13 Customize-classified gaps in [../architecture/ERPNext_Gap_Analysis.md](../architecture/ERPNext_Gap_Analysis.md) map to entities above: Print Estimation & Costing Engine → Quotation/Quotation Line/Cost Estimate; Print Specification Modeling → Product Template, Job Types, Finishing Types, and Paper Sizes (the "Print Specification" entry itself is Not Adopted per AR-003 and is not counted as a supporting entity); Artwork & Proof Lifecycle → Artwork/Artwork Revision/Proof; Business Approval Orchestration → Approval Record/Approval Definition; Production Planning & Orchestration → Production Schedule *(candidate)*; Job Card Execution & Lifecycle → Job Card; Machine Scheduling & Capability Modeling → Machine/Machine Profile; Quality Check Processing → Quality Check Record; Configuration Studio Governance Layer → Section 3 entities; Feature Flag Engine → Feature Flag; Tenant Customization/Resolution Engine → Tenant Override; Automation Rule Condition Evaluator → Automation Rule; Module Dependency Management → Module Definition.
 - ✓ **No duplicate entity names exist.** Marketplace Package/Template were explicitly renamed with a "Marketplace" prefix specifically to avoid collision with Configuration Template; no other name collisions were found.
 - ✓ **No business entity appears in multiple modules without justification.** Machine appears once (Production, Section 2) and is referenced — not duplicated — by MachineIQ entities (Section 4). Quotation appears once (Estimation, Section 2); Sales Order appears once (Sales, Section 1). Where an entity has joint ownership (e.g., Substrate: Inventory/Production; Material: Inventory), this reflects genuine shared ownership already stated in [../blueprint/08_Master_Data_Model.md](../blueprint/08_Master_Data_Model.md), not an unjustified duplication.
 - ✓ **Every entity has a business owner.** All entities in Sections 1–4 have a named Business Owner. Entities explicitly marked *(candidate)* or "Not yet assigned" in Sections 2, 5, and 6 intentionally lack a confirmed owner because they are not yet Approved concepts — this is flagged, not omitted.
-- ✓ **Architecture Review items are referenced where applicable.** AR-002 (Company), AR-003 (Approval Record, "Print Specification," AI entities), AR-004 (Machine, Machine Profile), AR-005 (Quotation), AR-006 (Material), AR-008 (Dispatch Record), AR-009 (Quality Check Record), AR-011 (Lead/Enquiry) are each cited in their corresponding entity's Architecture Notes.
+- ✓ **Architecture Review items are referenced where applicable.** AR-002 (Company), AR-003 (Resolved 2026-09-19 — cited for "Print Specification," Not Adopted, and "AI Assistant," Proposed name only; Approval Record and the five AI candidate entities are correctly noted as outside AR-003's scope, not governed by it), AR-004 (Machine, Machine Profile), AR-005 (Quotation), AR-006 (Material), AR-008 (Dispatch Record), AR-009 (Quality Check Record), AR-011 (Lead/Enquiry) are each cited in their corresponding entity's Architecture Notes.
 
 ---
 
@@ -902,6 +902,7 @@ Sorted alphabetically. Entities marked *(candidate)* are not yet Approved Bluepr
 | 0.2 | 2026-07-31 | Artwork Production Authority Synchronization | Corrected and extended the Artwork entity family following the Project Owner's production-capable Artwork track selection (2026-07-30) and approval of the Artwork design defaults (2026-07-31). **Artwork** is now recorded as an aggregate root scoped to one Company and one Submitted Sales Order, owning the `required_for_production` classification used to calculate Production Artwork Set completeness, with Company derived from the Sales Order and immutable, cross-Company reuse prohibited and no Tenant field; its authoritative production state is carried by its revisions rather than by the Artwork record. **Artwork Revision** is corrected from "Transactional (child of Artwork)" to a **standalone governed record — explicitly not a child table** — with the standalone rationale recorded (independently approvable; own state; independent permissions; lockable; file-integrity evidence; referenced by Production Artwork Set membership; may require unique database constraints; preserves immutable approval evidence). Added **Production Artwork Set** as a standalone aggregate root and **the final authority for Job Card production release**, scoped to one Company and one Submitted Sales Order with at most one set Approved for Production per Sales Order. Added **Production Artwork Set Item** as the child table of Production Artwork Set carrying immutable membership rows binding one required Artwork to one exact approved Artwork Revision, noted as acceptable as a child table because its rows are immutable membership values and not the approval authority. Recorded proposed six-state lifecycles for the revision and the set (Draft → Submitted for Approval → Approved for Production → Superseded or Withdrawn; Submitted for Approval → Rejected) with **no Expired state**, explicitly marked as **not runtime-validated**. Marked **Proof** and **Approval Record** as Artwork-internal, with Approval Record remaining subject to existing naming governance including the open AR-003 question, which is neither resolved nor modified. Corrected the **Job Card** dependency from "Approved Artwork" to **Approved Production Artwork Set**, and updated the parent/child relationship and entity-registry tables accordingly. Status remains Draft; no ERPNext mapping, DocType design or database schema design was performed here; no Job Card Tier A document, Architecture Review Register item, ADR, Naming Registry or standards document was modified; no implementation was authorized. |
 | 0.4 | 2026-08-22 | AR-003 Scope Misattribution Correction | Bounded reference-only correction, per `../Documentation_Workflow.md` Section 8. A repository-wide census identified a **current-state occurrence** in the Customer Approval Evidence entity's "Note" bullet (in this section of the document) stating that its "final technical name remains pending naming governance and the existing AR-003 naming question" — **corrected** to reference Naming Registry §§5, 26, 38 and 39 and state plainly that `AR-003`'s own recorded scope is unrelated. Separately, the census identified that the Version 0.3 entry below (dated 2026-07-31) states the same misattribution as a **historical** statement about the same entity. **That historical statement is preserved unchanged, per Section 8's rule that the Revision History table is "updated at the same time as the content change, never retroactively."** It is recorded here, prospectively, as inaccurate: direct inspection of `../decisions/Architecture_Review_Register.md` confirms `AR-003`'s recorded scope is limited to eight named terms ("Print Specification," "Approval Management," "Production Workflow," "Machine Management," "Finishing," "Quality Control," "AI Assistant," "Production Orchestration"), none of which is Customer Approval Evidence or any other Artwork entity. Customer Approval Evidence's pending technical naming is instead governed by Naming Registry §§5, 26, 38 and 39 (a separate, currently untracked question). `AR-003` itself was **not** modified, resolved, or reinterpreted by this entry. **No entity definition, cardinality, relationship, or lifecycle recorded in this document was altered.** No technical name or module path is selected or approved. No Architecture Review Register item was created or modified; no AR identifier was invented; AR-003 was not resolved or modified; no implementation was authorized. |
 | 0.3 | 2026-07-31 | Architecture and Business Review Correction | Applied the Project Owner-approved corrections (2026-07-31) to the formal combined Architecture Review (Corrections Required, blocking finding ART-ARCH-F1) and Business Review (Corrections Required, blocking finding ART-BIZ-F1), both dated 2026-07-31, of the Artwork production-authority documentation package. Clarified that **Proof belongs to an exact Artwork Revision** because the Proof presents that Revision to the customer, and recorded that this Artwork-Revision parenting is a **deliberate refinement, not an accidental mapping change**. Added **Customer Approval Evidence** as a new standalone, Artwork-internal entity: the durable, authoritative outcome for the exact Revision a Proof presents, mandatory before internal production approval with no Tier A waiver; recorded that **Proof is not itself approval authority**; recorded that **Customer Approval Evidence is not a Job Card-owned entity** and that the **Job Card consumes only the Approved Production Artwork Set**; recorded that its final technical name remains pending naming governance and the existing AR-003 question, which is **not resolved** by this entry. Updated the parent/child relationship table and entity-registry table to add Customer Approval Evidence. Status remains Draft; no ERPNext mapping, DocType design, database schema design, Architecture Review Register item, ADR, Naming Registry or standards document was modified; AR-003 is neither resolved nor modified; no implementation was authorized. |
+| 0.5 | 2026-09-20 | AR-003 Disposition Synchronization | Corrected active statements following [Architecture_Review_Register.md](../decisions/Architecture_Review_Register.md) AR-003's Resolved disposition (2026-09-19). **Approval Record:** removed the "open AR-003 Approval Record naming question" framing from its Business Owner field and Architecture Notes; recorded that Approval Record's own naming/classification was never one of AR-003's eight named terms (only "Approval Management," now mapped to Approval Designer, was) and remains **Unassigned — outside AR-003**, a separate, currently unassigned governance question. **"Print Specification":** corrected from "Not Yet Approved"/candidate framing to **Not Adopted**, recording AR-003's resolved mapping to Product Template, Job Types, Finishing Types, and Paper Sizes; reclassified in the Master Entity Catalog from a Master Data candidate row to a not-adopted traceability-only row (Business Owner/Category/Lifecycle all "Not applicable" / "Not a business entity"); corrected the Validation section's ERPNext Gap mapping to cite only Product Template, Job Types, Finishing Types, and Paper Sizes as supporting entities, no longer counting "Print Specification" itself as a candidate supporting entity. **AI Assistant and its five candidate sub-entities:** corrected the AI Entities section introduction and each of Prompt's, Knowledge Source's, Recommendation's, and AI Action's Architecture Notes (Conversation's was already correctly worded outside AR-003 in a prior pass) to record that "AI Assistant" is registered as a **Proposed name only** (Naming Registry Section 40) with no Approved Bounded Context, architecture, provider, model, plugin design, implementation owner, or implementation authorization, and that its five candidate sub-entities (Conversation, Prompt, Knowledge Source, Recommendation, AI Action) were never among AR-003's eight named terms and remain unregistered, outside AR-003's scope, pending separate future governance. Corrected the Validation section's Architecture Review Register statement to accurately describe AR-003's citation (Print Specification and AI Assistant only) and to note that Approval Record and the five AI candidate entities are outside AR-003's scope. Historical Revision History rows 0.1, 0.2, 0.3, and 0.4 are preserved unchanged, including their own AR-003-related statements, per `../Documentation_Workflow.md` Section 8's rule that the Revision History table is never retroactively rewritten. No entity definition, cardinality, relationship, or lifecycle was altered; no ERPNext mapping, DocType design, or database schema design performed; no Architecture Review Register item was created or modified; AR-003 itself was not further modified by this document; no implementation was authorized. |
 
 ---
 

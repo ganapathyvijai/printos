@@ -1,7 +1,7 @@
 # ERPNext Fit Analysis
 
 Version:
-0.3
+0.4
 
 Status:
 Draft
@@ -10,7 +10,7 @@ Owner:
 PrintHub Architecture Team
 
 Last Updated:
-2026-07-24
+2026-09-19
 
 ---
 
@@ -37,6 +37,8 @@ Per this task's instruction to flag rather than resolve documentation conflicts,
 | 3 | This task's **PRINT DOMAIN** module list includes several names not present in the Approved Blueprint Module Registry ([../blueprint/09_PrintOS_Modules.md](../blueprint/09_PrintOS_Modules.md), [../standards/Naming_Registry.md](../standards/Naming_Registry.md) Section 11): "Print Specification," "Approval Management," "Production Workflow," "Machine Management," "Finishing," and "Quality Control." | `09_PrintOS_Modules.md`, `Naming_Registry.md` §11, §27 items 9 | Flagged per-item in Section 4 below. Each is analyzed under its closest Approved module or explicitly marked Proposed/Pending ADR — none is treated as an Approved module name in this document. |
 | 4 | "Production Orchestration" (used in this task's Customize examples) is not a registered term in `Naming_Registry.md`. | `Naming_Registry.md` Section 38 (Mandatory Registration) | Flagged. Not used as a capability name below; the underlying capability is analyzed under "Production Planning" and "Job Cards" (Approved module names) instead. |
 
+**Subsequent current-state note (2026-09-19):** The above conflict table is preserved as the original, historical 2026-07-24 analysis. Conflicts #3 and #4 (naming) were later formally resolved: Architecture Review Register item AR-003 was Resolved through the 2026-09-19 Project Owner Option A decision, with the eight scope-specific dispositions recorded in `../standards/Naming_Registry.md` Section 40. Seven of the eight terms ("Print Specification," "Approval Management," "Production Workflow," "Machine Management," "Finishing," "Quality Control," "Production Orchestration") are mapped, confirmed, or rejected against existing Approved concepts. "AI Assistant" is registered as Proposed only — no Approved Bounded Context, architecture, provider, model, plugin design, or implementation authorization; it remains excluded from implementation-ready scope pending separate future governance. This note does not revise the historical conflict table above.
+
 ---
 
 # 1. Executive Summary
@@ -48,7 +50,7 @@ PrintOS Phase 1 is best delivered by treating ERPNext as a mature generic ERP su
 - **Customization inside `printos_core`** is justified only where ERPNext has no native equivalent at all — concretely: Job Card (production execution), Machine Profile (capability modeling), and the Configuration Studio itself. This matches the Core Domain classification in `05_Domain_Model.md` (Estimation & Quotation, Production Planning & Job Cards, Artwork Management, Machine Scheduling).
 - **Plugin boundary** cleanly separates MachineIQ, Marketplace, AI Assistant, payment gateways, messaging (WhatsApp/SMS), and any external system integration from `printos_core` itself — all consumed through the Ports & Adapters pattern already established in [10_Integration_Architecture.md](10_Integration_Architecture.md).
 - **Manufacturing** (ERPNext's native BOM/Work Order module) is a partial, not full, fit for print production — see Section 3 for why Job Card remains a Custom DocType rather than an extended ERPNext Work Order.
-- Several requested capability names ("Print Specification," "Quality Control," "Finishing," "Machine Management," "Approval Management") are not yet Approved Blueprint/Naming Registry terms; this document analyzes their underlying business need without inventing or ratifying new terminology.
+- Several requested capability names ("Print Specification," "Quality Control," "Finishing," "Machine Management," "Approval Management") were not Approved Blueprint/Naming Registry terms at the time of this analysis; each now carries a scope-specific disposition recorded in `../standards/Naming_Registry.md` Section 40 (AR-003 Resolved, 2026-09-19) — none was adopted as a new module or capability name, and this document's underlying business-need analysis is unchanged.
 
 No ERPNext core modification is recommended anywhere in this analysis, consistent with [ADR-002-PrintOS-Core](../decisions/ADR-002-PrintOS-Core.md).
 
@@ -232,7 +234,7 @@ ERPNext owns Employee/Department entirely. PrintHub's Production capability *ref
 
 # 4. PrintHub Domain Capability Analysis
 
-### Print Specification *(Requested term — not yet Approved; see Conflict #3)*
+### Print Specification *(Requested term — Not Adopted; AR-003 Resolved, see Conflict #3 and Naming Registry Section 40)*
 
 #### ERPNext Capability
 None natively. No ERPNext DocType represents a print job's technical specification (size, stock, finish) as a first-class object.
@@ -244,7 +246,7 @@ Item Variant Attributes could partially represent some specification attributes 
 Low — this capability most closely corresponds to `08_Master_Data_Model.md`'s Product Template, Job Types, Finishing Types, and Paper Sizes entities considered together, rather than any single ERPNext object.
 
 #### Gap Analysis
-"Print Specification" is not a term used in `05_Domain_Model.md`, `08_Master_Data_Model.md`, or `Naming_Registry.md`. Its underlying business need appears already covered by the combination of Product Template + Job Types + Finishing Types + Paper Sizes (all Approved master data entities). Introducing "Print Specification" as a new umbrella term or DocType requires Naming Registry registration (Section 38) before use.
+"Print Specification" is not a term used in `05_Domain_Model.md`, `08_Master_Data_Model.md`, or `Naming_Registry.md`. Its underlying business need is already covered by the combination of Product Template + Job Types + Finishing Types + Paper Sizes (all Approved master data entities). AR-003 has resolved "Print Specification" as **Not Adopted**, mapped to that existing combination (Naming Registry Section 40); it is not merely awaiting registration.
 
 #### Classification
 **Customize** (the underlying combination of master data entities, already planned) — but the *name* "Print Specification" is **not adopted** by this document.
@@ -512,7 +514,7 @@ All capabilities below sit **outside** `printos_core`'s Domain/Application layer
 |---|---|---|---|
 | MachineIQ | Plugin (Future scope) | [ADR-008-MachineIQ](../decisions/ADR-008-MachineIQ.md) | Consumed via `MachineIntegrationService` port ([Naming_Registry.md](../standards/Naming_Registry.md) Section 14); scope deferred |
 | Marketplace | Plugin (Future scope, Phase 5) | [ADR-009-Marketplace](../decisions/ADR-009-Marketplace.md) | Consumed via a Marketplace integration port; scope deferred |
-| AI Assistant | Plugin (Future) — **term not yet registered** | None — flagged in [../implementation/01_Phase_1_Roadmap.md](../implementation/01_Phase_1_Roadmap.md) as an unregistered Naming Registry term | Must be formally proposed to the Naming Registry and scoped in a Blueprint document before any classification beyond "Plugin, Future" can be made with confidence |
+| AI Assistant | Plugin (Future) — **registered as Proposed (AR-003 Resolved); Bounded Context, provider, model, and implementation remain undecided** | None — see `../standards/Naming_Registry.md` Section 40 | Bounded Context, provider, model, and implementation classification remain undecided pending separate future governance |
 | Payment Gateways | Plugin | `Naming_Registry.md` Section 9 (Payment Gateway, Approved Integration term) | Adapter per gateway; credentials via Frappe encrypted fields, never embedded (per [../configuration/11_Integration_Designer.md](../configuration/11_Integration_Designer.md)) |
 | WhatsApp / Messaging | Plugin | `Naming_Registry.md` Section 9 (WhatsApp Channel, Approved) | Consumed via Notification Designer channel abstraction ([../configuration/08_Notification_Designer.md](../configuration/08_Notification_Designer.md)) |
 | SMS | Plugin | Not yet a registered Integration term; treated analogously to WhatsApp Channel pending registration | Same adapter pattern as WhatsApp |
@@ -549,7 +551,7 @@ All capabilities below sit **outside** `printos_core`'s Domain/Application layer
 | Configuration Studio (all designers) | printos_core | Extend (per-designer native mechanism) + Customize (aggregate platform) |
 | MachineIQ | External service | Plugin (Future) |
 | Marketplace | External service | Plugin (Future) |
-| AI Assistant | External service (unregistered term) | Plugin (Future) — pending Naming Registry proposal |
+| AI Assistant | External service (Proposed term; AR-003 Resolved) | Plugin (Future) — Bounded Context, provider, model, and implementation remain undecided |
 | Payment Gateways, WhatsApp/SMS, Shipping Carriers | External services | Plugin |
 | "Print Specification" (requested term) | N/A | **Not adopted** — see Section 4 |
 | "Quality Control" (standalone module) | N/A | Future — Pending ADR (`Naming_Registry.md` §27 item 9) |
@@ -567,7 +569,7 @@ All capabilities below sit **outside** `printos_core`'s Domain/Application layer
    - Quotation/Estimation: extend native Quotation, or introduce a Custom pricing-engine-fed document.
 4. **Do not adopt five requested module names as-is**: "Print Specification," "Approval Management," "Production Workflow," "Machine Management" (Approved name is "Machine Scheduling"), "Finishing," and "Quality Control" (standalone). Each maps to existing Approved concepts or Configuration Studio designers already documented — building new modules under these names would create duplicate/parallel structures.
 5. **Treat MachineIQ, Marketplace, AI Assistant, and all external integrations uniformly as Plugin-boundary capabilities**, consumed via the Ports & Adapters pattern already established in [10_Integration_Architecture.md](10_Integration_Architecture.md) — no special-casing per capability.
-6. **Resolve "AI Assistant" as a Naming Registry gap before further planning references it** — it appears in project instructions but is registered nowhere in Blueprint or Naming Registry.
+6. **(Resolved)** "AI Assistant" is registered in the Naming Registry as Proposed (AR-003 Resolved, Option A, 2026-09-19). It has no Approved Bounded Context and no architecture, provider, or model decision; it remains excluded from implementation-ready scope pending separate future governance.
 7. **Do not finalize the multi-tenant (one-site-per-tenant) strategy as binding architecture from this document.** It is used here only as a working assumption; formal ratification requires `docs/blueprint/25_MultiTenant_Architecture.md` and resolution of the Tenant/Company Pending ADR.
 8. **(Resolved)** The ERPNext version conflict (v15/Frappe 15 vs. the Draft-Blueprint/Accepted-ADR v16) was routed to the Project Owner and is now formally Resolved via AR-001, Option A: ERPNext v16 with the corresponding Frappe v16 major is the governed target, reaffirming Accepted ADR-001. Capability-level technical revalidation against that governed target remains outstanding before any environment is provisioned or any implementation specification is treated as final.
 
@@ -583,7 +585,7 @@ This document does not modify, supersede, or re-decide any existing ADR, Bluepri
 
 - Once the Machine (Asset/Workstation/Custom) and Quotation (Extend/Customize) decisions are resolved by Architecture Review, this document's Section 3/4/7 entries should be updated to remove "unresolved"/"provisional" qualifiers.
 - Once `docs/blueprint/25_MultiTenant_Architecture.md` and the Tenant/Company ADR are accepted, Section 5's Tenant Customization classification and Conflict #2 should be revisited.
-- If "AI Assistant," "Quality Control," or "Finishing" are formally scoped and registered in the future, this document should be revised to reclassify them from "Not adopted"/"Future" to their resolved classification.
+- If "AI Assistant" or "Quality Control" (standalone module) are formally scoped and registered in the future, this document should be revised to reclassify them accordingly. "Finishing" is already an Approved business term (`../standards/Naming_Registry.md` Sections 22/24, cross-referenced in Section 40); this document's Section 4 entry should be read accordingly.
 
 ---
 
@@ -620,6 +622,7 @@ This document does not modify, supersede, or re-decide any existing ADR, Bluepri
 | 0.1 | 2026-07-24 | Initial | Initial ERPNext Fit Analysis. Classified Core ERP, Print Domain, Configuration Studio, and Plugin-boundary capabilities as Native/Extend/Customize/Plugin/Future. Flagged four documentation conflicts (ERPNext version, multi-tenant strategy ratification status, non-Approved module names, unregistered "Production Orchestration"/"AI Assistant" terms) without resolving them. |
 | 0.2 | 2026-07-27 | Source-Authority Correction | Corrected Conflict #1's source-authority description and the matching Open Questions reference, both of which inaccurately characterized `07_Technology_Stack.md` as "Published Blueprint documentation" when its live Status is Draft. Replaced with wording accurately describing the aligned Draft Technology Stack Blueprint and the binding, Accepted ADR-001-ERPNext-Framework decision as this document's basis for proceeding with v16. v16 remains a Working Assumption/conditional analysis basis, not a resolved decision; AR-001 remains unresolved. No capability classification, hooks/events/DocType finding, or compatibility conclusion was revalidated or changed by this correction. |
 | 0.3 | 2026-07-28 | AR-001 Disposition Factual Synchronization | Synchronized active AR-001 wording with the formal Project Owner disposition (Option A, recorded in `Architecture_Review_Register.md`), reaffirming Accepted ADR-001-ERPNext-Framework. Recorded ERPNext v16, with the corresponding Frappe v16 major version, as the governed target; prior ERPNext 15/Frappe 15 task references noted as obsolete and non-governing; simultaneous v15/v16 support noted as out of scope; minor/patch selection noted as centrally governed. Updated Conflict #1's disposition, the Section 2 Version note, Recommendation #8, and the matching Open Questions entry to state the current disposition while preserving the original historical framing of each. Every capability classification (Native/Extend/Customize/Build/Replace), DocType reference, Job Card finding, Machine/Workstation finding, Quotation finding, Material/Item finding, BOM finding, ownership conclusion, and AR-004/005/006/010/011 exposure is preserved unchanged — no technical revalidation against the governed v16 target was performed or claimed by this synchronization. No implementation authorization was granted. Historical Revision History entries (0.1, 0.2) preserved unchanged. |
+| 0.4 | 2026-09-19 | AR-003 Disposition Synchronization | Added a subsequent current-state note immediately after the unnumbered "Conflicts Flagged Before Analysis (Not Resolved Here)" section, preserving the original historical table unchanged and recording that AR-003 was Resolved through the 2026-09-19 Project Owner Option A decision, with the eight scope-specific dispositions recorded in Naming Registry Section 40. Updated active statements across the Executive Summary and Sections 4, 6, 7, and 8: the Executive Summary's AR-003-terms bullet corrected to cite each term's scope-specific Section 40 disposition; AI Assistant's plugin-boundary classification (Section 6) updated from "term not yet registered" to "registered as Proposed," with Bounded Context, provider, model, and implementation explicitly recorded as still undecided; the ownership-boundary row (Section 7) updated from "unregistered term" to the same Proposed-only framing; Recommendation 6 (Section 8, Final Recommendations) marked (Resolved), recording the registration and its remaining exclusions; the Future Considerations bullet (separately, after Section 8) corrected to remove the premise that "Finishing" would need future registration, since it is already an Approved business term. Section 4's Print Specification entry updated from "not yet Approved" to its resolved Not Adopted disposition, restating that its business need maps to Product Template, Job Types, Finishing Types, and Paper Sizes, and removing the suggestion that the rejected name merely awaits registration; its underlying Customize capability classification is unchanged. This document's other Section 4 per-term analyses and recommendations (Approval Management, Production Workflow, Machine Management, Finishing, Quality Control) are otherwise unchanged — they already anticipated and match the approved disposition. No capability classification (Native/Extend/Customize/Plugin/Future) was changed. No implementation authorized. |
 
 ---
 

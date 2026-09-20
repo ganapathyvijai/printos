@@ -1,7 +1,7 @@
 # 05 — Naming
 
 Version:
-1.0
+1.1
 
 Status:
 Draft
@@ -10,7 +10,7 @@ Owner:
 PrintHub Architecture Team
 
 Last Updated:
-2026-07-26
+2026-09-20
 
 ---
 
@@ -20,7 +20,7 @@ Define naming conventions for DocTypes, fields, and records so the data model st
 
 ## DocTypes
 
-- `PascalCase` with spaces, per Frappe convention: `Print Job`, `Estimate Line`, `Print Specification`.
+- `PascalCase` with spaces, per Frappe convention: `Print Job`, `Estimate Line`, `Product Template`.
 - Singular nouns: `Print Job`, not `Print Jobs`.
 - Child tables are named `<Parent> <Detail>`, e.g. `Estimate Line`, `Job Material Line`.
 
@@ -55,3 +55,4 @@ Consistent with [technical/05_Project_Structure.md](../technical/05_Project_Stru
 | Version | Date | Author | Changes |
 |---|---|---|---|
 | 1.0 | 2026-07-26 | Metadata Normalization | Added document-control metadata (Version, Status, Owner, Last Updated, Revision History). No architectural or technical content changed. |
+| 1.1 | 2026-09-20 | AR-003 Disposition Synchronization | Replaced the DocType naming example "Print Specification" with **Product Template**, following [Architecture Review Register](../decisions/Architecture_Review_Register.md) AR-003's Resolved disposition (2026-09-19): "Print Specification" is Not Adopted; its underlying need maps to Product Template, Job Types, Finishing Types, and Paper Sizes. No other naming convention, field example, or naming series was changed. |

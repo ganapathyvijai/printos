@@ -1,7 +1,7 @@
 # Documentation Map
 
 Version:
-1.7
+1.8
 
 Status:
 Draft
@@ -75,7 +75,7 @@ Roadmap documentation (`docs/roadmap/`) owns the approved governed Development R
 | Reviews | `docs/reviews/` | — | Recorded evaluation of documents/implementations |
 | Milestones | `docs/milestones/` | — | Completion records for project milestones |
 | Templates | `docs/templates/` | — | Reusable document structures per category |
-| Roadmap | `docs/roadmap/` | — (`00_` index slot reserved) | Approved governed Development Roadmap: [roadmap/01_Development_Roadmap.md](roadmap/01_Development_Roadmap.md) (Approval, Version 1.2; Architecture Review, Business Review, and Project Owner Approval complete) — dependency-tiered capability workstreams, Architecture Review gates, readiness classifications, traceability, and deferred boundaries; non-temporal, not Published, and does not authorize implementation |
+| Roadmap | `docs/roadmap/` | — (`00_` index slot reserved) | Approved governed Development Roadmap: [roadmap/01_Development_Roadmap.md](roadmap/01_Development_Roadmap.md) (Approval, Version 1.3; Architecture Review, Business Review, and Project Owner Approval complete) — dependency-tiered capability workstreams, Architecture Review gates, readiness classifications, traceability, and deferred boundaries; non-temporal, not Published, and does not authorize implementation |
 | API, Changelog, Prompts, Sprints, UI | `docs/api/`, `docs/changelog/`, `docs/prompts/`, `docs/sprints/`, `docs/ui/` | — | Reserved, not yet populated (see `Documentation_Status.md`, Remaining Gaps) |
 
 ---
@@ -125,7 +125,7 @@ flowchart LR
 | Marketplace detailed architecture | **Gap** — deferred per ADR-009, Phase 5 |
 | API contracts | **Gap** — `docs/api/` reserved, empty |
 | UI/UX design documentation | **Gap** — `docs/ui/` reserved, empty |
-| Roadmap detail beyond Blueprint summary | Covered (Approval) — [roadmap/01_Development_Roadmap.md](roadmap/01_Development_Roadmap.md) (Approval, Version 1.2), the approved governed Development Roadmap; Architecture Review, Business Review, and Project Owner Approval complete; not Published; does not authorize implementation (Product Roadmap strategic summary remains at `Blueprint 03_Product_Roadmap.md`) |
+| Roadmap detail beyond Blueprint summary | Covered (Approval) — [roadmap/01_Development_Roadmap.md](roadmap/01_Development_Roadmap.md) (Approval, Version 1.3), the approved governed Development Roadmap; Architecture Review, Business Review, and Project Owner Approval complete; not Published; does not authorize implementation (Product Roadmap strategic summary remains at `Blueprint 03_Product_Roadmap.md`) |
 
 ---
 
@@ -170,6 +170,7 @@ flowchart LR
 | 1.5 | 2026-07-26 | Development Roadmap Approval Synchronization | Synchronized every navigation reference to the PrintHub Development Roadmap (Roadmap-category narrative, Category Index entry, Architecture Coverage row, Open Questions note) from Draft, Version 0.1 to Approval, Version 1.0, reflecting completed Architecture Review, Business Review, and Project Owner Approval. All updated references state the roadmap remains not Published and does not authorize implementation. No other navigation entry changed; no Roadmap index created; no source document modified. Header Version incremented to 1.5. |
 | 1.6 | 2026-09-19 | Documentation census alignment | Corrected current category counts and referenced versions; recorded the existing Multi-Tenant Blueprint and Draft Business Glossary. Navigation-only factual correction; no lifecycle, architecture, milestone, or implementation decision. |
 | 1.7 | 2026-09-19 | Blueprint 25 Post-MT-R2 Designated-Authority Synchronization | Updated the Category Index row and the Architecture Coverage table's designated current-status row for Multi-tenant SaaS architecture from Version 1.0 to Version 1.1, matching Blueprint 25's corrected current version following MT-R2. Ordinary-narrative citations of Blueprint 25 elsewhere in this document remain deferred to a separately authorized bulk migration to versionless references. No lifecycle count, category count, or coverage classification changed. |
+| 1.8 | 2026-09-19 | Development Roadmap Post-AR-003 Designated-Authority Synchronization | Updated the Category Index row and the Architecture Coverage table's "Roadmap detail beyond Blueprint summary" row from Version 1.2 to Version 1.3, matching the Development Roadmap's corrected current version following its AR-003 disposition synchronization. Ordinary-narrative citations of Module_Dependency_Matrix.md and Architecture_Freeze.md in the Documentation Hierarchy prose remain deferred to a separately authorized bulk migration to versionless references. No lifecycle count, category count, or coverage classification changed. |
 
 ---
 

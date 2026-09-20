@@ -1,7 +1,7 @@
 # Implementation Documentation — Master Index
 
 Version:
-0.2
+0.3
 
 Status:
 Draft
@@ -10,7 +10,7 @@ Owner:
 PrintHub Architecture Team
 
 Last Updated:
-2026-07-26
+2026-09-20
 
 ---
 
@@ -62,7 +62,7 @@ Per `docs/Documentation_Workflow.md` Section 3, Implementation sits below Review
 | 14 | 14_Release_Checklist.md | Per-release readiness checklist (distinct from one-time Go-Live) | Placeholder |
 | 15 | 15_Post_GoLive_Support.md | Hypercare and post-go-live support model | Placeholder |
 | — | [Module_Dependency_Matrix.md](Module_Dependency_Matrix.md) | What must exist before each module can be implemented, by dependency category; direct blockers vs. transitive delays; formalizes the approved implementation dependency review | Draft |
-| — | [Architecture_Freeze.md](Architecture_Freeze.md) | Effective Layered Architecture Freeze, applying only to the frozen conceptual scope the document defines, defining AR-gated excluded layers, conditional references, governance backlogs, and Full Freeze exit criteria. It is not a Full Architecture Freeze, does not authorize implementation, and constrains but does not replace the future Development Roadmap. (Version 1.0.) | Approval |
+| — | [Architecture_Freeze.md](Architecture_Freeze.md) | Effective Layered Architecture Freeze, applying only to the frozen conceptual scope the document defines, defining AR-gated excluded layers, conditional references, governance backlogs, and Full Freeze exit criteria. It is not a Full Architecture Freeze, does not authorize implementation, and constrains but does not replace the future Development Roadmap. (Approval, Version 1.3.) | Approval |
 
 ## Document Dependency Graph
 
@@ -146,6 +146,7 @@ This index and its constituent documents are deliberately downstream-only: they 
 | 0.1 | 2026-07-23 | Initial | Initial working draft. Indexed documents 00–08 (populated) and 09–15 (Placeholder), documented status tracking and the cross-cutting non-redefinition rule. |
 | 0.1 | 2026-07-26 | Freeze Registration | Registered the Draft Layered Architecture Freeze proposal (`Architecture_Freeze.md`, Draft 0.1) in the Document Index. Navigation update only; no lifecycle status changed and no freeze activation occurred. Header Version preserved at 0.1 (this index's prior registration changes were not version-incremented; convention unclear). |
 | 0.2 | 2026-07-26 | Freeze Activation Synchronization | Synchronized the `Architecture_Freeze.md` registration from Draft 0.1 to Approval 1.0, reflecting formal Project Owner approval. The Layered Architecture Freeze is now recorded as effective for its declared frozen conceptual scope; the entry states it is not a Full Architecture Freeze and does not authorize implementation. No other Document Index entry changed. No document was published and no implementation was authorized. |
+| 0.3 | 2026-09-20 | Architecture Freeze Version Synchronization | Updated the `Architecture_Freeze.md` Document Index entry's version citation from Version 1.0 to **Approval, Version 1.3**, reflecting that document's subsequent bounded reference-only corrections (AR-001/AR-002 disposition synchronization, and this task's AR-003 disposition synchronization). The entry continues to state it remains a **Layered Architecture Freeze, not a Full Freeze**, is **not Published**, and **grants no implementation authority**. No document count, navigation structure, dependency graph, or other Document Index entry was changed. No document was published and no implementation was authorized. |
 
 ---
 

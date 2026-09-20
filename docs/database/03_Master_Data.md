@@ -1,7 +1,7 @@
 # 03 — Master Data
 
 Version:
-1.0
+1.1
 
 Status:
 Draft
@@ -10,7 +10,7 @@ Owner:
 PrintHub Architecture Team
 
 Last Updated:
-2026-07-26
+2026-09-20
 
 ---
 
@@ -22,7 +22,7 @@ Identify PrintOS's core master/reference data entities, their ownership, and the
 
 | Entity | Description | Owner |
 |--------|--------------|-------|
-| Print Specification | Defines a printable product's technical spec (size, stock, finish) | `printos_core` |
+| Product Template | A sellable product definition that references applicable Job Types, Finishing Types, and Paper Sizes | `printos_core` |
 | Material | Paper, ink, substrate, and other consumable definitions | `printos_core` |
 | Machine | Production equipment and its capabilities | `printos_core` |
 | Process | Standard production process/operation definitions | `printos_core` |
@@ -54,3 +54,4 @@ ERPNext already provides master data such as Customer, Supplier, Item, Warehouse
 | Version | Date | Author | Changes |
 |---|---|---|---|
 | 1.0 | 2026-07-26 | Metadata Normalization | Added document-control metadata (Version, Status, Owner, Last Updated, Revision History). No architectural or technical content changed. |
+| 1.1 | 2026-09-20 | AR-003 Disposition Synchronization | Replaced the "Print Specification" Core Master Data Entity row with **Product Template**, following [Architecture Review Register](../decisions/Architecture_Review_Register.md) AR-003's Resolved disposition (2026-09-19): "Print Specification" is Not Adopted; its underlying need maps to Product Template, Job Types, Finishing Types, and Paper Sizes. Product Template's Description records it as "a sellable product definition that references applicable Job Types, Finishing Types, and Paper Sizes," consistent with [../blueprint/08_Master_Data_Model.md](../blueprint/08_Master_Data_Model.md); ownership remains within `printos_core`. No new field or schema was invented; no other entity row, Ownership Rule, or Data Quality Rule was changed. |

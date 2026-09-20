@@ -1,7 +1,7 @@
 # ERPNext Gap Analysis
 
 Version:
-0.2
+0.3
 
 Status:
 Draft
@@ -10,7 +10,7 @@ Owner:
 PrintHub Architecture Team
 
 Last Updated:
-2026-07-24
+2026-09-20
 
 ---
 
@@ -86,7 +86,7 @@ ERPNext has no native concept representing a print job's full technical specific
 Stock module: Item, Item Variant Attributes. Partial structural fit only, as already noted in the Fit Analysis.
 
 **Gap Description**
-PrintHub requires the combination of Product Template, Job Types, Finishing Types, and Paper Sizes (all Approved master data per [../blueprint/08_Master_Data_Model.md](../blueprint/08_Master_Data_Model.md)) to function together as a coherent specification input to Estimation and Production. Note: per [ERPNext_Fit_Analysis.md](ERPNext_Fit_Analysis.md) Section 4, the requested term "Print Specification" itself is not an Approved Naming Registry term; this gap describes the underlying capability need only, tracked under [Architecture_Review_Register.md](../decisions/Architecture_Review_Register.md) AR-003.
+PrintHub requires the combination of Product Template, Job Types, Finishing Types, and Paper Sizes (all Approved master data per [../blueprint/08_Master_Data_Model.md](../blueprint/08_Master_Data_Model.md)) to function together as a coherent specification input to Estimation and Production. Note: per [ERPNext_Fit_Analysis.md](ERPNext_Fit_Analysis.md) Section 4, [Architecture_Review_Register.md](../decisions/Architecture_Review_Register.md) **AR-003** has Resolved (2026-09-19) that "Print Specification" is **Not Adopted** as a naming matter — it is not merely awaiting registration. That naming resolution does not close this capability gap: the underlying integration work to make Product Template, Job Types, Finishing Types, and Paper Sizes function together as a coherent specification input remains open and unsized.
 
 **Recommended Classification**
 Customize
@@ -95,7 +95,7 @@ Customize
 printos_core
 
 **Dependencies**
-[../blueprint/08_Master_Data_Model.md](../blueprint/08_Master_Data_Model.md); naming status under AR-003.
+[../blueprint/08_Master_Data_Model.md](../blueprint/08_Master_Data_Model.md); naming disposition Resolved under AR-003 (Not Adopted), but the underlying capability gap remains open and is not governed by AR-003.
 
 **Implementation Priority**
 High
@@ -144,7 +144,7 @@ Frappe's native Workflow engine provides generic state-machine approval mechanic
 Frappe Framework: Workflow, Workflow State, Workflow Action — a reusable generic mechanism, not a business-specific one.
 
 **Gap Description**
-PrintHub requires business-specific approval chain configuration (approver resolution, escalation, condition evaluation) layered on top of the native Workflow engine. Note: per [ERPNext_Fit_Analysis.md](ERPNext_Fit_Analysis.md) Section 4, this corresponds to the already-Approved Approval Designer ([../configuration/04_Approval_Designer.md](../configuration/04_Approval_Designer.md)), not a separate "Approval Management" module — the requested term mismatch is tracked under AR-003.
+PrintHub requires business-specific approval chain configuration (approver resolution, escalation, condition evaluation) layered on top of the native Workflow engine. Note: per [ERPNext_Fit_Analysis.md](ERPNext_Fit_Analysis.md) Section 4, this corresponds to the already-Approved Approval Designer ([../configuration/04_Approval_Designer.md](../configuration/04_Approval_Designer.md)), not a separate "Approval Management" module — [Architecture_Review_Register.md](../decisions/Architecture_Review_Register.md) **AR-003** has Resolved (2026-09-19) that "Approval Management" is not adopted as a module name and maps to Approval Designer. That naming resolution does not close this capability gap: the underlying business-specific approval-chain orchestration work remains open and unsized.
 
 **Recommended Classification**
 Customize
@@ -153,7 +153,7 @@ Customize
 printos_core
 
 **Dependencies**
-[../configuration/04_Approval_Designer.md](../configuration/04_Approval_Designer.md); naming status under AR-003.
+[../configuration/04_Approval_Designer.md](../configuration/04_Approval_Designer.md); naming disposition Resolved under AR-003 (mapped to Approval Designer), but the underlying orchestration gap remains open and is not governed by AR-003.
 
 **Implementation Priority**
 High
@@ -607,25 +607,25 @@ Low (Phase 1)
 AI Assistant
 
 **Business Purpose**
-Not yet defined in any Approved Blueprint or Naming Registry document.
+Not yet defined in any Approved Blueprint document.
 
 **Why ERPNext Is Insufficient**
-Not assessable — the capability itself is not yet scoped or named authoritatively.
+Not assessable — the capability itself has no Approved Bounded Context or architecture.
 
 **Current ERPNext Capability**
 Not assessable.
 
 **Gap Description**
-Per [ERPNext_Fit_Analysis.md](ERPNext_Fit_Analysis.md) and [Architecture_Review_Register.md](../decisions/Architecture_Review_Register.md) **AR-003**, "AI Assistant" is not a registered Naming Registry term and has no corresponding Blueprint scoping document. This gap entry exists only to record the capability's presence in current task instructions, not to define or size it.
+Per [ERPNext_Fit_Analysis.md](ERPNext_Fit_Analysis.md) and [Naming Registry](../standards/Naming_Registry.md) Section 40, "AI Assistant" is registered as a **Proposed name only** ([Architecture_Review_Register.md](../decisions/Architecture_Review_Register.md) **AR-003**, Resolved 2026-09-19) — it has no Approved Bounded Context, architecture, provider, model, plugin design, implementation owner, or implementation authorization. AR-003's resolution settled the naming question only; it did not perform, and does not substitute for, the separate Blueprint scoping and architecture governance still required before this gap can be sized. This gap entry exists only to record the capability's presence in current task instructions, not to define or size it.
 
 **Recommended Classification**
-Plugin (provisional, pending naming/scoping)
+Plugin (provisional, pending Blueprint scoping and architecture governance)
 
 **Implementation Ownership**
 Future Phase
 
 **Dependencies**
-[Architecture_Review_Register.md](../decisions/Architecture_Review_Register.md) AR-003 — not resolved here.
+[Naming Registry](../standards/Naming_Registry.md) Section 40 (AR-003 Resolved — naming only); separate Blueprint scoping and architecture governance remain required and are not resolved here.
 
 **Implementation Priority**
 Low
@@ -879,9 +879,9 @@ Low
 | Gap | Depends On | Related Review Item | Priority |
 |---|---|---|---|
 | Print Estimation & Costing Engine | Print Specification Modeling | AR-005, AR-010 | Critical |
-| Print Specification Modeling | — | AR-003 | High |
+| Print Specification Modeling | — | AR-003 (Resolved — naming only; capability gap remains open) | High |
 | Artwork & Proof Lifecycle | — | — | Critical |
-| Business Approval Orchestration | Artwork & Proof Lifecycle | AR-003 | High |
+| Business Approval Orchestration | Artwork & Proof Lifecycle | AR-003 (Resolved — naming only; orchestration gap remains open) | High |
 | Production Planning & Orchestration | Artwork & Proof Lifecycle, Machine Scheduling & Capability Modeling | — | Critical |
 | Job Card Execution & Lifecycle | Production Planning & Orchestration | — | Critical |
 | Machine Scheduling & Capability Modeling | Job Card Execution & Lifecycle | AR-004 | Critical |
@@ -897,7 +897,7 @@ Low
 | Industry Template / Configuration Package Library | Configuration Studio Governance Layer | — | Low |
 | MachineIQ | Machine Scheduling & Capability Modeling, Machine Telemetry & IoT Integration | — | Low |
 | Marketplace | Customer Production Visibility / Tracking | — | Low |
-| AI Assistant | — | AR-003 | Low |
+| AI Assistant | — | AR-003 (Resolved — Proposed name only; Blueprint scoping and architecture governance remain open) | Low |
 | Advanced Scheduling & Resource/Press Optimization | Machine Scheduling & Capability Modeling, MachineIQ | — | Low |
 | Machine Telemetry & IoT Integration | Machine Scheduling & Capability Modeling | — | Low |
 | Production Cost Optimization Analytics | Job Card Execution & Lifecycle, MachineIQ | — | Low |
@@ -918,7 +918,7 @@ Document structure and submission mechanics for Sales Order, Quotation, Purchase
 Print Estimation & Costing, Print Specification Modeling, Artwork & Proof Lifecycle, Business Approval Orchestration, Production Planning & Orchestration, Job Card Execution & Lifecycle, Machine Scheduling & Capability Modeling, Quality Check Processing, the Configuration Studio Governance Layer (versioning/rollback/audit/dependency management), Feature Flag Engine, Tenant Customization/Resolution Engine, and Automation Rule Condition Evaluator. All of these are Customize-classified because no ERPNext native equivalent exists, and each is justified by an existing Core Domain or Configuration Studio designation already Approved in Blueprint/Configuration documentation — none is newly invented here.
 
 **External Plugin Responsibilities**
-MachineIQ, Marketplace, AI Assistant (pending naming resolution), Payment Gateways, WhatsApp/SMS Messaging, Shipping Carriers, and (at future scale) Cloud Storage — all consumed exclusively through Ports & Adapters, never embedded in `printos_core` Domain/Application logic directly.
+MachineIQ, Marketplace, AI Assistant (Proposed name only; pending Blueprint scoping and architecture governance), Payment Gateways, WhatsApp/SMS Messaging, Shipping Carriers, and (at future scale) Cloud Storage — all consumed exclusively through Ports & Adapters, never embedded in `printos_core` Domain/Application logic directly.
 
 **Future Responsibilities**
 Finishing Process Tracking, Customer Production Visibility, Industry Template Library, Advanced Scheduling/Press Optimization, Machine Telemetry/IoT Integration, Production Cost Optimization Analytics, Predictive Production Analytics — each deferred either by explicit Blueprint "Future Enhancement" notation or by dependency on a not-yet-scoped capability (MachineIQ, Marketplace).
@@ -932,7 +932,7 @@ Finishing Process Tracking, Customer Production Visibility, Industry Template Li
 3. **The Job Card / Manufacturing name-collision finding from the Fit Analysis is the single highest-leverage risk to avoid duplicating ERPNext functionality** — every Production-domain gap above (Production Planning, Job Card, Machine Scheduling, Quality Check) is scoped explicitly to avoid reusing ERPNext's Manufacturing module, consistent with that finding.
 4. **The Configuration Studio's genuine gap is the governance layer, not the individual designers** — each designer (Workflow, Approval, Form, Dashboard, Report, Notification) configures an existing native Frappe mechanism; the real build effort is the versioning/rollback/audit/dependency-management layer that makes those mechanisms behave as a coherent, governed platform.
 5. **The Plugin boundary is uniform** — MachineIQ, Marketplace, AI Assistant, and every external integration (payment, messaging, shipping, storage) should be treated identically at the architecture level: consumed via Ports & Adapters, owned outside `printos_core`, with no special-casing per capability.
-6. **AI Assistant remains a naming/scoping gap, not yet a sizeable engineering gap** — until AR-003 is addressed and a Blueprint scoping document exists, no further gap sizing is possible for it.
+6. **AI Assistant remains a scoping gap, not yet a sizeable engineering gap** — AR-003 is Resolved and "AI Assistant" is now registered as a Proposed name only; no further gap sizing is possible until a separate Blueprint scoping document and architecture governance decision exist.
 7. **This document should be the direct input to ERPNext DocType Mapping**, using the Customize-classified gaps above as the candidate DocType list, and the Extend-classified gap (Dispatch-Specific Data Capture) plus every Extend-classified capability already confirmed in the Fit Analysis as the candidate Custom Field list — DocType Mapping should not re-derive gap scope independently.
 
 ---
@@ -956,6 +956,7 @@ Finishing Process Tracking, Customer Production Visibility, Industry Template Li
 |---|---|---|---|
 | 0.1 | 2026-07-24 | Initial | Initial ERPNext Gap Analysis. Identified 28 capability gaps (1 Extend, 13 Customize, 7 Plugin, 7 Future) across Print Domain, Configuration Platform, Intelligence, and Operations, building strictly on `ERPNext_Fit_Analysis.md` and referencing (without resolving) `Architecture_Review_Register.md` items AR-002, AR-003, AR-004, AR-005, AR-008, AR-009, AR-010. |
 | 0.2 | 2026-07-28 | AR-001 Disposition Factual Synchronization | Synchronized active AR-001 wording in the Section 1 "Relationship to the Architecture Review Register" statement with the formal Project Owner disposition (Option A, recorded in `Architecture_Review_Register.md`), reaffirming Accepted ADR-001-ERPNext-Framework. Recorded ERPNext v16, with the corresponding Frappe v16 major version, as the governed platform target; noted version-sensitive gap claims remain conditional pending technical revalidation against that governed target; confirmed AR-002 through AR-011 retain their live Register status unchanged. Every gap identifier, category, severity, effort/sizing estimate, ownership statement, fit-to-gap transition, implementation recommendation, sequencing note, DocType conclusion, and AR-002/003/004/005/008/009/010 annotation is preserved unchanged — no gap classification or estimate was finalized, and no technical revalidation was performed or claimed by this synchronization. No implementation authorization was granted. Historical Revision History entry (0.1) preserved unchanged. |
+| 0.3 | 2026-09-20 | AR-003 Disposition Synchronization | Corrected active naming statements in the Print Specification Modeling and Business Approval Orchestration gap records, the AI Assistant gap record, the Cross-Gap Dependency Matrix, the Implementation Boundary Summary, and Recommendation 6, following [Architecture_Review_Register.md](../decisions/Architecture_Review_Register.md) AR-003's Resolved disposition (2026-09-19): "Print Specification" is Not Adopted (mapped to Product Template, Job Types, Finishing Types, Paper Sizes); "Approval Management" is not adopted as a module name and maps to Approval Designer; "AI Assistant" is registered as a Proposed name only (Naming Registry Section 40), with no Approved Bounded Context, architecture, provider, model, plugin design, implementation owner, or implementation authorization. In each case, this synchronization explicitly distinguishes AR-003's Resolved naming disposition from the still-open, unsized underlying capability gap — no gap's classification (Extend/Customize/Plugin/Future), priority, or effort/sizing estimate was changed, finalized, or resolved by this task. No Architecture Review Register item was created, modified, or resolved by this document. |
 
 ---
 

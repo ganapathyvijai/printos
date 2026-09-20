@@ -1,7 +1,7 @@
 # 01 — Phase 1 Roadmap (Implementation)
 
 Version:
-0.1
+0.2
 
 Status:
 Draft
@@ -10,7 +10,7 @@ Owner:
 PrintHub Architecture Team
 
 Last Updated:
-2026-07-23
+2026-09-20
 
 ---
 
@@ -43,7 +43,7 @@ This document was commissioned using a different, **technical implementation pha
 | 1 | This document's "Phase 1" through "Phase 6" are **technical implementation phases**, numbered differently from `03_Product_Roadmap.md`'s **business phases** 1–5 (G2→G3→G4→G5→G1). The two numbering schemes are not the same sequence and must not be conflated. | [../blueprint/03_Product_Roadmap.md](../blueprint/03_Product_Roadmap.md) | Documented here; renaming either scheme requires an Architecture Review decision, not a unilateral choice by this document. |
 | 2 | This document's technical phases (Environment Setup, ERPNext Foundation, Core Business Modules, Production, MachineIQ, Marketplace, AI Assistant) all fall within delivering Blueprint's **business Phase 1** (PrintOS ERP for G2), except the MachineIQ, Marketplace, and AI Assistant phases, which correspond to Blueprint's **Phase 5** (Marketplace) and to capability the Blueprint has not yet phased at all. | `03_Product_Roadmap.md` Open Questions ("MachineIQ... not yet assigned to a specific phase") | Documented as an open gap; not resolved here. |
 | 3 | Blueprint Phase 2–4 (Freelancer Portal, Supplier Portal, Service Engineers — G3/G4/G5) have **no corresponding technical implementation phase** in this document's requested structure. | `03_Product_Roadmap.md` | Flagged as a sequencing gap in Open Questions below — this document does not assume those phases are skipped, only that they are not yet scoped technically. |
-| 4 | "AI Assistant" is used below as a technical phase name. It is **not a registered term** in `docs/standards/Naming_Registry.md` and has no corresponding Blueprint concept. | `Naming_Registry.md` Section 38 (Mandatory Registration) | Used here only as a placeholder label for a future capability; must be formally proposed to the Naming Registry before appearing in any Approved document, module name, or DocType. |
+| 4 | "AI Assistant" is used below as a technical phase name. It is registered as a **Proposed name only** in `docs/standards/Naming_Registry.md` Section 40 ([Architecture Review Register](../decisions/Architecture_Review_Register.md) AR-003, Resolved 2026-09-19), with no Approved Bounded Context, Blueprint concept, architecture, provider, model, plugin design, implementation owner, or implementation authorization. | `Naming_Registry.md` Section 40 (AR-003 Naming Alignment Disposition) | Used here only as a placeholder label for a future capability; the term itself is already registered — what remains is separate Blueprint scoping and architecture governance before it may appear in any Approved document, module name, or DocType. |
 
 ## Technical Implementation Phases
 
@@ -134,11 +134,11 @@ gantt
 - **Success Criteria / Exit Criteria:** Not defined until Marketplace is scoped.
 - **Estimated Complexity:** Unknown — not yet scoped.
 
-### Phase 6 — AI Assistant *(not yet in Blueprint or Naming Registry)*
+### Phase 6 — AI Assistant *(registered as Proposed only; not yet scoped in Blueprint)*
 
-- **Objectives:** Not defined. "AI Assistant" does not appear in `03_Product_Roadmap.md`, `09_PrintOS_Modules.md`, or `Naming_Registry.md`.
-- **Deliverables / Dependencies / Risks / Success Criteria / Exit Criteria:** Cannot be defined without first: (a) proposing "AI Assistant" as a Naming Registry term per Section 38 (Mandatory Registration), and (b) scoping it in a Blueprint document.
-- **Estimated Complexity:** Unknown — not yet scoped or named.
+- **Objectives:** Not defined. "AI Assistant" does not appear in `03_Product_Roadmap.md` or `09_PrintOS_Modules.md`; it is registered in `Naming_Registry.md` Section 40 as a **Proposed name only** ([Architecture Review Register](../decisions/Architecture_Review_Register.md) AR-003, Resolved 2026-09-19), with no Approved Bounded Context, architecture, provider, model, plugin design, implementation owner, or implementation authorization.
+- **Deliverables / Dependencies / Risks / Success Criteria / Exit Criteria:** Cannot be defined without a separate Blueprint scoping document and architecture governance decision — the naming question itself is already resolved (Proposed) and is not what remains outstanding here. This phase remains an unscoped placeholder only.
+- **Estimated Complexity:** Unknown — not yet scoped.
 
 ---
 
@@ -151,7 +151,7 @@ This document does not alter `../blueprint/03_Product_Roadmap.md`'s business pha
 # Future Considerations
 
 - Once Freelancer Portal, Supplier Portal, and Service Engineer phases (Blueprint Phases 2–4) are technically scoped, this document should gain corresponding implementation phases between Phase 3 and Phase 5 here, closing Conflict #3.
-- "AI Assistant" should either be formally proposed to the Naming Registry and Blueprint, or removed from this document, before this document can leave Draft status.
+- "AI Assistant" is already registered as Proposed (AR-003 Resolved); before this document can leave Draft status, it still requires a separate Blueprint scoping document and architecture governance decision, or removal from this document if that scoping is not pursued.
 
 ---
 
@@ -159,7 +159,7 @@ This document does not alter `../blueprint/03_Product_Roadmap.md`'s business pha
 
 - Should this document's technical phase numbers be renamed (e.g. "Increment 0–6" or "Sprint Group A–G") to avoid colliding with Blueprint's Phase 1–5 numbering, given they are demonstrably not the same sequence?
 - Where do Freelancer Portal, Supplier Portal, and Service Engineer implementation work fit in this technical phase list?
-- Should "AI Assistant" be scoped as a Naming Registry term and Blueprint capability before appearing in any implementation document again?
+- "AI Assistant" is already registered as a Naming Registry Proposed term (AR-003 Resolved); should it be scoped as a Blueprint capability, with an Approved Bounded Context and architecture, before appearing in any implementation document again in a non-placeholder capacity?
 
 ---
 
@@ -180,6 +180,7 @@ This document does not alter `../blueprint/03_Product_Roadmap.md`'s business pha
 | Version | Date | Author | Changes |
 |---|---|---|---|
 | 0.1 | 2026-07-23 | Initial | Initial working draft. Documented (not resolved) the phase-numbering conflict between this document's technical implementation phases and `03_Product_Roadmap.md`'s business phases, and flagged "AI Assistant" as an unregistered term. |
+| 0.2 | 2026-09-20 | AR-003 Disposition Synchronization | Corrected every active statement describing "AI Assistant" as unregistered, following [Architecture Review Register](../decisions/Architecture_Review_Register.md) AR-003's Resolved disposition (2026-09-19): Conflict #4, the Phase 6 heading and Objectives/Deliverables text, the Future Considerations bullet, and the Open Questions bullet now record that "AI Assistant" is registered as a **Proposed name only** (`Naming_Registry.md` Section 40), with no Approved Bounded Context, Blueprint concept, architecture, provider, model, plugin design, implementation owner, or implementation authorization. Technical Phase 6 remains an **unscoped placeholder only**; what remains outstanding is a separate Blueprint scoping document and architecture governance decision, not Naming Registry proposal, which is already complete. The pre-existing phase-numbering conflict between this document's technical phases and `03_Product_Roadmap.md`'s business phases is **not resolved or renamed** by this correction. Historical Revision History row 0.1 is preserved unchanged. No implementation was authorized; no Blueprint, ADR, or Architecture Review Register item was modified. |
 
 ---
 

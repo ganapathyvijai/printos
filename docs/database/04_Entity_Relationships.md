@@ -1,7 +1,7 @@
 # 04 — Entity Relationships
 
 Version:
-1.0
+1.1
 
 Status:
 Draft
@@ -10,7 +10,7 @@ Owner:
 PrintHub Architecture Team
 
 Last Updated:
-2026-07-26
+2026-09-20
 
 ---
 
@@ -31,7 +31,7 @@ Describe how PrintOS entities relate to one another and to ERPNext's existing da
 ```
 Customer (ERPNext) ──1:N──▶ Print Job (PrintOS)
 Print Job ──1:N (child table)──▶ Estimate Line
-Print Job ──N:1──▶ Print Specification
+Print Job ──N:1──▶ Product Template
 Estimate Line ──N:1──▶ Material
 Production Order ──N:1──▶ Print Job
 Production Order ──N:1──▶ Machine
@@ -57,3 +57,4 @@ This diagram is illustrative and must be kept in sync with `docs/blueprint` as t
 | Version | Date | Author | Changes |
 |---|---|---|---|
 | 1.0 | 2026-07-26 | Metadata Normalization | Added document-control metadata (Version, Status, Owner, Last Updated, Revision History). No architectural or technical content changed. |
+| 1.1 | 2026-09-20 | AR-003 Disposition Synchronization | Replaced `Print Job ──N:1──▶ Print Specification` with `Print Job ──N:1──▶ Product Template` in the illustrative Core Relationships diagram, following [Architecture Review Register](../decisions/Architecture_Review_Register.md) AR-003's Resolved disposition (2026-09-19): "Print Specification" is Not Adopted; its underlying need maps to Product Template, Job Types, Finishing Types, and Paper Sizes. No other relationship, cardinality, or rule was changed or invented. |

@@ -1,7 +1,7 @@
 # Canonical Domain Model
 
 Version:
-0.2
+0.3
 
 Status:
 Draft
@@ -10,7 +10,7 @@ Owner:
 PrintHub Architecture Team
 
 Last Updated:
-2026-07-25
+2026-09-20
 
 ---
 
@@ -74,7 +74,7 @@ This document uses the Bounded Context list already Published in [../blueprint/0
 - **Aggregate Roots:** Artwork
 - **Child Entities:** Artwork Revision (child of Artwork); Proof (child of Artwork Revision)
 - **Value Objects:** None
-- **Domain Services:** None named within this context; Approval Record's transition rules are governed by configured Approval Definitions in the Configuration Studio context, not an Artwork-context service. Approval Record's classification is under [Architecture Review Register](../decisions/Architecture_Review_Register.md) **AR-003** ("Approval Management" naming).
+- **Domain Services:** None named within this context; Approval Record's transition rules are governed by configured Approval Definitions in the Configuration Studio context, not an Artwork-context service. Approval Record's own naming/classification was never one of [Architecture Review Register](../decisions/Architecture_Review_Register.md) **AR-003**'s eight named terms (only the requested module name "Approval Management," now mapped to Approval Designer, was); it remains a separate, currently unassigned governance question.
 
 ---
 
@@ -226,15 +226,15 @@ This document uses the Bounded Context list already Published in [../blueprint/0
 
 ---
 
-### AI Assistant Context *(Unregistered — not an Approved Bounded Context)*
+### AI Assistant Context *(Proposed name only — not an Approved Bounded Context)*
 
 - **Business Purpose:** Not yet defined in any Approved Blueprint document.
-- **Owned Entities:** Conversation, Prompt, Knowledge Source, Recommendation, AI Action — all unregistered.
+- **Owned Entities:** Conversation, Prompt, Knowledge Source, Recommendation, AI Action — all unregistered, outside AR-003's scope, pending separate future governance.
 - **Aggregate Roots:** Not assessable pending naming/scoping.
 - **Child Entities:** Not assessable.
 - **Value Objects:** Not assessable.
 - **Domain Services:** Not assessable.
-- **Note:** This grouping is included only because it was named in this task's required evaluation list. Per [ERPNext_Fit_Analysis.md](ERPNext_Fit_Analysis.md) and [Architecture Review Register](../decisions/Architecture_Review_Register.md) **AR-003**, "AI Assistant" is not a registered Naming Registry term and has no Blueprint scoping document. It is not treated as an Approved Bounded Context.
+- **Note:** This grouping is included only because it was named in this task's required evaluation list. Per [ERPNext_Fit_Analysis.md](ERPNext_Fit_Analysis.md) and [Naming Registry](../standards/Naming_Registry.md) Section 40, "AI Assistant" is registered as a **Proposed name only** ([Architecture Review Register](../decisions/Architecture_Review_Register.md) **AR-003**, Resolved 2026-09-19) — it has no Approved Bounded Context, architecture, provider, model, plugin design, implementation owner, or implementation authorization. It is not treated as an Approved Bounded Context here. Its five candidate sub-entities (Conversation, Prompt, Knowledge Source, Recommendation, AI Action) were never among AR-003's eight named terms and remain unregistered, outside AR-003's scope, pending separate future governance.
 
 ---
 
@@ -394,12 +394,12 @@ Every entity from [../database/Business_Entity_Inventory.md](../database/Busines
 | Artwork | Canonical | — |
 | Artwork Revision | Canonical | — |
 | Proof | Canonical | — |
-| Approval Record | Pending Architecture Review | AR-003 |
+| Approval Record | Pending Architecture Review | Unassigned — outside AR-003; a separate, currently unassigned governance question |
 | Job Card | Canonical | Term itself canonical per ADR-014; ERPNext-name-collision risk documented, not a naming pending item |
 | Quality Check Record | Pending Architecture Review | AR-009 |
 | Dispatch Record | Pending Architecture Review | AR-008 |
 | Delivery Method | Canonical | — |
-| "Print Specification" | Pending Architecture Review | See Special Review below; AR-003 |
+| "Print Specification" | Not adopted | AR-003 Resolved 2026-09-19 — maps to Product Template, Job Types, Finishing Types, and Paper Sizes; see Special Review below |
 | "Production Stage" | Not an Independent Entity | See Special Review below |
 | "Machine Queue" | Not an Independent Entity | See Special Review below |
 | Finishing Operation | Pending Architecture Review | Future-classified per Gap Analysis; not yet scoped |
@@ -429,13 +429,13 @@ Every entity from [../database/Business_Entity_Inventory.md](../database/Busines
 | Extension | Pending Architecture Review | Unregistered — see Special Review |
 | Publisher | Pending Architecture Review | Unregistered — see Special Review |
 | Marketplace Package Version | Pending Architecture Review | Unregistered — see Special Review |
-| Conversation | Pending Architecture Review | Unregistered, AR-003 |
-| Prompt | Pending Architecture Review | Unregistered, AR-003 |
-| Knowledge Source | Pending Architecture Review | Unregistered, AR-003 |
-| Recommendation | Pending Architecture Review | Unregistered, AR-003; possible overlap with MachineIQ "Insight" (§23), unreconciled |
-| AI Action | Pending Architecture Review | Unregistered, AR-003 |
+| Conversation | Pending Architecture Review | Unregistered — outside AR-003, pending separate future governance |
+| Prompt | Pending Architecture Review | Unregistered — outside AR-003, pending separate future governance |
+| Knowledge Source | Pending Architecture Review | Unregistered — outside AR-003, pending separate future governance |
+| Recommendation | Pending Architecture Review | Unregistered — outside AR-003, pending separate future governance; possible overlap with MachineIQ "Insight" (§23), unreconciled |
+| AI Action | Pending Architecture Review | Unregistered — outside AR-003, pending separate future governance |
 
-**Summary:** 45 Canonical, 0 Alias, 28 Pending Architecture Review, 2 Not an Independent Entity. (75 total, matching the Business Entity Inventory.)
+**Summary:** 45 Canonical, 0 Alias, 27 Pending Architecture Review, 1 Not adopted, 2 Not an Independent Entity. (75 total, matching the Business Entity Inventory.)
 
 ---
 
@@ -448,8 +448,8 @@ As directed, particular attention to four items:
 **Domain Model Treatment:** These five entities are **excluded from the Marketplace Bounded Context** in this document (see Marketplace Context above) and are classified as **Pending Review**. They are not assigned to any Bounded Context, Aggregate, Child Entity, or Value Object category, since doing so would require either registering a new "Extension/Plugin Marketplace" concept or merging it into the existing Marketplace context — both of which are naming/scoping decisions outside this document's authority.
 
 ### Print Specification
-**Finding:** Not an Approved Naming Registry term (per [ERPNext_Fit_Analysis.md](ERPNext_Fit_Analysis.md) and AR-003). Its underlying business need already appears covered by the combination of Product Template, Job Types, Finishing Types, and Paper Sizes — all already placed as Aggregate Roots/Value Objects within the Estimation and Production contexts above.
-**Domain Model Treatment: Pending Review.** Not modeled as its own Aggregate, Child Entity, or Value Object in this document. If a future ADR approves "Print Specification" as a distinct concept, it would most likely be modeled as a Value Object aggregating the four entities above, but that determination is not made here.
+**Finding:** **Not Adopted** — [Architecture Review Register](../decisions/Architecture_Review_Register.md) AR-003 resolved (2026-09-19) that "Print Specification" is not adopted as a module, DocType, entity, or umbrella object. Its underlying business need maps to the combination of Product Template, Job Types, Finishing Types, and Paper Sizes — all already placed as Aggregate Roots/Value Objects within the Estimation and Production contexts above.
+**Domain Model Treatment: Not adopted.** Not modeled as its own Aggregate, Child Entity, or Value Object in this document. This is a resolved disposition, not a pending one; it is retained here only as a not-adopted traceability entry mapping the requested term to its existing constituent entities.
 
 ### Production Stage
 **Finding:** Requested as a candidate entity representing a Job Card's position in the production process.
@@ -468,7 +468,8 @@ This domain model's structure is directly gated, in part, by the following open 
 | Dependency | Affected Domain Model Element | Source |
 |---|---|---|
 | Tenant vs. Company definition and multi-tenant model | Administration Context, Configuration Studio's Tenant Override, "Administration → All Contexts" relationship | [Architecture Review Register](../decisions/Architecture_Review_Register.md) AR-002 |
-| Naming Registry alignment (Print Specification, Approval Management naming, AI Assistant) | Estimation/Production's Print Specification exclusion, Artwork's Approval Record, AI Assistant Context | AR-003 |
+| AI Assistant naming and scope (registered as a Proposed name only; no Approved Bounded Context, architecture, provider, model, plugin design, implementation owner, or implementation authorization) | AI Assistant Context, and its five unregistered candidate sub-entities (Conversation, Prompt, Knowledge Source, Recommendation, AI Action) | AR-003 (Resolved 2026-09-19 as a Proposed-name-only registration; does not scope or authorize the AI Assistant Context, its architecture, or its sub-entities, which remain outside AR-003 pending separate future governance) |
+| Approval Record naming/classification (distinct from the "Approval Management" module-name question AR-003 resolved, mapped to Approval Designer) | Artwork Context's Approval Record | Unassigned — no covering Architecture Review item; a separate, currently unassigned governance question |
 | Machine domain ownership (Asset/Workstation/Custom/Hybrid) | Production Context's Machine Aggregate Root, MachineIQ Context's Counter Reading cross-reference | AR-004 |
 | Quotation strategy (native/extended/separate) | Estimation Context's Quotation Aggregate Root and Quotation Line Child Entity | AR-005 |
 | Item vs. Material/Product Template mapping | Inventory Context's Material Aggregate Root, Estimation Context's Product Template | AR-006 |
@@ -511,6 +512,7 @@ This domain model's structure is directly gated, in part, by the following open 
 |---|---|---|---|
 | 0.1 | 2026-07-25 | Initial | Initial Canonical Domain Model. Organized 75 entities from the Business Entity Inventory into 17 Bounded Contexts (14 Approved per Blueprint, plus Configuration Studio, MachineIQ, Marketplace, and a flagged AI Assistant grouping), 37 Aggregate Roots, 11 Child Entities, 11 Value Objects, and 3 Domain Services. Classified all 75 entities in the Naming Review (45 Canonical, 28 Pending Architecture Review, 2 Not an Independent Entity). Performed Special Review of the Marketplace naming collision, Print Specification, Production Stage, and Machine Queue. Surfaced one new observed overlap (Reporting vs. Configuration Studio ownership of Report/Dashboard Definition) without adding it to the Architecture Review Register. No ERPNext mapping, ADR modification, or Architecture Review resolution performed. |
 | 0.2 | 2026-07-25 | Documentation Clarification | Clarified Reporting and Configuration Studio ownership language for reports and dashboards. Reporting owns reporting capability and consumption; Configuration Studio owns Report Definition and Dashboard Definition configuration artifacts. Documentation clarification only; no architecture change. |
+| 0.3 | 2026-09-20 | AR-003 Disposition Synchronization | Corrected active statements following AR-003's Resolved disposition ([Architecture Review Register](../decisions/Architecture_Review_Register.md) Version 0.5, 2026-09-19): "Print Specification" reclassified in the Naming Review table and Special Review section from "Pending Architecture Review" to **Not adopted**, recording its resolved mapping to Product Template, Job Types, Finishing Types, and Paper Sizes; "AI Assistant" corrected throughout (AI Assistant Context heading and note, Naming Review) to record it as a **Proposed name only** (Naming Registry Section 40) with no Approved Bounded Context, architecture, provider, model, plugin design, implementation owner, or implementation authorization; its five candidate sub-entities (Conversation, Prompt, Knowledge Source, Recommendation, AI Action) corrected to record they remain unregistered and outside AR-003's eight-term scope, pending separate future governance, rather than "AR-003." Corrected Approval Record's Naming Review note and the Artwork Context's Domain Services text to record that Approval Record's own naming/classification was never one of AR-003's eight terms (only the requested "Approval Management" module name, mapped to Approval Designer, was) and remains a separate, currently unassigned governance question. Split the Open Architecture Dependencies table's combined AR-003 row into a corrected AI Assistant row and a separate, non-AR-003 Approval Record row, and removed the now-resolved Print Specification entry from that open-dependencies table. Updated the Naming Review summary to 45 Canonical, 27 Pending Architecture Review, 1 Not adopted, 2 Not an Independent Entity (75 total, unchanged). No Bounded Context, Aggregate Root, Child Entity, Value Object, or Domain Service was added, removed, or approved; AR-004 through AR-011 unchanged; no ERPNext mapping performed. |
 
 ---
 

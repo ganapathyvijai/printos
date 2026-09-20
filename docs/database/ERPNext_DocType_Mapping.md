@@ -1,7 +1,7 @@
 # ERPNext DocType Mapping
 
 Version:
-0.4
+0.6
 
 Status:
 Draft
@@ -10,7 +10,7 @@ Owner:
 PrintHub Architecture Team
 
 Last Updated:
-2026-08-22
+2026-09-20
 
 ---
 
@@ -30,10 +30,10 @@ Covers implementation ownership assignment for every business entity (Aggregate 
 
 Not every open Architecture Review (AR) item blocks knowing *where* an entity's implementation should live. This document distinguishes two kinds of AR references:
 
-- **Blocking AR items** — the AR item concerns the entity's structural target (which ERPNext object, if any, underlies it), so the Implementation Owner genuinely cannot be assigned yet: **AR-002** (Tenant Override's data model depends on Tenant/Company resolution), **AR-004** (Machine/Machine Profile's ERPNext base), **AR-005** (Quotation/Quotation Line's document strategy), **AR-006** (Material/Substrate/Product Template's Item mapping), **AR-011** (Lead/Enquiry's Opportunity mapping), and **AR-003 specifically for the unregistered AI Assistant entities** (their existence and placement, not just their name, is undefined).
-- **Non-blocking AR items** — the AR item concerns terminology only; the entity's implementation location is already clear regardless of which name is eventually chosen: **AR-007** (Purchasing/Procurement naming — does not change that Purchase Order/Supplier are Native ERPNext), **AR-008** (Dispatch/Delivery naming — does not change that Dispatch Record extends Delivery Note), **AR-009** (Quality module naming/scope — does not change that Quality Check Record is a Custom child entity today), **AR-010** (BOM necessity — affects the Estimation Engine Domain Service's internals, not any entity's DocType ownership), and **AR-003 for Approval Record and "Print Specification"** (naming only; Approval Record's Custom PrintHub placement is unaffected, and "Print Specification" is not modeled as an entity at all).
+- **Blocking AR items** — the AR item concerns the entity's structural target (which ERPNext object, if any, underlies it), so the Implementation Owner genuinely cannot be assigned yet: **AR-002** (Tenant Override's data model depends on Tenant/Company resolution), **AR-004** (Machine/Machine Profile's ERPNext base), **AR-005** (Quotation/Quotation Line's document strategy), **AR-006** (Material/Substrate/Product Template's Item mapping), **AR-011** (Lead/Enquiry's Opportunity mapping). The five candidate AI Assistant sub-entities (Conversation, Prompt, Knowledge Source, Recommendation, AI Action) have no covering Architecture Review item at all — not AR-003, which is Resolved (2026-09-19) and covers only "AI Assistant" itself as a Proposed name — so they are not "blocked by an AR item" in this document's sense; see the Special Handling section for their treatment as Unregistered, Uncovered Entities.
+- **Non-blocking AR items** — the AR item concerns terminology only; the entity's implementation location is already clear regardless of which name is eventually chosen: **AR-007** (Purchasing/Procurement naming — does not change that Purchase Order/Supplier are Native ERPNext), **AR-008** (Dispatch/Delivery naming — does not change that Dispatch Record extends Delivery Note), **AR-009** (Quality module naming/scope — does not change that Quality Check Record is a Custom child entity today), **AR-010** (BOM necessity — affects the Estimation Engine Domain Service's internals, not any entity's DocType ownership), and **AR-003 for "Print Specification"** (Resolved — Not Adopted; "Print Specification" is not modeled as an entity at all). Approval Record's own naming/classification was never one of AR-003's eight terms and is outside AR-003 entirely — it is a separate, currently unassigned governance question, not an AR-003 non-blocking citation.
 
-Only entities gated by a **blocking** AR item are classified "Pending Architecture Review" below. Entities affected only by a non-blocking AR item are assigned a definite Implementation Owner, with the AR item cited in Dependencies for traceability.
+Only entities gated by a **blocking** AR item are classified "Pending Architecture Review" below. Entities affected only by a non-blocking AR item are assigned a definite Implementation Owner, with the AR item cited in Dependencies for traceability. Entities with no covering AR item at all (the five AI Assistant sub-entities, and the five Marketplace-collision entities) are marked "No Implementation Owner Assigned," not "Pending Architecture Review."
 
 Five entities (Marketplace Package, Marketplace Template, Extension, Publisher, Marketplace Package Version) are neither Approved nor covered by any existing AR item — see Special Handling below; they are not force-fit into any of the five ownership categories.
 
@@ -202,9 +202,9 @@ Five entities (Marketplace Package, Marketplace Template, Extension, Publisher, 
 - **Business Owner / Bounded Context:** Artwork (primary; also referenced by Estimation, Production)
 - **Implementation Owner:** Custom PrintHub
 - **Target DocType:** New PrintHub DocType
-- **Implementation Strategy:** No ERPNext native equivalent to a business-specific approval outcome record; built on top of Frappe's native Workflow engine (used by the Approval Definition configuration entity) but the outcome record itself is Custom. The "Approval Management" naming question (AR-003) is non-blocking — it does not change where this entity lives.
+- **Implementation Strategy:** No ERPNext native equivalent to a business-specific approval outcome record; built on top of Frappe's native Workflow engine (used by the Approval Definition configuration entity) but the outcome record itself is Custom. The "Approval Management" module-name question (AR-003, Resolved 2026-09-19, mapped to Approval Designer) is non-blocking and distinct from Approval Record's own naming — it does not change where this entity lives. Approval Record's own naming/classification was never one of AR-003's eight terms and remains a separate, currently unassigned governance question, outside AR-003.
 - **Customization Required:** New DocType
-- **Dependencies:** [Architecture Review Register](../decisions/Architecture_Review_Register.md) AR-003 (non-blocking, terminology only); [../configuration/04_Approval_Designer.md](../configuration/04_Approval_Designer.md).
+- **Dependencies:** [../configuration/04_Approval_Designer.md](../configuration/04_Approval_Designer.md).
 
 **Supporting infrastructure note — Frappe `File` (updated 2026-08-22):** Artwork evidence storage relies on Frappe's native `File` primitive. `File` is **not a Business Entity Inventory entity** — it does not appear in `../database/Business_Entity_Inventory.md` or `../architecture/Canonical_Domain_Model.md` — and is therefore **intentionally excluded from the entity-scoped Master Mapping Table above**, which assigns ownership only to cataloged business entities. `File` is **storage only and is never approval authority**; this rule is normatively governed by `../blueprint/18_Artwork_Management.md` Section 10 (File Integrity and Authority), not by this document. This note is documentation-scope clarification only: it introduces no new File behavior, implementation mechanism, or coding decision, and does not modify the Artwork System Design's governing rule.
 
@@ -280,9 +280,9 @@ Five entities (Marketplace Package, Marketplace Template, Extension, Publisher, 
 - **Business Owner / Bounded Context:** Not applicable
 - **Implementation Owner:** No Implementation Owner — Not Modeled as Independent Entity
 - **Target DocType:** Not applicable
-- **Implementation Strategy:** Per [../architecture/Canonical_Domain_Model.md](../architecture/Canonical_Domain_Model.md) Special Review, the underlying need is already covered by Product Template, Job Types, Finishing Types, and Paper Sizes (each mapped independently above).
+- **Implementation Strategy:** [Architecture Review Register](../decisions/Architecture_Review_Register.md) AR-003 has Resolved (2026-09-19) that "Print Specification" is **Not Adopted** as a module, DocType, entity, or umbrella object — this is a resolved disposition, not a pending one. Per [../architecture/Canonical_Domain_Model.md](../architecture/Canonical_Domain_Model.md) Special Review, the underlying need is already covered by Product Template, Job Types, Finishing Types, and Paper Sizes (each mapped independently above).
 - **Customization Required:** Not applicable
-- **Dependencies:** [Architecture Review Register](../decisions/Architecture_Review_Register.md) AR-003 (non-blocking — naming/scope only, entity not modeled).
+- **Dependencies:** [Architecture Review Register](../decisions/Architecture_Review_Register.md) AR-003 (Resolved — Not Adopted; entity not modeled).
 
 ---
 
@@ -650,34 +650,34 @@ Five entities (Marketplace Package, Marketplace Template, Extension, Publisher, 
 
 ---
 
-# 17. AI Assistant Context *(Unregistered)*
+# 17. AI Assistant Context *(Proposed name only)*
 
-All five entities below share the same status: "AI Assistant" is not a registered Naming Registry term and has no Blueprint scoping document. Their existence, not just their name, is undefined — this is a **blocking** condition per this document's Methodology.
+"AI Assistant" itself is registered as a **Proposed name only** ([Naming Registry](../standards/Naming_Registry.md) Section 40; [Architecture Review Register](../decisions/Architecture_Review_Register.md) **AR-003**, Resolved 2026-09-19), with no Approved Bounded Context, architecture, provider, model, plugin design, implementation owner, or implementation authorization. The five entities below were never among AR-003's eight named terms and have no covering Architecture Review item of their own; their existence, not just their name, remains undefined, pending separate future governance. Per this document's Methodology, "Pending Architecture Review" is reserved for entities blocked by an *existing* AR item — since no AR item covers these five, they are marked "No Implementation Owner Assigned" rather than "Pending Architecture Review," consistent with the Special Handling treatment below.
 
 #### Conversation
-- **Implementation Owner:** Pending Architecture Review
-- **Target DocType:** Pending AR-003
-- **Dependencies:** [Architecture Review Register](../decisions/Architecture_Review_Register.md) AR-003.
+- **Implementation Owner:** No Implementation Owner Assigned
+- **Target DocType:** Not applicable
+- **Dependencies:** None — unregistered, outside AR-003's scope, no covering Architecture Review item; pending separate future governance.
 
 #### Prompt
-- **Implementation Owner:** Pending Architecture Review
-- **Target DocType:** Pending AR-003
-- **Dependencies:** AR-003.
+- **Implementation Owner:** No Implementation Owner Assigned
+- **Target DocType:** Not applicable
+- **Dependencies:** None — unregistered, outside AR-003's scope, no covering Architecture Review item; pending separate future governance.
 
 #### Knowledge Source
-- **Implementation Owner:** Pending Architecture Review
-- **Target DocType:** Pending AR-003
-- **Dependencies:** AR-003.
+- **Implementation Owner:** No Implementation Owner Assigned
+- **Target DocType:** Not applicable
+- **Dependencies:** None — unregistered, outside AR-003's scope, no covering Architecture Review item; pending separate future governance.
 
 #### Recommendation
-- **Implementation Owner:** Pending Architecture Review
-- **Target DocType:** Pending AR-003
-- **Dependencies:** AR-003.
+- **Implementation Owner:** No Implementation Owner Assigned
+- **Target DocType:** Not applicable
+- **Dependencies:** None — unregistered, outside AR-003's scope, no covering Architecture Review item; pending separate future governance.
 
 #### AI Action
-- **Implementation Owner:** Pending Architecture Review
-- **Target DocType:** Pending AR-003
-- **Dependencies:** AR-003.
+- **Implementation Owner:** No Implementation Owner Assigned
+- **Target DocType:** Not applicable
+- **Dependencies:** None — unregistered, outside AR-003's scope, no covering Architecture Review item; pending separate future governance.
 
 ---
 
@@ -726,7 +726,7 @@ The following five entities are neither Approved nor covered by any existing Arc
 | Finishing Operation | Production | Custom PrintHub | New PrintHub DocType (Future) | Deferred |
 | Production Stage | Production | No Implementation Owner — Not a Domain Entity | Not applicable | — |
 | Machine Queue | Production | No Implementation Owner — Not a Domain Entity | Not applicable | — |
-| Print Specification | Production/Estimation | No Implementation Owner — Not Modeled | Not applicable | — |
+| Print Specification | Production/Estimation | No Implementation Owner — Not Modeled (AR-003 Resolved: Not Adopted) | Not applicable | — |
 | Material | Inventory | Pending Architecture Review | Pending AR-006 | — |
 | Substrate | Inventory | Pending Architecture Review | Pending AR-006 | — |
 | Media Profiles | Inventory | Custom PrintHub | New PrintHub DocType | New DocType |
@@ -772,11 +772,11 @@ The following five entities are neither Approved nor covered by any existing Arc
 | Extension | Marketplace (unregistered) | No Implementation Owner Assigned | Not applicable | — |
 | Publisher | Marketplace (unregistered) | No Implementation Owner Assigned | Not applicable | — |
 | Marketplace Package Version | Marketplace (unregistered) | No Implementation Owner Assigned | Not applicable | — |
-| Conversation | AI Assistant (unregistered) | Pending Architecture Review | Pending AR-003 | — |
-| Prompt | AI Assistant (unregistered) | Pending Architecture Review | Pending AR-003 | — |
-| Knowledge Source | AI Assistant (unregistered) | Pending Architecture Review | Pending AR-003 | — |
-| Recommendation | AI Assistant (unregistered) | Pending Architecture Review | Pending AR-003 | — |
-| AI Action | AI Assistant (unregistered) | Pending Architecture Review | Pending AR-003 | — |
+| Conversation | AI Assistant (Proposed name only; outside AR-003) | No Implementation Owner Assigned | Not applicable | — |
+| Prompt | AI Assistant (Proposed name only; outside AR-003) | No Implementation Owner Assigned | Not applicable | — |
+| Knowledge Source | AI Assistant (Proposed name only; outside AR-003) | No Implementation Owner Assigned | Not applicable | — |
+| Recommendation | AI Assistant (Proposed name only; outside AR-003) | No Implementation Owner Assigned | Not applicable | — |
+| AI Action | AI Assistant (Proposed name only; outside AR-003) | No Implementation Owner Assigned | Not applicable | — |
 
 ---
 
@@ -788,23 +788,23 @@ The following five entities are neither Approved nor covered by any existing Arc
 | Extended ERPNext | 11 |
 | Custom PrintHub | 21 |
 | External Plugin | 8 |
-| Pending Architecture Review | 14 |
+| Pending Architecture Review | 9 |
 | No Implementation Owner (Not a Domain Entity / Not Modeled) | 3 |
-| No Implementation Owner Assigned (Unregistered, uncovered by any AR item) | 5 |
+| No Implementation Owner Assigned (Unregistered, uncovered by any AR item) | 10 |
 | **Total** | **78*** |
 
-*78 rows: all 75 real entities from the 75-entity Business Entity Inventory count, plus three explicitly disclosed non-entity traceability rows — "Print Specification" (not a modeled entity), "Production Stage" and "Machine Queue" (both explicitly "Not a Distinct Entity" per the Inventory's own treatment) — none of the three double-counted against the Inventory's own 75-entity total. This Version 0.4 revision (a) added the previously-missing mapping for **Customer Approval Evidence**, the 75th real entity, closing a pre-existing completeness gap, and (b) removed the **`File (Artwork evidence storage)`** row, which was never a Business Entity Inventory entity and is out of this table's entity-only scope; File's storage-only, never-approval-authority role is preserved in the Artwork Context narrative and remains governed by `../blueprint/18_Artwork_Management.md` Section 10. These figures also correct a pre-existing arithmetic mismatch between this table and the actual row-by-row content that predates this task (see Revision History).
+*78 rows: all 75 real entities from the 75-entity Business Entity Inventory count, plus three explicitly disclosed non-entity traceability rows — "Print Specification" (not a modeled entity), "Production Stage" and "Machine Queue" (both explicitly "Not a Distinct Entity" per the Inventory's own treatment) — none of the three double-counted against the Inventory's own 75-entity total. This Version 0.4 revision (a) added the previously-missing mapping for **Customer Approval Evidence**, the 75th real entity, closing a pre-existing completeness gap, and (b) removed the **`File (Artwork evidence storage)`** row, which was never a Business Entity Inventory entity and is out of this table's entity-only scope; File's storage-only, never-approval-authority role is preserved in the Artwork Context narrative and remains governed by `../blueprint/18_Artwork_Management.md` Section 10. These figures also correct a pre-existing arithmetic mismatch between this table and the actual row-by-row content that predates this task (see Revision History). This Version 0.5 revision moves the five AI Assistant candidate sub-entities (Conversation, Prompt, Knowledge Source, Recommendation, AI Action) from Pending Architecture Review (14 → 9) to No Implementation Owner Assigned (5 → 10), since AR-003's Resolved disposition (2026-09-19) covers "AI Assistant" itself as a Proposed name only and does not cover these five sub-entities, which have no covering Architecture Review item of their own; Total remains unchanged at 78 (no row added, removed, or reassigned an actual implementation owner).
 
 ---
 
 # Validation
 
 - ✓ **Every business entity appears exactly once.** All 75 real entities from [../database/Business_Entity_Inventory.md](../database/Business_Entity_Inventory.md) appear exactly once in the Master Mapping Table (2026-08-22: **Customer Approval Evidence** added, closing the only prior real-entity omission), plus three explicitly disclosed non-entity traceability rows — "Print Specification," "Production Stage," and "Machine Queue" — none double-counted against the Inventory's own 75-entity total. Total table rows: **78**. Frappe `File` is intentionally **excluded** from this table as a supporting infrastructure primitive, not a Business Entity Inventory entity (see the Artwork Context narrative note); no duplicate normalized entity name exists anywhere in the table.
-- ✓ **Every entity has exactly one implementation owner** (or an explicit, singular "No Implementation Owner" disposition where forcing one would misrepresent the entity's actual status, per the three Not-a-Domain-Entity/Not-Modeled rows and five Unregistered rows).
+- ✓ **Every entity has exactly one implementation owner** (or an explicit, singular "No Implementation Owner" disposition where forcing one would misrepresent the entity's actual status, per the three Not-a-Domain-Entity/Not-Modeled rows and ten Unregistered rows).
 - ✓ **No duplicate ERPNext DocTypes are introduced.** Each Native/Extended target DocType (Customer, Sales Order, Price List, Item Group, Purchase Order, Supplier, Warehouse, Delivery Note, Sales Invoice, Payment Entry, Journal Entry, Sales Taxes and Charges Template, Payment Terms Template, Currency, GST Settings, Employee, Department, Company, Branch, UOM, Workflow, Customize Form, Dashboard Chart, Query/Script Report, Notification, Webhook) is referenced by exactly one entity above, except where an entity and its Value Object variants legitimately extend the same base (none found).
 - ✓ **No duplicate PrintHub DocTypes are introduced.** Each "New PrintHub DocType" target is unique per entity; no two entities share a proposed Custom DocType.
 - ✓ **No ERPNext functionality is recreated without justification.** Every Custom PrintHub classification cites either [ERPNext_Fit_Analysis.md](../architecture/ERPNext_Fit_Analysis.md) or [ERPNext_Gap_Analysis.md](../architecture/ERPNext_Gap_Analysis.md) as the source of the "no native equivalent" finding — none is asserted independently by this document.
-- ✓ **Every Pending decision references an Architecture Review item.** All 14 Pending Architecture Review rows cite AR-002, AR-003, AR-004, AR-005, AR-006, or AR-011 by number; the 5 Unregistered rows explicitly do **not** claim an AR reference, since none exists, and are marked "No Implementation Owner Assigned" rather than misusing the Pending category.
+- ✓ **Every Pending decision references an Architecture Review item.** All 9 Pending Architecture Review rows cite AR-002, AR-004, AR-005, AR-006, or AR-011 by number; the 10 Unregistered rows (5 Marketplace-collision entities plus the 5 AI Assistant candidate sub-entities, moved here in this Version 0.5 revision since AR-003's Resolved disposition covers "AI Assistant" itself only, not these sub-entities) explicitly do **not** claim an AR reference, since none exists, and are marked "No Implementation Owner Assigned" rather than misusing the Pending category.
 
 ---
 
@@ -827,6 +827,8 @@ The following five entities are neither Approved nor covered by any existing Arc
 | 0.1 | 2026-07-25 | Initial | Initial ERPNext DocType Mapping. Assigned implementation ownership to all 75 Business Entity Inventory entities: 20 Native ERPNext, 10 Extended ERPNext, 17 Custom PrintHub, 8 External Plugin, 13 Pending Architecture Review (citing AR-002, AR-003, AR-004, AR-005, AR-006, AR-011), 3 Not-a-Domain-Entity/Not-Modeled, and 5 Unregistered entities left without an implementation owner (no covering AR item exists). Introduced a Blocking-vs-Non-Blocking AR methodology to avoid over-applying "Pending Architecture Review" to entities whose implementation location is already clear despite an open terminology question. No DocType fields, database schema, code, or AR/ADR resolution produced. |
 | 0.2 | 2026-07-25 | Documentation Clarification | Clarified Reporting and Configuration Studio ownership language for reports and dashboards. Reporting owns reporting capability and consumption; Configuration Studio owns Report Definition and Dashboard Definition configuration artifacts. Documentation clarification only; no architecture change. Dashboard Definition's Implementation Owner (Extended ERPNext) and Target DocType are unchanged. |
 | 0.4 | 2026-08-22 | Naming-Status Synchronization and Mapping-Scope Correction | **Bounded naming-status synchronization and mapping-scope correction only; Draft status is retained.** Per explicit Project Owner decision dated 2026-08-22, six technical DocType names entered Naming Registry **Proposed** status (`../standards/Naming_Registry.md` Section 13a): `PrintHub Artwork`, `PrintHub Artwork Revision`, `PrintHub Customer Approval Evidence`, `PrintHub Production Artwork Set`, `PrintHub Production Artwork Set Item`, and `PrintHub Job Card`. Synchronized the five existing candidate occurrences (Artwork, Artwork Revision, Production Artwork Set, Production Artwork Set Item entries; summary table rows) from "proposed pending governed naming treatment" to "Naming Registry: Proposed, not Approved." **Added the previously-missing Customer Approval Evidence entity mapping** — the 75th real Business Entity Inventory entity, part of that document's 75-entity count since its own Version 0.3 (2026-07-31) but never mapped here until this correction — recording its **first documented technical-name candidate** (`PrintHub Customer Approval Evidence`); the entity's business rules (`../blueprint/18_Artwork_Management.md` §6.2a; `../database/Artwork_Authority_DocType_Specification.md` §7.1) are unchanged. **Following a subsequent Project Owner mapping-scope decision (Option B, 2026-08-22), removed the historically-added `File (Artwork evidence storage)` row from the Master Mapping Table**, because Frappe `File` is supporting infrastructure — not a Business Entity Inventory entity and not present in `../architecture/Canonical_Domain_Model.md` — and therefore outside this table's entity-only scope; File's storage-only, never-approval-authority role is preserved in the Artwork Context narrative and remains governed by `../blueprint/18_Artwork_Management.md` Section 10; no new File behavior, implementation mechanism, or coding decision is introduced. **A full row-by-row reconciliation, not a simple `+1` delta, was performed**: the committed Version 0.3 Implementation Ownership Statistics were already inconsistent with the table's actual rows — the true underlying HEAD counts were **Native ERPNext 16, Extended ERPNext 11, Custom PrintHub 20, External Plugin 8, Pending Architecture Review 14, No Implementation Owner (Not a Domain Entity / Not Modeled) 3, No Implementation Owner Assigned 5, Total 78** — against a committed statistics table that incorrectly stated Native ERPNext 20, Extended ERPNext 10, Custom PrintHub 17, Pending Architecture Review 13, Total 76. This Version 0.4 corrects the statistics to their true figures: **Custom PrintHub 20 → 21** (the one net addition, Customer Approval Evidence in, File out of the table entirely since File was never counted in any prior statistics category) and **Total 78 → 78** (one real entity added, one out-of-scope infrastructure row removed, net zero row-count change) — previously stated figures of Custom PrintHub 17/18 and Total 76/77 are superseded by these corrected figures. Updated the Validation section to state 75 real entities, 3 disclosed non-entity rows, 78 total rows, 14 Pending Architecture Review rows, and File's intentional exclusion. **Added `PrintHub Job Card`'s Naming Registry status to the summary table's Job Card row**, recording that [ADR-014](../decisions/ADR-014-Production-Terminology.md) is cited only as rationale/traceability for the business term `Job Card` — ADR-014 states "Technical usage: DocType name 'Job Card'" (unprefixed) and did not approve the exact prefixed string `PrintHub Job Card`. **No ERPNext fit/gap conclusion or other mapping decision was altered beyond naming status, the one new entity mapping, and the one infrastructure-row removal; no mapping implementation, database schema, field, or coding authority is introduced.** `AR-003` was not resolved or modified. No implementation was authorized; no source was inspected or modified. |
+| 0.6 | 2026-09-20 | Approval Record Dependency Correction | Removed [Architecture Review Register](../decisions/Architecture_Review_Register.md) AR-003 from the Approval Record entry's **Dependencies** line, retaining [../configuration/04_Approval_Designer.md](../configuration/04_Approval_Designer.md) as its sole dependency. AR-003 does not govern Approval Record — Approval Record's own naming/classification was never one of AR-003's eight named terms (only the requested "Approval Management" module name, mapped to Approval Designer, was) and remains a separate, currently unassigned governance question, outside AR-003, as the entry's own Implementation Strategy sentence (immediately preceding this Dependencies line) already stated and continues to state unchanged. This correction removes a dependency citation that had continued to name AR-003 despite that same explanation; it does not alter Approval Record's Business Owner, Implementation Owner, Target DocType, Customization Required, or Implementation Strategy fields, and does not alter any other entity's mapping, the Master Mapping Table, or the Implementation Ownership Statistics. No Architecture Review Register item was created or modified; AR-003 itself was not further modified by this document; no implementation was authorized; no source was inspected or modified. |
+| 0.5 | 2026-09-20 | AR-003 Disposition Synchronization | Corrected active statements following [Architecture Review Register](../decisions/Architecture_Review_Register.md) AR-003's Resolved disposition (2026-09-19). **Approval Record** remains Custom PrintHub, unaffected; corrected its Implementation Strategy and Dependencies to clarify that the "Approval Management" module-name question AR-003 resolved (mapped to Approval Designer) is distinct from Approval Record's own naming/classification, which was never one of AR-003's eight terms and remains a separate, currently unassigned governance question, outside AR-003. **"Print Specification"** remains No Implementation Owner — Not Modeled; corrected its Implementation Strategy and Dependencies to record AR-003's Resolved (not pending) disposition of Not Adopted, and the Master Mapping Table row accordingly. **AI Assistant Context (Section 17):** corrected the section heading and introduction to record "AI Assistant" as a registered Proposed name only (Naming Registry Section 40), and moved its five candidate sub-entities (Conversation, Prompt, Knowledge Source, Recommendation, AI Action) from "Pending Architecture Review" / "Pending AR-003" to **"No Implementation Owner Assigned"** with "Not applicable" Target DocType and Dependencies, since no Architecture Review item — not AR-003, which covers only "AI Assistant" itself — covers their existence or placement; updated the five corresponding Master Mapping Table rows to match. Corrected the Mapping Methodology's Blocking/Non-Blocking AR-item lists to remove the AI Assistant sub-entities from the Blocking list (they were never genuinely blocked by an *existing* AR item) and to correct the AR-003 Non-Blocking citation to "Print Specification" only, not Approval Record. Updated the Implementation Ownership Statistics table: Pending Architecture Review 14 → 9, No Implementation Owner Assigned 5 → 10, Total unchanged at 78. Updated the Validation section's Pending-decision and entity-count statements to match. No implementation owner, DocType, module, or mapping was assigned to any of the five AI Assistant sub-entities by this task; no other entity's implementation ownership changed; no ERPNext fit/gap conclusion altered; no Architecture Review Register item was created or modified; AR-003 itself was not further modified by this document; no implementation was authorized; no source was inspected or modified. |
 | 0.3 | 2026-07-31 | Artwork Production Authority Mapping Correction | Corrected and extended the Artwork Context mapping following the Project Owner's production-capable Artwork track selection (2026-07-30) and approval of the Artwork design defaults (2026-07-31). **Corrected Artwork Revision from "New PrintHub DocType (child table of Artwork)" to a new standalone custom PrintHub DocType in `printos_core`**, recording the standalone rationale (independently approvable; own state; independent permissions; lockable; file-integrity evidence; referenced by Production Artwork Set membership; may require unique database constraints; preserves immutable approval evidence). Added mappings for **Production Artwork Set** (new custom PrintHub DocType; the final production-release authority consumed by the Job Card; at most one Approved for Production per Sales Order) and **Production Artwork Set Item** (new custom PrintHub DocType as a child table of Production Artwork Set, carrying immutable membership rows and explicitly not the approval authority). Recorded **File as a native Frappe storage primitive only, never the approval authority**. Recorded that **ERPNext core remains immutable** — no ERPNext DocType is modified to support Artwork. All new technical DocType names are recorded as **proposed pending governed naming treatment**; the Naming Registry is not modified and AR-003 is neither resolved nor modified. Status remains Draft; no Architecture Review Register item was altered; no other entity's implementation ownership changed; no Job Card Tier A document, ADR or standards document was modified; no implementation was authorized. |
 
 ---

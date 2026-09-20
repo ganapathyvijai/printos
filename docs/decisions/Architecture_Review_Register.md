@@ -1,7 +1,7 @@
 # Architecture Review Register
 
 Version:
-0.4
+0.5
 
 Status:
 Draft — Open Register (living document)
@@ -10,7 +10,7 @@ Owner:
 PrintHub Architecture Team
 
 Last Updated:
-2026-07-24
+2026-09-19
 
 ---
 
@@ -34,7 +34,7 @@ This register exists to track every unresolved architectural or naming question 
 |----|-------|--------|----------|-------------------|
 | AR-001 | ERPNext Platform Version (15/16 conflict) | Resolved | Critical | No |
 | AR-002 | Multi-Tenant Strategy Alignment | Resolved | Critical | No |
-| AR-003 | Naming Registry Alignment (non-Approved module names, unregistered terms) | Open | High | Partial |
+| AR-003 | Naming Registry Alignment (non-Approved module names, unregistered terms) | Resolved | High | No |
 | AR-004 | Machine Domain Ownership | Open | High | Partial |
 | AR-005 | Quotation Strategy | Open | High | Partial |
 | AR-006 | Item vs. Material/Product Template Mapping | Open | High | Partial |
@@ -239,6 +239,32 @@ High
 - [../blueprint/09_PrintOS_Modules.md](../blueprint/09_PrintOS_Modules.md)
 - [../configuration/04_Approval_Designer.md](../configuration/04_Approval_Designer.md)
 - [ERPNext_Fit_Analysis.md](../architecture/ERPNext_Fit_Analysis.md) (Conflicts #3, #4; Section 4 entries for each affected term)
+
+#### Disposition
+Resolved — Option A selected
+
+**Decision date:** 2026-09-19
+**Decision authority:** Project Owner
+**Resolving decision:** Naming Registry Section 40 (AR-003 Naming Alignment Disposition), recording the confirmed disposition of all eight requested terms.
+
+**Per-term disposition:**
+- **Print Specification** — Not adopted as a module, DocType, or umbrella object; maps to Product Template, Job Types, Finishing Types, and Paper Sizes (existing Approved master data).
+- **Approval Management** — Not adopted as a module; canonical configuration surface is Approval Designer.
+- **Production Workflow** — Permitted as a business-workflow label; not a module, DocType, service, or separate capability.
+- **Machine Management** — Not adopted as a module name; canonical module is Machine Scheduling. AR-004 (Machine object base) remains open and unchanged.
+- **Finishing** — Existing Approved business term (Naming Registry Section 22/24); not an approved standalone module.
+- **Quality Control** — Permitted as a workflow/process label and embedded Job Card capability; the standalone-module question remains AR-009 (Quality Module Status) and Naming Registry §27 item 9, open and unchanged.
+- **AI Assistant** — Registered as a Proposed future capability name only (Naming Registry Section 40). No Approved Bounded Context, architecture, provider, model, plugin design, or implementation. Excluded from implementation-ready scope pending separate future governance.
+- **Production Orchestration** — Not adopted as a separate capability or module; maps to Production Planning and Job Cards.
+
+**Implementation Authorization:** Not Granted. This disposition is a naming-alignment decision only. It does not authorize any DocType, module, plugin, workflow, or implementation work for any of the eight terms; it does not resolve AR-004 or AR-009; it does not authorize AI Assistant's architecture, Bounded Context, provider, model, or plugin design. A separate scoped implementation-authorization decision, preceded by Published implementation specifications, remains required for any future work.
+
+**Disposition evidence and synchronized references:**
+- [../standards/Naming_Registry.md](../standards/Naming_Registry.md) Section 40 (new) — the durable disposition table for all eight terms.
+- [../blueprint/09_PrintOS_Modules.md](../blueprint/09_PrintOS_Modules.md) — unchanged; no new module added.
+- [../configuration/04_Approval_Designer.md](../configuration/04_Approval_Designer.md) — unchanged; confirmed as the canonical surface for "Approval Management."
+- [ERPNext_Fit_Analysis.md](../architecture/ERPNext_Fit_Analysis.md) — its per-term analysis (Section 4) is confirmed consistent with this disposition; its AI Assistant registration-gap language is separately synchronized.
+- [../architecture/Plugin_Architecture.md](../architecture/Plugin_Architecture.md) — AI Assistant's "unregistered" language is separately synchronized to reflect Proposed registration; Bounded Context Ownership remains None.
 
 ---
 
@@ -625,3 +651,4 @@ This register can be considered complete (ready to support Architecture Freeze) 
 | 0.2 | 2026-07-27 | AR-001 Source-Authority Correction | Corrected AR-001's Background and Current Situation wording, which inaccurately described `07_Technology_Stack.md` as "Published Blueprint documentation" when its live Status is Draft and the repository-wide Published document count is zero. Replaced with wording accurately stating the Blueprint content is Draft and aligned with the binding, Accepted decision in ADR-001-ERPNext-Framework. Also updated AR-001's Dependencies entry for the ERPNext Gap Analysis from "Future... (version-dependent)" to reflect that the Draft Gap Analysis already exists and remains conditional and version-dependent. All official AR-001 fields (ID, Topic, Status: Open, Priority: Critical, Blocks Development: Yes, Options A/B/C, Required Decision, Blocking Status) preserved byte-for-byte. No other AR entry changed. AR-001 remains Open; no version selected; no implementation authorized; ADR-001 not modified. |
 | 0.3 | 2026-07-26 | AR-001 Resolved — Project Owner Disposition | AR-001 formally resolved by Project Owner selection of Option A. Section 2 Review Summary row updated: Status Open → Resolved, Blocks Development Yes → No, Priority unchanged at Critical. Added a Disposition block to the AR-001 entry recording ADR-001-ERPNext-Framework (Accepted, Version 1.0) as the reaffirmed — not amended or superseded — resolving decision; the governed target (ERPNext v16, corresponding Frappe v16 major version, one governed major-version line, no simultaneous v15/v16 support); the version-governance policy (centrally governed minor/patch selection subject to official support status, compatibility validation, controlled testing, rollback procedures, and Docker/CI/deployment reconciliation); and the required downstream revalidation (ERPNext Fit Analysis, ERPNext Gap Analysis, ERPNext DocType Mapping, Technology Stack Blueprint, deployment/environment documentation, Docker and CI configuration — none of it performed by this task). Implementation Authorization recorded as Not Granted; the disposition removes only the AR-001 version-selection blocker and does not authorize implementation, does not make any roadmap workstream Implementation-ready, does not publish any document, and does not resolve AR-002 through AR-011, all of which remain unchanged (AR-002 remains Open / Critical / Blocks Development: Yes). Options A, B, and C preserved unchanged as historical alternatives. ADR-001 was not modified. |
 | 0.4 | 2026-07-28 | AR-002 Resolved — Project Owner Disposition | AR-002 formally resolved by Project Owner selection of Option A on 2026-07-28. Section 2 Review Summary row updated: Status Open → Resolved, Blocks Development Yes → No, Priority unchanged at Critical. Added a Disposition block to the AR-002 entry recording Accepted ADR-015-Tenant-Company-Multi-Tenancy-Model (Version 1.0) as the resolving decision — a companion to, not a supersession of, ADR-006-MultiTenant-Strategy, which remains Accepted — and `docs/blueprint/25_MultiTenant_Architecture.md` (Approval, Version 1.0, not Published) as the architecture elaboration. Recorded the adopted decision: one isolated Frappe site and one isolated operational database per print-shop Tenant; the formal Tenant/Company distinction (Tenant as subscription/site/database/isolation/backup/upgrade-rollout/operational-management unit; Company as the ERPNext legal/accounting entity inside a Tenant, one-or-more per Tenant, not synonymous, not the isolation boundary); the infrastructure principles (host sharing permitted, operational-database sharing prohibited, shared governed code/Docker/CI/CD permitted, permanent Tenant-specific forks prohibited, centrally governed upgrades); the Job Card Tier A consequence (Company-scoped, implicit site identity, no Tenant field by default, no dependency on global Customer identity or cross-tenant analytics); and the explicit deferral list (global Customer directory, cross-tenant Customer matching, centralized transaction storage, cross-tenant analytics, data warehouse/lake, cross-shop visibility, consent/identity-resolution/retention architecture, exact RPO/RTO/pricing/quota/SLA values, detailed provisioning/operational implementation). Reconciled the Dependencies section to reflect that ADR-015, Blueprint 25, and Naming Registry §27 item 11 are no longer absent/unresolved, while preserving `04_MultiTenant_Architecture.md` as an unreconciled working draft (reconciliation deferred to a separate later task) and preserving all historical Background/Current Situation/Why-Review-Is-Required/Impact/Options A-B-C/Required-Decision content unchanged. Implementation Authorization recorded as Not Granted; the disposition is an architecture decision only and does not authorize tenant provisioning, deployment/infrastructure implementation, Docker/CI changes, schema/migration work, or Job Card Tier A coding — Published coding specifications and a separate scoped implementation-authorization decision remain required; every roadmap workstream remains Not Authorized; the Full Architecture Freeze remains unachieved. AR-001 and AR-003 through AR-011 unchanged. No other AR resolved, reprioritized, or created. |
+| 0.5 | 2026-09-19 | AR-003 Resolved — Project Owner Disposition | AR-003 formally resolved by Project Owner selection of Option A on 2026-09-19. Section 2 Review Summary row updated: Status Open → Resolved, Blocks Development Partial → No, Priority unchanged at High. Added a Disposition block recording the confirmed per-term disposition of all eight requested terms (Print Specification, Approval Management, Production Workflow, Machine Management, Finishing, Quality Control, AI Assistant, Production Orchestration), citing new Naming Registry Section 40 as the durable disposition table. Seven terms are mapped, confirmed, or rejected against existing Approved concepts; AI Assistant is registered as Proposed only, with no Bounded Context, architecture, provider, model, plugin design, or implementation authorization, and remains excluded from implementation-ready scope pending separate future governance. AR-004 (Machine object base) and AR-009 (Quality Module Status) are explicitly confirmed unchanged and not resolved by this disposition. Implementation Authorization recorded as Not Granted. AR-001, AR-002, and AR-004 through AR-011 unchanged. No other AR resolved, reprioritized, or created. |

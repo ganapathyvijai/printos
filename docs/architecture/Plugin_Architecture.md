@@ -1,7 +1,7 @@
 # Plugin Architecture
 
 Version:
-0.1
+0.2
 
 Status:
 Draft
@@ -10,7 +10,7 @@ Owner:
 PrintHub Architecture Team
 
 Last Updated:
-2026-07-25
+2026-09-19
 
 ---
 
@@ -68,14 +68,14 @@ This document defines the single architectural standard every external integrati
 
 - **Purpose:** Not yet defined in any Approved Blueprint document.
 - **Business Responsibility:** Not assessable pending scoping.
-- **Bounded Context Ownership:** None — "AI Assistant" is not a registered Naming Registry term and has no Approved Bounded Context, per [Canonical_Domain_Model.md](Canonical_Domain_Model.md) and [Architecture Review Register](../decisions/Architecture_Review_Register.md) **AR-003**.
+- **Bounded Context Ownership:** None — "AI Assistant" is registered as Proposed only (Naming Registry Section 40) and has no Approved Bounded Context, per [Canonical_Domain_Model.md](Canonical_Domain_Model.md). AR-003 is Resolved; this registration grants no architecture, provider, model, or plugin-design decision.
 - **Integration Boundary:** Not assessable.
 - **Ports / Adapters:** Not assessable — this document does not invent a port or adapter for an unscoped capability.
 - **Configuration Requirements:** Not assessable.
 - **Security Considerations:** Not assessable.
 - **Failure Handling:** Not assessable.
 - **Lifecycle:** Not assessable.
-- **Reference:** Included here only because it was named in this task's required category list; genuinely blocked pending AR-003, not resolved here. If and when scoped, it would follow the identical Ports & Adapters pattern as every other Core Platform plugin — no special-casing is anticipated.
+- **Reference:** Included here only because it was named in this task's required category list. Its name is registered as Proposed and AR-003 is Resolved, but the capability remains excluded pending separate future governance for its architecture, Approved Bounded Context, provider, model, plugin design, and implementation authorization. If and when scoped, it would follow the identical Ports & Adapters pattern as every other Core Platform plugin — no special-casing is anticipated.
 
 ---
 
@@ -299,12 +299,12 @@ Every plugin integrates with Configuration Studio identically, per [Configuratio
 ## Validation
 
 - ✓ **Every plugin category has a defined boundary.** All eight categories (Core Platform's three sub-entries, Communication, Commerce, Storage, Identity, Industrial, Analytics) have an explicit Integration Boundary field.
-- ✓ **Every plugin category identifies its bounded context.** Each category's Bounded Context Ownership field names the consuming Context from [Canonical_Domain_Model.md](Canonical_Domain_Model.md); AI Assistant explicitly has none, consistent with its unregistered status.
+- ✓ **Every plugin category identifies its bounded context.** Each category's Bounded Context Ownership field names the consuming Context from [Canonical_Domain_Model.md](Canonical_Domain_Model.md); AI Assistant explicitly has none, consistent with its Proposed-only registration and unresolved architecture.
 - ✓ **Configuration Studio integration is documented.** See Configuration Integration, mapping every plugin to Integration Definition, Feature Flag, and the standard Configuration Studio lifecycle.
 - ✓ **Tenant isolation is addressed.** See Security Model's Tenant Isolation clause and each category's Configuration Requirements referencing Tenant Override.
 - ✓ **Ports & Adapters principles are consistently applied.** See Ports and Adapters table — every category maps to exactly one Port shape and a per-provider Adapter cardinality, with no category-specific exception.
 - ✓ **No ERPNext core modification is required.** No category's Adapter, Port, or configuration requirement touches ERPNext core files; all ERPNext interaction occurs through the same Repository/Application-layer access as the rest of `printos_core`, per [../database/ERPNext_DocType_Mapping.md](../database/ERPNext_DocType_Mapping.md).
-- ✓ **Open Architecture Review items are referenced where applicable but not resolved.** AR-002 (Tenant/Company) is referenced in Architectural Principles, Configuration Integration, and Security Model; AR-003 (AI Assistant) is referenced in Core Platform; neither is resolved.
+- ✓ **Open Architecture Review items are referenced where applicable.** AR-002 (Tenant/Company) is referenced in Architectural Principles, Configuration Integration, and Security Model — Resolved. AR-003 (AI Assistant naming) is referenced in Core Platform — Resolved (AI Assistant registered Proposed only; no architecture, Bounded Context, provider, or model decision made or implied by either resolution).
 
 ---
 
@@ -331,6 +331,7 @@ Every plugin integrates with Configuration Studio identically, per [Configuratio
 | Version | Date | Author | Changes |
 |---|---|---|---|
 | 0.1 | 2026-07-25 | Initial | Initial Plugin Architecture. Defined the uniform Ports & Adapters standard applied to eight plugin category groups (Core Platform: MachineIQ, Marketplace, AI Assistant; Communication; Commerce; Storage; Identity; Industrial; Analytics; Future), each with Purpose, Business Responsibility, Bounded Context Ownership, Integration Boundary, Ports, Adapters, Configuration Requirements, Security Considerations, Failure Handling, and Lifecycle. Defined Plugin Registry responsibilities, Configuration Studio integration, Security Model, and Observability expectations, all category-agnostic. AR-002 and AR-003 referenced without resolution. |
+| 0.2 | 2026-09-19 | AR-003 Disposition Synchronization | Corrected four active statements that described "AI Assistant" as unregistered and AR-003 as unresolved: the AI Assistant Bounded Context Ownership field, its Reference bullet, the Documentation Quality Checklist's Bounded Context item, and the Open Architecture Review Items checklist item. AI Assistant is registered as Proposed only (Naming Registry Section 40); it has no Approved Bounded Context, and no architecture, provider, model, or plugin-design decision is made or implied. No Port, Adapter, provider, model, lifecycle, or Bounded Context was defined by this synchronization. No plugin category's Purpose, Business Responsibility, Ports, Adapters, Configuration Requirements, Security Considerations, or Lifecycle content was changed. No implementation authorized. |
 
 ---
 

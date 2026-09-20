@@ -1,7 +1,7 @@
 # 02 — DocType Strategy
 
 Version:
-1.0
+1.1
 
 Status:
 Draft
@@ -10,7 +10,7 @@ Owner:
 PrintHub Architecture Team
 
 Last Updated:
-2026-07-26
+2026-09-20
 
 ---
 
@@ -31,7 +31,7 @@ Define when to create a new DocType, when to extend an existing ERPNext DocType,
 | Category | Example | Notes |
 |----------|---------|-------|
 | Transactional | Print Job, Production Order | Submittable, workflow-driven |
-| Master/Reference | Print Specification, Material, Machine | See [03_Master_Data.md](03_Master_Data.md) |
+| Master/Reference | Product Template, Material, Machine | See [03_Master_Data.md](03_Master_Data.md) |
 | Child Table | Estimate Line, Job Material Line | Always owned by a parent transactional doctype |
 | Configuration/Settings | PrintOS Settings | Single doctype, site-wide configuration |
 
@@ -58,3 +58,4 @@ DocType names use `PascalCase` with spaces (Frappe convention), e.g. `Print Job`
 | Version | Date | Author | Changes |
 |---|---|---|---|
 | 1.0 | 2026-07-26 | Metadata Normalization | Added document-control metadata (Version, Status, Owner, Last Updated, Revision History). No architectural or technical content changed. |
+| 1.1 | 2026-09-20 | AR-003 Disposition Synchronization | Replaced "Print Specification" with **Product Template** in the Master/Reference DocType Category example row, following [Architecture Review Register](../decisions/Architecture_Review_Register.md) AR-003's Resolved disposition (2026-09-19): "Print Specification" is Not Adopted; its underlying need maps to Product Template, Job Types, Finishing Types, and Paper Sizes. No other example, category, decision rule, or structural rule was changed. |
