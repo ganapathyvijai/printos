@@ -1,7 +1,7 @@
 # 03 — ERPNext Mapping
 
 Version:
-0.1
+0.2
 
 Status:
 Draft
@@ -10,7 +10,7 @@ Owner:
 PrintHub Architecture Team
 
 Last Updated:
-2026-07-23
+2026-09-20
 
 ---
 
@@ -47,7 +47,7 @@ ERPNext already implements substantial generic ERP capability (Company, Customer
 | Sales Order | `05_Domain_Model.md` | Sales Order | | ✓ | | Native concept; print-specific fields (Job Type, Finishing) needed | Custom Fields | — |
 | Quotation | `06_Bounded_Contexts.md` | Quotation | | ✓ | | ERPNext has a native Quotation DocType; print-specific pricing detail requires extension | Custom Fields + Custom child table for cost breakdown | Per [ADR-013](../decisions/ADR-013-Quotation-Terminology.md), "Quotation" is the canonical business term — confirm native ERPNext Quotation DocType is the correct target before implementation, or whether a Custom DocType is warranted given Estimation's stated Core Domain status (`05_Domain_Model.md`) |
 | Print Job / Job Card | `05_Domain_Model.md`, `09_PrintOS_Modules.md` | None (no ERPNext native equivalent) | | | ✓ | Print-industry-specific; no ERPNext concept covers Job Card execution/tracking | New Custom DocType `Job Card` | Per [ADR-014](../decisions/ADR-014-Production-Terminology.md), "Job Card" is canonical; "Production Order," "Job Ticket," "Work Order" are Rejected/Deprecated and must not appear as DocType names |
-| Machine | `05_Domain_Model.md` | Asset (generic) | | ✓ | | ERPNext's generic Asset DocType could represent a Machine, but lacks print-specific capability modeling | Extend Asset via Custom Fields, or Custom DocType if Asset proves insufficient | Naming Registry: "Asset" vs. "Machine" relationship not yet fully defined (Section 6) — Architecture Review needed before choosing Extend vs. Custom |
+| Machine | `05_Domain_Model.md` | None (Resolved — AR-004, Option C) | | | ✓ | Asset and Workstation were not adopted; Machine is a wholly Custom DocType | New Custom DocType `Machine` | Resolved — see [Architecture Review Register](../decisions/Architecture_Review_Register.md) AR-004 and [16_Print_Machine_Model.md](../blueprint/16_Print_Machine_Model.md) |
 | Machine Profile | `08_Master_Data_Model.md` | None | | | ✓ | No ERPNext equivalent for capability/constraint modeling | New Custom DocType `Machine Profile` | — |
 | Material / Substrate | `05_Domain_Model.md`, `08_Master_Data_Model.md` | Item | | ✓ | | ERPNext's Item DocType is the closest native match | Extend Item via Custom Fields (Substrate attributes) or Item Variants | Naming Registry Section 27, item 10 (ERPNext "Item" vs. PrintOS "Material"/"Product Template") is Pending ADR — this mapping is provisional until resolved |
 | Product Template | `08_Master_Data_Model.md` | Item / Item Template | | ✓ | | ERPNext Item Variants mechanism may map to Product Template | Extend via Item Variant Attributes | Same Pending ADR as above applies |
@@ -68,7 +68,7 @@ ERPNext already implements substantial generic ERP capability (Company, Customer
 | Classification | Concepts |
 |---|---|
 | Native ERPNext (Reuse, unmodified) | Company, Branch, Department, Employee, Supplier, Warehouse, Stock Ledger/Bin, Purchase Order, Sales Invoice, Payment Entry, Sales Taxes and Charges Template, Price List, Payment Terms Template |
-| Custom DocTypes | Job Card, Machine Profile (and possibly Machine, pending Architecture Review) |
+| Custom DocTypes | Job Card, Machine Profile, Machine (Resolved — AR-004, Option C) |
 | Extensions (Custom Fields / Custom Field on native DocType) | Customer, Sales Order, Quotation, Item (Material/Substrate/Product Template), Delivery Note |
 | Server Scripts | None mandated by this mapping; any use must follow [04_Customization_Strategy.md](04_Customization_Strategy.md) governance |
 | Client Scripts | None mandated by this mapping; same governance applies |
@@ -79,7 +79,7 @@ ERPNext already implements substantial generic ERP capability (Company, Customer
 
 # Architecture Notes
 
-Two mapping rows above (Material/Substrate vs. Item, and Machine vs. Asset) are marked provisional and depend on Pending ADR resolution or Architecture Review, per [Naming_Registry.md](../standards/Naming_Registry.md) Section 27, items 10 and the un-numbered Machine/Asset question in Section 6. This document does not resolve those; it flags exactly where implementation must pause for a decision.
+One mapping row above (Material/Substrate vs. Item) is marked provisional and depends on Pending ADR resolution, per [Naming_Registry.md](../standards/Naming_Registry.md) Section 27, item 10. The Machine vs. Asset question is Resolved (AR-004, Option C, 2026-09-20): Machine is wholly Custom.
 
 ---
 
@@ -92,7 +92,7 @@ Two mapping rows above (Material/Substrate vs. Item, and Machine vs. Asset) are 
 
 # Open Questions
 
-- Should Machine be modeled as an extended ERPNext Asset, or a wholly Custom DocType? This blocks Machine Scheduling implementation (see [02_Module_Implementation_Order.md](02_Module_Implementation_Order.md)) and should be an Architecture Review decision before Phase 3 begins.
+- **(Resolved)** Machine is a wholly Custom DocType (AR-004, Option C, 2026-09-20). This no longer blocks Machine Scheduling's structural design.
 - Should Quotation be extended from ERPNext's native Quotation DocType, or replaced with a Custom DocType given Estimation's Core Domain status? This is a real implementation-blocking decision, not a naming question.
 
 ---
@@ -113,6 +113,7 @@ Two mapping rows above (Material/Substrate vs. Item, and Machine vs. Asset) are 
 | Version | Date | Author | Changes |
 |---|---|---|---|
 | 0.1 | 2026-07-23 | Initial | Initial working draft mapping Approved business concepts to ERPNext native objects; two rows flagged as pending Architecture Review/ADR resolution rather than decided unilaterally. |
+| 0.2 | 2026-09-20 | AR-004 Disposition Synchronization | Corrected the Machine row (target ERPNext object, classification, customization strategy, notes), the Classification Summary (Machine moved into Custom DocTypes), and the Architecture Notes and Open Questions sections, following [Architecture Review Register](../decisions/Architecture_Review_Register.md) AR-004's Resolved disposition (Option C, 2026-09-20): Machine is a wholly Custom PrintOS DocType, recorded in [16_Print_Machine_Model.md](../blueprint/16_Print_Machine_Model.md), Version 0.1 (an existing, previously empty Placeholder — no new file created). The Material/Substrate vs. Item question (Naming Registry Section 27, item 10) remains the sole remaining provisional row. No other mapping row was changed; no implementation was authorized. |
 
 ---
 

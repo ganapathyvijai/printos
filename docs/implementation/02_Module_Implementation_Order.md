@@ -1,7 +1,7 @@
 # 02 — Module Implementation Order
 
 Version:
-0.1
+0.2
 
 Status:
 Draft
@@ -10,7 +10,7 @@ Owner:
 PrintHub Architecture Team
 
 Last Updated:
-2026-07-23
+2026-09-20
 
 ---
 
@@ -74,7 +74,7 @@ Each row's dependencies are sourced from `06_Bounded_Contexts.md` (Inputs/Output
 | Artwork | Sales Order confirmed | File storage/versioning | Artwork (transactional, not master data) | Approval Designer | ERPNext File attachment mechanism | Sales | 3 | Medium | Medium | High |
 | Production Planning | Approved Artwork, confirmed Sales Order | — | Job Types, Finishing Types | Workflow Designer | — | Sales, Artwork | 4 | High | Medium | Critical |
 | Job Cards | Production Planning | — | Job Card (transactional) | Workflow, Approval Designers | — | Production Planning | 4 | High | High | Critical |
-| Machine Scheduling | Job Cards, Machine Profiles | — | Machine, Machine Profile | — | — | Job Cards | 5 | High | High | Critical |
+| Machine Scheduling | Job Cards, Machine Profiles | — | Machine, Machine Profile | — | None (Custom, AR-004 Resolved Option C) | Job Cards | 5 | High | High | Critical |
 | Inventory | Sales/Production consumption | — | Material, Substrate, Media Profiles | — | ERPNext Stock Ledger (extended) | Sales | 3 | Medium | Medium | High |
 | Purchasing | Inventory replenishment signal | — | Supplier | — | ERPNext Purchase Order | Inventory | 4 | Medium | Low | Medium |
 | Warehouse | Purchasing receipts, Production output | — | Warehouse | — | ERPNext Warehouse | Purchasing, Job Cards | 4 | Medium | Low | Medium |
@@ -124,6 +124,7 @@ Sequencing above follows the Context Map dependency direction exactly; no module
 | Version | Date | Author | Changes |
 |---|---|---|---|
 | 0.1 | 2026-07-23 | Initial | Initial working draft, derived from the existing Module Registry and Bounded Context map without inventing new modules. |
+| 0.2 | 2026-09-20 | AR-004 Disposition Synchronization; Pre-Existing Cell Correction | Corrected the Machine Scheduling row's ERPNext Dependency column from "—" to "None (Custom, AR-004 Resolved Option C)". This corrects two distinct issues in the same cell: (1) the pre-existing "—" symbol was independently stale, since this table uses "—" elsewhere to mean "no ERPNext dependency exists" (e.g. Production Planning, Job Cards), which misrepresented Machine Scheduling's ERPNext-base question as never having existed, rather than as previously undetermined; (2) following [Architecture Review Register](../decisions/Architecture_Review_Register.md) AR-004's Resolved disposition (Option C, 2026-09-20), the correct current value is "None," since Machine is a wholly Custom PrintOS DocType, per `../blueprint/16_Print_Machine_Model.md`, Version 0.1. No other row, dependency, sequencing, or priority value was changed; no implementation was authorized. |
 
 ---
 

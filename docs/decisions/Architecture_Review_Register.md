@@ -1,7 +1,7 @@
 # Architecture Review Register
 
 Version:
-0.5
+0.6
 
 Status:
 Draft — Open Register (living document)
@@ -10,7 +10,7 @@ Owner:
 PrintHub Architecture Team
 
 Last Updated:
-2026-09-19
+2026-09-20
 
 ---
 
@@ -35,7 +35,7 @@ This register exists to track every unresolved architectural or naming question 
 | AR-001 | ERPNext Platform Version (15/16 conflict) | Resolved | Critical | No |
 | AR-002 | Multi-Tenant Strategy Alignment | Resolved | Critical | No |
 | AR-003 | Naming Registry Alignment (non-Approved module names, unregistered terms) | Resolved | High | No |
-| AR-004 | Machine Domain Ownership | Open | High | Partial |
+| AR-004 | Machine Domain Ownership | Resolved | High | No |
 | AR-005 | Quotation Strategy | Open | High | Partial |
 | AR-006 | Item vs. Material/Product Template Mapping | Open | High | Partial |
 | AR-007 | Purchasing vs. Procurement Module Naming | Open | Medium | No |
@@ -308,6 +308,9 @@ High
 - [../blueprint/05_Domain_Model.md](../blueprint/05_Domain_Model.md)
 - [../blueprint/08_Master_Data_Model.md](../blueprint/08_Master_Data_Model.md) (Machine, Machine Profile)
 
+#### Disposition
+Resolved by Project Owner selection of **Option C** (2026-09-20): Machine is a wholly Custom PrintOS DocType inside `printos_core`; Machine Profile remains Custom. Recorded by populating the existing empty Blueprint placeholder `../blueprint/16_Print_Machine_Model.md`, now Draft, Version 0.1. No ADR was created or cited for this disposition — see this register's own Section 1 ("Relationship to ADRs"), which permits a Blueprint update as an alternative closure mechanism. Implementation Authorization: Not Granted.
+
 ---
 
 ### AR-005
@@ -577,7 +580,7 @@ Low
 | AR-001 ERPNext Platform Version | Yes (`07_Technology_Stack.md`, ADR-001) | Yes (version-dependent field/DocType availability) | No | Yes |
 | AR-002 Multi-Tenant Strategy Alignment | Yes (`25_MultiTenant_Architecture.md`) | Partial (scoping fields) | Yes (Tenant Customization) | Yes |
 | AR-003 Naming Registry Alignment | Yes (`09_PrintOS_Modules.md`) | Partial | Yes (Approval Designer overlap) | Partial |
-| AR-004 Machine Domain Ownership | No | Yes (Machine, Machine Profile) | No | Partial |
+| AR-004 Machine Domain Ownership | Yes (`16_Print_Machine_Model.md`) | Yes (Machine, Machine Profile) | No | Partial |
 | AR-005 Quotation Strategy | No | Yes (Quotation) | Yes (Workflow Designer target) | Partial |
 | AR-006 Item vs. Material/Product Template | Yes (`08_Master_Data_Model.md`) | Yes (Item, Material, Substrate) | No | Partial |
 | AR-007 Purchasing vs. Procurement Naming | Yes (`09_PrintOS_Modules.md`, `06_Bounded_Contexts.md`) | No | No | No |
@@ -652,3 +655,4 @@ This register can be considered complete (ready to support Architecture Freeze) 
 | 0.3 | 2026-07-26 | AR-001 Resolved — Project Owner Disposition | AR-001 formally resolved by Project Owner selection of Option A. Section 2 Review Summary row updated: Status Open → Resolved, Blocks Development Yes → No, Priority unchanged at Critical. Added a Disposition block to the AR-001 entry recording ADR-001-ERPNext-Framework (Accepted, Version 1.0) as the reaffirmed — not amended or superseded — resolving decision; the governed target (ERPNext v16, corresponding Frappe v16 major version, one governed major-version line, no simultaneous v15/v16 support); the version-governance policy (centrally governed minor/patch selection subject to official support status, compatibility validation, controlled testing, rollback procedures, and Docker/CI/deployment reconciliation); and the required downstream revalidation (ERPNext Fit Analysis, ERPNext Gap Analysis, ERPNext DocType Mapping, Technology Stack Blueprint, deployment/environment documentation, Docker and CI configuration — none of it performed by this task). Implementation Authorization recorded as Not Granted; the disposition removes only the AR-001 version-selection blocker and does not authorize implementation, does not make any roadmap workstream Implementation-ready, does not publish any document, and does not resolve AR-002 through AR-011, all of which remain unchanged (AR-002 remains Open / Critical / Blocks Development: Yes). Options A, B, and C preserved unchanged as historical alternatives. ADR-001 was not modified. |
 | 0.4 | 2026-07-28 | AR-002 Resolved — Project Owner Disposition | AR-002 formally resolved by Project Owner selection of Option A on 2026-07-28. Section 2 Review Summary row updated: Status Open → Resolved, Blocks Development Yes → No, Priority unchanged at Critical. Added a Disposition block to the AR-002 entry recording Accepted ADR-015-Tenant-Company-Multi-Tenancy-Model (Version 1.0) as the resolving decision — a companion to, not a supersession of, ADR-006-MultiTenant-Strategy, which remains Accepted — and `docs/blueprint/25_MultiTenant_Architecture.md` (Approval, Version 1.0, not Published) as the architecture elaboration. Recorded the adopted decision: one isolated Frappe site and one isolated operational database per print-shop Tenant; the formal Tenant/Company distinction (Tenant as subscription/site/database/isolation/backup/upgrade-rollout/operational-management unit; Company as the ERPNext legal/accounting entity inside a Tenant, one-or-more per Tenant, not synonymous, not the isolation boundary); the infrastructure principles (host sharing permitted, operational-database sharing prohibited, shared governed code/Docker/CI/CD permitted, permanent Tenant-specific forks prohibited, centrally governed upgrades); the Job Card Tier A consequence (Company-scoped, implicit site identity, no Tenant field by default, no dependency on global Customer identity or cross-tenant analytics); and the explicit deferral list (global Customer directory, cross-tenant Customer matching, centralized transaction storage, cross-tenant analytics, data warehouse/lake, cross-shop visibility, consent/identity-resolution/retention architecture, exact RPO/RTO/pricing/quota/SLA values, detailed provisioning/operational implementation). Reconciled the Dependencies section to reflect that ADR-015, Blueprint 25, and Naming Registry §27 item 11 are no longer absent/unresolved, while preserving `04_MultiTenant_Architecture.md` as an unreconciled working draft (reconciliation deferred to a separate later task) and preserving all historical Background/Current Situation/Why-Review-Is-Required/Impact/Options A-B-C/Required-Decision content unchanged. Implementation Authorization recorded as Not Granted; the disposition is an architecture decision only and does not authorize tenant provisioning, deployment/infrastructure implementation, Docker/CI changes, schema/migration work, or Job Card Tier A coding — Published coding specifications and a separate scoped implementation-authorization decision remain required; every roadmap workstream remains Not Authorized; the Full Architecture Freeze remains unachieved. AR-001 and AR-003 through AR-011 unchanged. No other AR resolved, reprioritized, or created. |
 | 0.5 | 2026-09-19 | AR-003 Resolved — Project Owner Disposition | AR-003 formally resolved by Project Owner selection of Option A on 2026-09-19. Section 2 Review Summary row updated: Status Open → Resolved, Blocks Development Partial → No, Priority unchanged at High. Added a Disposition block recording the confirmed per-term disposition of all eight requested terms (Print Specification, Approval Management, Production Workflow, Machine Management, Finishing, Quality Control, AI Assistant, Production Orchestration), citing new Naming Registry Section 40 as the durable disposition table. Seven terms are mapped, confirmed, or rejected against existing Approved concepts; AI Assistant is registered as Proposed only, with no Bounded Context, architecture, provider, model, plugin design, or implementation authorization, and remains excluded from implementation-ready scope pending separate future governance. AR-004 (Machine object base) and AR-009 (Quality Module Status) are explicitly confirmed unchanged and not resolved by this disposition. Implementation Authorization recorded as Not Granted. AR-001, AR-002, and AR-004 through AR-011 unchanged. No other AR resolved, reprioritized, or created. |
+| 0.6 | 2026-09-20 | AR-004 Resolved — Project Owner Disposition | AR-004 formally resolved by Project Owner selection of Option C on 2026-09-20. Section 2 Review Summary row updated: Status Open → Resolved, Blocks Development Partial → No, Priority unchanged at High. Added a Disposition block recording Machine as a wholly Custom PrintOS DocType and Machine Profile as remaining Custom, recorded by populating the existing empty Blueprint placeholder `../blueprint/16_Print_Machine_Model.md` to Draft, Version 0.1 — no new file was created. Updated the Section 4 Cross-Review Matrix AR-004 row's Impacts Blueprint column from No to Yes (`16_Print_Machine_Model.md`); Blocks Gap Analysis is retained at Partial, consistent with the AR-001 and AR-002 rows, which likewise retained their original Blocks Gap Analysis value after resolution — this column records the review's fixed impact-assessment classification, not a live block status. The AR-004 record's own Current Situation, Why Review Is Required, Impact, Possible Options, Required Decision, Blocking Status, and Dependencies sections are preserved unchanged as historical record, per the precedent established at Version 0.4 (AR-002). No ADR was created; this register's own Section 1 permits a Blueprint update as an alternative closure mechanism. Implementation Authorization recorded as Not Granted. AR-001 through AR-003 remain Resolved as previously recorded; AR-005 through AR-011 unchanged. No other AR resolved, reprioritized, or created. |

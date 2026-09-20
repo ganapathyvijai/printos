@@ -1,7 +1,7 @@
 # ERPNext Gap Analysis
 
 Version:
-0.3
+0.4
 
 Status:
 Draft
@@ -225,13 +225,13 @@ Machine Scheduling & Capability Modeling
 Assign production work to available machines within their capability constraints, avoiding scheduling conflicts and accounting for downtime.
 
 **Why ERPNext Is Insufficient**
-No native ERPNext object models print-machine capability/constraint data (Machine Profile) at the fidelity PrintHub requires; candidate base objects (Asset, Workstation) are both partial fits at best.
+No native ERPNext object models print-machine capability/constraint data (Machine Profile) at the fidelity PrintHub requires; Machine's own ERPNext-base question is Resolved (AR-004, Option C, 2026-09-20) — no ERPNext object is reused, Machine is wholly Custom.
 
 **Current ERPNext Capability**
 Assets module: Asset. Manufacturing module: Workstation. Both partial, unconfirmed candidates — the choice among them is explicitly open.
 
 **Gap Description**
-PrintHub requires Machine and Machine Profile capability modeling and a scheduling/conflict-detection capability. The specific ERPNext base object for Machine (Asset, Workstation, Custom, or Hybrid) is unresolved.
+PrintHub requires Machine and Machine Profile capability modeling and a scheduling/conflict-detection capability. Machine's ERPNext base is Resolved as wholly Custom (AR-004, Option C, 2026-09-20); the scheduling/conflict-detection engineering work itself remains unbuilt.
 
 **Recommended Classification**
 Customize
@@ -240,7 +240,7 @@ Customize
 printos_core
 
 **Dependencies**
-Machine base-object selection is under [Architecture_Review_Register.md](../decisions/Architecture_Review_Register.md) **AR-004** — not resolved here. [../blueprint/08_Master_Data_Model.md](../blueprint/08_Master_Data_Model.md) (Machine, Machine Profile).
+Machine base-object selection is Resolved under [Architecture_Review_Register.md](../decisions/Architecture_Review_Register.md) **AR-004** (Option C, 2026-09-20). [../blueprint/08_Master_Data_Model.md](../blueprint/08_Master_Data_Model.md) (Machine, Machine Profile); [../blueprint/16_Print_Machine_Model.md](../blueprint/16_Print_Machine_Model.md).
 
 **Implementation Priority**
 Critical
@@ -884,7 +884,7 @@ Low
 | Business Approval Orchestration | Artwork & Proof Lifecycle | AR-003 (Resolved — naming only; orchestration gap remains open) | High |
 | Production Planning & Orchestration | Artwork & Proof Lifecycle, Machine Scheduling & Capability Modeling | — | Critical |
 | Job Card Execution & Lifecycle | Production Planning & Orchestration | — | Critical |
-| Machine Scheduling & Capability Modeling | Job Card Execution & Lifecycle | AR-004 | Critical |
+| Machine Scheduling & Capability Modeling | Job Card Execution & Lifecycle | AR-004 (Resolved — Machine base object only; scheduling/conflict-detection capability gap remains open) | Critical |
 | Finishing Process Tracking | Print Specification Modeling | — | Low |
 | Quality Check Processing | Job Card Execution & Lifecycle | AR-009 | Medium |
 | Dispatch-Specific Data Capture | Production Planning & Orchestration | AR-008 | Medium |
@@ -928,7 +928,7 @@ Finishing Process Tracking, Customer Production Visibility, Industry Template Li
 ## 6. Recommendations
 
 1. **The Critical-priority gaps (Print Estimation & Costing Engine, Artwork & Proof Lifecycle, Production Planning & Orchestration, Job Card Execution & Lifecycle, Machine Scheduling & Capability Modeling, Configuration Studio Governance Layer, Tenant Customization/Resolution Engine) represent the true build scope of Phase 1** — everything else in this document is either a bounded extension (Dispatch-Specific Data Capture), a Plugin-boundary integration, or explicitly Future.
-2. **Two Critical gaps are directly gated by open Architecture Review items and cannot proceed to DocType Mapping without them**: Machine Scheduling & Capability Modeling (AR-004) and Tenant Customization/Resolution Engine (AR-002). This document does not resolve either; it only confirms their gap scope.
+2. **(Partially resolved)** Of the two Critical gaps previously gated by open Architecture Review items, Machine Scheduling & Capability Modeling's AR-004 gate is now Resolved (Option C, 2026-09-20) — the underlying scheduling/conflict-detection engineering gap remains open and unsized. Tenant Customization/Resolution Engine's AR-002 citation here predates AR-002's own 2026-07-28 resolution and was already stale before this task; that correction is outside this plan's scope. This document does not resolve or size either gap.
 3. **The Job Card / Manufacturing name-collision finding from the Fit Analysis is the single highest-leverage risk to avoid duplicating ERPNext functionality** — every Production-domain gap above (Production Planning, Job Card, Machine Scheduling, Quality Check) is scoped explicitly to avoid reusing ERPNext's Manufacturing module, consistent with that finding.
 4. **The Configuration Studio's genuine gap is the governance layer, not the individual designers** — each designer (Workflow, Approval, Form, Dashboard, Report, Notification) configures an existing native Frappe mechanism; the real build effort is the versioning/rollback/audit/dependency-management layer that makes those mechanisms behave as a coherent, governed platform.
 5. **The Plugin boundary is uniform** — MachineIQ, Marketplace, AI Assistant, and every external integration (payment, messaging, shipping, storage) should be treated identically at the architecture level: consumed via Ports & Adapters, owned outside `printos_core`, with no special-casing per capability.
@@ -956,6 +956,7 @@ Finishing Process Tracking, Customer Production Visibility, Industry Template Li
 |---|---|---|---|
 | 0.1 | 2026-07-24 | Initial | Initial ERPNext Gap Analysis. Identified 28 capability gaps (1 Extend, 13 Customize, 7 Plugin, 7 Future) across Print Domain, Configuration Platform, Intelligence, and Operations, building strictly on `ERPNext_Fit_Analysis.md` and referencing (without resolving) `Architecture_Review_Register.md` items AR-002, AR-003, AR-004, AR-005, AR-008, AR-009, AR-010. |
 | 0.2 | 2026-07-28 | AR-001 Disposition Factual Synchronization | Synchronized active AR-001 wording in the Section 1 "Relationship to the Architecture Review Register" statement with the formal Project Owner disposition (Option A, recorded in `Architecture_Review_Register.md`), reaffirming Accepted ADR-001-ERPNext-Framework. Recorded ERPNext v16, with the corresponding Frappe v16 major version, as the governed platform target; noted version-sensitive gap claims remain conditional pending technical revalidation against that governed target; confirmed AR-002 through AR-011 retain their live Register status unchanged. Every gap identifier, category, severity, effort/sizing estimate, ownership statement, fit-to-gap transition, implementation recommendation, sequencing note, DocType conclusion, and AR-002/003/004/005/008/009/010 annotation is preserved unchanged — no gap classification or estimate was finalized, and no technical revalidation was performed or claimed by this synchronization. No implementation authorization was granted. Historical Revision History entry (0.1) preserved unchanged. |
+| 0.4 | 2026-09-20 | AR-004 Disposition Synchronization | Corrected the "Machine Scheduling & Capability Modeling" gap record's "Why ERPNext Is Insufficient," "Gap Description," and "Dependencies" fields, the Cross-Gap Dependency Matrix row, and Recommendation 2, following [Architecture_Review_Register.md](../decisions/Architecture_Review_Register.md) AR-004's Resolved disposition (Option C, 2026-09-20): Machine is a wholly Custom PrintOS DocType inside `printos_core`; no ERPNext object (Asset or Workstation) is reused. This synchronization explicitly distinguishes AR-004's Resolved base-object disposition from the still-open, unsized scheduling/conflict-detection engineering gap — the gap's classification (Customize), priority (Critical), and effort/sizing estimate are unchanged. Flagged, but did not correct, a pre-existing stale reference to AR-002 in Recommendation 2 (already resolved 2026-07-28, predating this task) as out of this bounded task's scope. No Architecture Review Register item was created, modified, or resolved by this document. |
 | 0.3 | 2026-09-20 | AR-003 Disposition Synchronization | Corrected active naming statements in the Print Specification Modeling and Business Approval Orchestration gap records, the AI Assistant gap record, the Cross-Gap Dependency Matrix, the Implementation Boundary Summary, and Recommendation 6, following [Architecture_Review_Register.md](../decisions/Architecture_Review_Register.md) AR-003's Resolved disposition (2026-09-19): "Print Specification" is Not Adopted (mapped to Product Template, Job Types, Finishing Types, Paper Sizes); "Approval Management" is not adopted as a module name and maps to Approval Designer; "AI Assistant" is registered as a Proposed name only (Naming Registry Section 40), with no Approved Bounded Context, architecture, provider, model, plugin design, implementation owner, or implementation authorization. In each case, this synchronization explicitly distinguishes AR-003's Resolved naming disposition from the still-open, unsized underlying capability gap — no gap's classification (Extend/Customize/Plugin/Future), priority, or effort/sizing estimate was changed, finalized, or resolved by this task. No Architecture Review Register item was created, modified, or resolved by this document. |
 
 ---

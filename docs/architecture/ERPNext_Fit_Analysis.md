@@ -1,7 +1,7 @@
 # ERPNext Fit Analysis
 
 Version:
-0.4
+0.5
 
 Status:
 Draft
@@ -10,7 +10,7 @@ Owner:
 PrintHub Architecture Team
 
 Last Updated:
-2026-09-19
+2026-09-20
 
 ---
 
@@ -69,7 +69,7 @@ No ERPNext core modification is recommended anywhere in this analysis, consisten
 | Stock (Inventory) | Item, Warehouse, Stock Ledger Entry, Batch, Serial No | Mature | Inventory, Warehouse |
 | Manufacturing | BOM, Work Order, Job Card, Workstation, Operation | Mature for discrete/repetitive manufacturing; **not print-industry-shaped** | Production (partial fit only — see Section 3/4) |
 | HR | Employee, Department, Attendance, Payroll | Mature | HR |
-| Assets | Asset, Asset Category, Maintenance | Moderate | Machine (candidate mapping, unresolved — see [../implementation/03_ERPNext_Mapping.md](../implementation/03_ERPNext_Mapping.md) Open Questions) |
+| Assets | Asset, Asset Category, Maintenance | Moderate | Machine (Resolved — AR-004, Option C, 2026-09-20: wholly Custom PrintOS DocType) |
 | Frappe Framework (cross-cutting) | Workflow engine, Role/Permission Manager, Custom Field/DocType, Print Format, Report Builder, Notification, Webhook | Mature | Consumed throughout Configuration Studio ([../configuration/00_Master_Index.md](../configuration/00_Master_Index.md)) |
 
 **Important nuance on Manufacturing:** ERPNext's Job Card (Manufacturing module) is a *make-to-stock/discrete-manufacturing* concept tied to a Work Order and BOM Operation. It is **not** the same concept as PrintHub's Approved "Job Card" business entity ([05_Domain_Model.md](../blueprint/05_Domain_Model.md), canonical per [ADR-014](../decisions/ADR-014-Production-Terminology.md)), which tracks a print/production job against a Sales Order directly, without assuming a BOM-driven manufacturing flow. This is a **terminology collision, not a reuse opportunity** — see Section 3 (Manufacturing) and Section 6 (Risks) for detail. PrintHub's Job Card must not be implemented as ERPNext's native Manufacturing "Job Card" DocType.
@@ -203,10 +203,10 @@ BOM, Work Order, Job Card (Manufacturing module), Workstation, Operation.
 This is the single most important gap in this entire analysis. ERPNext's native Manufacturing "Job Card" DocType is tied to a Work Order and BOM Operation sequence — a fundamentally different execution model than print production, which is driven by a confirmed Sales Order, approved Artwork, and Machine Scheduling rather than a BOM explosion. Per [ADR-014-Production-Terminology](../decisions/ADR-014-Production-Terminology.md), PrintHub's "Job Card" is the canonical, Approved term for its own distinct concept — and "Production Order" (which would be the closer analogue to ERPNext's Work Order) was explicitly **Rejected** by that same ADR. Reusing ERPNext's Manufacturing Job Card would either force print production into an ill-fitting BOM/Work-Order model, or create a confusing terminology collision where "Job Card" means two different things in the same system.
 
 #### Classification
-**Customize** (for PrintHub's Job Card, Production Planning, Machine Scheduling). Workstation → Machine mapping: **Extend** (candidate, unconfirmed). BOM: **Future** (not confirmed as needed for Phase 1; revisit only if Estimation's material/finishing breakdown genuinely needs BOM-style structure).
+**Customize** (for PrintHub's Job Card, Production Planning, Machine Scheduling, and now Machine itself — AR-004, Option C). BOM: **Future** (not confirmed as needed for Phase 1; revisit only if Estimation's material/finishing breakdown genuinely needs BOM-style structure).
 
 #### Recommendation
-ERPNext's Manufacturing module should **not** be adopted wholesale. PrintHub owns Job Card, Production Planning, and Machine Scheduling as Custom DocTypes/capability inside `printos_core`, per their Core Domain status in `05_Domain_Model.md`. Workstation may be evaluated as a partial base for Machine, but only after the Machine vs. Asset question ([../implementation/03_ERPNext_Mapping.md](../implementation/03_ERPNext_Mapping.md) Open Questions) also considers Workstation as a third candidate — this document adds that candidate rather than deciding among the three. **Do not** attempt to reuse ERPNext's native "Job Card" DocType or rename it to fit PrintHub's Job Card — this would either violate ADR-014 or create a same-name/different-meaning collision inside the same system, which is worse than two different names.
+ERPNext's Manufacturing module should **not** be adopted wholesale. PrintHub owns Job Card, Production Planning, Machine Scheduling, and Machine as Custom DocTypes/capability inside `printos_core`, per their Core Domain status in `05_Domain_Model.md` and AR-004's Resolution (Option C, 2026-09-20). **Do not** attempt to reuse ERPNext's native "Job Card" DocType or rename it to fit PrintHub's Job Card — this would either violate ADR-014 or create a same-name/different-meaning collision inside the same system, which is worse than two different names.
 
 ---
 
@@ -391,13 +391,13 @@ Asset, Asset Category, Workstation.
 Moderate — two plausible partial candidates (Asset, Workstation), neither confirmed. This is the same open question already logged in [../implementation/03_ERPNext_Mapping.md](../implementation/03_ERPNext_Mapping.md) Open Questions; this document adds Workstation as a third candidate not previously considered there.
 
 #### Gap Analysis
-Machine Profile (capability/constraint modeling per [08_Master_Data_Model.md](../blueprint/08_Master_Data_Model.md)) has no ERPNext equivalent regardless of which base (Asset or Workstation) is chosen for Machine itself.
+Machine Profile (capability/constraint modeling per [08_Master_Data_Model.md](../blueprint/08_Master_Data_Model.md)) has no ERPNext equivalent; Machine itself is Resolved as wholly Custom (AR-004, Option C).
 
 #### Classification
-Machine: **Extend** (candidate, unresolved — Asset vs. Workstation). Machine Profile: **Customize.**
+Machine: **Customize** (Resolved — AR-004, Option C, 2026-09-20). Machine Profile: **Customize.**
 
 #### Recommendation
-Do not decide Asset vs. Workstation in this document — escalate to Architecture Review as already flagged in `03_ERPNext_Mapping.md`, now with Workstation added as a candidate. Machine Profile is built as a Custom DocType regardless of which base is chosen for Machine. Also flag: the Blueprint's Approved module name is **"Machine Scheduling,"** not "Machine Management" — use the Approved name in all implementation artifacts.
+AR-004 is Resolved: Machine is a wholly Custom DocType, per `../decisions/Architecture_Review_Register.md` and `../blueprint/16_Print_Machine_Model.md`, Version 0.1. Machine Profile is built as a Custom DocType, unaffected. Also flag: the Blueprint's Approved module name is **"Machine Scheduling,"** not "Machine Management" — use the Approved name in all implementation artifacts.
 
 ---
 
@@ -546,7 +546,7 @@ All capabilities below sit **outside** `printos_core`'s Domain/Application layer
 | Artwork, Proof, Approval Record | printos_core | Customize |
 | Job Card (PrintHub) | printos_core | Customize |
 | Production Planning | printos_core | Customize |
-| Machine Scheduling | printos_core | Extend (Machine base DocType, unresolved) + Customize (Machine Profile) |
+| Machine Scheduling | printos_core | Customize (Machine base DocType, Resolved — AR-004 Option C) + Customize (Machine Profile) |
 | Dispatch (Delivery Note) | ERPNext | Extend |
 | Configuration Studio (all designers) | printos_core | Extend (per-designer native mechanism) + Customize (aggregate platform) |
 | MachineIQ | External service | Plugin (Future) |
@@ -564,9 +564,7 @@ All capabilities below sit **outside** `printos_core`'s Domain/Application layer
 
 1. **Adopt Native reuse as the default posture** for Accounts, CRM, Purchasing/Procurement, Inventory's Warehouse/stock-ledger mechanics, and HR. No custom development is justified here.
 2. **Reject wholesale adoption of ERPNext's Manufacturing module.** Job Card, Production Planning, and Machine Scheduling are correctly Custom capabilities inside `printos_core`; attempting to reuse ERPNext's BOM/Work-Order/Job-Card model would create both an architectural mismatch and a direct terminology collision with the Approved "Job Card" term (ADR-014).
-3. **Escalate two implementation-blocking decisions to Architecture Review before Phase 2/3 implementation begins** (both already partially flagged in [../implementation/03_ERPNext_Mapping.md](../implementation/03_ERPNext_Mapping.md), now sharpened by this analysis):
-   - Machine: extend ERPNext Asset, extend Workstation, or build Custom.
-   - Quotation/Estimation: extend native Quotation, or introduce a Custom pricing-engine-fed document.
+3. **(Partially resolved)** Machine's ERPNext-base question is Resolved via AR-004, Option C: Machine is a wholly Custom PrintOS DocType. The Quotation/Estimation decision (extend native Quotation, or introduce a Custom pricing-engine-fed document) remains open and escalated to Architecture Review (AR-005).
 4. **Do not adopt five requested module names as-is**: "Print Specification," "Approval Management," "Production Workflow," "Machine Management" (Approved name is "Machine Scheduling"), "Finishing," and "Quality Control" (standalone). Each maps to existing Approved concepts or Configuration Studio designers already documented — building new modules under these names would create duplicate/parallel structures.
 5. **Treat MachineIQ, Marketplace, AI Assistant, and all external integrations uniformly as Plugin-boundary capabilities**, consumed via the Ports & Adapters pattern already established in [10_Integration_Architecture.md](10_Integration_Architecture.md) — no special-casing per capability.
 6. **(Resolved)** "AI Assistant" is registered in the Naming Registry as Proposed (AR-003 Resolved, Option A, 2026-09-19). It has no Approved Bounded Context and no architecture, provider, or model decision; it remains excluded from implementation-ready scope pending separate future governance.
@@ -583,7 +581,7 @@ This document does not modify, supersede, or re-decide any existing ADR, Bluepri
 
 # Future Considerations
 
-- Once the Machine (Asset/Workstation/Custom) and Quotation (Extend/Customize) decisions are resolved by Architecture Review, this document's Section 3/4/7 entries should be updated to remove "unresolved"/"provisional" qualifiers.
+- Machine's decision is Resolved (AR-004, Option C, 2026-09-20); this document's Section 3/4/7 entries have been updated accordingly. Once the Quotation (Extend/Customize) decision is resolved by Architecture Review, Section 7 entries should be updated to remove "unresolved"/"provisional" qualifiers there.
 - Once `docs/blueprint/25_MultiTenant_Architecture.md` and the Tenant/Company ADR are accepted, Section 5's Tenant Customization classification and Conflict #2 should be revisited.
 - If "AI Assistant" or "Quality Control" (standalone module) are formally scoped and registered in the future, this document should be revised to reclassify them accordingly. "Finishing" is already an Approved business term (`../standards/Naming_Registry.md` Sections 22/24, cross-referenced in Section 40); this document's Section 4 entry should be read accordingly.
 
@@ -591,7 +589,7 @@ This document does not modify, supersede, or re-decide any existing ADR, Bluepri
 
 # Open Questions
 
-- Should Machine be built on ERPNext Asset, Workstation, or as a wholly Custom DocType? (Escalated to Architecture Review.)
+- **(Resolved)** Machine is built as a wholly Custom PrintOS DocType (AR-004, Option C, 2026-09-20).
 - Should Quotation/Estimation extend the native Quotation DocType or introduce a Custom pricing-engine-fed document? (Escalated to Architecture Review.)
 - Is BOM genuinely needed for Estimation's material/finishing breakdown, or is Product Template + Job Types + Finishing Types sufficient without it?
 - Which ERPNext/Frappe version (15 or 16) is actually the implementation target, and who resolves the conflict between this task's instructions and the Draft Technology Stack Blueprint/ADR-001? **(Resolved: AR-001, Option A — ERPNext v16 with the corresponding Frappe v16 major is the governed target, reaffirming Accepted ADR-001; capability-level technical revalidation remains outstanding.)**
@@ -622,6 +620,7 @@ This document does not modify, supersede, or re-decide any existing ADR, Bluepri
 | 0.1 | 2026-07-24 | Initial | Initial ERPNext Fit Analysis. Classified Core ERP, Print Domain, Configuration Studio, and Plugin-boundary capabilities as Native/Extend/Customize/Plugin/Future. Flagged four documentation conflicts (ERPNext version, multi-tenant strategy ratification status, non-Approved module names, unregistered "Production Orchestration"/"AI Assistant" terms) without resolving them. |
 | 0.2 | 2026-07-27 | Source-Authority Correction | Corrected Conflict #1's source-authority description and the matching Open Questions reference, both of which inaccurately characterized `07_Technology_Stack.md` as "Published Blueprint documentation" when its live Status is Draft. Replaced with wording accurately describing the aligned Draft Technology Stack Blueprint and the binding, Accepted ADR-001-ERPNext-Framework decision as this document's basis for proceeding with v16. v16 remains a Working Assumption/conditional analysis basis, not a resolved decision; AR-001 remains unresolved. No capability classification, hooks/events/DocType finding, or compatibility conclusion was revalidated or changed by this correction. |
 | 0.3 | 2026-07-28 | AR-001 Disposition Factual Synchronization | Synchronized active AR-001 wording with the formal Project Owner disposition (Option A, recorded in `Architecture_Review_Register.md`), reaffirming Accepted ADR-001-ERPNext-Framework. Recorded ERPNext v16, with the corresponding Frappe v16 major version, as the governed target; prior ERPNext 15/Frappe 15 task references noted as obsolete and non-governing; simultaneous v15/v16 support noted as out of scope; minor/patch selection noted as centrally governed. Updated Conflict #1's disposition, the Section 2 Version note, Recommendation #8, and the matching Open Questions entry to state the current disposition while preserving the original historical framing of each. Every capability classification (Native/Extend/Customize/Build/Replace), DocType reference, Job Card finding, Machine/Workstation finding, Quotation finding, Material/Item finding, BOM finding, ownership conclusion, and AR-004/005/006/010/011 exposure is preserved unchanged — no technical revalidation against the governed v16 target was performed or claimed by this synchronization. No implementation authorization was granted. Historical Revision History entries (0.1, 0.2) preserved unchanged. |
+| 0.5 | 2026-09-20 | AR-004 Disposition Synchronization | Corrected active statements following [Architecture Review Register](../decisions/Architecture_Review_Register.md) AR-004's Resolved disposition (Option C, 2026-09-20): Machine is a wholly Custom PrintOS DocType inside `printos_core`. Updated Section 2's Assets row (Machine candidate mapping), Section 3 Manufacturing (Workstation → Machine mapping and Recommendation), Section 4's Machine Management entry (Classification and Recommendation), Section 7's Implementation Boundary Summary table row, Recommendation 3 (Section 8), Future Considerations, and Open Questions to record the Resolution and remove stale "unresolved"/"unconfirmed"/"candidate" framing. Machine Profile's classification (Customize) is unchanged throughout — it was never in question. The Quotation/Estimation decision (AR-005) remains open and is not affected by this synchronization. No other capability classification (Native/Extend/Customize/Plugin/Future) was changed. No implementation authorized. |
 | 0.4 | 2026-09-19 | AR-003 Disposition Synchronization | Added a subsequent current-state note immediately after the unnumbered "Conflicts Flagged Before Analysis (Not Resolved Here)" section, preserving the original historical table unchanged and recording that AR-003 was Resolved through the 2026-09-19 Project Owner Option A decision, with the eight scope-specific dispositions recorded in Naming Registry Section 40. Updated active statements across the Executive Summary and Sections 4, 6, 7, and 8: the Executive Summary's AR-003-terms bullet corrected to cite each term's scope-specific Section 40 disposition; AI Assistant's plugin-boundary classification (Section 6) updated from "term not yet registered" to "registered as Proposed," with Bounded Context, provider, model, and implementation explicitly recorded as still undecided; the ownership-boundary row (Section 7) updated from "unregistered term" to the same Proposed-only framing; Recommendation 6 (Section 8, Final Recommendations) marked (Resolved), recording the registration and its remaining exclusions; the Future Considerations bullet (separately, after Section 8) corrected to remove the premise that "Finishing" would need future registration, since it is already an Approved business term. Section 4's Print Specification entry updated from "not yet Approved" to its resolved Not Adopted disposition, restating that its business need maps to Product Template, Job Types, Finishing Types, and Paper Sizes, and removing the suggestion that the rejected name merely awaits registration; its underlying Customize capability classification is unchanged. This document's other Section 4 per-term analyses and recommendations (Approval Management, Production Workflow, Machine Management, Finishing, Quality Control) are otherwise unchanged — they already anticipated and match the approved disposition. No capability classification (Native/Extend/Customize/Plugin/Future) was changed. No implementation authorized. |
 
 ---
