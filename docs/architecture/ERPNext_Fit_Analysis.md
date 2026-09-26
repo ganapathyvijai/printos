@@ -1,7 +1,7 @@
 # ERPNext Fit Analysis
 
 Version:
-0.5
+0.6
 
 Status:
 Draft
@@ -10,7 +10,7 @@ Owner:
 PrintHub Architecture Team
 
 Last Updated:
-2026-09-20
+2026-09-26
 
 ---
 
@@ -134,13 +134,13 @@ Quotation, Sales Order, Customer, Price List, Payment Terms Template.
 Sales Order and Customer are strong native fits. Quotation is a partial fit — see Gap Analysis.
 
 #### Gap Analysis
-Per [../implementation/03_ERPNext_Mapping.md](../implementation/03_ERPNext_Mapping.md) (already flagged there as an open implementation-blocking question), Estimation is a **Core Domain** per `05_Domain_Model.md` ("Industry-specific pricing logic... is PrintOS's key differentiator"), requiring substrate/finishing/machine-time-based costing and multi-version quoting per [../blueprint/09_PrintOS_Modules.md](../blueprint/09_PrintOS_Modules.md). ERPNext's native Quotation DocType has no concept of substrate, finishing, machine-time, or a distinct pricing *engine* — it is a generic priced-line-item document. Whether to extend native Quotation heavily or introduce a Custom pricing/estimation engine feeding into Quotation is **not yet decided** (same open question as `03_ERPNext_Mapping.md`).
+Per [../implementation/03_ERPNext_Mapping.md](../implementation/03_ERPNext_Mapping.md) (already flagged there as an open implementation-blocking question), Estimation is a **Core Domain** per `05_Domain_Model.md` ("Industry-specific pricing logic... is PrintOS's key differentiator"), requiring substrate/finishing/machine-time-based costing and multi-version quoting per [../blueprint/09_PrintOS_Modules.md](../blueprint/09_PrintOS_Modules.md). ERPNext's native Quotation DocType has no concept of substrate, finishing, machine-time, or a distinct pricing *engine* — it is a generic priced-line-item document. **Resolved** (AR-005, Option B, 2026-09-26): Custom Cost Estimate and pricing logic feed ERPNext's native customer-facing Quotation through a governed handoff; native Quotation remains the document of record.
 
 #### Classification
-Sales Order, Customer: **Native/Extend** (Extend for print-specific fields, e.g. Job Type). Quotation/Estimation Engine: **Extend (document) + Customize (pricing engine)** — split classification, not resolved to a single category.
+Sales Order, Customer: **Native/Extend** (Extend for print-specific fields, e.g. Job Type). Quotation/Estimation Engine: **Extend (document) + Customize (pricing engine)** — split classification, confirmed by AR-005's Resolution (Option B).
 
 #### Recommendation
-ERPNext owns the Sales Order/Customer/Quotation *document* structure and submission/approval mechanics. PrintHub owns the **pricing/estimation calculation logic** (substrate, finishing, machine-time costing) as an Application-layer capability inside `printos_core`, which populates the native Quotation rather than replacing it — unless Architecture Review determines the native Quotation DocType is structurally insufficient, in which case a Custom DocType would be required (this decision is open, see [../implementation/03_ERPNext_Mapping.md](../implementation/03_ERPNext_Mapping.md) Open Questions). Do not build a parallel "Sales Order" or "Customer" DocType.
+ERPNext owns the Sales Order/Customer/Quotation *document* structure and submission/approval mechanics. PrintHub owns the **pricing/estimation calculation logic** (substrate, finishing, machine-time costing) as an Application-layer capability inside `printos_core`, which populates the native Quotation rather than replacing it, consistent with AR-005's Resolution (Option B, 2026-09-26): native Quotation is confirmed as the document of record. Do not build a parallel "Sales Order" or "Customer" DocType.
 
 ---
 
@@ -536,7 +536,7 @@ All capabilities below sit **outside** `printos_core`'s Domain/Application layer
 | Customer | ERPNext | Extend |
 | Supplier | ERPNext | Native |
 | Sales Order | ERPNext | Extend |
-| Quotation (document) | ERPNext | Extend |
+| Quotation (document) | ERPNext | Extend (Resolved — AR-005, Option B) |
 | Estimation (pricing/costing engine) | printos_core | Customize |
 | Purchase Order / Purchasing | ERPNext | Native |
 | Warehouse / Stock Ledger | ERPNext | Native |
@@ -564,7 +564,7 @@ All capabilities below sit **outside** `printos_core`'s Domain/Application layer
 
 1. **Adopt Native reuse as the default posture** for Accounts, CRM, Purchasing/Procurement, Inventory's Warehouse/stock-ledger mechanics, and HR. No custom development is justified here.
 2. **Reject wholesale adoption of ERPNext's Manufacturing module.** Job Card, Production Planning, and Machine Scheduling are correctly Custom capabilities inside `printos_core`; attempting to reuse ERPNext's BOM/Work-Order/Job-Card model would create both an architectural mismatch and a direct terminology collision with the Approved "Job Card" term (ADR-014).
-3. **(Partially resolved)** Machine's ERPNext-base question is Resolved via AR-004, Option C: Machine is a wholly Custom PrintOS DocType. The Quotation/Estimation decision (extend native Quotation, or introduce a Custom pricing-engine-fed document) remains open and escalated to Architecture Review (AR-005).
+3. **(Resolved)** Machine's ERPNext-base question is Resolved via AR-004, Option C: Machine is a wholly Custom PrintOS DocType. The Quotation/Estimation decision is Resolved via AR-005, Option B: Custom Cost Estimate and pricing logic feed ERPNext's native Quotation through a governed handoff. AR-010 remains Open and should be resolved before detailed Cost Estimate cost-breakdown design, to avoid later rework.
 4. **Do not adopt five requested module names as-is**: "Print Specification," "Approval Management," "Production Workflow," "Machine Management" (Approved name is "Machine Scheduling"), "Finishing," and "Quality Control" (standalone). Each maps to existing Approved concepts or Configuration Studio designers already documented — building new modules under these names would create duplicate/parallel structures.
 5. **Treat MachineIQ, Marketplace, AI Assistant, and all external integrations uniformly as Plugin-boundary capabilities**, consumed via the Ports & Adapters pattern already established in [10_Integration_Architecture.md](10_Integration_Architecture.md) — no special-casing per capability.
 6. **(Resolved)** "AI Assistant" is registered in the Naming Registry as Proposed (AR-003 Resolved, Option A, 2026-09-19). It has no Approved Bounded Context and no architecture, provider, or model decision; it remains excluded from implementation-ready scope pending separate future governance.
@@ -581,7 +581,7 @@ This document does not modify, supersede, or re-decide any existing ADR, Bluepri
 
 # Future Considerations
 
-- Machine's decision is Resolved (AR-004, Option C, 2026-09-20); this document's Section 3/4/7 entries have been updated accordingly. Once the Quotation (Extend/Customize) decision is resolved by Architecture Review, Section 7 entries should be updated to remove "unresolved"/"provisional" qualifiers there.
+- Machine's decision is Resolved (AR-004, Option C, 2026-09-20); this document's Section 3/4/7 entries have been updated accordingly. Quotation's decision is now Resolved (AR-005, Option B, 2026-09-26); Section 7 has been updated accordingly.
 - Once `docs/blueprint/25_MultiTenant_Architecture.md` and the Tenant/Company ADR are accepted, Section 5's Tenant Customization classification and Conflict #2 should be revisited.
 - If "AI Assistant" or "Quality Control" (standalone module) are formally scoped and registered in the future, this document should be revised to reclassify them accordingly. "Finishing" is already an Approved business term (`../standards/Naming_Registry.md` Sections 22/24, cross-referenced in Section 40); this document's Section 4 entry should be read accordingly.
 
@@ -590,7 +590,7 @@ This document does not modify, supersede, or re-decide any existing ADR, Bluepri
 # Open Questions
 
 - **(Resolved)** Machine is built as a wholly Custom PrintOS DocType (AR-004, Option C, 2026-09-20).
-- Should Quotation/Estimation extend the native Quotation DocType or introduce a Custom pricing-engine-fed document? (Escalated to Architecture Review.)
+- **(Resolved)** Custom Cost Estimate and pricing logic feed ERPNext's native Quotation through a governed handoff (AR-005, Option B, 2026-09-26).
 - Is BOM genuinely needed for Estimation's material/finishing breakdown, or is Product Template + Job Types + Finishing Types sufficient without it?
 - Which ERPNext/Frappe version (15 or 16) is actually the implementation target, and who resolves the conflict between this task's instructions and the Draft Technology Stack Blueprint/ADR-001? **(Resolved: AR-001, Option A — ERPNext v16 with the corresponding Frappe v16 major is the governed target, reaffirming Accepted ADR-001; capability-level technical revalidation remains outstanding.)**
 
@@ -620,6 +620,7 @@ This document does not modify, supersede, or re-decide any existing ADR, Bluepri
 | 0.1 | 2026-07-24 | Initial | Initial ERPNext Fit Analysis. Classified Core ERP, Print Domain, Configuration Studio, and Plugin-boundary capabilities as Native/Extend/Customize/Plugin/Future. Flagged four documentation conflicts (ERPNext version, multi-tenant strategy ratification status, non-Approved module names, unregistered "Production Orchestration"/"AI Assistant" terms) without resolving them. |
 | 0.2 | 2026-07-27 | Source-Authority Correction | Corrected Conflict #1's source-authority description and the matching Open Questions reference, both of which inaccurately characterized `07_Technology_Stack.md` as "Published Blueprint documentation" when its live Status is Draft. Replaced with wording accurately describing the aligned Draft Technology Stack Blueprint and the binding, Accepted ADR-001-ERPNext-Framework decision as this document's basis for proceeding with v16. v16 remains a Working Assumption/conditional analysis basis, not a resolved decision; AR-001 remains unresolved. No capability classification, hooks/events/DocType finding, or compatibility conclusion was revalidated or changed by this correction. |
 | 0.3 | 2026-07-28 | AR-001 Disposition Factual Synchronization | Synchronized active AR-001 wording with the formal Project Owner disposition (Option A, recorded in `Architecture_Review_Register.md`), reaffirming Accepted ADR-001-ERPNext-Framework. Recorded ERPNext v16, with the corresponding Frappe v16 major version, as the governed target; prior ERPNext 15/Frappe 15 task references noted as obsolete and non-governing; simultaneous v15/v16 support noted as out of scope; minor/patch selection noted as centrally governed. Updated Conflict #1's disposition, the Section 2 Version note, Recommendation #8, and the matching Open Questions entry to state the current disposition while preserving the original historical framing of each. Every capability classification (Native/Extend/Customize/Build/Replace), DocType reference, Job Card finding, Machine/Workstation finding, Quotation finding, Material/Item finding, BOM finding, ownership conclusion, and AR-004/005/006/010/011 exposure is preserved unchanged — no technical revalidation against the governed v16 target was performed or claimed by this synchronization. No implementation authorization was granted. Historical Revision History entries (0.1, 0.2) preserved unchanged. |
+| 0.6 | 2026-09-26 | AR-005 Disposition Synchronization | Corrected active statements following [Architecture Review Register](../decisions/Architecture_Review_Register.md) AR-005's Resolved disposition (Option B, 2026-09-26): Custom Cost Estimate and pricing logic feed ERPNext's native customer-facing Quotation through a governed handoff. Updated Section 3's Selling Gap Analysis and Classification/Recommendation text, Section 7's Implementation Boundary Summary table row, Recommendation 3 (Section 8), Future Considerations, and Open Questions to record the Resolution and remove stale "not yet decided"/"open" framing. Native Quotation remains the customer-facing document; handoff mechanics, fields, Custom Fields, child-table structure, triggers, validations, and Quotation Line's target treatment remain deferred to a separate downstream DocType-design task and are not specified here. AR-010 (BOM necessity) remains Open and should be resolved before detailed Cost Estimate cost-breakdown design, to avoid later rework — it is not treated as mandatory, resolved, a new module-level blocker, or a condition on this decision. No other capability classification (Native/Extend/Customize/Plugin/Future) was changed. No implementation authorized. |
 | 0.5 | 2026-09-20 | AR-004 Disposition Synchronization | Corrected active statements following [Architecture Review Register](../decisions/Architecture_Review_Register.md) AR-004's Resolved disposition (Option C, 2026-09-20): Machine is a wholly Custom PrintOS DocType inside `printos_core`. Updated Section 2's Assets row (Machine candidate mapping), Section 3 Manufacturing (Workstation → Machine mapping and Recommendation), Section 4's Machine Management entry (Classification and Recommendation), Section 7's Implementation Boundary Summary table row, Recommendation 3 (Section 8), Future Considerations, and Open Questions to record the Resolution and remove stale "unresolved"/"unconfirmed"/"candidate" framing. Machine Profile's classification (Customize) is unchanged throughout — it was never in question. The Quotation/Estimation decision (AR-005) remains open and is not affected by this synchronization. No other capability classification (Native/Extend/Customize/Plugin/Future) was changed. No implementation authorized. |
 | 0.4 | 2026-09-19 | AR-003 Disposition Synchronization | Added a subsequent current-state note immediately after the unnumbered "Conflicts Flagged Before Analysis (Not Resolved Here)" section, preserving the original historical table unchanged and recording that AR-003 was Resolved through the 2026-09-19 Project Owner Option A decision, with the eight scope-specific dispositions recorded in Naming Registry Section 40. Updated active statements across the Executive Summary and Sections 4, 6, 7, and 8: the Executive Summary's AR-003-terms bullet corrected to cite each term's scope-specific Section 40 disposition; AI Assistant's plugin-boundary classification (Section 6) updated from "term not yet registered" to "registered as Proposed," with Bounded Context, provider, model, and implementation explicitly recorded as still undecided; the ownership-boundary row (Section 7) updated from "unregistered term" to the same Proposed-only framing; Recommendation 6 (Section 8, Final Recommendations) marked (Resolved), recording the registration and its remaining exclusions; the Future Considerations bullet (separately, after Section 8) corrected to remove the premise that "Finishing" would need future registration, since it is already an Approved business term. Section 4's Print Specification entry updated from "not yet Approved" to its resolved Not Adopted disposition, restating that its business need maps to Product Template, Job Types, Finishing Types, and Paper Sizes, and removing the suggestion that the rejected name merely awaits registration; its underlying Customize capability classification is unchanged. This document's other Section 4 per-term analyses and recommendations (Approval Management, Production Workflow, Machine Management, Finishing, Quality Control) are otherwise unchanged — they already anticipated and match the approved disposition. No capability classification (Native/Extend/Customize/Plugin/Future) was changed. No implementation authorized. |
 

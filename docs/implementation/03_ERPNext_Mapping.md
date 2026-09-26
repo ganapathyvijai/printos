@@ -1,7 +1,7 @@
 # 03 — ERPNext Mapping
 
 Version:
-0.2
+0.3
 
 Status:
 Draft
@@ -10,7 +10,7 @@ Owner:
 PrintHub Architecture Team
 
 Last Updated:
-2026-09-20
+2026-09-26
 
 ---
 
@@ -45,7 +45,7 @@ ERPNext already implements substantial generic ERP capability (Company, Customer
 | Customer | `05_Domain_Model.md` | Customer | | ✓ | | Native concept; print-industry attributes (e.g. preferred substrate) may need Custom Fields | Custom Fields via fixtures | Naming Registry: Customer vs. Client/Party is Pending ADR (Section 27, item 6) — mapping uses the Approved term |
 | Supplier | `08_Master_Data_Model.md` | Supplier | ✓ | | | Exact match | None — native use | Naming Registry: Supplier vs. Vendor Pending ADR (item 13) — not relevant to Phase 1 ERP scope |
 | Sales Order | `05_Domain_Model.md` | Sales Order | | ✓ | | Native concept; print-specific fields (Job Type, Finishing) needed | Custom Fields | — |
-| Quotation | `06_Bounded_Contexts.md` | Quotation | | ✓ | | ERPNext has a native Quotation DocType; print-specific pricing detail requires extension | Custom Fields + Custom child table for cost breakdown | Per [ADR-013](../decisions/ADR-013-Quotation-Terminology.md), "Quotation" is the canonical business term — confirm native ERPNext Quotation DocType is the correct target before implementation, or whether a Custom DocType is warranted given Estimation's stated Core Domain status (`05_Domain_Model.md`) |
+| Quotation | `06_Bounded_Contexts.md` | Quotation | | ✓ | | ERPNext has a native Quotation DocType; print-specific pricing detail requires extension | Custom Fields + Custom child table for cost breakdown | Per [ADR-013](../decisions/ADR-013-Quotation-Terminology.md), "Quotation" is the canonical business term. **(Resolved)** AR-005, Option B, 2026-09-26: Custom Cost Estimate and pricing logic feed ERPNext's native Quotation through a governed handoff — see `../blueprint/14_Quotation_Engine.md`. |
 | Print Job / Job Card | `05_Domain_Model.md`, `09_PrintOS_Modules.md` | None (no ERPNext native equivalent) | | | ✓ | Print-industry-specific; no ERPNext concept covers Job Card execution/tracking | New Custom DocType `Job Card` | Per [ADR-014](../decisions/ADR-014-Production-Terminology.md), "Job Card" is canonical; "Production Order," "Job Ticket," "Work Order" are Rejected/Deprecated and must not appear as DocType names |
 | Machine | `05_Domain_Model.md` | None (Resolved — AR-004, Option C) | | | ✓ | Asset and Workstation were not adopted; Machine is a wholly Custom DocType | New Custom DocType `Machine` | Resolved — see [Architecture Review Register](../decisions/Architecture_Review_Register.md) AR-004 and [16_Print_Machine_Model.md](../blueprint/16_Print_Machine_Model.md) |
 | Machine Profile | `08_Master_Data_Model.md` | None | | | ✓ | No ERPNext equivalent for capability/constraint modeling | New Custom DocType `Machine Profile` | — |
@@ -93,7 +93,7 @@ One mapping row above (Material/Substrate vs. Item) is marked provisional and de
 # Open Questions
 
 - **(Resolved)** Machine is a wholly Custom DocType (AR-004, Option C, 2026-09-20). This no longer blocks Machine Scheduling's structural design.
-- Should Quotation be extended from ERPNext's native Quotation DocType, or replaced with a Custom DocType given Estimation's Core Domain status? This is a real implementation-blocking decision, not a naming question.
+- **(Resolved)** AR-005, Option B, 2026-09-26: Custom Cost Estimate and pricing logic feed ERPNext's native Quotation through a governed handoff.
 
 ---
 
@@ -113,6 +113,7 @@ One mapping row above (Material/Substrate vs. Item) is marked provisional and de
 | Version | Date | Author | Changes |
 |---|---|---|---|
 | 0.1 | 2026-07-23 | Initial | Initial working draft mapping Approved business concepts to ERPNext native objects; two rows flagged as pending Architecture Review/ADR resolution rather than decided unilaterally. |
+| 0.3 | 2026-09-26 | AR-005 Disposition Synchronization | Corrected the Quotation row's Notes column and the Open Questions section, following [Architecture Review Register](../decisions/Architecture_Review_Register.md) AR-005's Resolved disposition (Option B, 2026-09-26): Custom Cost Estimate and pricing logic feed ERPNext's native customer-facing Quotation through a governed handoff, recorded in [14_Quotation_Engine.md](../blueprint/14_Quotation_Engine.md), Version 0.1 (an existing, previously empty Placeholder — no new file created). Handoff mechanics, fields, Custom Fields, child-table structure, and Quotation Line's target treatment remain deferred to a separate downstream DocType-design task. AR-010 remains Open and should be resolved before detailed Cost Estimate cost-breakdown design, to avoid later rework. No other mapping row was changed; no implementation was authorized. |
 | 0.2 | 2026-09-20 | AR-004 Disposition Synchronization | Corrected the Machine row (target ERPNext object, classification, customization strategy, notes), the Classification Summary (Machine moved into Custom DocTypes), and the Architecture Notes and Open Questions sections, following [Architecture Review Register](../decisions/Architecture_Review_Register.md) AR-004's Resolved disposition (Option C, 2026-09-20): Machine is a wholly Custom PrintOS DocType, recorded in [16_Print_Machine_Model.md](../blueprint/16_Print_Machine_Model.md), Version 0.1 (an existing, previously empty Placeholder — no new file created). The Material/Substrate vs. Item question (Naming Registry Section 27, item 10) remains the sole remaining provisional row. No other mapping row was changed; no implementation was authorized. |
 
 ---

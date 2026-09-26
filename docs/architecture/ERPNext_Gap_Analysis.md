@@ -1,7 +1,7 @@
 # ERPNext Gap Analysis
 
 Version:
-0.4
+0.5
 
 Status:
 Draft
@@ -10,7 +10,7 @@ Owner:
 PrintHub Architecture Team
 
 Last Updated:
-2026-09-20
+2026-09-26
 
 ---
 
@@ -66,7 +66,7 @@ Customize
 printos_core
 
 **Dependencies**
-[../blueprint/05_Domain_Model.md](../blueprint/05_Domain_Model.md) (Estimation Core Domain), [../blueprint/09_PrintOS_Modules.md](../blueprint/09_PrintOS_Modules.md) (Estimation module), [ERPNext_Fit_Analysis.md](ERPNext_Fit_Analysis.md) Section 3 (Selling); Quotation document target is under [Architecture_Review_Register.md](../decisions/Architecture_Review_Register.md) AR-005; BOM necessity is under AR-010.
+[../blueprint/05_Domain_Model.md](../blueprint/05_Domain_Model.md) (Estimation Core Domain), [../blueprint/09_PrintOS_Modules.md](../blueprint/09_PrintOS_Modules.md) (Estimation module), [ERPNext_Fit_Analysis.md](ERPNext_Fit_Analysis.md) Section 3 (Selling); Quotation document target is Resolved under [Architecture_Review_Register.md](../decisions/Architecture_Review_Register.md) AR-005 (Option B, 2026-09-26) — Custom Cost Estimate and pricing logic feed ERPNext's native Quotation through a governed handoff. AR-010 remains Open and should be resolved before detailed Cost Estimate cost-breakdown design, to avoid later rework.
 
 **Implementation Priority**
 Critical
@@ -878,7 +878,7 @@ Low
 
 | Gap | Depends On | Related Review Item | Priority |
 |---|---|---|---|
-| Print Estimation & Costing Engine | Print Specification Modeling | AR-005, AR-010 | Critical |
+| Print Estimation & Costing Engine | Print Specification Modeling | AR-005 (Resolved — Option B); AR-010 (Open — should be resolved before detailed Cost Estimate cost-breakdown design, to avoid later rework) | Critical |
 | Print Specification Modeling | — | AR-003 (Resolved — naming only; capability gap remains open) | High |
 | Artwork & Proof Lifecycle | — | — | Critical |
 | Business Approval Orchestration | Artwork & Proof Lifecycle | AR-003 (Resolved — naming only; orchestration gap remains open) | High |
@@ -956,6 +956,7 @@ Finishing Process Tracking, Customer Production Visibility, Industry Template Li
 |---|---|---|---|
 | 0.1 | 2026-07-24 | Initial | Initial ERPNext Gap Analysis. Identified 28 capability gaps (1 Extend, 13 Customize, 7 Plugin, 7 Future) across Print Domain, Configuration Platform, Intelligence, and Operations, building strictly on `ERPNext_Fit_Analysis.md` and referencing (without resolving) `Architecture_Review_Register.md` items AR-002, AR-003, AR-004, AR-005, AR-008, AR-009, AR-010. |
 | 0.2 | 2026-07-28 | AR-001 Disposition Factual Synchronization | Synchronized active AR-001 wording in the Section 1 "Relationship to the Architecture Review Register" statement with the formal Project Owner disposition (Option A, recorded in `Architecture_Review_Register.md`), reaffirming Accepted ADR-001-ERPNext-Framework. Recorded ERPNext v16, with the corresponding Frappe v16 major version, as the governed platform target; noted version-sensitive gap claims remain conditional pending technical revalidation against that governed target; confirmed AR-002 through AR-011 retain their live Register status unchanged. Every gap identifier, category, severity, effort/sizing estimate, ownership statement, fit-to-gap transition, implementation recommendation, sequencing note, DocType conclusion, and AR-002/003/004/005/008/009/010 annotation is preserved unchanged — no gap classification or estimate was finalized, and no technical revalidation was performed or claimed by this synchronization. No implementation authorization was granted. Historical Revision History entry (0.1) preserved unchanged. |
+| 0.5 | 2026-09-26 | AR-005 Disposition Synchronization | Corrected the "Print Estimation & Costing Engine" gap record's Dependencies field and the Cross-Gap Dependency Matrix row, following [Architecture_Review_Register.md](../decisions/Architecture_Review_Register.md) AR-005's Resolved disposition (Option B, 2026-09-26): Custom Cost Estimate and pricing logic feed ERPNext's native customer-facing Quotation through a governed handoff. This synchronization explicitly distinguishes AR-005's Resolved document-strategy disposition from AR-010 (BOM necessity), which remains Open and should be resolved before detailed Cost Estimate cost-breakdown design, to avoid later rework — not treated as mandatory, resolved, a new module-level blocker, or a condition on this decision. The gap's classification (Customize), priority (Critical), and effort/sizing estimate are unchanged. No Architecture Review Register item was created, modified, or resolved by this document. |
 | 0.4 | 2026-09-20 | AR-004 Disposition Synchronization | Corrected the "Machine Scheduling & Capability Modeling" gap record's "Why ERPNext Is Insufficient," "Gap Description," and "Dependencies" fields, the Cross-Gap Dependency Matrix row, and Recommendation 2, following [Architecture_Review_Register.md](../decisions/Architecture_Review_Register.md) AR-004's Resolved disposition (Option C, 2026-09-20): Machine is a wholly Custom PrintOS DocType inside `printos_core`; no ERPNext object (Asset or Workstation) is reused. This synchronization explicitly distinguishes AR-004's Resolved base-object disposition from the still-open, unsized scheduling/conflict-detection engineering gap — the gap's classification (Customize), priority (Critical), and effort/sizing estimate are unchanged. Flagged, but did not correct, a pre-existing stale reference to AR-002 in Recommendation 2 (already resolved 2026-07-28, predating this task) as out of this bounded task's scope. No Architecture Review Register item was created, modified, or resolved by this document. |
 | 0.3 | 2026-09-20 | AR-003 Disposition Synchronization | Corrected active naming statements in the Print Specification Modeling and Business Approval Orchestration gap records, the AI Assistant gap record, the Cross-Gap Dependency Matrix, the Implementation Boundary Summary, and Recommendation 6, following [Architecture_Review_Register.md](../decisions/Architecture_Review_Register.md) AR-003's Resolved disposition (2026-09-19): "Print Specification" is Not Adopted (mapped to Product Template, Job Types, Finishing Types, Paper Sizes); "Approval Management" is not adopted as a module name and maps to Approval Designer; "AI Assistant" is registered as a Proposed name only (Naming Registry Section 40), with no Approved Bounded Context, architecture, provider, model, plugin design, implementation owner, or implementation authorization. In each case, this synchronization explicitly distinguishes AR-003's Resolved naming disposition from the still-open, unsized underlying capability gap — no gap's classification (Extend/Customize/Plugin/Future), priority, or effort/sizing estimate was changed, finalized, or resolved by this task. No Architecture Review Register item was created, modified, or resolved by this document. |
 

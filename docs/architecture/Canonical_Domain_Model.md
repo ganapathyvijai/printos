@@ -1,7 +1,7 @@
 # Canonical Domain Model
 
 Version:
-0.3
+0.4
 
 Status:
 Draft
@@ -10,7 +10,7 @@ Owner:
 PrintHub Architecture Team
 
 Last Updated:
-2026-09-20
+2026-09-26
 
 ---
 
@@ -63,7 +63,7 @@ This document uses the Bounded Context list already Published in [../blueprint/0
 - **Aggregate Roots:** Quotation, Cost Estimate, Product Template
 - **Child Entities:** Quotation Line (child of Quotation); Product Category is modeled as a light reference Aggregate Root rather than a child, since it is independently manageable.
 - **Value Objects:** Paper Sizes — reclassified from the Inventory's Reference Data entity to a Value Object, since it is a descriptive dimension with no independently tracked business lifecycle beyond Active.
-- **Domain Services:** **Estimation Engine (Cost Calculator)** — combines Product Template, Material/Substrate, Machine Profile, and quantity into a priced proposal; corresponds to the Customize-classified "Print Estimation & Costing Engine" gap in [ERPNext_Gap_Analysis.md](ERPNext_Gap_Analysis.md). Quotation's document strategy is under [Architecture Review Register](../decisions/Architecture_Review_Register.md) **AR-005**; the necessity of a BOM-like structure within this engine is under **AR-010**.
+- **Domain Services:** **Estimation Engine (Cost Calculator)** — combines Product Template, Material/Substrate, Machine Profile, and quantity into a priced proposal; corresponds to the Customize-classified "Print Estimation & Costing Engine" gap in [ERPNext_Gap_Analysis.md](ERPNext_Gap_Analysis.md). Quotation's document strategy is Resolved — [Architecture Review Register](../decisions/Architecture_Review_Register.md) **AR-005**, Option B (2026-09-26): Custom Cost Estimate and pricing logic feed ERPNext's native Quotation through a governed handoff (see [14_Quotation_Engine.md](../blueprint/14_Quotation_Engine.md)). The necessity of a BOM-like structure within this engine remains under **AR-010**; AR-010 remains Open and should be resolved before detailed Cost Estimate cost-breakdown design, to avoid later rework.
 
 ---
 
@@ -85,7 +85,7 @@ This document uses the Bounded Context list already Published in [../blueprint/0
 - **Aggregate Roots:** Job Card, Machine
 - **Child Entities:** Quality Check Record (child of Job Card); Machine Profile (child of Machine)
 - **Value Objects:** Job Types, Finishing Types — reclassified from Reference Data to Value Objects, as descriptive classifications consumed by Job Card and Quotation Line rather than independently tracked entities.
-- **Domain Services:** **Production Planning / Scheduling Engine** — orchestrates Job Card sequencing and Machine assignment; corresponds to the Customize-classified "Production Planning & Orchestration" gap in [ERPNext_Gap_Analysis.md](ERPNext_Gap_Analysis.md). Machine's aggregate/base-object status is under [Architecture Review Register](../decisions/Architecture_Review_Register.md) **AR-004**; Quality Check Record's standalone-module status is under **AR-009**.
+- **Domain Services:** **Production Planning / Scheduling Engine** — orchestrates Job Card sequencing and Machine assignment; corresponds to the Customize-classified "Production Planning & Orchestration" gap in [ERPNext_Gap_Analysis.md](ERPNext_Gap_Analysis.md). Machine's aggregate/base-object status is Resolved — [Architecture Review Register](../decisions/Architecture_Review_Register.md) **AR-004**, Option C (2026-09-20): Machine is a wholly Custom DocType; Quality Check Record's standalone-module status is under **AR-009**.
 - **Open Blueprint Question (not an AR item, cited for completeness):** [../blueprint/06_Bounded_Contexts.md](../blueprint/06_Bounded_Contexts.md) itself asks "Should Machine Scheduling be modeled as its own bounded context distinct from Production, given its complexity?" This document does not answer that question; Machine/Machine Profile are modeled within Production only because that question remains open.
 
 ---
@@ -382,14 +382,14 @@ Every entity from [../database/Business_Entity_Inventory.md](../database/Busines
 | Payment | Canonical | — |
 | Journal Entry | Canonical | — |
 | Substrate | Canonical | — |
-| Machine | Pending Architecture Review | AR-004 |
-| Machine Profile | Pending Architecture Review | AR-004 (dependent on Machine) |
+| Machine | Canonical | Resolved — AR-004, Option C (2026-09-20) |
+| Machine Profile | Canonical | Resolved — AR-004, Option C (2026-09-20, dependent on Machine) |
 | Job Types | Canonical | — |
 | Finishing Types | Canonical | — |
 | Paper Sizes | Canonical | — |
 | Media Profiles | Canonical | — |
-| Quotation | Pending Architecture Review | AR-005, AR-010 |
-| Quotation Line | Pending Architecture Review | Dependent on Quotation (AR-005) |
+| Quotation | Pending Architecture Review | AR-005 Resolved (Option B, 2026-09-26); AR-010 remains the open dependency |
+| Quotation Line | Pending Architecture Review | Dependent on Quotation (AR-005 Resolved); AR-010 remains the open dependency |
 | Cost Estimate | Canonical | Distinct from Quotation per ADR-013 |
 | Artwork | Canonical | — |
 | Artwork Revision | Canonical | — |
@@ -435,7 +435,7 @@ Every entity from [../database/Business_Entity_Inventory.md](../database/Busines
 | Recommendation | Pending Architecture Review | Unregistered — outside AR-003, pending separate future governance; possible overlap with MachineIQ "Insight" (§23), unreconciled |
 | AI Action | Pending Architecture Review | Unregistered — outside AR-003, pending separate future governance |
 
-**Summary:** 45 Canonical, 0 Alias, 27 Pending Architecture Review, 1 Not adopted, 2 Not an Independent Entity. (75 total, matching the Business Entity Inventory.)
+**Summary:** 47 Canonical, 0 Alias, 25 Pending Architecture Review, 1 Not adopted, 2 Not an Independent Entity. (75 total, matching the Business Entity Inventory.)
 
 ---
 
@@ -470,13 +470,11 @@ This domain model's structure is directly gated, in part, by the following open 
 | Tenant vs. Company definition and multi-tenant model | Administration Context, Configuration Studio's Tenant Override, "Administration → All Contexts" relationship | [Architecture Review Register](../decisions/Architecture_Review_Register.md) AR-002 |
 | AI Assistant naming and scope (registered as a Proposed name only; no Approved Bounded Context, architecture, provider, model, plugin design, implementation owner, or implementation authorization) | AI Assistant Context, and its five unregistered candidate sub-entities (Conversation, Prompt, Knowledge Source, Recommendation, AI Action) | AR-003 (Resolved 2026-09-19 as a Proposed-name-only registration; does not scope or authorize the AI Assistant Context, its architecture, or its sub-entities, which remain outside AR-003 pending separate future governance) |
 | Approval Record naming/classification (distinct from the "Approval Management" module-name question AR-003 resolved, mapped to Approval Designer) | Artwork Context's Approval Record | Unassigned — no covering Architecture Review item; a separate, currently unassigned governance question |
-| Machine domain ownership (Asset/Workstation/Custom/Hybrid) | Production Context's Machine Aggregate Root, MachineIQ Context's Counter Reading cross-reference | AR-004 |
-| Quotation strategy (native/extended/separate) | Estimation Context's Quotation Aggregate Root and Quotation Line Child Entity | AR-005 |
 | Item vs. Material/Product Template mapping | Inventory Context's Material Aggregate Root, Estimation Context's Product Template | AR-006 |
 | Purchasing vs. Procurement naming | Procurement Context's name itself | AR-007 |
 | Dispatch vs. Delivery terminology | Dispatch Context's Dispatch Record Aggregate Root | AR-008 |
 | Quality module standalone status | Production Context's Quality Check Record Child Entity | AR-009 |
-| BOM necessity for Estimation | Estimation Context's Estimation Engine Domain Service | AR-010 |
+| BOM necessity for Cost Estimate's detailed cost-breakdown design (AR-005 Quotation strategy itself is Resolved — Option B, 2026-09-26; Quotation Line's exact target remains deferred to downstream DocType design) | Estimation Context's Estimation Engine Domain Service, Cost Estimate | AR-010 (remains Open and should be resolved before detailed Cost Estimate cost-breakdown design, to avoid later rework) |
 | CRM Enquiry vs. Opportunity mapping | CRM Context's Lead/Enquiry Aggregate Root | AR-011 |
 
 ---
@@ -512,6 +510,7 @@ This domain model's structure is directly gated, in part, by the following open 
 |---|---|---|---|
 | 0.1 | 2026-07-25 | Initial | Initial Canonical Domain Model. Organized 75 entities from the Business Entity Inventory into 17 Bounded Contexts (14 Approved per Blueprint, plus Configuration Studio, MachineIQ, Marketplace, and a flagged AI Assistant grouping), 37 Aggregate Roots, 11 Child Entities, 11 Value Objects, and 3 Domain Services. Classified all 75 entities in the Naming Review (45 Canonical, 28 Pending Architecture Review, 2 Not an Independent Entity). Performed Special Review of the Marketplace naming collision, Print Specification, Production Stage, and Machine Queue. Surfaced one new observed overlap (Reporting vs. Configuration Studio ownership of Report/Dashboard Definition) without adding it to the Architecture Review Register. No ERPNext mapping, ADR modification, or Architecture Review resolution performed. |
 | 0.2 | 2026-07-25 | Documentation Clarification | Clarified Reporting and Configuration Studio ownership language for reports and dashboards. Reporting owns reporting capability and consumption; Configuration Studio owns Report Definition and Dashboard Definition configuration artifacts. Documentation clarification only; no architecture change. |
+| 0.4 | 2026-09-26 | AR-004 and AR-005 Disposition Synchronization | Corrected active statements following [Architecture Review Register](../decisions/Architecture_Review_Register.md) AR-004's Resolved disposition (Option C, 2026-09-20) and AR-005's Resolved disposition (Option B, 2026-09-26: Custom Cost Estimate and pricing logic feed ERPNext's native Quotation through a governed handoff — see [14_Quotation_Engine.md](../blueprint/14_Quotation_Engine.md)), neither of which had previously been synchronized into this document. **Machine** and **Machine Profile** reclassified in the Naming Review table from "Pending Architecture Review" to **Canonical**, citing AR-004 Resolved, Option C; corrected the Production Context's Domain Services text accordingly. **Quotation** and **Quotation Line** remain **Pending Architecture Review** — AR-005 is Resolved, but AR-010 (BOM necessity, governing Cost Estimate's detailed cost-breakdown design) remains the open dependency; corrected the Estimation Context's Domain Services text and both Naming Review rows to record AR-005 Resolved and AR-010 as the remaining open item, using the normalized wording: AR-010 remains Open and should be resolved before detailed Cost Estimate cost-breakdown design, to avoid later rework. Removed the now-resolved Machine domain ownership row from the Open Architecture Dependencies table and repurposed the former Quotation-strategy row to describe the remaining AR-010 dependency (BOM necessity for Cost Estimate's detailed cost-breakdown design), noting AR-005's own Quotation-strategy question is Resolved. Recalculated the Naming Review summary from the actual final rows: 45 → 47 Canonical, 27 → 25 Pending Architecture Review, 1 Not adopted and 2 Not an Independent Entity unchanged (75 total, unchanged). All prior Revision History rows (0.1, 0.2, 0.3) are preserved unchanged. No Bounded Context, Aggregate Root, Child Entity, or Value Object was added or removed; no ERPNext mapping, DocType design, or database schema design performed; no Architecture Review Register item was created or modified; neither AR-004 nor AR-005 was further modified by this document; AR-006 through AR-011 unchanged; no implementation was authorized. |
 | 0.3 | 2026-09-20 | AR-003 Disposition Synchronization | Corrected active statements following AR-003's Resolved disposition ([Architecture Review Register](../decisions/Architecture_Review_Register.md) Version 0.5, 2026-09-19): "Print Specification" reclassified in the Naming Review table and Special Review section from "Pending Architecture Review" to **Not adopted**, recording its resolved mapping to Product Template, Job Types, Finishing Types, and Paper Sizes; "AI Assistant" corrected throughout (AI Assistant Context heading and note, Naming Review) to record it as a **Proposed name only** (Naming Registry Section 40) with no Approved Bounded Context, architecture, provider, model, plugin design, implementation owner, or implementation authorization; its five candidate sub-entities (Conversation, Prompt, Knowledge Source, Recommendation, AI Action) corrected to record they remain unregistered and outside AR-003's eight-term scope, pending separate future governance, rather than "AR-003." Corrected Approval Record's Naming Review note and the Artwork Context's Domain Services text to record that Approval Record's own naming/classification was never one of AR-003's eight terms (only the requested "Approval Management" module name, mapped to Approval Designer, was) and remains a separate, currently unassigned governance question. Split the Open Architecture Dependencies table's combined AR-003 row into a corrected AI Assistant row and a separate, non-AR-003 Approval Record row, and removed the now-resolved Print Specification entry from that open-dependencies table. Updated the Naming Review summary to 45 Canonical, 27 Pending Architecture Review, 1 Not adopted, 2 Not an Independent Entity (75 total, unchanged). No Bounded Context, Aggregate Root, Child Entity, Value Object, or Domain Service was added, removed, or approved; AR-004 through AR-011 unchanged; no ERPNext mapping performed. |
 
 ---
