@@ -1,7 +1,7 @@
 # Documentation Map
 
 Version:
-1.8
+1.9
 
 Status:
 Draft
@@ -10,7 +10,7 @@ Owner:
 PrintHub Architecture Team
 
 Last Updated:
-2026-09-19
+2026-09-26
 
 ---
 
@@ -119,7 +119,7 @@ flowchart LR
 | Cross-cutting architecture deep-dives | Covered — Architecture (15 documents); Multi-Tenant remains an unreconciled working draft alongside the existing Blueprint 25; Deployment and Integration remain working drafts pending their reserved Blueprint documents |
 | Implementation/delivery planning | Partially covered — Implementation (12 of 19 documents populated; 09–15 remain empty placeholders) |
 | Engineering standards | Covered — Standards (20 documents) |
-| Binding decisions | Covered — Decisions (17 documents: 15 Accepted ADRs, Draft ADR index, Draft Architecture Review Register) |
+| Binding decisions | Covered — Decisions (18 documents: 16 Accepted ADRs, Draft ADR index, Draft Architecture Review Register) |
 | Multi-tenant SaaS architecture | Covered at Approval — `docs/blueprint/25_MultiTenant_Architecture.md`, Version 1.1; not Published and does not authorize implementation |
 | MachineIQ detailed architecture | **Gap** — deferred per ADR-008 |
 | Marketplace detailed architecture | **Gap** — deferred per ADR-009, Phase 5 |
@@ -171,6 +171,7 @@ flowchart LR
 | 1.6 | 2026-09-19 | Documentation census alignment | Corrected current category counts and referenced versions; recorded the existing Multi-Tenant Blueprint and Draft Business Glossary. Navigation-only factual correction; no lifecycle, architecture, milestone, or implementation decision. |
 | 1.7 | 2026-09-19 | Blueprint 25 Post-MT-R2 Designated-Authority Synchronization | Updated the Category Index row and the Architecture Coverage table's designated current-status row for Multi-tenant SaaS architecture from Version 1.0 to Version 1.1, matching Blueprint 25's corrected current version following MT-R2. Ordinary-narrative citations of Blueprint 25 elsewhere in this document remain deferred to a separately authorized bulk migration to versionless references. No lifecycle count, category count, or coverage classification changed. |
 | 1.8 | 2026-09-19 | Development Roadmap Post-AR-003 Designated-Authority Synchronization | Updated the Category Index row and the Architecture Coverage table's "Roadmap detail beyond Blueprint summary" row from Version 1.2 to Version 1.3, matching the Development Roadmap's corrected current version following its AR-003 disposition synchronization. Ordinary-narrative citations of Module_Dependency_Matrix.md and Architecture_Freeze.md in the Documentation Hierarchy prose remain deferred to a separately authorized bulk migration to versionless references. No lifecycle count, category count, or coverage classification changed. |
+| 1.9 | 2026-09-26 | ADR-016 Registration | Corrected the Architecture Coverage table's "Binding decisions" row from "17 documents: 15 Accepted ADRs" to "18 documents: 16 Accepted ADRs," reflecting the addition of `decisions/ADR-016-Item-Material-Product-Template-Mapping.md` (Accepted, Version 1.0), which resolves Architecture Review Register AR-006 and Naming Registry Section 27 item 10. Navigation-only factual correction; no other Category Index, Documentation Hierarchy, or Architecture Coverage entry changed; no lifecycle, architecture, milestone, or implementation decision made by this document. |
 
 ---
 

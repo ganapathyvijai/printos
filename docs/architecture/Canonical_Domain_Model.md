@@ -1,7 +1,7 @@
 # Canonical Domain Model
 
 Version:
-0.4
+0.5
 
 Status:
 Draft
@@ -97,7 +97,7 @@ This document uses the Bounded Context list already Published in [../blueprint/0
 - **Aggregate Roots:** Material
 - **Child Entities:** Substrate (child of Material) — Substrate is "the specific physical material" derived from a Material record, per [../blueprint/05_Domain_Model.md](../blueprint/05_Domain_Model.md), and is modeled here as owned by its Material rather than independently.
 - **Value Objects:** Media Profiles, Units of Measure
-- **Domain Services:** None named. Material's relationship to ERPNext "Item" is under [Architecture Review Register](../decisions/Architecture_Review_Register.md) **AR-006**.
+- **Domain Services:** None named. Material's relationship to ERPNext "Item" is Resolved — [Architecture Review Register](../decisions/Architecture_Review_Register.md) **AR-006**, Option C (2026-09-26): Material is a Custom PrintOS master record linked to native Item; see [17_Inventory_Model.md](../blueprint/17_Inventory_Model.md).
 
 ---
 
@@ -365,9 +365,9 @@ Every entity from [../database/Business_Entity_Inventory.md](../database/Busines
 | Employee | Canonical | — |
 | Customer | Canonical | Synonym conflict (Client/Party) is Pending ADR but entity itself is Canonical |
 | Supplier | Canonical | Synonym conflict (Vendor) is Pending ADR but entity itself is Canonical |
-| Product Template | Canonical | Item-vs-Material relationship touches this entity — see AR-006 |
+| Product Template | Canonical | Own Custom PrintOS artifact, independent of Material/Item — Resolved, AR-006, Option C, 2026-09-26; ADR-016 |
 | Product Category | Canonical | — |
-| Material | Pending Architecture Review | AR-006 |
+| Material | Canonical | Resolved — AR-006, Option C, 2026-09-26; ADR-016 |
 | Warehouse | Canonical | — |
 | Price List | Canonical | — |
 | Payment Terms | Canonical | — |
@@ -381,7 +381,7 @@ Every entity from [../database/Business_Entity_Inventory.md](../database/Busines
 | Invoice | Canonical | — |
 | Payment | Canonical | — |
 | Journal Entry | Canonical | — |
-| Substrate | Canonical | — |
+| Substrate | Canonical | Substrate is a specialization of Material; Resolved, AR-006, Option C, 2026-09-26; ADR-016. DocType structure deferred to downstream design |
 | Machine | Canonical | Resolved — AR-004, Option C (2026-09-20) |
 | Machine Profile | Canonical | Resolved — AR-004, Option C (2026-09-20, dependent on Machine) |
 | Job Types | Canonical | — |
@@ -435,7 +435,7 @@ Every entity from [../database/Business_Entity_Inventory.md](../database/Busines
 | Recommendation | Pending Architecture Review | Unregistered — outside AR-003, pending separate future governance; possible overlap with MachineIQ "Insight" (§23), unreconciled |
 | AI Action | Pending Architecture Review | Unregistered — outside AR-003, pending separate future governance |
 
-**Summary:** 47 Canonical, 0 Alias, 25 Pending Architecture Review, 1 Not adopted, 2 Not an Independent Entity. (75 total, matching the Business Entity Inventory.)
+**Summary:** 48 Canonical, 0 Alias, 24 Pending Architecture Review, 1 Not adopted, 2 Not an Independent Entity. (75 total, matching the Business Entity Inventory.)
 
 ---
 
@@ -470,7 +470,6 @@ This domain model's structure is directly gated, in part, by the following open 
 | Tenant vs. Company definition and multi-tenant model | Administration Context, Configuration Studio's Tenant Override, "Administration → All Contexts" relationship | [Architecture Review Register](../decisions/Architecture_Review_Register.md) AR-002 |
 | AI Assistant naming and scope (registered as a Proposed name only; no Approved Bounded Context, architecture, provider, model, plugin design, implementation owner, or implementation authorization) | AI Assistant Context, and its five unregistered candidate sub-entities (Conversation, Prompt, Knowledge Source, Recommendation, AI Action) | AR-003 (Resolved 2026-09-19 as a Proposed-name-only registration; does not scope or authorize the AI Assistant Context, its architecture, or its sub-entities, which remain outside AR-003 pending separate future governance) |
 | Approval Record naming/classification (distinct from the "Approval Management" module-name question AR-003 resolved, mapped to Approval Designer) | Artwork Context's Approval Record | Unassigned — no covering Architecture Review item; a separate, currently unassigned governance question |
-| Item vs. Material/Product Template mapping | Inventory Context's Material Aggregate Root, Estimation Context's Product Template | AR-006 |
 | Purchasing vs. Procurement naming | Procurement Context's name itself | AR-007 |
 | Dispatch vs. Delivery terminology | Dispatch Context's Dispatch Record Aggregate Root | AR-008 |
 | Quality module standalone status | Production Context's Quality Check Record Child Entity | AR-009 |
@@ -510,6 +509,7 @@ This domain model's structure is directly gated, in part, by the following open 
 |---|---|---|---|
 | 0.1 | 2026-07-25 | Initial | Initial Canonical Domain Model. Organized 75 entities from the Business Entity Inventory into 17 Bounded Contexts (14 Approved per Blueprint, plus Configuration Studio, MachineIQ, Marketplace, and a flagged AI Assistant grouping), 37 Aggregate Roots, 11 Child Entities, 11 Value Objects, and 3 Domain Services. Classified all 75 entities in the Naming Review (45 Canonical, 28 Pending Architecture Review, 2 Not an Independent Entity). Performed Special Review of the Marketplace naming collision, Print Specification, Production Stage, and Machine Queue. Surfaced one new observed overlap (Reporting vs. Configuration Studio ownership of Report/Dashboard Definition) without adding it to the Architecture Review Register. No ERPNext mapping, ADR modification, or Architecture Review resolution performed. |
 | 0.2 | 2026-07-25 | Documentation Clarification | Clarified Reporting and Configuration Studio ownership language for reports and dashboards. Reporting owns reporting capability and consumption; Configuration Studio owns Report Definition and Dashboard Definition configuration artifacts. Documentation clarification only; no architecture change. |
+| 0.5 | 2026-09-26 | AR-006 Disposition Synchronization | Corrected active statements following [Architecture Review Register](../decisions/Architecture_Review_Register.md) AR-006's Resolved disposition (Option C, 2026-09-26; [ADR-016-Item-Material-Product-Template-Mapping](../decisions/ADR-016-Item-Material-Product-Template-Mapping.md)): Material is a Custom PrintOS master record linked to native Item; Substrate is a specialization of Material (exact DocType structure deferred to downstream design); Product Template is its own Custom PrintOS artifact, independent of Material and Item. **Material** reclassified in the Naming Review table from "Pending Architecture Review" to **Canonical**, citing AR-006 Resolved, Option C; corrected the Inventory Context's Domain Services text accordingly. **Substrate**'s Naming Review note corrected from "—" to record it as a specialization of Material with its DocType structure deferred (correcting a prior inconsistency against `../database/ERPNext_DocType_Mapping.md`'s own treatment). **Product Template**'s Naming Review note corrected from "Item-vs-Material relationship touches this entity" to record its own independent Resolved disposition. Removed the now-resolved "Item vs. Material/Product Template mapping" row from the Open Architecture Dependencies table. Recalculated the Naming Review summary from the actual final rows: 47 → 48 Canonical, 25 → 24 Pending Architecture Review, 1 Not adopted and 2 Not an Independent Entity unchanged (75 total, unchanged). All prior Revision History rows (0.1–0.4) are preserved unchanged. No Bounded Context, Aggregate Root, Child Entity, or Value Object was added or removed — Material remains the Inventory Context's Aggregate Root and Substrate remains its Child Entity, unchanged structurally; no ERPNext mapping, DocType design, or database schema design performed; no Architecture Review Register item was created or modified beyond AR-006 itself; AR-007 through AR-011 unchanged; no implementation was authorized. |
 | 0.4 | 2026-09-26 | AR-004 and AR-005 Disposition Synchronization | Corrected active statements following [Architecture Review Register](../decisions/Architecture_Review_Register.md) AR-004's Resolved disposition (Option C, 2026-09-20) and AR-005's Resolved disposition (Option B, 2026-09-26: Custom Cost Estimate and pricing logic feed ERPNext's native Quotation through a governed handoff — see [14_Quotation_Engine.md](../blueprint/14_Quotation_Engine.md)), neither of which had previously been synchronized into this document. **Machine** and **Machine Profile** reclassified in the Naming Review table from "Pending Architecture Review" to **Canonical**, citing AR-004 Resolved, Option C; corrected the Production Context's Domain Services text accordingly. **Quotation** and **Quotation Line** remain **Pending Architecture Review** — AR-005 is Resolved, but AR-010 (BOM necessity, governing Cost Estimate's detailed cost-breakdown design) remains the open dependency; corrected the Estimation Context's Domain Services text and both Naming Review rows to record AR-005 Resolved and AR-010 as the remaining open item, using the normalized wording: AR-010 remains Open and should be resolved before detailed Cost Estimate cost-breakdown design, to avoid later rework. Removed the now-resolved Machine domain ownership row from the Open Architecture Dependencies table and repurposed the former Quotation-strategy row to describe the remaining AR-010 dependency (BOM necessity for Cost Estimate's detailed cost-breakdown design), noting AR-005's own Quotation-strategy question is Resolved. Recalculated the Naming Review summary from the actual final rows: 45 → 47 Canonical, 27 → 25 Pending Architecture Review, 1 Not adopted and 2 Not an Independent Entity unchanged (75 total, unchanged). All prior Revision History rows (0.1, 0.2, 0.3) are preserved unchanged. No Bounded Context, Aggregate Root, Child Entity, or Value Object was added or removed; no ERPNext mapping, DocType design, or database schema design performed; no Architecture Review Register item was created or modified; neither AR-004 nor AR-005 was further modified by this document; AR-006 through AR-011 unchanged; no implementation was authorized. |
 | 0.3 | 2026-09-20 | AR-003 Disposition Synchronization | Corrected active statements following AR-003's Resolved disposition ([Architecture Review Register](../decisions/Architecture_Review_Register.md) Version 0.5, 2026-09-19): "Print Specification" reclassified in the Naming Review table and Special Review section from "Pending Architecture Review" to **Not adopted**, recording its resolved mapping to Product Template, Job Types, Finishing Types, and Paper Sizes; "AI Assistant" corrected throughout (AI Assistant Context heading and note, Naming Review) to record it as a **Proposed name only** (Naming Registry Section 40) with no Approved Bounded Context, architecture, provider, model, plugin design, implementation owner, or implementation authorization; its five candidate sub-entities (Conversation, Prompt, Knowledge Source, Recommendation, AI Action) corrected to record they remain unregistered and outside AR-003's eight-term scope, pending separate future governance, rather than "AR-003." Corrected Approval Record's Naming Review note and the Artwork Context's Domain Services text to record that Approval Record's own naming/classification was never one of AR-003's eight terms (only the requested "Approval Management" module name, mapped to Approval Designer, was) and remains a separate, currently unassigned governance question. Split the Open Architecture Dependencies table's combined AR-003 row into a corrected AI Assistant row and a separate, non-AR-003 Approval Record row, and removed the now-resolved Print Specification entry from that open-dependencies table. Updated the Naming Review summary to 45 Canonical, 27 Pending Architecture Review, 1 Not adopted, 2 Not an Independent Entity (75 total, unchanged). No Bounded Context, Aggregate Root, Child Entity, Value Object, or Domain Service was added, removed, or approved; AR-004 through AR-011 unchanged; no ERPNext mapping performed. |
 

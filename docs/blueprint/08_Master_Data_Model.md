@@ -1,7 +1,7 @@
 # Master Data Model
 
 Version:
-1.0
+1.1
 
 Status:
 Draft
@@ -10,7 +10,7 @@ Owner:
 PrintHub Architecture Team
 
 Last Updated:
-2026-07-18
+2026-09-26
 
 ---
 
@@ -140,7 +140,7 @@ Master data is deliberately owned by the bounded context most responsible for it
 
 # Open Questions
 
-- Should Substrate be modeled as a specialization of Material, or as an independent entity referencing Material?
+- **(Resolved)** Substrate is a specialization of Material — [Architecture Review Register](../decisions/Architecture_Review_Register.md) AR-006, Option C, resolved via [ADR-016-Item-Material-Product-Template-Mapping](../decisions/ADR-016-Item-Material-Product-Template-Mapping.md). This resolves only the business-model relationship; ERPNext DocType structure (child table vs. standalone linked DocType) is a separate, still-deferred downstream design question — see [17_Inventory_Model.md](17_Inventory_Model.md).
 - How will Machine Profiles be kept in sync as physical equipment is added, retired, or reconfigured?
 
 ---
@@ -158,6 +158,7 @@ Master data is deliberately owned by the bounded context most responsible for it
 
 | Version | Date | Author | Changes |
 |----------|------|--------|---------|
+|1.1|2026-09-26|AR-006 Disposition Synchronization|Corrected the Open Questions section's Substrate-specialization item following AR-006's Resolved disposition (Option C; ADR-016-Item-Material-Product-Template-Mapping): Substrate is a specialization of Material. This is a bounded, reference-only correction, authorized by the Project Owner without a fresh Architecture or Business Review; a Consistency Review and Documentation Governance check were performed, confirming this correction does not reopen the document's Frozen classification under `../implementation/Architecture_Freeze.md` Section 8 (Group A) and does not contradict any other current-state citation. No Architecture or Business Review is repeated. No ERPNext DocType schema, field, hook, or implementation authorization is introduced. The Machine Profile Open Question and all other content are preserved unchanged. Status remains Draft.|
 |1.0|2026-07-18|Initial|Initial Version|
 
 ---
