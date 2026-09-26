@@ -1,7 +1,7 @@
 # Documentation Map
 
 Version:
-1.10
+1.11
 
 Status:
 Draft
@@ -119,7 +119,7 @@ flowchart LR
 | Cross-cutting architecture deep-dives | Covered — Architecture (15 documents); Multi-Tenant remains an unreconciled working draft alongside the existing Blueprint 25; Deployment and Integration remain working drafts pending their reserved Blueprint documents |
 | Implementation/delivery planning | Partially covered — Implementation (12 of 19 documents populated; 09–15 remain empty placeholders) |
 | Engineering standards | Covered — Standards (20 documents) |
-| Binding decisions | Covered — Decisions (19 documents: 17 Accepted ADRs, Draft ADR index, Draft Architecture Review Register) |
+| Binding decisions | Covered — Decisions (20 documents: 18 Accepted ADRs, Draft ADR index, Draft Architecture Review Register) |
 | Multi-tenant SaaS architecture | Covered at Approval — `docs/blueprint/25_MultiTenant_Architecture.md`, Version 1.1; not Published and does not authorize implementation |
 | MachineIQ detailed architecture | **Gap** — deferred per ADR-008 |
 | Marketplace detailed architecture | **Gap** — deferred per ADR-009, Phase 5 |
@@ -173,6 +173,7 @@ flowchart LR
 | 1.8 | 2026-09-19 | Development Roadmap Post-AR-003 Designated-Authority Synchronization | Updated the Category Index row and the Architecture Coverage table's "Roadmap detail beyond Blueprint summary" row from Version 1.2 to Version 1.3, matching the Development Roadmap's corrected current version following its AR-003 disposition synchronization. Ordinary-narrative citations of Module_Dependency_Matrix.md and Architecture_Freeze.md in the Documentation Hierarchy prose remain deferred to a separately authorized bulk migration to versionless references. No lifecycle count, category count, or coverage classification changed. |
 | 1.9 | 2026-09-26 | ADR-016 Registration | Corrected the Architecture Coverage table's "Binding decisions" row from "17 documents: 15 Accepted ADRs" to "18 documents: 16 Accepted ADRs," reflecting the addition of `decisions/ADR-016-Item-Material-Product-Template-Mapping.md` (Accepted, Version 1.0), which resolves Architecture Review Register AR-006 and Naming Registry Section 27 item 10. Navigation-only factual correction; no other Category Index, Documentation Hierarchy, or Architecture Coverage entry changed; no lifecycle, architecture, milestone, or implementation decision made by this document. |
 | 1.10 | 2026-09-26 | ADR-017 Registration | Corrected the Architecture Coverage table's "Binding decisions" row from "18 documents: 16 Accepted ADRs" to "19 documents: 17 Accepted ADRs," reflecting the addition of `decisions/ADR-017-Purchasing-Procurement-Terminology.md` (Accepted, Version 1.0), which resolves Architecture Review Register AR-007 and Naming Registry Section 27 item 3. Navigation-only factual correction; no other Category Index, Documentation Hierarchy, or Architecture Coverage entry changed; no lifecycle, architecture, milestone, or implementation decision made by this document. |
+| 1.11 | 2026-09-26 | ADR-018 Registration | Corrected the Architecture Coverage table's "Binding decisions" row from "19 documents: 17 Accepted ADRs" to "20 documents: 18 Accepted ADRs," reflecting the addition of `decisions/ADR-018-Dispatch-Delivery-Terminology.md` (Accepted, Version 1.0), which resolves Architecture Review Register AR-008 and Naming Registry Section 27 item 5. Navigation-only factual correction; no other Category Index, Documentation Hierarchy, or Architecture Coverage entry changed; no lifecycle, architecture, milestone, or implementation decision made by this document. |
 
 ---
 
