@@ -1,7 +1,7 @@
 # PrintOS Modules
 
 Version:
-1.1
+1.2
 
 Status:
 Draft
@@ -10,7 +10,7 @@ Owner:
 PrintHub Architecture Team
 
 Last Updated:
-2026-07-18
+2026-09-26
 
 ---
 
@@ -48,7 +48,7 @@ Bounded contexts define conceptual boundaries; modules translate those boundarie
 | Job Cards | Production | 1 |
 | Machine Scheduling | Production | 1 |
 | Inventory | Inventory | 1 |
-| Purchasing | Procurement | 1 |
+| Purchasing | Purchasing | 1 |
 | Warehouse | Warehouse | 1 |
 | Dispatch | Dispatch | 1 |
 | Accounts | Accounts | 1 |
@@ -158,7 +158,7 @@ Bounded contexts define conceptual boundaries; modules translate those boundarie
 - **Purpose:** Track availability and consumption of production materials.
 - **Business Responsibilities:** Stock level visibility, allocation to Job Cards, replenishment signaling.
 - **Key Features:** Stock level tracking, allocation records, low-stock alerts.
-- **Inputs:** Procurement receipts, Production consumption.
+- **Inputs:** Purchasing receipts, Production consumption.
 - **Outputs:** Material availability to Production; replenishment triggers to Purchasing.
 - **Dependencies:** Material/Substrate master data, Warehouse.
 - **Permissions:** Inventory staff (record movements), Production (request allocation).
@@ -174,7 +174,7 @@ Bounded contexts define conceptual boundaries; modules translate those boundarie
 - **Inputs:** Replenishment triggers from Inventory.
 - **Outputs:** Received materials to Warehouse.
 - **Dependencies:** Supplier master data, Inventory.
-- **Permissions:** Procurement staff (create/receive), management (approve).
+- **Permissions:** Purchasing staff (create/receive), management (approve).
 - **Reports:** Supplier performance, purchase spend by category.
 - **Dashboards:** Open purchase orders.
 - **Future Enhancements:** Supplier Portal self-service ordering.
@@ -184,7 +184,7 @@ Bounded contexts define conceptual boundaries; modules translate those boundarie
 - **Purpose:** Manage physical storage and movement of goods.
 - **Business Responsibilities:** Goods receipt, goods issue, stock location tracking.
 - **Key Features:** Location management, stock movement recording.
-- **Inputs:** Procurement receipts, Production output.
+- **Inputs:** Purchasing receipts, Production output.
 - **Outputs:** Materials to Production; finished goods to Dispatch.
 - **Dependencies:** Warehouse master data, Inventory.
 - **Permissions:** Warehouse staff (record movements).
@@ -343,6 +343,7 @@ MachineIQ and Marketplace modules are intentionally left at a summary level; eac
 |----------|------|--------|---------|
 |1.0|2026-07-18|Initial|Initial Version|
 |1.1|2026-07-22|ADR Synchronization|Renamed the "Quotation" module to "Estimation" (table row and section header) to match its Bounded Context name, per [ADR-012-Estimating-Terminology.md](../decisions/ADR-012-Estimating-Terminology.md). "Quotation" is retained throughout this module's description as the artifact it produces, per [ADR-013-Quotation-Terminology.md](../decisions/ADR-013-Quotation-Terminology.md). No other module, architecture, or content change made.|
+|1.2|2026-09-26|AR-007 Disposition Synchronization|Removed the three stray "Procurement" cross-references (Inventory and Warehouse module Inputs, Purchasing module's own Permissions line) and corrected the Module Summary table's Bounded Context column from "Procurement" to "Purchasing" ([AR-007](../decisions/Architecture_Review_Register.md), Option A; [ADR-017-Purchasing-Procurement-Terminology](../decisions/ADR-017-Purchasing-Procurement-Terminology.md)), eliminating the module/context name mismatch. No module added or removed; no feature, dependency, or permission changed beyond the label. No implementation authorized.|
 
 ---
 

@@ -1,7 +1,7 @@
 # Bounded Contexts
 
 Version:
-1.3
+1.4
 
 Status:
 Draft
@@ -10,7 +10,7 @@ Owner:
 PrintHub Architecture Team
 
 Last Updated:
-2026-07-31
+2026-09-26
 
 ---
 
@@ -45,8 +45,8 @@ flowchart LR
     Estimation --> Artwork
     Artwork --> Production
     Production --> Inventory
-    Inventory --> Procurement
-    Procurement --> Warehouse
+    Inventory --> Purchasing
+    Purchasing --> Warehouse
     Production --> Warehouse
     Warehouse --> Dispatch
     Dispatch --> Accounts
@@ -118,12 +118,12 @@ flowchart LR
 - **Purpose:** Track availability and consumption of materials used in production.
 - **Responsibilities:** Stock level tracking, material allocation to Job Cards.
 - **Owned Business Objects:** Material Stock, Allocation Record.
-- **Inputs:** Procurement receipts, Production consumption.
-- **Outputs:** Material availability to Production; replenishment triggers to Procurement.
-- **Interactions:** Bridges Procurement and Production.
+- **Inputs:** Purchasing receipts, Production consumption.
+- **Outputs:** Material availability to Production; replenishment triggers to Purchasing.
+- **Interactions:** Bridges Purchasing and Production.
 - **Future Expansion:** Supplier-integrated real-time stock visibility (Phase 3).
 
-### Procurement
+### Purchasing
 
 - **Purpose:** Acquire materials and services needed to support production.
 - **Responsibilities:** Purchase Order creation, supplier communication, receipt tracking.
@@ -138,7 +138,7 @@ flowchart LR
 - **Purpose:** Manage physical storage and movement of materials and finished goods.
 - **Responsibilities:** Stock location management, goods receipt, goods issue.
 - **Owned Business Objects:** Warehouse Location, Stock Movement.
-- **Inputs:** Procurement receipts, Production output.
+- **Inputs:** Purchasing receipts, Production output.
 - **Outputs:** Materials to Production; finished goods to Dispatch.
 - **Interactions:** Supports both Inventory and Production and Dispatch.
 - **Future Expansion:** Multi-warehouse / multi-branch support.
@@ -234,7 +234,7 @@ Each bounded context is intended to map to a cohesive, loosely-coupled module wi
 # Future Considerations
 
 - MachineIQ and Marketplace contexts are placeholders; their responsibilities and object ownership will be refined when those phases are formally scoped.
-- As Freelancer, Supplier, and Service Engineer portals are introduced, new contexts (or extensions to Procurement, Production, and HR) will be required.
+- As Freelancer, Supplier, and Service Engineer portals are introduced, new contexts (or extensions to Purchasing, Production, and HR) will be required.
 
 ---
 
@@ -261,6 +261,7 @@ Each bounded context is intended to map to a cohesive, loosely-coupled module wi
 |1.0|2026-07-18|Initial|Initial Version|
 |1.1|2026-07-22|ADR Synchronization|Corrected "### Estimations" section header to "### Estimation" (singular), per [ADR-012-Estimating-Terminology.md](../decisions/ADR-012-Estimating-Terminology.md), resolving an inconsistency between this document's own header (plural) and its prose/diagram (singular). No other content changed.|
 |1.2|2026-07-25|Documentation Clarification|Clarified Reporting and Configuration Studio ownership language for reports and dashboards. Reporting owns reporting capability and consumption; Configuration Studio owns Report Definition and Dashboard Definition configuration artifacts. Documentation clarification only; no architecture change.|
+| 1.4 | 2026-09-26 | AR-007 Disposition Synchronization | Resolved the Purchasing/Procurement dual-naming conflict (AR-007, Option A; [ADR-017-Purchasing-Procurement-Terminology](../decisions/ADR-017-Purchasing-Procurement-Terminology.md)): renamed the "Procurement" bounded context and all internal cross-references (Context Map diagram, Inventory context Inputs/Outputs/Interactions, Warehouse context Inputs, Future Considerations) to "Purchasing," matching the already-Blueprint-Approved module name in `09_PrintOS_Modules.md`. This is a bounded terminology synchronization, authorized by the Project Owner without a fresh Architecture or Business Review; a Consistency Review and Documentation Governance check were performed, confirming this correction does not reopen this document's Frozen classification under `../implementation/Architecture_Freeze.md` Section 8 (Group A) and does not contradict any other current-state citation. No context added or removed; no responsibility, input, output, or interaction relationship changed beyond the label; the Section 13 Open Questions (Machine Scheduling context boundary; GST-into-Accounts) are unaffected. ERPNext native object names (Purchase Order, Supplier) unaffected. No implementation authorized. |
 | 1.3 | 2026-07-31 | Artwork Production Authority Synchronization | Synchronized the Artwork bounded context with the Project Owner's production-capable Artwork track selection (2026-07-30) and approval of the Artwork design defaults (2026-07-31). Changed the Artwork context output from the vague "Approved Artwork" concept to **Approved Production Artwork Set**, extended its purpose and responsibilities to cover production authority, set completeness, supersession and withdrawal/revocation, and added **Artwork Revision (standalone)** and **Production Artwork Set** to its owned business objects. Recorded that the Artwork context owns revisions, approval, file evidence, set completeness, supersession and withdrawal; that the Production context consumes an approved set and does not own or mutate the Artwork lifecycle; that the **reverse dependency Artwork → Job Card is prohibited**; and that the Configuration Studio Approval Designer remains optional and deferrable, so a default governed Artwork approval mechanism must exist without it. Updated the Production context input accordingly. Status remains Draft; no context was added or removed; the context map is unchanged; no Job Card Tier A document, Architecture Review Register item, ADR or standards document was modified; no implementation was authorized. |
 
 ---
