@@ -1,7 +1,7 @@
 # Architecture Decision Records — Index
 
 Version:
-1.5
+1.6
 
 Status:
 Draft
@@ -48,6 +48,7 @@ This document indexes every ADR in `docs/decisions/`. It does not restate any AD
 | [ADR-016](ADR-016-Item-Material-Product-Template-Mapping.md) | Item, Material, and Product Template Mapping | Accepted | Material is a Custom PrintOS master linked to native Item; Substrate is a specialization of Material; Product Template is its own Custom PrintOS artifact, independent of Material and Item — Naming Decision Matrix item #10; resolves Architecture Review Register AR-006 |
 | [ADR-017](ADR-017-Purchasing-Procurement-Terminology.md) | Purchasing and Procurement Terminology | Accepted | Purchasing is canonical at both the module and bounded-context level, superseding "Procurement" as the context name — Naming Decision Matrix item #3; resolves Architecture Review Register AR-007 |
 | [ADR-018](ADR-018-Dispatch-Delivery-Terminology.md) | Dispatch and Delivery Terminology | Accepted | Dispatch is the module/context name; Dispatch Record is the PrintOS business concept; native Delivery Note is the implementation DocType with no parallel Dispatch DocType — Naming Decision Matrix item #5; resolves Architecture Review Register AR-008 |
+| [ADR-019](ADR-019-Quality-Maintenance-Module-Status.md) | Quality and Maintenance Module Status | Accepted | Quality Check Record remains a Job Cards sub-feature, not a standalone module; Maintenance not adopted as a standalone module, remaining a MachineIQ Future Enhancement only — Naming Decision Matrix item #9; resolves Architecture Review Register AR-009 |
 
 ---
 
@@ -70,19 +71,19 @@ flowchart TB
     ADR002 --> ADR016["ADR-016: Item/Material/Product Template"]
     ADR005 --> ADR017["ADR-017: Purchasing/Procurement"]
     ADR005 --> ADR018["ADR-018: Dispatch/Delivery"]
+    ADR005 --> ADR019["ADR-019: Quality/Maintenance Module Status"]
 ```
 
 ---
 
 # Pending Terminology Not Yet Covered by an ADR
 
-Per `docs/standards/Naming_Registry.md` Section 27 (Naming Decision Matrix), the following items remain **Pending ADR** and are not yet resolved by ADR-011 through ADR-018 (item #11, "Tenant" vs. "Company," was resolved by ADR-015; item #10, "Item" vs. "Material"/"Product Template," was resolved by ADR-016; item #3, "Purchasing" vs. "Procurement," was resolved by ADR-017; and item #5, "Dispatch" vs. "Delivery," was resolved by ADR-018; all four removed from this table):
+Per `docs/standards/Naming_Registry.md` Section 27 (Naming Decision Matrix), the following items remain **Pending ADR** and are not yet resolved by ADR-011 through ADR-019 (item #11, "Tenant" vs. "Company," was resolved by ADR-015; item #10, "Item" vs. "Material"/"Product Template," was resolved by ADR-016; item #3, "Purchasing" vs. "Procurement," was resolved by ADR-017; item #5, "Dispatch" vs. "Delivery," was resolved by ADR-018; and item #9, "Quality"/"Maintenance" modules, was resolved by ADR-019; all five removed from this table):
 
 | Matrix Item | Conflict |
 |---|---|
 | #1 | Event naming casing: snake_case vs. PascalCase |
 | #6 | Customer vs. Client vs. Party |
-| #9 | New "Quality" and "Maintenance" modules not yet in Blueprint |
 | #13 | "Vendor" (Marketplace) vs. "Supplier" |
 | #14 | "Marketplace Quote"/"Marketplace Payment" vs. "Quotation"/"Payment" |
 | #15 | "Delivery Partner" vs. "Dispatch" context |
@@ -107,6 +108,7 @@ Per `docs/standards/Naming_Registry.md` Section 27 (Naming Decision Matrix), the
 |----------|------|--------|---------|
 |1.0|2026-07-22|Initial|Initial Version — populated index for ADR-001 through ADR-014 (previously empty placeholder)|
 |1.1|2026-07-26|Owner-Verification Status Reconciliation|Status corrected from Published to Draft. The previous Published header was removed because formal Project Owner approval had not occurred (explicit Project Owner declaration, 2026-07-26); the document returns to its supported pre-publication Draft lifecycle status. This correction affects only this index document — no ADR changed status or decision state, and no index content changed.|
+|1.6|2026-09-26|ADR-019 Registration|Registered ADR-019 (Quality and Maintenance Module Status, Accepted, Version 1.0, 2026-09-26) in the ADR Index table, immediately following ADR-018, recording its decision summary and Naming Decision Matrix item #9 resolution — Quality Check Record remains a Job Cards sub-feature, not a standalone module; Maintenance not adopted as a standalone module, remaining a MachineIQ Future Enhancement only. Added ADR-019 to the ADR Relationships diagram as a companion to ADR-005 (Module Boundaries). Removed item #9 from the Pending Terminology table and updated the introductory sentence accordingly. Also resolves Architecture Review Register AR-009. Does not authorize implementation, runtime validation, or Publication. No other ADR's Status, Version, title, or decision summary changed.|
 |1.5|2026-09-26|ADR-018 Registration|Registered ADR-018 (Dispatch and Delivery Terminology, Accepted, Version 1.0, 2026-09-26) in the ADR Index table, immediately following ADR-017, recording its decision summary and Naming Decision Matrix item #5 resolution — Dispatch is the module/context name; Dispatch Record is the PrintOS business concept; native Delivery Note is the implementation DocType, with no parallel Dispatch DocType created. Added ADR-018 to the ADR Relationships diagram as a companion to ADR-005 (Module Boundaries). Removed item #5 from the Pending Terminology table and updated the introductory sentence accordingly. Item #15 ("Delivery Partner" vs. "Dispatch" context) remains separate and unaffected, still Pending ADR. Also resolves Architecture Review Register AR-008. Does not authorize implementation, runtime validation, or Publication. No other ADR's Status, Version, title, or decision summary changed.|
 |1.4|2026-09-26|ADR-017 Registration|Registered ADR-017 (Purchasing and Procurement Terminology, Accepted, Version 1.0, 2026-09-26) in the ADR Index table, immediately following ADR-016, recording its decision summary and Naming Decision Matrix item #3 resolution — Purchasing is canonical at both the module and bounded-context level, superseding "Procurement" as the context name. Added ADR-017 to the ADR Relationships diagram as a companion to ADR-005 (Module Boundaries). Removed item #3 from the Pending Terminology table and updated the introductory sentence accordingly. Also resolves Architecture Review Register AR-007. Does not authorize implementation, runtime validation, or Publication. No other ADR's Status, Version, title, or decision summary changed.|
 |1.3|2026-09-26|ADR-016 Registration|Registered ADR-016 (Item, Material, and Product Template Mapping, Accepted, Version 1.0, 2026-09-26) in the ADR Index table, immediately following ADR-015, recording its decision summary and Naming Decision Matrix item #10 resolution — Material is a Custom PrintOS master linked to native Item; Substrate is a specialization of Material; Product Template is its own Custom PrintOS artifact, independent of Material and Item. Added ADR-016 to the ADR Relationships diagram as a companion to ADR-002 (PrintOS Core). Removed item #10 from the Pending Terminology table and updated the introductory sentence accordingly. Also resolves Architecture Review Register AR-006. Does not authorize implementation, runtime validation, or Publication. No other ADR's Status, Version, title, or decision summary changed.|

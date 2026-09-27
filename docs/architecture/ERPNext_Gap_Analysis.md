@@ -1,7 +1,7 @@
 # ERPNext Gap Analysis
 
 Version:
-0.7
+0.8
 
 Status:
 Draft
@@ -289,7 +289,7 @@ ERPNext's generic Quality Inspection (Manufacturing/Stock module) assumes an Ite
 Manufacturing/Stock module: Quality Inspection. Partial, unconfirmed fit.
 
 **Gap Description**
-PrintHub requires quality checkpoint recording tied to Job Card status transitions. Per [../blueprint/09_PrintOS_Modules.md](../blueprint/09_PrintOS_Modules.md), this is currently scoped as a Job Cards sub-feature, not a standalone module; a standalone "Quality" module remains open.
+PrintHub requires quality checkpoint recording tied to Job Card status transitions. Per [../blueprint/09_PrintOS_Modules.md](../blueprint/09_PrintOS_Modules.md), this is scoped as a Job Cards sub-feature, not a standalone module — Resolved, [Architecture_Review_Register.md](../decisions/Architecture_Review_Register.md) **AR-009**, Option C (2026-09-26; [ADR-019-Quality-Maintenance-Module-Status](../decisions/ADR-019-Quality-Maintenance-Module-Status.md)): standalone "Quality" and "Maintenance" modules are both Not Adopted.
 
 **Recommended Classification**
 Customize
@@ -298,7 +298,7 @@ Customize
 printos_core
 
 **Dependencies**
-Standalone Quality module status is under [Architecture_Review_Register.md](../decisions/Architecture_Review_Register.md) **AR-009** — not resolved here.
+Standalone Quality module status is Resolved — [Architecture_Review_Register.md](../decisions/Architecture_Review_Register.md) **AR-009**, Option C (2026-09-26; [ADR-019-Quality-Maintenance-Module-Status](../decisions/ADR-019-Quality-Maintenance-Module-Status.md)): not adopted as a standalone module.
 
 **Implementation Priority**
 Medium
@@ -886,7 +886,7 @@ Low
 | Job Card Execution & Lifecycle | Production Planning & Orchestration | — | Critical |
 | Machine Scheduling & Capability Modeling | Job Card Execution & Lifecycle | AR-004 (Resolved — Machine base object only; scheduling/conflict-detection capability gap remains open) | Critical |
 | Finishing Process Tracking | Print Specification Modeling | — | Low |
-| Quality Check Processing | Job Card Execution & Lifecycle | AR-009 | Medium |
+| Quality Check Processing | Job Card Execution & Lifecycle | AR-009 (Resolved — Option C; ADR-019) | Medium |
 | Dispatch-Specific Data Capture | Production Planning & Orchestration | AR-008 (Resolved — Option A; ADR-018) | Medium |
 | Customer Production Visibility / Tracking | Job Card Execution & Lifecycle, Marketplace | — | Low |
 | Configuration Studio Governance Layer | — | — | Critical |
@@ -956,6 +956,7 @@ Finishing Process Tracking, Customer Production Visibility, Industry Template Li
 |---|---|---|---|
 | 0.1 | 2026-07-24 | Initial | Initial ERPNext Gap Analysis. Identified 28 capability gaps (1 Extend, 13 Customize, 7 Plugin, 7 Future) across Print Domain, Configuration Platform, Intelligence, and Operations, building strictly on `ERPNext_Fit_Analysis.md` and referencing (without resolving) `Architecture_Review_Register.md` items AR-002, AR-003, AR-004, AR-005, AR-008, AR-009, AR-010. |
 | 0.2 | 2026-07-28 | AR-001 Disposition Factual Synchronization | Synchronized active AR-001 wording in the Section 1 "Relationship to the Architecture Review Register" statement with the formal Project Owner disposition (Option A, recorded in `Architecture_Review_Register.md`), reaffirming Accepted ADR-001-ERPNext-Framework. Recorded ERPNext v16, with the corresponding Frappe v16 major version, as the governed platform target; noted version-sensitive gap claims remain conditional pending technical revalidation against that governed target; confirmed AR-002 through AR-011 retain their live Register status unchanged. Every gap identifier, category, severity, effort/sizing estimate, ownership statement, fit-to-gap transition, implementation recommendation, sequencing note, DocType conclusion, and AR-002/003/004/005/008/009/010 annotation is preserved unchanged — no gap classification or estimate was finalized, and no technical revalidation was performed or claimed by this synchronization. No implementation authorization was granted. Historical Revision History entry (0.1) preserved unchanged. |
+| 0.8 | 2026-09-26 | AR-009 Disposition Synchronization | Corrected the Gap Description dependency line and Recommendation-adjacent text for Quality Check Processing, and the Cross-Gap Dependency Matrix row, following [Architecture_Review_Register.md](../decisions/Architecture_Review_Register.md) AR-009's Resolved disposition (Option C, 2026-09-26; [ADR-019-Quality-Maintenance-Module-Status](../decisions/ADR-019-Quality-Maintenance-Module-Status.md)): Quality Check Record remains a Job Cards sub-feature; standalone Quality and Maintenance modules both Not Adopted. The gap's classification, priority, and effort/sizing estimate are unchanged. No Architecture Review Register item other than AR-009 was created or modified. |
 | 0.7 | 2026-09-26 | AR-008 Disposition Synchronization | Corrected the Gap Description dependency line for Dispatch-Specific Data Capture and the Cross-Gap Dependency Matrix row, following [Architecture_Review_Register.md](../decisions/Architecture_Review_Register.md) AR-008's Resolved disposition (Option A, 2026-09-26; [ADR-018-Dispatch-Delivery-Terminology](../decisions/ADR-018-Dispatch-Delivery-Terminology.md)): Dispatch Record is the PrintOS business concept implemented on native ERPNext Delivery Note, extended only via approved Custom Fields; no parallel Dispatch DocType. The gap's classification, priority, and effort/sizing estimate are unchanged. No Architecture Review Register item other than AR-008 was created or modified. |
 | 0.6 | 2026-09-26 | AR-006 Disposition Synchronization | Corrected the "Print Estimation & Costing Engine" gap record's Dependencies field and the Cross-Gap Dependency Matrix row to add a previously-missing citation of [Architecture_Review_Register.md](../decisions/Architecture_Review_Register.md) AR-006, following its Resolved disposition (Option C, 2026-09-26; [ADR-016-Item-Material-Product-Template-Mapping](../decisions/ADR-016-Item-Material-Product-Template-Mapping.md)): Material is a Custom PrintOS master linked to native Item; Substrate is a specialization of Material. This corrects a prior omission — the gap's own Gap Description already named "Material/Substrate cost" directly, but its Dependencies field and the Cross-Gap Matrix previously cited only AR-005 and AR-010. AR-010 (BOM necessity) remains Open and unaffected, using the normalized wording: AR-010 remains Open and should be resolved before detailed Cost Estimate cost-breakdown design, to avoid later rework. The gap's classification (Customize), priority (Critical), and effort/sizing estimate are unchanged. No Architecture Review Register item was created or modified beyond AR-006 itself. |
 | 0.5 | 2026-09-26 | AR-005 Disposition Synchronization | Corrected the "Print Estimation & Costing Engine" gap record's Dependencies field and the Cross-Gap Dependency Matrix row, following [Architecture_Review_Register.md](../decisions/Architecture_Review_Register.md) AR-005's Resolved disposition (Option B, 2026-09-26): Custom Cost Estimate and pricing logic feed ERPNext's native customer-facing Quotation through a governed handoff. This synchronization explicitly distinguishes AR-005's Resolved document-strategy disposition from AR-010 (BOM necessity), which remains Open and should be resolved before detailed Cost Estimate cost-breakdown design, to avoid later rework — not treated as mandatory, resolved, a new module-level blocker, or a condition on this decision. The gap's classification (Customize), priority (Critical), and effort/sizing estimate are unchanged. No Architecture Review Register item was created, modified, or resolved by this document. |
