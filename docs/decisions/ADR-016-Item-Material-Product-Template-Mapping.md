@@ -42,7 +42,7 @@ An additional alternative — linking Product Template through Material — was 
 
 ## Boundaries
 
-This ADR records the boundary decision only. It does not specify: DocType field lists, the child-table-vs-standalone-DocType structure for Substrate, Custom Field schema on Item, migration mechanics, or hooks. AR-010 (BOM necessity for Estimation) is **not** resolved, referenced as a condition, or reclassified by this ADR; it remains Open and unchanged, tracked separately in the Architecture Review Register.
+This ADR records the boundary decision only. It does not specify: DocType field lists, the child-table-vs-standalone-DocType structure for Substrate, Custom Field schema on Item, migration mechanics, or hooks. AR-010 (BOM necessity for Estimation) was not resolved, referenced as a condition, or reclassified by this ADR at the time of its acceptance; AR-010 is now separately Resolved (Option A, 2026-09-27, recorded in the Architecture Review Register and `docs/blueprint/14_Quotation_Engine.md`), tracked independently of this ADR's own Material/Substrate/Product Template decision, which remains entirely unchanged by AR-010's disposition.
 
 ## Consequences
 
@@ -86,6 +86,7 @@ This ADR records the boundary decision only. It does not specify: DocType field 
 
 | Version | Date | Author | Changes |
 |----------|------|--------|---------|
+|1.1|2026-09-27|AR-010 Cross-Reference Correction|Bounded, reference-only correction to the Boundaries section, which stated AR-010 "remains Open and unchanged" — AR-010 is now separately Resolved (Option A, 2026-09-27, recorded in the Architecture Review Register and `docs/blueprint/14_Quotation_Engine.md`). This ADR's own Decision (Material Custom, linked to Item; Substrate a specialization of Material; Product Template its own Custom PrintOS artifact), Consequences, Alternatives Rejected, and Migration Strategy are all preserved entirely unchanged — this correction touches only the Boundaries section's stale AR-010 status reference. A Consistency Review and Documentation Governance check were performed, confirming this does not reopen or repeat the original Project Owner acceptance of ADR-016, per the precedent established for ADR-015's own Version 1.0 → 1.1 reference-only correction. No implementation authorized.|
 |1.0|2026-09-26|Initial|Initial Version — Project Owner acceptance of Option C (Material Custom, linked to Item; Substrate a specialization of Material; Product Template its own Custom PrintOS artifact), formally resolving Naming Registry Section 27 item #10 and Architecture Review Register AR-006.|
 
 ---

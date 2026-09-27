@@ -1,7 +1,7 @@
 # ERPNext Gap Analysis
 
 Version:
-0.8
+0.9
 
 Status:
 Draft
@@ -10,7 +10,7 @@ Owner:
 PrintHub Architecture Team
 
 Last Updated:
-2026-09-26
+2026-09-27
 
 ---
 
@@ -66,7 +66,7 @@ Customize
 printos_core
 
 **Dependencies**
-[../blueprint/05_Domain_Model.md](../blueprint/05_Domain_Model.md) (Estimation Core Domain), [../blueprint/09_PrintOS_Modules.md](../blueprint/09_PrintOS_Modules.md) (Estimation module), [ERPNext_Fit_Analysis.md](ERPNext_Fit_Analysis.md) Section 3 (Selling, Inventory); Quotation document target is Resolved under [Architecture_Review_Register.md](../decisions/Architecture_Review_Register.md) AR-005 (Option B, 2026-09-26) — Custom Cost Estimate and pricing logic feed ERPNext's native Quotation through a governed handoff. Material/Substrate implementation ownership is Resolved under AR-006 (Option C, 2026-09-26; ADR-016) — Material is a Custom PrintOS master linked to native Item, and Substrate is a specialization of Material. AR-010 remains Open and should be resolved before detailed Cost Estimate cost-breakdown design, to avoid later rework.
+[../blueprint/05_Domain_Model.md](../blueprint/05_Domain_Model.md) (Estimation Core Domain), [../blueprint/09_PrintOS_Modules.md](../blueprint/09_PrintOS_Modules.md) (Estimation module), [ERPNext_Fit_Analysis.md](ERPNext_Fit_Analysis.md) Section 3 (Selling, Inventory); Quotation document target is Resolved under [Architecture_Review_Register.md](../decisions/Architecture_Review_Register.md) AR-005 (Option B, 2026-09-26) — Custom Cost Estimate and pricing logic feed ERPNext's native Quotation through a governed handoff. Material/Substrate implementation ownership is Resolved under AR-006 (Option C, 2026-09-26; ADR-016) — Material is a Custom PrintOS master linked to native Item, and Substrate is a specialization of Material. BOM necessity is Resolved under AR-010 (Option A, 2026-09-27) — Product Template, Job Types, Finishing Types, Paper Sizes, Material, and Item are confirmed sufficient; BOM is not adopted.
 
 **Implementation Priority**
 Critical
@@ -878,7 +878,7 @@ Low
 
 | Gap | Depends On | Related Review Item | Priority |
 |---|---|---|---|
-| Print Estimation & Costing Engine | Print Specification Modeling | AR-005 (Resolved — Option B); AR-006 (Resolved — Option C; ADR-016); AR-010 (Open — should be resolved before detailed Cost Estimate cost-breakdown design, to avoid later rework) | Critical |
+| Print Estimation & Costing Engine | Print Specification Modeling | AR-005 (Resolved — Option B); AR-006 (Resolved — Option C; ADR-016); AR-010 (Resolved — Option A; BOM not adopted) | Critical |
 | Print Specification Modeling | — | AR-003 (Resolved — naming only; capability gap remains open) | High |
 | Artwork & Proof Lifecycle | — | — | Critical |
 | Business Approval Orchestration | Artwork & Proof Lifecycle | AR-003 (Resolved — naming only; orchestration gap remains open) | High |
@@ -956,6 +956,7 @@ Finishing Process Tracking, Customer Production Visibility, Industry Template Li
 |---|---|---|---|
 | 0.1 | 2026-07-24 | Initial | Initial ERPNext Gap Analysis. Identified 28 capability gaps (1 Extend, 13 Customize, 7 Plugin, 7 Future) across Print Domain, Configuration Platform, Intelligence, and Operations, building strictly on `ERPNext_Fit_Analysis.md` and referencing (without resolving) `Architecture_Review_Register.md` items AR-002, AR-003, AR-004, AR-005, AR-008, AR-009, AR-010. |
 | 0.2 | 2026-07-28 | AR-001 Disposition Factual Synchronization | Synchronized active AR-001 wording in the Section 1 "Relationship to the Architecture Review Register" statement with the formal Project Owner disposition (Option A, recorded in `Architecture_Review_Register.md`), reaffirming Accepted ADR-001-ERPNext-Framework. Recorded ERPNext v16, with the corresponding Frappe v16 major version, as the governed platform target; noted version-sensitive gap claims remain conditional pending technical revalidation against that governed target; confirmed AR-002 through AR-011 retain their live Register status unchanged. Every gap identifier, category, severity, effort/sizing estimate, ownership statement, fit-to-gap transition, implementation recommendation, sequencing note, DocType conclusion, and AR-002/003/004/005/008/009/010 annotation is preserved unchanged — no gap classification or estimate was finalized, and no technical revalidation was performed or claimed by this synchronization. No implementation authorization was granted. Historical Revision History entry (0.1) preserved unchanged. |
+| 0.9 | 2026-09-27 | AR-010 Disposition Synchronization | Corrected the "Print Estimation & Costing Engine" gap record's Dependencies field and the Cross-Gap Dependency Matrix row, following [Architecture_Review_Register.md](../decisions/Architecture_Review_Register.md) AR-010's Resolved disposition (Option A, 2026-09-27): Product Template, Job Types, Finishing Types, Paper Sizes, Material, and Item are confirmed sufficient for current Estimation requirements; BOM is not adopted in the current Cost Estimate scope. The gap's classification (Customize), priority (Critical), and effort/sizing estimate are unchanged. No Architecture Review Register item other than AR-010 was created or modified. |
 | 0.8 | 2026-09-26 | AR-009 Disposition Synchronization | Corrected the Gap Description dependency line and Recommendation-adjacent text for Quality Check Processing, and the Cross-Gap Dependency Matrix row, following [Architecture_Review_Register.md](../decisions/Architecture_Review_Register.md) AR-009's Resolved disposition (Option C, 2026-09-26; [ADR-019-Quality-Maintenance-Module-Status](../decisions/ADR-019-Quality-Maintenance-Module-Status.md)): Quality Check Record remains a Job Cards sub-feature; standalone Quality and Maintenance modules both Not Adopted. The gap's classification, priority, and effort/sizing estimate are unchanged. No Architecture Review Register item other than AR-009 was created or modified. |
 | 0.7 | 2026-09-26 | AR-008 Disposition Synchronization | Corrected the Gap Description dependency line for Dispatch-Specific Data Capture and the Cross-Gap Dependency Matrix row, following [Architecture_Review_Register.md](../decisions/Architecture_Review_Register.md) AR-008's Resolved disposition (Option A, 2026-09-26; [ADR-018-Dispatch-Delivery-Terminology](../decisions/ADR-018-Dispatch-Delivery-Terminology.md)): Dispatch Record is the PrintOS business concept implemented on native ERPNext Delivery Note, extended only via approved Custom Fields; no parallel Dispatch DocType. The gap's classification, priority, and effort/sizing estimate are unchanged. No Architecture Review Register item other than AR-008 was created or modified. |
 | 0.6 | 2026-09-26 | AR-006 Disposition Synchronization | Corrected the "Print Estimation & Costing Engine" gap record's Dependencies field and the Cross-Gap Dependency Matrix row to add a previously-missing citation of [Architecture_Review_Register.md](../decisions/Architecture_Review_Register.md) AR-006, following its Resolved disposition (Option C, 2026-09-26; [ADR-016-Item-Material-Product-Template-Mapping](../decisions/ADR-016-Item-Material-Product-Template-Mapping.md)): Material is a Custom PrintOS master linked to native Item; Substrate is a specialization of Material. This corrects a prior omission — the gap's own Gap Description already named "Material/Substrate cost" directly, but its Dependencies field and the Cross-Gap Matrix previously cited only AR-005 and AR-010. AR-010 (BOM necessity) remains Open and unaffected, using the normalized wording: AR-010 remains Open and should be resolved before detailed Cost Estimate cost-breakdown design, to avoid later rework. The gap's classification (Customize), priority (Critical), and effort/sizing estimate are unchanged. No Architecture Review Register item was created or modified beyond AR-006 itself. |
