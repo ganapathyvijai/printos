@@ -1,7 +1,7 @@
 # M00 — Project Setup
 
 **Status:** Draft
-**Version:** 0.1
+**Version:** 0.2
 **Owner:** Project Owner
 **Category:** Milestones
 **Milestone-Completion Status:** Not Assessed
@@ -30,13 +30,13 @@ M00 is a project-setup readiness record. It documents whether specific project-s
 | Criterion | Evidence type | Evidence location |
 |---|---|---|
 | Repository initialized under governance rules | Exact file path and content check | `docs/` directory structure at the repository root `/home/adharshan/Projects/PrintHub` |
-| ERPNext/Frappe framework version pinned and verified | Exact commit/version record | **Undefined** — no current file names a version-manifest location. |
+| ERPNext/Frappe framework version pinned and verified | Exact commit/version record | **Undefined and not yet eligible for assessment.** A proposed future evidence location exists — `docs/implementation/Environment_Version_Manifest.md` (Draft, Version 0.1) — but as a Draft document it may not be relied upon (`Documentation_Workflow.md:118`). This criterion remains Undefined until that document reaches Published status and a separately authorized verification act records values. |
 | `printos_core` app scaffold created per Clean Architecture rules | File/module tree listing | `platform/` app structure (cited only; not verified by this record) |
 | Documentation governance structure in place | Tracked file listing | `docs/Documentation_Workflow.md`, `docs/templates/` (existence and content directly checkable via `git ls-files`) |
 | Naming Registry and ADR process operational | Tracked file content | `docs/decisions/00_ADR_Index.md`, `docs/standards/Naming_Registry.md` |
 | Development environment reproducibility confirmed | Setup/build log or checklist | **Undefined** — no current file names a location or format for this evidence. |
 
-**Rule:** Each completion criterion above may be assessed only after that specific criterion's own evidence location and evidence format are defined. The two criteria currently marked Undefined — the ERPNext/Frappe version-manifest evidence and the development-environment reproducibility evidence — cannot yet be assessed, since neither has a defined evidence location or format. M00 as a whole remains recorded as **Milestone-Completion Status: Not Assessed** until its criteria are complete enough for an Owner-approved assessment to begin. This rule creates no Phase, module, or milestone gate; it governs only when M00's own Milestone-Completion Status may next change.
+**Rule:** Each completion criterion above may be assessed only after that specific criterion's own evidence location and evidence format are defined, **and, where that evidence location is itself a document, only once that document reaches Published status** (`Documentation_Workflow.md:118`). Both criteria remain marked Undefined and not yet eligible for assessment: the ERPNext/Frappe version-identity criterion has a proposed future evidence location (`docs/implementation/Environment_Version_Manifest.md`, currently Draft) that cannot yet be relied upon, and the development-environment reproducibility criterion has no defined evidence location or format at all. M00 as a whole remains recorded as **Milestone-Completion Status: Not Assessed** until its criteria are complete enough for an Owner-approved assessment to begin; this documentation task performs no assessment, verification act, or Milestone-Completion Status change. This rule creates no Phase, module, or milestone gate; it governs only when M00's own Milestone-Completion Status may next change.
 
 ---
 
@@ -76,5 +76,6 @@ This document does not authorize implementation, coding, runtime execution, envi
 | Version | Date | Change |
 |---|---|---|
 | 0.1 | 2026-09-27 | Initial Draft — records M00 as a project-setup readiness record: defines its completion criteria and evidence requirements (per `docs/implementation/12_Project_Milestones.md`'s governance framework), establishing that each criterion may be assessed only once its own evidence location and format are defined; two criteria (ERPNext/Frappe version-manifest evidence, development-environment reproducibility evidence) are recorded Undefined and therefore not yet assessable. Milestone-Completion Status recorded as Not Assessed, remaining so until M00's criteria are complete enough for an Owner-approved assessment to begin; this creates no Phase, module, or milestone gate. Does not sequence, gate, or authorize Phase 1, the Administration module, or any later milestone. |
+| 0.2 | 2026-09-29 | Recorded a proposed future evidence location for the version-identity criterion — `docs/implementation/Environment_Version_Manifest.md` (Draft, Version 0.1) — without changing the criterion's status: it remains Undefined and not yet eligible for assessment, since a Draft document may not be relied upon (`Documentation_Workflow.md:118`); eligibility requires that document to reach Published status and a separately authorized verification act to record values. Corrected the Rule explanatory text to state this Published-status precondition explicitly and to confirm this documentation task performs no assessment, verification act, or Milestone-Completion Status change. Reproducibility criterion evidence-location wording (Project Owner Option B: future committed setup script/configuration artifact plus a verifiable run result) unchanged. Milestone-Completion Status remains Not Assessed. No Phase, module, or milestone gate created; no implementation, runtime, or verification act authorized. |
 
 ---

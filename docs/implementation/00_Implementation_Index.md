@@ -1,7 +1,7 @@
 # Implementation Documentation — Master Index
 
 Version:
-0.4
+0.5
 
 Status:
 Draft
@@ -10,7 +10,7 @@ Owner:
 PrintHub Architecture Team
 
 Last Updated:
-2026-09-27
+2026-09-29
 
 ---
 
@@ -62,6 +62,7 @@ Per `docs/Documentation_Workflow.md` Section 3, Implementation sits below Review
 | 14 | 14_Release_Checklist.md | Per-release readiness checklist (distinct from one-time Go-Live) | Placeholder |
 | 15 | 15_Post_GoLive_Support.md | Hypercare and post-go-live support model | Placeholder |
 | — | [Module_Dependency_Matrix.md](Module_Dependency_Matrix.md) | What must exist before each module can be implemented, by dependency category; direct blockers vs. transitive delays; formalizes the approved implementation dependency review | Draft |
+| — | [Environment_Version_Manifest.md](Environment_Version_Manifest.md) | Proposed version-identity evidence schema for Frappe, ERPNext, and `printos_core` — Draft, no value populated; per `Documentation_Workflow.md:118` cannot yet be relied upon and does not resolve any milestone criterion | Draft |
 | — | [Architecture_Freeze.md](Architecture_Freeze.md) | Effective Layered Architecture Freeze, applying only to the frozen conceptual scope the document defines, defining AR-gated excluded layers, conditional references, governance backlogs, and Full Freeze exit criteria. It is not a Full Architecture Freeze, does not authorize implementation, and constrains but does not replace the future Development Roadmap. (Approval, Version 1.3.) | Approval |
 
 ## Document Dependency Graph
@@ -148,6 +149,7 @@ This index and its constituent documents are deliberately downstream-only: they 
 | 0.2 | 2026-07-26 | Freeze Activation Synchronization | Synchronized the `Architecture_Freeze.md` registration from Draft 0.1 to Approval 1.0, reflecting formal Project Owner approval. The Layered Architecture Freeze is now recorded as effective for its declared frozen conceptual scope; the entry states it is not a Full Architecture Freeze and does not authorize implementation. No other Document Index entry changed. No document was published and no implementation was authorized. |
 | 0.3 | 2026-09-20 | Architecture Freeze Version Synchronization | Updated the `Architecture_Freeze.md` Document Index entry's version citation from Version 1.0 to **Approval, Version 1.3**, reflecting that document's subsequent bounded reference-only corrections (AR-001/AR-002 disposition synchronization, and this task's AR-003 disposition synchronization). The entry continues to state it remains a **Layered Architecture Freeze, not a Full Freeze**, is **not Published**, and **grants no implementation authority**. No document count, navigation structure, dependency graph, or other Document Index entry was changed. No document was published and no implementation was authorized. |
 | 0.4 | 2026-09-27 | Project Milestones Registration | Updated the `12_Project_Milestones.md` Document Index entry (row 12) from Placeholder to **Draft**, reflecting its population as the Project Milestones governance framework document (Version 0.1; two-track status model, Not Assessed/Assessment In Progress/Complete/Blocked vocabulary, contributor-propose/Owner-accept authority, and framework-authored-first sequencing all adopted as Project Owner decisions). Updated the corresponding Mermaid Document Dependency Graph node label from "(Placeholder)" to "(Draft)". No other Document Index entry, dependency edge, or navigation structure changed. No document was published and no implementation was authorized. |
+| 0.5 | 2026-09-29 | Environment Version Manifest Registration | Added a new unnumbered Document Index row for `Environment_Version_Manifest.md` (Draft, Version 0.1), a schema-only, Draft version-identity evidence document with no value populated; noted it cannot yet be relied upon per `Documentation_Workflow.md:118`. No existing Document Index entry, dependency edge, or navigation structure changed. No document was published and no implementation was authorized. |
 
 ---
 
