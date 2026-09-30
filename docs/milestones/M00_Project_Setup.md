@@ -1,7 +1,7 @@
 # M00 — Project Setup
 
 **Status:** Draft
-**Version:** 0.4
+**Version:** 0.5
 **Owner:** Project Owner
 **Category:** Milestones
 **Milestone-Completion Status:** Not Assessed
@@ -42,7 +42,7 @@ M00 is a project-setup readiness record. It documents whether specific project-s
 
 ## Dependencies and Blockers (Unresolved)
 
-- The ERPNext/Frappe version-manifest evidence location and format are undefined.
+- The ERPNext/Frappe version-identity criterion has a proposed Draft evidence location (`docs/implementation/Environment_Version_Manifest.md`), which cannot yet be cited as authoritative since it has not reached Published status; no framework, version, or commit value is recorded or verified there.
 - The development-environment reproducibility evidence **format** is now defined (Project Owner Option B: committed setup script/configuration artifact plus a verifiable run result); the artifact and its run result do not yet exist and remain undefined in practice.
 - No explicit dependency from M00 to any later milestone or vice versa exists; per `docs/implementation/12_Project_Milestones.md`'s Milestone Dependencies section, none is automatic and none is introduced here.
 
@@ -79,5 +79,6 @@ This document does not authorize implementation, coding, runtime execution, envi
 | 0.2 | 2026-09-29 | Recorded a proposed future evidence location for the version-identity criterion — `docs/implementation/Environment_Version_Manifest.md` (Draft, Version 0.1) — without changing the criterion's status: it remains Undefined and not yet eligible for assessment, since a Draft document may not be relied upon (`Documentation_Workflow.md:118`); eligibility requires that document to reach Published status and a separately authorized verification act to record values. Corrected the Rule explanatory text to state this Published-status precondition explicitly and to confirm this documentation task performs no assessment, verification act, or Milestone-Completion Status change. Reproducibility criterion evidence-location wording (Project Owner Option B: future committed setup script/configuration artifact plus a verifiable run result) unchanged. Milestone-Completion Status remains Not Assessed. No Phase, module, or milestone gate created; no implementation, runtime, or verification act authorized. |
 | 0.3 | 2026-09-30 | Corrected the reproducibility criterion's evidence-location cell, Rule paragraph, and Dependencies entry to actually apply the Project Owner-approved Option B wording (committed setup script/configuration artifact plus a verifiable run result), which the Version 0.2 Revision History row incorrectly claimed was already present and unchanged — a read-only AI Review found the Version 0.2 cell still held the original pre-Option-B placeholder text, byte-identical to Version 0.1. This correction defines the evidence **format** only; the artifact and its run result do not yet exist. The criterion remains Undefined and not yet eligible for assessment. Milestone-Completion Status remains Not Assessed. No Phase, module, or milestone gate created; no implementation, runtime, or verification act authorized. |
 | 0.4 | 2026-09-30 | Reference-only synchronization: corrected the version-identity criterion's citation of `docs/implementation/Environment_Version_Manifest.md` from Draft, Version 0.1 to Draft, Version 0.2, reflecting that document's addition of a Source Repository / Canonical Origin schema field and its lifecycle-reliance wording correction. No other change: the criterion remains Undefined and not yet eligible for assessment, since the manifest remains Draft and has not reached Published status. Milestone-Completion Status remains Not Assessed. No Phase, module, or milestone gate created; no implementation, runtime, or verification act authorized. |
+| 0.5 | 2026-09-30 | Corrected a stale Dependencies and Blockers entry that said the version-manifest evidence "location and format are undefined," which contradicted this document's own Completion Criteria cell and Rule paragraph — both already stated that a proposed Draft evidence location exists (`docs/implementation/Environment_Version_Manifest.md`). Replaced with wording confirming the location is proposed but not yet authoritative, and that no value is recorded or verified. The ERPNext/Frappe criterion remains Undefined and not yet eligible for assessment. Milestone-Completion Status remains Not Assessed. No Phase, module, or milestone gate created; no implementation, runtime, or verification act authorized. |
 
 ---

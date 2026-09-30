@@ -1,7 +1,7 @@
 # Environment Version Manifest
 
 **Status:** Draft
-**Version:** 0.2
+**Version:** 0.3
 **Owner:** Project Owner
 **Category:** Implementation
 
@@ -32,7 +32,7 @@ Proposes version-identity evidence coverage for Frappe, ERPNext, and `printos_co
 | Verification Method | The exact method used (e.g., `bench version`, `git rev-parse`) — the method must be named, not only the result |
 | Evidence Status | Not Verified / Verified / Superseded |
 
-No row exists yet in this Version 0.1. This schema is proposed, not adopted as authoritative. Populating any row with an actual value, and promoting this document to Published, are both separate, later, explicitly authorized acts — neither is performed, started, or implied by this document's creation.
+No row exists yet in this document. This schema is proposed, not adopted as authoritative. Populating any row with an actual value, and promoting this document to Published, are both separate, later, explicitly authorized acts — neither is performed, started, or implied by this document's creation.
 
 ---
 
@@ -56,5 +56,6 @@ This document does not authorize implementation, coding, runtime execution, envi
 |---|---|---|
 | 0.1 | 2026-09-29 | Initial Draft — proposes a schema (framework name, release/version label, exact commit hash, verification date, verifying party, verification method, evidence status) as a future evidence location for version-identity evidence. No actual Frappe, ERPNext, or `printos_core` version value recorded. As a Draft document, cannot be relied upon per `Documentation_Workflow.md:118`; does not satisfy, resolve, or make eligible for assessment any milestone criterion. No implementation, runtime, or verification act authorized. |
 | 0.2 | 2026-09-30 | Added the Source Repository / Canonical Origin field to the Proposed Schema, distinguishing an authoritative upstream repository from a project-local fork or mirror. Corrected the Purpose and Non-Authorization and Reliance Statement to quote `Documentation_Workflow.md:118` precisely ("Approved and in force; the authoritative version") rather than paraphrasing it as general document-to-document reliance. No framework, version, or commit value recorded. Remains Draft; cannot yet be cited as authoritative or promoted to satisfy any milestone criterion. |
+| 0.3 | 2026-09-30 | Corrected a stale self-reference in the Proposed Schema section: "No row exists yet in this Version 0.1" incorrectly cited the document's original version number after it had been bumped to Version 0.2, producing a self-contradiction with the header. Replaced with a version-neutral statement ("No row exists yet in this document") so this cannot recur at future version bumps. No framework, version, or commit value recorded. Remains Draft; cannot yet be cited as authoritative or promoted to satisfy any milestone criterion. |
 
 ---
