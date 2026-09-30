@@ -1,7 +1,7 @@
 # Environment Version Manifest
 
 **Status:** Draft
-**Version:** 0.1
+**Version:** 0.2
 **Owner:** Project Owner
 **Category:** Implementation
 
@@ -9,7 +9,7 @@
 
 ## Purpose
 
-This document proposes a schema for recording the exact, independently verifiable version identity of the frameworks and application code PrintOS depends on. At this Draft, Version 0.1 stage, it is a **proposed future evidence location only**. Per `docs/Documentation_Workflow.md:118`, only a Published document may be relied upon by another document; this Draft document therefore cannot yet be relied upon, cited as authoritative, or treated as satisfying any milestone criterion. No framework, version, or commit value is recorded here, and none is implied by this document's creation.
+This document proposes a schema for recording the exact, independently verifiable version identity of the frameworks and application code PrintOS depends on. At this Draft, Version 0.2 stage, it is a **proposed future evidence location only**. Per `docs/Documentation_Workflow.md:118`, a document reaches Published status only once "Approved and in force; the authoritative version" — a status this Draft document has not reached. This Draft document therefore cannot yet be cited as authoritative or treated as satisfying any milestone criterion. No framework, version, or commit value is recorded here, and none is implied by this document's creation.
 
 ---
 
@@ -24,6 +24,7 @@ Proposes version-identity evidence coverage for Frappe, ERPNext, and `printos_co
 | Field | Description |
 |---|---|
 | Framework Name | e.g., Frappe, ERPNext, `printos_core` |
+| Source Repository / Canonical Origin | The authoritative upstream repository this version identity is drawn from (e.g., the official Frappe/ERPNext upstream), distinguished from any project-local fork, mirror, or vendored copy. Must name the exact repository, not only the framework. |
 | Release/Version Label | The named release version, where available |
 | Exact Commit Hash | The exact Git commit identifying this version, per `docs/standards/Naming_Registry.md:336`'s precedent that "a usable identity must be reproducible and verifiable, normally by an exact Git commit, together with the relevant release/version label where available" |
 | Verification Date | Date the entry was verified |
@@ -37,7 +38,7 @@ No row exists yet in this Version 0.1. This schema is proposed, not adopted as a
 
 ## Non-Authorization and Reliance Statement
 
-This document does not authorize implementation, coding, runtime execution, environment provisioning, or any Docker/service/script/migration activity. As a Draft document, it may not be relied upon by `docs/milestones/M00_Project_Setup.md` or any other document (`Documentation_Workflow.md:118`); it does not satisfy, resolve, or make eligible for assessment any milestone criterion. It does not authorize inspection of `platform/`, `.artifacts/`, or any runtime configuration.
+This document does not authorize implementation, coding, runtime execution, environment provisioning, or any Docker/service/script/migration activity. As a Draft document, it has not reached the "Approved and in force; the authoritative version" status that `Documentation_Workflow.md:118` describes; it does not satisfy, resolve, or make eligible for assessment any milestone criterion cited by `docs/milestones/M00_Project_Setup.md` or any other document. It does not authorize inspection of `platform/`, `.artifacts/`, or any runtime configuration.
 
 ---
 
@@ -54,5 +55,6 @@ This document does not authorize implementation, coding, runtime execution, envi
 | Version | Date | Change |
 |---|---|---|
 | 0.1 | 2026-09-29 | Initial Draft — proposes a schema (framework name, release/version label, exact commit hash, verification date, verifying party, verification method, evidence status) as a future evidence location for version-identity evidence. No actual Frappe, ERPNext, or `printos_core` version value recorded. As a Draft document, cannot be relied upon per `Documentation_Workflow.md:118`; does not satisfy, resolve, or make eligible for assessment any milestone criterion. No implementation, runtime, or verification act authorized. |
+| 0.2 | 2026-09-30 | Added the Source Repository / Canonical Origin field to the Proposed Schema, distinguishing an authoritative upstream repository from a project-local fork or mirror. Corrected the Purpose and Non-Authorization and Reliance Statement to quote `Documentation_Workflow.md:118` precisely ("Approved and in force; the authoritative version") rather than paraphrasing it as general document-to-document reliance. No framework, version, or commit value recorded. Remains Draft; cannot yet be cited as authoritative or promoted to satisfy any milestone criterion. |
 
 ---
