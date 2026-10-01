@@ -1,7 +1,7 @@
 # Project Milestones — Governance Framework
 
 **Status:** Draft
-**Version:** 0.1
+**Version:** 0.2
 **Owner:** Project Owner
 **Category:** Implementation
 
@@ -54,6 +54,23 @@ Two independent, non-substitutable state tracks apply to every milestone file. N
 - **Blocked** — an identified, recorded dependency or condition prevents assessment or completion (see "Milestone Dependencies," below).
 
 **Setting authority (adopted):** Any contributor may *propose* a Milestone-Completion Status (including proposing Complete or Blocked) with supporting evidence. Only the Project Owner may *accept* a proposed status or set a milestone to **Complete**. A proposed-but-unaccepted status has no standing beyond a proposal and does not change the file's recorded status.
+
+---
+
+## Per-Criterion Assessment Status Vocabulary *(Adopted Project Owner decision)*
+
+Each completion criterion inside a milestone file's own Completion Criteria table may separately carry one of the following Assessment Status values, independent of the milestone's overall Milestone-Completion Status:
+
+- **Not Assessed** — the criterion's evidence has not yet been reviewed.
+- **Met** — the criterion's cited evidence has been reviewed and found present and sufficient.
+- **Not Met** — the criterion's cited evidence has been reviewed and found insufficient or absent.
+- **Not Yet Eligible** — the criterion's evidence location or format is itself undefined, or located evidence cannot yet be relied upon (e.g., a cited Draft document), or the evidence does not yet exist.
+
+A criterion is **Not Assessed**, not **Not Yet Eligible**, whenever its evidence location and format are otherwise usable but no review of that evidence has yet occurred — including when an earlier review's authorized scope did not extend to that criterion's evidence location. **Not Yet Eligible** describes a structural block in the evidence itself, not a gap in what any one review happened to cover.
+
+**Setting authority (adopted):** the same contributor-propose / Owner-accept rule defined above for the whole-milestone vocabulary applies per-criterion.
+
+**Adopted completion condition:** A milestone's Milestone-Completion Status may be set to **Complete** only once every one of its own completion criteria is Owner-accepted as **Met**.
 
 ---
 
@@ -123,5 +140,6 @@ The Project Owner decision recorded is: this framework document is authored befo
 | Version | Date | Change |
 |---|---|---|
 | 0.1 | 2026-09-27 | Initial Draft — defines the two-track status model, the Not Assessed / Assessment In Progress / Complete / Blocked vocabulary, contributor-propose / Owner-accept setting authority, explicit (non-automatic) milestone dependency recording, and the framework-authored-first sequencing decision, all adopted Project Owner decisions. Assigns no phase, date, owner, estimate, or completion to any milestone. Records the Document-Lifecycle/Milestone-Completion interaction and the framework-authoring-precondition question as explicitly unresolved. |
+| 0.2 | 2026-10-01 | Adopted, per explicit Project Owner decision, a Per-Criterion Assessment Status Vocabulary (Not Assessed / Met / Not Met / Not Yet Eligible), distinct from and subordinate to the existing whole-milestone Milestone-Completion Status vocabulary. Defines Not Assessed as evidence not yet reviewed, distinguishing it from Not Yet Eligible (a structural block in the evidence itself). Also adopts a completion condition, new to this framework: a milestone's Milestone-Completion Status may be set to Complete only once every one of its own completion criteria is Owner-accepted as Met. No milestone file's criteria are assessed by this change. |
 
 ---
