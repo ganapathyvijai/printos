@@ -1,7 +1,7 @@
 # Environment Version Manifest
 
-**Status:** Review
-**Version:** 0.5
+**Status:** Revision
+**Version:** 0.6
 **Owner:** Project Owner
 **Category:** Implementation
 
@@ -9,7 +9,7 @@
 
 ## Purpose
 
-This document proposes a schema for recording the exact, independently verifiable version identity of the frameworks and application code PrintOS depends on. At this Draft stage, it is a **proposed future evidence location only**. Per `docs/Documentation_Workflow.md:118`, a document reaches Published status only once "Approved and in force; the authoritative version" — a status this Draft document has not reached. This Draft document therefore cannot yet be cited as authoritative or treated as satisfying any milestone criterion. No framework, version, or commit value is recorded here, and none is implied by this document's creation.
+This document proposes a schema for recording the exact, independently verifiable version identity of the frameworks and application code PrintOS depends on. Until it is Published, it is a **proposed future evidence location only**. Per `docs/Documentation_Workflow.md:118`, a document reaches Published status only once "Approved and in force; the authoritative version" — a status this document has not reached. It therefore cannot yet be cited as authoritative or treated as satisfying any milestone criterion. No framework, version, or commit value is recorded here, and none is implied by this document's creation.
 
 ---
 
@@ -38,7 +38,7 @@ No row exists yet in this document. This schema is proposed, not adopted as auth
 
 ## Non-Authorization and Reliance Statement
 
-This document does not authorize implementation, coding, runtime execution, environment provisioning, or any Docker/service/script/migration activity. As a Draft document, it has not reached the "Approved and in force; the authoritative version" status that `Documentation_Workflow.md:118` describes; it does not satisfy, resolve, or make eligible for assessment any milestone criterion cited by `docs/milestones/M00_Project_Setup.md` or any other document. It does not authorize inspection of `platform/`, `.artifacts/`, or any runtime configuration.
+This document does not authorize implementation, coding, runtime execution, environment provisioning, or any Docker/service/script/migration activity. Until it is Published, it has not reached the "Approved and in force; the authoritative version" status that `Documentation_Workflow.md:118` describes; it does not satisfy, resolve, or make eligible for assessment any milestone criterion cited by `docs/milestones/M00_Project_Setup.md` or any other document. It does not authorize inspection of `platform/`, `.artifacts/`, or any runtime configuration.
 
 ---
 
@@ -47,6 +47,7 @@ This document does not authorize implementation, coding, runtime execution, envi
 - `docs/milestones/M00_Project_Setup.md`
 - `docs/implementation/12_Project_Milestones.md`
 - `docs/standards/Naming_Registry.md` (version-identity evidence-format precedent, line 336)
+- `docs/decisions/ADR-001-ERPNext-Framework.md` (Accepted; supplies the governed ERPNext v16 framework choice — no installed version, release label, source repository, or exact commit has been verified or entered into a manifest value row)
 
 ---
 
@@ -59,5 +60,6 @@ This document does not authorize implementation, coding, runtime execution, envi
 | 0.3 | 2026-09-30 | Corrected a stale self-reference in the Proposed Schema section: "No row exists yet in this Version 0.1" incorrectly cited the document's original version number after it had been bumped to Version 0.2, producing a self-contradiction with the header. Replaced with a version-neutral statement ("No row exists yet in this document") so this cannot recur at future version bumps. No framework, version, or commit value recorded. Remains Draft; cannot yet be cited as authoritative or promoted to satisfy any milestone criterion. |
 | 0.4 | 2026-10-02 | Non-contradictory clarification, per `Documentation_Workflow.md` Section 8's MINOR-increment rule: removed the version-number self-reference in Purpose ("At this Draft, Version 0.2 stage") that had gone stale after the document was bumped to Version 0.3, producing a self-contradiction with the header — the same defect class previously corrected at the Proposed Schema section's "this Version 0.1" reference. Replaced with version-neutral wording ("At this Draft stage") so this cannot recur at future version bumps. No framework, version, or commit value recorded. Remains Draft; cannot yet be cited as authoritative or promoted to satisfy any milestone criterion. |
 | 0.5 | 2026-10-02 | Moved from Draft to Review status, per `docs/Documentation_Workflow.md` Section 5's lifecycle sequence. Review outcomes (AI, Architecture, Business, Documentation-Governance) are recorded in the new durable review record `docs/reviews/Environment_Version_Manifest_Review.md` (Draft, Version 0.1), per `Documentation_Workflow.md:173`. No content, schema, or substantive wording changed in this version. No framework, version, or commit value recorded. Approval and Publication are not proposed or authorized by this change. |
+| 0.6 | 2026-10-03 | Returned from Review to Revision under `Documentation_Workflow.md` Section 5, whose Revision stage covers a document "Sent back to the author after review with required changes." The supplemental review pass recorded in `docs/reviews/Environment_Version_Manifest_Review.md` (Draft, Version 0.3) identified two required changes, both addressed in this version: (1) the Purpose and the Non-Authorization and Reliance Statement still described this document as "Draft" after the Version 0.5 header change to Review, and now use lifecycle-neutral wording ("Until it is Published"); (2) Accepted ADR-001 is added to Related Documents as the source of the governed ERPNext v16 framework choice. No installed version, release label, source repository, or exact commit has been verified or entered into any value row. Schema unchanged. Approval and Publication are not proposed or authorized. |
 
 ---

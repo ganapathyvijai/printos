@@ -1,7 +1,7 @@
 # Environment Version Manifest — Review Record
 
 Version:
-0.2
+0.3
 
 Status:
 Draft
@@ -10,7 +10,7 @@ Owner:
 PrintHub Architecture Team
 
 Last Updated:
-2026-10-02
+2026-10-03
 
 ---
 
@@ -57,9 +57,20 @@ No further correction is outstanding as of this record's creation.
 
 ---
 
+# Supplemental Review Pass (2026-10-03)
+
+- **Finding 5 — stale lifecycle self-description (required change):** the manifest's Purpose and Non-Authorization and Reliance Statement describe it as "Draft" although its header has read Review since Version 0.5. The defect entered with the Version 0.5 Draft → Review transition, which changed the header but not the prose, and was not detected by the Consistency and Standards lens outcomes above. Addressed in manifest Version 0.6 (Revision).
+- **Naming Review — Business Glossary check:** `docs/business/01_Business_Glossary.md` is Draft (Version 1.0) and is not an approved reference. Its Scope (line 29) states that it "does not define technical, infrastructure, or integration vocabulary." The manifest's schema terms are technical vocabulary outside that scope, and no Glossary entry assigns them a conflicting meaning. Result within that scope: no naming conflict found.
+- **Relevant Decisions (Section 10 checklist) — required change:** Accepted ADR-001 supplies the governed ERPNext v16 framework choice. No installed version, release label, source repository, or exact commit has been verified or entered into a manifest value row, and ADR-001 does not supply one. The manifest must reference ADR-001; addressed in manifest Version 0.6 (Revision).
+- **Cross-reference observation:** addressed in `docs/milestones/M00_Project_Setup.md` (Draft, Version 0.10), which now lists the manifest under Related Documents.
+- **Disposition:** Revision required under `Documentation_Workflow.md` Section 5. Re-review of the corrected text, including the Section 10 checklist, will be recorded after the manifest returns to Review.
+- **Citation correction note:** the Version 0.2 Revision History row below cites `Documentation_Workflow.md:171` for the Review → Approval rule; that rule is at line 173 (line 171 defines Cross-reference Review). The Version 0.2 row is preserved unchanged as historical record.
+
+---
+
 # Non-Authorization Statement
 
-This review record does not authorize implementation, coding, runtime execution, environment provisioning, or any Docker/service/script/migration activity. It does not record, assert, or imply any framework, version, or commit value. It does not grant Approval or Publication — this record documents only the completion of the Review stage; Owner Approval and Publication remain separate, later, explicitly authorized steps.
+This review record does not authorize implementation, coding, runtime execution, environment provisioning, or any Docker/service/script/migration activity. It does not record, assert, or imply any framework, version, or commit value. It does not satisfy, assess, or complete any milestone criterion. It does not grant Approval or Publication — this record documents the manifest's initial Review-stage outcomes and the supplemental 2026-10-03 disposition returning the manifest to Revision; Owner Approval and Publication remain separate, later, explicitly authorized steps.
 
 ---
 
@@ -76,5 +87,6 @@ This review record does not authorize implementation, coding, runtime execution,
 |---|---|---|
 | 0.1 | 2026-10-02 | Initial record of the Environment Version Manifest's first formal Review-stage outcome: AI Review Accepted; Architecture Review Accepted with non-blocking corrections (resolved); Business Review Accepted; Documentation-Governance Review Accepted with non-blocking corrections (resolved). No implementation, Publication, or Approval authorized. |
 | 0.2 | 2026-10-02 | Added the six remaining Section 7 review lens outcomes (Technical, Naming, Consistency, Security, Standards, Cross-reference), completing the lens-by-lens record required by `Documentation_Workflow.md:171` before a future Review → Approval transition may be considered. All six lenses Accepted; two carry non-blocking observations (missing `Last Updated` header field, shared with sibling documents; incomplete Related Documents bidirectionality in M00). No defect found in the manifest's own substantive content. No Approval or Publication proposed or authorized by this entry. |
+| 0.3 | 2026-10-03 | Appended a supplemental review pass: Finding 5 (stale "Draft" self-description), a Business Glossary naming check within the Draft Glossary's stated scope (no conflict found), the ADR-001 reference requirement (ADR-001 supplies the governed ERPNext v16 framework choice but no installed version, release label, source repository, or exact commit), the Cross-reference observation addressed in M00 Version 0.10, disposition Revision required, and a correction note for the Version 0.2 row's line-171 citation (correct line: 173). Also corrected the Non-Authorization Statement, which described this record as documenting only the completion of the Review stage, so that it covers both the initial Review-stage outcomes and the supplemental disposition returning the manifest to Revision, and states explicitly that the record satisfies no milestone criterion. Existing findings and rows preserved unchanged. No Approval or Publication authorized. |
 
 ---
