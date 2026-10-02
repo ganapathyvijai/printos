@@ -1,7 +1,7 @@
 # Environment Version Manifest
 
-**Status:** Draft
-**Version:** 0.4
+**Status:** Review
+**Version:** 0.5
 **Owner:** Project Owner
 **Category:** Implementation
 
@@ -58,5 +58,6 @@ This document does not authorize implementation, coding, runtime execution, envi
 | 0.2 | 2026-09-30 | Added the Source Repository / Canonical Origin field to the Proposed Schema, distinguishing an authoritative upstream repository from a project-local fork or mirror. Corrected the Purpose and Non-Authorization and Reliance Statement to quote `Documentation_Workflow.md:118` precisely ("Approved and in force; the authoritative version") rather than paraphrasing it as general document-to-document reliance. No framework, version, or commit value recorded. Remains Draft; cannot yet be cited as authoritative or promoted to satisfy any milestone criterion. |
 | 0.3 | 2026-09-30 | Corrected a stale self-reference in the Proposed Schema section: "No row exists yet in this Version 0.1" incorrectly cited the document's original version number after it had been bumped to Version 0.2, producing a self-contradiction with the header. Replaced with a version-neutral statement ("No row exists yet in this document") so this cannot recur at future version bumps. No framework, version, or commit value recorded. Remains Draft; cannot yet be cited as authoritative or promoted to satisfy any milestone criterion. |
 | 0.4 | 2026-10-02 | Non-contradictory clarification, per `Documentation_Workflow.md` Section 8's MINOR-increment rule: removed the version-number self-reference in Purpose ("At this Draft, Version 0.2 stage") that had gone stale after the document was bumped to Version 0.3, producing a self-contradiction with the header — the same defect class previously corrected at the Proposed Schema section's "this Version 0.1" reference. Replaced with version-neutral wording ("At this Draft stage") so this cannot recur at future version bumps. No framework, version, or commit value recorded. Remains Draft; cannot yet be cited as authoritative or promoted to satisfy any milestone criterion. |
+| 0.5 | 2026-10-02 | Moved from Draft to Review status, per `docs/Documentation_Workflow.md` Section 5's lifecycle sequence. Review outcomes (AI, Architecture, Business, Documentation-Governance) are recorded in the new durable review record `docs/reviews/Environment_Version_Manifest_Review.md` (Draft, Version 0.1), per `Documentation_Workflow.md:173`. No content, schema, or substantive wording changed in this version. No framework, version, or commit value recorded. Approval and Publication are not proposed or authorized by this change. |
 
 ---
