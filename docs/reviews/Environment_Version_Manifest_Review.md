@@ -1,7 +1,7 @@
 # Environment Version Manifest — Review Record
 
 Version:
-0.3
+0.4
 
 Status:
 Draft
@@ -68,16 +68,35 @@ No further correction is outstanding as of this record's creation.
 
 ---
 
+# Revision Check and Return to Review (2026-10-03)
+
+Checked text: `docs/implementation/Environment_Version_Manifest.md` at committed Version 0.6 (Revision).
+
+- **Version 0.6 corrections confirmed in committed text:** the Purpose and the Non-Authorization and Reliance Statement use lifecycle-neutral wording ("Until it is Published"); Related Documents cites Accepted ADR-001 as the source of the governed ERPNext v16 framework choice; the Proposed Schema contains no value row; and `docs/milestones/M00_Project_Setup.md` (Draft) lists the manifest under Related Documents.
+- **Finding 6 — incomplete Related Documents (required change):** `Documentation_Workflow.md` Section 9 requires each document to list "the other documents it depends on or is depended on by." Version 0.6 omitted `docs/Documentation_Workflow.md`, whose Section 5 definitions the manifest's Purpose and Non-Authorization and Reliance Statement rely on, and this review record, which depends on the manifest. The Version 0.2 Cross-reference outcome above checked that links resolved, not that the list was complete. Status tables and indexes that cite the manifest are not listed, consistent with other documents in the set.
+- **Finding 7 — Accepted ADR-002 not cited (required change):** the manifest's Scope proposes version-identity coverage for `printos_core`, the dedicated custom application established by Accepted ADR-002. `Documentation_Workflow.md` Section 9 requires an ADR to be cited by name where a document's content follows from it. The supplemental pass above addressed ADR-001 only. Citing ADR-002 records no app existence, installed version, source repository, or verified commit.
+- **Correction and status:** Findings 6 and 7 are addressed in manifest Version 0.7, which also returns the manifest from Revision to Review under `Documentation_Workflow.md` Section 5.
+- **Re-review status:** the Section 7 lens outcomes and Section 10 checklist results for Version 0.7 are pending. They will be recorded only after independent verification of Version 0.7, beginning with AI Review (ChatGPT) of the resulting change, per `Documentation_Workflow.md` Section 11.
+
+---
+
 # Non-Authorization Statement
 
-This review record does not authorize implementation, coding, runtime execution, environment provisioning, or any Docker/service/script/migration activity. It does not record, assert, or imply any framework, version, or commit value. It does not satisfy, assess, or complete any milestone criterion. It does not grant Approval or Publication — this record documents the manifest's initial Review-stage outcomes and the supplemental 2026-10-03 disposition returning the manifest to Revision; Owner Approval and Publication remain separate, later, explicitly authorized steps.
+This review record does not authorize implementation, coding, runtime execution, environment provisioning, or any Docker/service/script/migration activity. It does not record, assert, or imply any framework, version, or commit value. It does not satisfy, assess, or complete any milestone criterion. It does not grant Approval or Publication — this record documents the manifest's initial Review-stage outcomes, the supplemental 2026-10-03 disposition returning the manifest to Revision, and its return to Review at Version 0.7, with re-review outcomes pending; Owner Approval and Publication remain separate, later, explicitly authorized steps.
 
 ---
 
 # Related Documents
 
 - `docs/implementation/Environment_Version_Manifest.md`
-- `docs/Documentation_Workflow.md` (Sections 5, 7, 11)
+- `docs/Documentation_Workflow.md` (Sections 5, 7, 9, 10, 11)
+- `docs/milestones/M00_Project_Setup.md`
+- `docs/decisions/ADR-001-ERPNext-Framework.md`
+- `docs/decisions/ADR-002-PrintOS-Core.md`
+- `docs/business/01_Business_Glossary.md`
+- `docs/standards/Naming_Registry.md`
+- `docs/standards/Naming_Standards.md`
+- `docs/standards/Security_Standards.md`
 
 ---
 
@@ -88,5 +107,6 @@ This review record does not authorize implementation, coding, runtime execution,
 | 0.1 | 2026-10-02 | Initial record of the Environment Version Manifest's first formal Review-stage outcome: AI Review Accepted; Architecture Review Accepted with non-blocking corrections (resolved); Business Review Accepted; Documentation-Governance Review Accepted with non-blocking corrections (resolved). No implementation, Publication, or Approval authorized. |
 | 0.2 | 2026-10-02 | Added the six remaining Section 7 review lens outcomes (Technical, Naming, Consistency, Security, Standards, Cross-reference), completing the lens-by-lens record required by `Documentation_Workflow.md:171` before a future Review → Approval transition may be considered. All six lenses Accepted; two carry non-blocking observations (missing `Last Updated` header field, shared with sibling documents; incomplete Related Documents bidirectionality in M00). No defect found in the manifest's own substantive content. No Approval or Publication proposed or authorized by this entry. |
 | 0.3 | 2026-10-03 | Appended a supplemental review pass: Finding 5 (stale "Draft" self-description), a Business Glossary naming check within the Draft Glossary's stated scope (no conflict found), the ADR-001 reference requirement (ADR-001 supplies the governed ERPNext v16 framework choice but no installed version, release label, source repository, or exact commit), the Cross-reference observation addressed in M00 Version 0.10, disposition Revision required, and a correction note for the Version 0.2 row's line-171 citation (correct line: 173). Also corrected the Non-Authorization Statement, which described this record as documenting only the completion of the Review stage, so that it covers both the initial Review-stage outcomes and the supplemental disposition returning the manifest to Revision, and states explicitly that the record satisfies no milestone criterion. Existing findings and rows preserved unchanged. No Approval or Publication authorized. |
+| 0.4 | 2026-10-03 | Appended a revision check of committed manifest Version 0.6: confirmed its corrections (lifecycle-neutral wording; Accepted ADR-001 reference), that no value row exists, and the M00 backlink; recorded Finding 6 (Related Documents omitted `docs/Documentation_Workflow.md` and this review record, contrary to Section 9) and Finding 7 (Accepted ADR-002 not cited although the Scope covers `printos_core`) as addressed in manifest Version 0.7, which returns it to Review. Section 7 lens outcomes and Section 10 checklist results for Version 0.7 are pending independent verification. Updated the Non-Authorization Statement and completed this record's own Related Documents under the same Section 9 rule. Existing findings and rows preserved unchanged. No Approval or Publication proposed or authorized. |
 
 ---

@@ -1,7 +1,7 @@
 # Environment Version Manifest
 
-**Status:** Revision
-**Version:** 0.6
+**Status:** Review
+**Version:** 0.7
 **Owner:** Project Owner
 **Category:** Implementation
 
@@ -48,6 +48,9 @@ This document does not authorize implementation, coding, runtime execution, envi
 - `docs/implementation/12_Project_Milestones.md`
 - `docs/standards/Naming_Registry.md` (version-identity evidence-format precedent, line 336)
 - `docs/decisions/ADR-001-ERPNext-Framework.md` (Accepted; supplies the governed ERPNext v16 framework choice — no installed version, release label, source repository, or exact commit has been verified or entered into a manifest value row)
+- `docs/decisions/ADR-002-PrintOS-Core.md` (Accepted; establishes `printos_core` as the dedicated custom application for all PrintOS-specific logic, whose version identity this document's Scope covers; this reference records no app existence, installed version, source repository, or verified commit)
+- `docs/Documentation_Workflow.md` (Section 5 lifecycle definitions relied on by the Purpose and the Non-Authorization and Reliance Statement)
+- `docs/reviews/Environment_Version_Manifest_Review.md` (durable review record for this document)
 
 ---
 
@@ -61,5 +64,6 @@ This document does not authorize implementation, coding, runtime execution, envi
 | 0.4 | 2026-10-02 | Non-contradictory clarification, per `Documentation_Workflow.md` Section 8's MINOR-increment rule: removed the version-number self-reference in Purpose ("At this Draft, Version 0.2 stage") that had gone stale after the document was bumped to Version 0.3, producing a self-contradiction with the header — the same defect class previously corrected at the Proposed Schema section's "this Version 0.1" reference. Replaced with version-neutral wording ("At this Draft stage") so this cannot recur at future version bumps. No framework, version, or commit value recorded. Remains Draft; cannot yet be cited as authoritative or promoted to satisfy any milestone criterion. |
 | 0.5 | 2026-10-02 | Moved from Draft to Review status, per `docs/Documentation_Workflow.md` Section 5's lifecycle sequence. Review outcomes (AI, Architecture, Business, Documentation-Governance) are recorded in the new durable review record `docs/reviews/Environment_Version_Manifest_Review.md` (Draft, Version 0.1), per `Documentation_Workflow.md:173`. No content, schema, or substantive wording changed in this version. No framework, version, or commit value recorded. Approval and Publication are not proposed or authorized by this change. |
 | 0.6 | 2026-10-03 | Returned from Review to Revision under `Documentation_Workflow.md` Section 5, whose Revision stage covers a document "Sent back to the author after review with required changes." The supplemental review pass recorded in `docs/reviews/Environment_Version_Manifest_Review.md` (Draft, Version 0.3) identified two required changes, both addressed in this version: (1) the Purpose and the Non-Authorization and Reliance Statement still described this document as "Draft" after the Version 0.5 header change to Review, and now use lifecycle-neutral wording ("Until it is Published"); (2) Accepted ADR-001 is added to Related Documents as the source of the governed ERPNext v16 framework choice. No installed version, release label, source repository, or exact commit has been verified or entered into any value row. Schema unchanged. Approval and Publication are not proposed or authorized. |
+| 0.7 | 2026-10-03 | Addressed two further required changes during Revision and returned to Review under `Documentation_Workflow.md` Section 5 ("returns to Review once addressed"). Both were identified in the check of committed Version 0.6 recorded in `docs/reviews/Environment_Version_Manifest_Review.md` (Draft, Version 0.4): (1) Related Documents omitted `docs/Documentation_Workflow.md`, whose Section 5 definitions the Purpose and the Non-Authorization and Reliance Statement rely on, and the review record, which depends on this document, contrary to the Section 9 rule to list documents this one "depends on or is depended on by"; (2) Accepted ADR-002, which establishes `printos_core` as the dedicated custom application whose version identity the Scope covers, was not cited. All three entries are now listed; the ADR-002 reference records no app existence, installed version, source repository, or verified commit. Schema unchanged; no value row exists. Section 7 re-review of this version is pending independent verification. Approval and Publication are not proposed or authorized. |
 
 ---
