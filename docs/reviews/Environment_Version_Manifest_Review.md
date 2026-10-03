@@ -1,7 +1,7 @@
 # Environment Version Manifest — Review Record
 
 Version:
-0.4
+0.5
 
 Status:
 Draft
@@ -80,9 +80,19 @@ Checked text: `docs/implementation/Environment_Version_Manifest.md` at committed
 
 ---
 
+# AI Review of Version 0.7 (2026-10-03)
+
+Reviewed text: `docs/implementation/Environment_Version_Manifest.md` at committed Version 0.7 (Review). Reviewer: ChatGPT, performing AI Review under `Documentation_Workflow.md` Section 11.
+
+- **Finding 8 — schema field label does not fit its subject (required change):** the Proposed Schema labels its first field "Framework Name", but its examples and the Scope include `printos_core`, which Accepted ADR-002 establishes as a dedicated custom application rather than a framework. The Source Repository / Canonical Origin field likewise uses "framework" as an umbrella term ("not only the framework") and describes only an external upstream.
+- **Disposition:** Revision required under `Documentation_Workflow.md` Sections 5 and 11. Addressed in manifest Version 0.8 (Revision): the field is renamed "Component Name"; the Source Repository / Canonical Origin description covers the official upstream for Frappe and ERPNext and a governed project repository for `printos_core` once one is designated, without selecting or claiming any repository; and the Purpose states that no component identity, installed version, or exact commit has been verified or entered into a manifest value row.
+- **Scope of this record:** this section records the AI Review finding only. No other Section 7 lens outcome and no Section 10 checklist result is recorded for Version 0.7. Because the manifest returns to Revision, those assessments — including a Naming Review check that "Component Name" is consistent with the Naming Registry — remain pending for the corrected text after it returns to Review.
+
+---
+
 # Non-Authorization Statement
 
-This review record does not authorize implementation, coding, runtime execution, environment provisioning, or any Docker/service/script/migration activity. It does not record, assert, or imply any framework, version, or commit value. It does not satisfy, assess, or complete any milestone criterion. It does not grant Approval or Publication — this record documents the manifest's initial Review-stage outcomes, the supplemental 2026-10-03 disposition returning the manifest to Revision, and its return to Review at Version 0.7, with re-review outcomes pending; Owner Approval and Publication remain separate, later, explicitly authorized steps.
+This review record does not authorize implementation, coding, runtime execution, environment provisioning, or any Docker/service/script/migration activity. It records no verification result for any component identity, installed version, source repository, or exact commit. It does not satisfy, assess, or complete any milestone criterion. It does not grant Approval or Publication — this record documents the manifest's initial Review-stage outcomes, the supplemental 2026-10-03 disposition returning the manifest to Revision, its return to Review at Version 0.7, and the AI Review finding that returned it to Revision at Version 0.8, with re-review outcomes pending; Owner Approval and Publication remain separate, later, explicitly authorized steps.
 
 ---
 
@@ -108,5 +118,6 @@ This review record does not authorize implementation, coding, runtime execution,
 | 0.2 | 2026-10-02 | Added the six remaining Section 7 review lens outcomes (Technical, Naming, Consistency, Security, Standards, Cross-reference), completing the lens-by-lens record required by `Documentation_Workflow.md:171` before a future Review → Approval transition may be considered. All six lenses Accepted; two carry non-blocking observations (missing `Last Updated` header field, shared with sibling documents; incomplete Related Documents bidirectionality in M00). No defect found in the manifest's own substantive content. No Approval or Publication proposed or authorized by this entry. |
 | 0.3 | 2026-10-03 | Appended a supplemental review pass: Finding 5 (stale "Draft" self-description), a Business Glossary naming check within the Draft Glossary's stated scope (no conflict found), the ADR-001 reference requirement (ADR-001 supplies the governed ERPNext v16 framework choice but no installed version, release label, source repository, or exact commit), the Cross-reference observation addressed in M00 Version 0.10, disposition Revision required, and a correction note for the Version 0.2 row's line-171 citation (correct line: 173). Also corrected the Non-Authorization Statement, which described this record as documenting only the completion of the Review stage, so that it covers both the initial Review-stage outcomes and the supplemental disposition returning the manifest to Revision, and states explicitly that the record satisfies no milestone criterion. Existing findings and rows preserved unchanged. No Approval or Publication authorized. |
 | 0.4 | 2026-10-03 | Appended a revision check of committed manifest Version 0.6: confirmed its corrections (lifecycle-neutral wording; Accepted ADR-001 reference), that no value row exists, and the M00 backlink; recorded Finding 6 (Related Documents omitted `docs/Documentation_Workflow.md` and this review record, contrary to Section 9) and Finding 7 (Accepted ADR-002 not cited although the Scope covers `printos_core`) as addressed in manifest Version 0.7, which returns it to Review. Section 7 lens outcomes and Section 10 checklist results for Version 0.7 are pending independent verification. Updated the Non-Authorization Statement and completed this record's own Related Documents under the same Section 9 rule. Existing findings and rows preserved unchanged. No Approval or Publication proposed or authorized. |
+| 0.5 | 2026-10-03 | Appended the AI Review (ChatGPT) of manifest Version 0.7: Finding 8 (the schema field "Framework Name" does not fit `printos_core`, the dedicated custom application established by Accepted ADR-002, and the Source Repository / Canonical Origin field uses "framework" as an umbrella term); disposition Revision required, addressed in manifest Version 0.8. No other Section 7 lens outcome or Section 10 checklist result is recorded; those remain pending for the corrected text. In the Non-Authorization Statement, replaced the sentence stating that the record does not record, assert, or imply any framework, version, or commit value with a statement that it records no verification result for any component identity, installed version, source repository, or exact commit, and added the AI Review disposition. Existing findings and rows preserved unchanged. No Approval or Publication proposed or authorized. |
 
 ---
