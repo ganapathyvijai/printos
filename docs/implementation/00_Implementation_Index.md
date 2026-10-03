@@ -1,7 +1,7 @@
 # Implementation Documentation — Master Index
 
 Version:
-0.10
+0.11
 
 Status:
 Draft
@@ -10,7 +10,7 @@ Owner:
 PrintHub Architecture Team
 
 Last Updated:
-2026-10-03
+2026-10-04
 
 ---
 
@@ -62,7 +62,7 @@ Per `docs/Documentation_Workflow.md` Section 3, Implementation sits below Review
 | 14 | 14_Release_Checklist.md | Per-release readiness checklist (distinct from one-time Go-Live) | Placeholder |
 | 15 | 15_Post_GoLive_Support.md | Hypercare and post-go-live support model | Placeholder |
 | — | [Module_Dependency_Matrix.md](Module_Dependency_Matrix.md) | What must exist before each module can be implemented, by dependency category; direct blockers vs. transitive delays; formalizes the approved implementation dependency review | Draft |
-| — | [Environment_Version_Manifest.md](Environment_Version_Manifest.md) | Proposed version-identity evidence schema for Frappe, ERPNext, and `printos_core` — no value populated; per `Documentation_Workflow.md:118` cannot yet be relied upon and does not resolve any milestone criterion; review outcomes recorded in `docs/reviews/Environment_Version_Manifest_Review.md` | Review |
+| — | [Environment_Version_Manifest.md](Environment_Version_Manifest.md) | Proposed version-identity evidence schema for Frappe, ERPNext, and `printos_core` — no value populated; per `Documentation_Workflow.md:118` cannot yet be relied upon and does not resolve any milestone criterion; review outcomes recorded in `docs/reviews/Environment_Version_Manifest_Review.md` | Revision |
 | — | [Architecture_Freeze.md](Architecture_Freeze.md) | Effective Layered Architecture Freeze, applying only to the frozen conceptual scope the document defines, defining AR-gated excluded layers, conditional references, governance backlogs, and Full Freeze exit criteria. It is not a Full Architecture Freeze, does not authorize implementation, and constrains but does not replace the future Development Roadmap. (Approval, Version 1.3.) | Approval |
 
 ## Document Dependency Graph
@@ -155,6 +155,7 @@ This index and its constituent documents are deliberately downstream-only: they 
 | 0.8 | 2026-10-03 | Environment Version Manifest Review Status | Updated the `Environment_Version_Manifest.md` Document Index row's Status from Revision to Review, reflecting its return to Review at Version 0.7 after the required changes recorded in `docs/reviews/Environment_Version_Manifest_Review.md` were addressed; re-review outcomes are pending. No other Document Index entry, dependency edge, or navigation structure changed. No document was published and no implementation was authorized. |
 | 0.9 | 2026-10-03 | Environment Version Manifest Revision Status After AI Review | Updated the `Environment_Version_Manifest.md` Document Index row's Status from Review to Revision, reflecting its return to Revision at Version 0.8 after AI Review of Version 0.7 found a required naming correction, recorded in `docs/reviews/Environment_Version_Manifest_Review.md`. No other Document Index entry, dependency edge, or navigation structure changed. No document was published and no implementation was authorized. |
 | 0.10 | 2026-10-03 | Environment Version Manifest Review Status | Updated the `Environment_Version_Manifest.md` Document Index row's Status from Revision to Review, reflecting its return to Review at Version 0.9 after the required naming correction recorded in `docs/reviews/Environment_Version_Manifest_Review.md` was addressed; review outcomes for Version 0.9 are pending. No other Document Index entry, dependency edge, or navigation structure changed. No document was published and no implementation was authorized. |
+| 0.11 | 2026-10-04 | Environment Version Manifest Returned to Revision | Updated the `Environment_Version_Manifest.md` Document Index row's Status from Review to Revision, reflecting its return to Revision at Version 0.10 after independent review of Version 0.9, recorded in `docs/reviews/Environment_Version_Manifest_Review.md`, found a required Consistency clarification that is corrected in Version 0.10 and a Standards finding on missing historical revision authorship that remains open. No other Document Index entry, dependency edge, or navigation structure changed. No document was published and no implementation was authorized. |
 
 ---
 
